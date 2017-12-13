@@ -43,7 +43,7 @@ if(username==null){
                     </dl>
                 </li>
 				<li class="layui-nav-item"><a href="javascript:;"> <img
-						src="./images/0.jpg" class="layui-nav-img"> admin
+						src="./images/0.jpg" class="layui-nav-img"> ${username}
 				</a>
 					<dl class="layui-nav-child">
 						<dd>
@@ -55,7 +55,7 @@ if(username==null){
 								data-options="{url:'a.jsp',icon:'&#xe620;',title:'安全管理',id:'2'}"><span>安全管理</span></a>
 						</dd>
 					</dl></li>
-				<li class="layui-nav-item"><a href="login.jsp" id="return"><i
+				<li class="layui-nav-item"><a href="outservlet" id="return"><i
 						class="fa fa-sign-out" aria-hidden="true"></i> 注销</a></li>
 			</ul>
 		</div>
