@@ -8,13 +8,19 @@
 <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 </head>
 <body>
-<div class="layui-container" width="100%" height="100%">    
-	<div class="layui-row layui-col-space15">
-		<div class="layui-col-md8" style="left:29%;">
-			<i class="layui-icon" style="font-size: 450px;">&#xe61c;</i><br/>
-			<p style="font-size: 70px;">这个页面还没写呢</p>
-		</div>
-	</div>
+<div class="aright">
+<div class="aright_1">
+<br/>
+<blockquote style="padding: 10px;border-left: 5px solid #FF5722;" class="layui-elem-quote">系统信息：</blockquote>
+<table width="100%">
+<tr><td width="110px">程序版本</td><td>1.0</td></tr>
+<tr><td>当前IP</td><td>127.0.0.1</td></tr>
+<tr><td>服务器类型</td><td>tomcat</td></tr>
+<tr><td>JDK版本</td><td>1.8</td></tr>
+<tr><td>服务器语言</td><td>zh</td></tr>
+<tr><td>服务器Web端口</td><td>8080</td></tr>
+</table>
+</div>      
 </div>
 </body>
 </html>

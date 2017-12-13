@@ -40,11 +40,11 @@
 					<dl class="layui-nav-child">
 						<dd>
 							<a href="javascript:;" kit-target
-								data-options="{url:'main.jsp',icon:'&#xe612;',title:'个人信息',id:'1'}"><span>个人信息</span></a>
+								data-options="{url:'a.jsp',icon:'&#xe612;',title:'个人信息',id:'1'}"><span>个人信息</span></a>
 						</dd>
 						<dd>
 							<a href="javascript:;" kit-target
-								data-options="{url:'main.jsp',icon:'&#xe620;',title:'安全管理',id:'2'}"><span>安全管理</span></a>
+								data-options="{url:'a.jsp',icon:'&#xe620;',title:'安全管理',id:'2'}"><span>安全管理</span></a>
 						</dd>
 					</dl></li>
 				<li class="layui-nav-item"><a href="login.jsp" id="return"><i
@@ -70,12 +70,12 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe612;',title:'角色管理',id:'4'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe612;',title:'角色管理',id:'4'}"><i
 									class="layui-icon">&#xe612;</i><span> 角色管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe857;',title:'权限管理',id:'5'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'权限管理',id:'5'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
@@ -84,23 +84,23 @@
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe857;',title:'åå',id:'6'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'åå',id:'6'}"><i
 									class="layui-icon">&#xe857;</i><span> åå</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe857;',title:'aa',id:'7'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'aa',id:'7'}"><i
 									class="layui-icon">&#xe857;</i><span> aa</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe857;',title:'bb',id:'8'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'bb',id:'8'}"><i
 									class="layui-icon">&#xe857;</i><span> bb</span></a>
 							</dd>
 						</dl></li>
 						<li class="layui-nav-item">
 							<a href="javascript:;" kit-target
-									data-options="{url:'main.jsp',icon:'&#xe640;',title:'回收站',id:'100'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'100'}"><i
 									class="layui-icon">&#xe640;</i><span> 回收站</span></a>
 						</li>
 				</ul>
