@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <!-- 欢迎页面配置 -->
+ <!--  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+ -->
+ <!-- 超级管理员增删改查servlet -->
+  <servlet>
+  	<servlet-name>superAdminServlet</servlet-name>
+  	<servlet-class>com.yr.servlet.SuperAdminServlet</servlet-class> <!-- 类的路径 -->
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>superAdminServlet</servlet-name>
+  	<url-pattern>/superAdminServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
+  </servlet-mapping>
+</web-app>
