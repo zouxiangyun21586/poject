@@ -89,12 +89,12 @@
                         <h1>MOUBAO LOGIN</h1>
                     </header>
                     <div class="kit-login-main">
-                        <form action="/" class="layui-form" method="post">
+                        <form class="layui-form" id="login" action="loginservlet" method="post">
                             <div class="layui-form-item">
                                 <label class="kit-login-icon">
                                     <i class="layui-icon">&#xe612;</i>
                                 </label>
-                                <input type="text" name="userName" lay-verify="required" autocomplete="off" placeholder="请输入用户名" class="layui-input">
+                                <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入账号" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label class="kit-login-icon">
@@ -102,18 +102,19 @@
                                 </label>
                                 <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input">
                             </div>
-                            <div class="layui-form-item">
+                            <div class="layui-form-item" id="code" style="display:none;">
                                 <label class="kit-login-icon">
                                     <i class="layui-icon">&#xe642;</i>
                                 </label>
-                                <input type="text" name="validCode" autocomplete="off" placeholder="请输入验证码" class="layui-input">
+                                <input type="hidden" name="hiddenCode" id="hiddenCodeId" value="${hiddenCode}">
+                                <input type="text" name="randomCode" autocomplete="off" placeholder="请输入验证码" maxlength="4" class="layui-input">
                                 <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
-                                    <img src="images/yzm.png" id="refImg" style="cursor:pointer;" title="验证码"/>
+                                    <img src="authservlet" id="refImg" style="cursor:pointer;" title="单击刷新"/>
                                 </span>
                             </div>
                             <div class="layui-form-item">
                                 <div class="kit-pull-left kit-login-remember">
-                                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked title="记住密码">
+                                    <input type="checkbox" name="ck" value="true" lay-skin="primary" checked title="记住密码">
                                 </div>
                                 <div class="kit-pull-right">
                                     <button class="layui-btn layui-btn-primary" lay-submit lay-filter="login">
@@ -122,7 +123,8 @@
                                 </div>
                                 <div class="kit-clear"></div>
                             </div>
-                        </form>
+                            <input type="hidden" name="err" id="errId" value="${err}" /> 
+                    	</form>
                     </div>
                     <footer>
                         <p>某宝 - <a href="#" style="color:white; font-size:18px;" target="_blank">www.moubao.cn</a></p>
@@ -134,42 +136,62 @@
     <!-- /container -->
 
     <script src="plugins/layui/layui.js"></script>
+    <script src="src/js/jquery-2.2.4.min.js"></script>
     <script src="plugins/sideshow/js/TweenLite.min.js"></script>
     <script src="plugins/sideshow/js/EasePack.min.js"></script>
     <script src="plugins/sideshow/js/rAF.js"></script>
     <script src="plugins/sideshow/js/demo-1.js"></script>
     <script>
+    $(document).ready(function(){
+    	var hiddenCodeId = $('#hiddenCodeId').val();
+    	var err = $('#errId').val();//得到错误的值
+    	if ("" == hiddenCodeId) {//如果值等于空，就说明是第一次登录
+    		document.getElementById("code").style.display = "none";//将验证码输入框隐藏起来
+    	} else if ("1" == hiddenCodeId) {//如果等于1 说明不是第一次
+    		document.getElementById("code").style.display = "";//将验证码输入框 
+    	}
+    });
         layui.use(['layer', 'form'], function() {
             var layer = layui.layer,
                 $ = layui.jquery,
                 form = layui.form;
 
             $('#changeCode').on('click', function() {//单击验证码触发该函数
-            	alert('aaaaaaa');
-                $('#changeCode > img')[0].src = 'images/yzm.png';
+                $('#changeCode > img')[0].src = 'authservlet?t='+Math.random();
             });
-            var index = layer.load(2, {
+            /*var index = layer.load(2, {
                 shade: [0.3, '#333']
             });
-            $(window).on('load', function() {
-                layer.close(index);
+             $(window).on('load', function() {
                 form.on('submit(login)', function(data) {// 点击登录触发该函数
                     var loadIndex = layer.load(2, {
                         shade: [0.3, '#333']
                     });
                     //以下写登录ajax
-                    
-                    	//登录跳转代码
-                      setTimeout(function() {
-                     	 location.href = 'index.jsp';
-                      }, 1500);
-                    
-                    
-                    
-                    
+                     $.ajax({
+		            type: "post",//数据发送的方式（post 或者 get）
+		            url: "loginservlet",//要发送的后台地址
+		            data: $('#login').serialize(),// 你的formid
+		            success : function(data) {
+		            	if(data==1){
+		            		setTimeout(function() {
+		                    	location.href = 'index.jsp';
+		                    }, 500);
+		            	}else{
+		            		err();
+		            	}
+						},error : function() {
+							layer.msg('请求异常', {
+								anim : 1,
+								icon : 2,
+								time : 1000,
+								shade : [ 0.5, '#000' ]
+							});
+						}
+		       		});
                     return false;
                 });
-            }());
+            }()); */
 
         });
     </script>

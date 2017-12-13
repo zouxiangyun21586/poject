@@ -1,8 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-cn">
 <head>
+<% 
+HttpSession hs=request.getSession(true);  
+String username=(String)hs.getAttribute("username");  
+if(username==null){  
+    response.sendRedirect("login.jsp");  
+}  
+%>
 <meta charset="utf-8">
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -75,7 +83,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'权限管理',id:'5'}"><i
+									data-options="{url:'permission/permission.jsp',icon:'&#xe857;',title:'权限管理',id:'5'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
