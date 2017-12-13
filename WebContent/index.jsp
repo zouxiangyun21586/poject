@@ -55,7 +55,7 @@
 		<div class="layui-side layui-bg-black kit-side">
 			<div class="layui-side-scroll">
 				<div class="kit-side-fold">
-					<i class="fa fa-navicon" aria-hidden="true"></i>
+					<i class="fa fa-navicon" aria-hidden="true" style="line-height:35px;"></i>
 				</div>
 				<ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar"
 					kit-navbar>
@@ -107,7 +107,6 @@
 			</div>
 		</div>
 		<div class="layui-body" id="container">
-			<!-- åå®¹ä¸»ä½åºå -->
 			<div style="padding: 15px;">
 				<i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63e;</i>
 				请稍候...

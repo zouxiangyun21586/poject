@@ -8,10 +8,31 @@
 <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 </head>
 <body>
-	<div class="layui-container" width="100%" height="100%" align="center" >
-    	<div class="layui-row layui-col-space15" style="background: url('images/im.jpg');">
-			<div class="layui-col-md8"  style="width: 100%;height:490px;background:rgba(255, 255, 255, 0.88);">
-			
+<br/>
+	<div class="layui-container" width="100%" height="100%" align="center">
+    	<div class="layui-row layui-col-space15">
+			<div class="layui-col-md8"  style="width: 100%;">
+				<button class="layui-btn layui-btn-sm" style="float:left;">
+				<i class="layui-icon">&#xe654;</i> 添加账号</button>
+				<button class="layui-btn layui-btn-sm layui-btn-normal" style="float:right;margin-left:0px;">
+				<i class="layui-icon">&#xe615;</i> 搜索</button>
+				<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:150px;height:30px;"/>
+				<table class="layui-table">
+					<thead>
+						<tr>
+							<td>表头</td>
+							<td>自己</td>
+							<td>修改</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>数据</td>
+							<td>自己</td>
+							<td>改好</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>
