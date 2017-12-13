@@ -113,7 +113,7 @@
                             </div>
                             <div class="layui-form-item">
                                 <div class="kit-pull-left kit-login-remember">
-                                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked title="单击刷新">
+                                    <input type="checkbox" name="rememberMe" value="true" lay-skin="primary" checked title="记住密码">
                                 </div>
                                 <div class="kit-pull-right">
                                     <button class="layui-btn layui-btn-primary" lay-submit lay-filter="login">
