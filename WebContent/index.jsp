@@ -46,13 +46,12 @@ if(username==null){
 						src="./images/0.jpg" class="layui-nav-img"> ${username}
 				</a>
 					<dl class="layui-nav-child">
-						<dd>
-							<a href="javascript:;" kit-target
-								data-options="{url:'a.jsp',icon:'&#xe612;',title:'个人信息',id:'1'}"><span>个人信息</span></a>
+						<dd id="gr">
+							<a href="javascript:;" id="grxx"><span>个人信息</span></a>
 						</dd>
+						
 						<dd>
-							<a href="javascript:;" kit-target
-								data-options="{url:'a.jsp',icon:'&#xe620;',title:'安全管理',id:'2'}"><span>安全管理</span></a>
+							<a href="javascript:;"><span>安全管理</span></a>
 						</dd>
 					</dl></li>
 				<li class="layui-nav-item"><a href="outservlet" id="return"><i
@@ -73,17 +72,17 @@ if(username==null){
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'user/user.jsp',icon:'&#xe613;',title:'账号管理',id:'3'}"><i
+									data-options="{url:'user/user.jsp',icon:'&#xe613;',title:'账号管理',id:'1'}"><i
 									class="layui-icon">&#xe613;</i><span> 账号管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'role/role.jsp',icon:'&#xe612;',title:'角色管理',id:'4'}"><i
+									data-options="{url:'role/role.jsp',icon:'&#xe612;',title:'角色管理',id:'2'}"><i
 									class="layui-icon">&#xe612;</i><span> 角色管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'permission/permission.jsp',icon:'&#xe857;',title:'权限管理',id:'5'}"><i
+									data-options="{url:'permission/permission.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
@@ -92,20 +91,33 @@ if(username==null){
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'åå',id:'6'}"><i
-									class="layui-icon">&#xe857;</i><span> åå</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
+									class="layui-icon">&#xe857;</i><span> 商品</span></a>
+							</dd>
+							
+						</dl>
+					</li>
+					<li class="layui-nav-item"><a class="" href="javascript:;"><i
+							class="layui-icon">&#xe857;</i><span> 营销管理</span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
+									class="layui-icon">&#xe857;</i><span> 订单管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'aa',id:'7'}"><i
-									class="layui-icon">&#xe857;</i><span> aa</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
+									class="layui-icon">&#xe857;</i><span> 买家</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'bb',id:'8'}"><i
-									class="layui-icon">&#xe857;</i><span> bb</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
+									class="layui-icon">&#xe857;</i><span> 卖家</span></a>
 							</dd>
-						</dl></li>
+							
+						</dl>
+					</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;" kit-target
 									data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'100'}"><i
@@ -151,6 +163,26 @@ if(username==null){
 			}
 		});
 	}
+	$('#grxx').click(function(){
+		layer.open({
+			title : '个人信息',
+			type : 2,
+			anim : 2,
+			shade : false,
+			maxmin : false,
+			resize : false,
+			scrollbar : false,
+			content : 'grxx.jsp',
+			area : [ '250px', '300px' ],
+			offset : 'rt',
+			shadeClose : true,
+			success : function(layero, index) {
+				$('#gr').fadeOut();
+			},cancel: function(index, layero){ 
+				$('#gr').fadeIn();
+			}
+		});
+	});
 		var message;
 		layui.config({
 			base : 'src/js/',
