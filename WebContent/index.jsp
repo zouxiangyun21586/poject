@@ -7,11 +7,11 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>某宝-后台</title>
-<link rel="stylesheet" href="./plugins/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 <link rel="stylesheet"
-	href="./plugins/font-awesome/css/font-awesome.min.css" media="all" />
-<link rel="stylesheet" href="./src/css/app.css" media="all" />
-<link rel="stylesheet" href="./src/css/themes/default.css" media="all"
+	href="plugins/font-awesome/css/font-awesome.min.css" media="all" />
+<link rel="stylesheet" href="src/css/app.css" media="all" />
+<link rel="stylesheet" href="src/css/themes/default.css" media="all"
 	id="skin" kit-skin />
 </head>
 
@@ -120,8 +120,8 @@
 			2017 &copy; <a href="#">moubao.com</a> MIT license
 		</div>
 	</div>
-	<script src="./plugins/layui/layui.js"></script>
-	<script src="./src/js/jquery-2.2.4.min.js"></script>
+	<script src="plugins/layui/layui.js"></script>
+	<script src="src/js/jquery-2.2.4.min.js"></script>
 	<script>
 	function TIM(){
 		layer.open({
@@ -132,7 +132,7 @@
 			maxmin : false,
 			resize : false,
 			scrollbar : false,
-			content : 'xiaoxi.html',
+			content : 'xiaoxi.jsp',
 			area : [ '300px', '400px' ],
 			offset : 'rb',
 			shadeClose : true,

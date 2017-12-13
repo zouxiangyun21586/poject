@@ -5,7 +5,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>账号管理</title>
-<link rel="stylesheet" href="./plugins/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 </head>
 <body>
 	<div class="layui-container" width="100%" height="100%" align="center" >
