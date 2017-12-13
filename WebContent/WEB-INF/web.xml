@@ -15,4 +15,22 @@
   	<servlet-name>superAdminServlet</servlet-name>
   	<url-pattern>/superAdminServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
   </servlet-mapping>
+  <!-- 登录 -->
+  <servlet>
+		<servlet-name>loginservlet</servlet-name>
+		<servlet-class>com.yr.servlet.LoginServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>loginservlet</servlet-name>
+		<url-pattern>/loginservlet</url-pattern>
+	</servlet-mapping>
+	<!-- 验证码 -->
+	<servlet>
+		<servlet-name>authservlet</servlet-name>
+		<servlet-class>com.yr.dao.AuthImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>authservlet</servlet-name>
+		<url-pattern>/authservlet</url-pattern>
+	</servlet-mapping>
 </web-app>
