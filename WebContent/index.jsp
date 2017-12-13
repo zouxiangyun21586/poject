@@ -65,12 +65,12 @@
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'user.jsp',icon:'&#xe613;',title:'账号管理',id:'3'}"><i
+									data-options="{url:'user/user.jsp',icon:'&#xe613;',title:'账号管理',id:'3'}"><i
 									class="layui-icon">&#xe613;</i><span> 账号管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe612;',title:'角色管理',id:'4'}"><i
+									data-options="{url:'role/role.jsp',icon:'&#xe612;',title:'角色管理',id:'4'}"><i
 									class="layui-icon">&#xe612;</i><span> 角色管理</span></a>
 							</dd>
 							<dd>
