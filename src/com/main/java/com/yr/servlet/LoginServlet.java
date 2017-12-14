@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.LinkMysql;
 import com.yr.pojo.User;
 
+/**
+ * 登录
+ * 
+ * @作者 千毅
+ *
+ * @时间 2017年12月13日 下午9:36:39
+ */
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
