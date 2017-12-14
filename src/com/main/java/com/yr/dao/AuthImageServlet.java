@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AuthImageServlet extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
     // 设置字母的大小,大小
     private Font mFont = new Font("Times New Roman", Font.PLAIN, 17);
@@ -81,7 +80,7 @@ public class AuthImageServlet extends HttpServlet {
             char ctmp = (char) itmp;
             sRand += String.valueOf(ctmp);
             g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
-            g.drawString(String.valueOf(ctmp), 15 * i + 10, 16);
+            g.drawString(String.valueOf(ctmp), 15 * i + 12, 22);
         }
 
         HttpSession session = request.getSession(true);

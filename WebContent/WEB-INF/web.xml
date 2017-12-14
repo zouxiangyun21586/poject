@@ -24,6 +24,15 @@
 		<servlet-name>loginservlet</servlet-name>
 		<url-pattern>/loginservlet</url-pattern>
 	</servlet-mapping>
+	<!-- 注册 -->
+	<servlet>
+		<servlet-name>outservlet</servlet-name>
+		<servlet-class>com.yr.servlet.OutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>outservlet</servlet-name>
+		<url-pattern>/outservlet</url-pattern>
+	</servlet-mapping>
 	<!-- 验证码 -->
 	<servlet>
 		<servlet-name>authservlet</servlet-name>
