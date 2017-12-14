@@ -212,6 +212,11 @@
 								</dd>
 							</dl>
 					</li>
+					<li class="layui-nav-item">
+							<a href="javascript:;" kit-target
+									data-options="{url:'picture/picture.jsp',icon:'&#xe64a;',title:'图片管理',id:'99'}"><i
+									class="layui-icon">&#xe64a;</i><span> 图片管理</span></a>
+						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;" kit-target
 									data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'100'}"><i

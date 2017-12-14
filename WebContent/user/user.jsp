@@ -119,5 +119,17 @@
 			});
 		});
 	});
+	function updecho(id){
+		layer.open({
+			anim: 2,
+			title : '修改账号',
+			type: 2, //窗口类型
+			resize:false,//禁止拉伸
+			maxmin:false,//最大化,最小化
+			shade: [0.3,'#000'],
+			area: ['300px', '330px'],//窗口宽高
+			content: ['update.jsp','no']
+		});
+	}
 	</script>
 </html>
