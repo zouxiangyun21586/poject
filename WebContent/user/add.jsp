@@ -103,7 +103,7 @@
 			        dataType: "text",
 			        success: function(zh) {
 			           if(zhi == "good"){
-			        	   window.location.href="<%=request.getContextPath()%>/user/user.jsp";
+			        	   windows.location.href="<%=request.getContextPath()%>/user/user.jsp";
 			           }else if(zh == "1"){
 			        	   alert("请选择角色");
 			           }else {

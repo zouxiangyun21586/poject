@@ -28,25 +28,46 @@ public class SuperAdminServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/json");
 		response.setCharacterEncoding("utf-8");
-		PrintWriter out = response.getWriter();
-//		String type= request.getParameter("type");
-		String pageNow = request.getParameter("pageNow");//获得页面传过来的当前页
-//		String sel = request.getParameter("select");
-		if (null == pageNow || "".equals(pageNow)) {
-			pageNow = "1";
+		String i = request.getParameter("i");
+		if("1".equals(i)){
+			//页面显示值
+			PrintWriter out = response.getWriter();
+//			String type= request.getParameter("type");
+			String pageNow = request.getParameter("pageNow");//获得页面传过来的当前页
+//			String sel = request.getParameter("select");
+			if (null == pageNow || "".equals(pageNow)) {
+				pageNow = "1";
+			}
+			List<Account_Role> list = SuperAdminDao.query();
+			int pageCount=SuperAdminDao.getPageCount();//获得总页数
+			String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+			Map<String, Object> map = new HashMap<>();
+			map.put("list", list);
+			map.put("pageCount", pageCount + "");
+			map.put("pageNow", pageNow);
+			map.put("pageCode", pageCode);
+			String jsonObjectStr = JSONObject.fromObject(map).toString();
+			out.write(jsonObjectStr);
+			out.flush();
+			out.close();
+		}else if("2".equals(i)){
+			//停用账号
+			PrintWriter out = response.getWriter();
+			String id = request.getParameter("id");
+			SuperAdminDao.delete(id);
+			out.write("good");
+			out.flush();
+			out.close();
+			//response.sendRedirect("user/user.jsp");
+		}else if("3".equals(i)){
+			//启动账号
+			PrintWriter out = response.getWriter();
+			String id = request.getParameter("id");
+			SuperAdminDao.revive(id);
+			out.write("good");
+			out.flush();
+			out.close();
 		}
-		List<Account_Role> list = SuperAdminDao.query();
-		int pageCount=SuperAdminDao.getPageCount();//获得总页数
-		String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
-		Map<String, Object> map = new HashMap<>();
-		map.put("list", list);
-		map.put("pageCount", pageCount + "");
-		map.put("pageNow", pageNow);
-		map.put("pageCode", pageCode);
-		String jsonObjectStr = JSONObject.fromObject(map).toString();
-		out.write(jsonObjectStr);
-		out.flush();
-		out.close();
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

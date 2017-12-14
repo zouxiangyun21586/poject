@@ -51,7 +51,7 @@
 	function getData(){
 		$.ajax({
  	       type:"GET", //请求方式     对应form的  method请求
- 	       url:"<%=request.getContextPath()%>/superAdminServlet", //请求路径  对应 form的action路径
+ 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=1", //请求路径  对应 form的action路径
  	       cache: false,  //是否缓存，false代表拒绝缓存
  	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参 
  	       dataType: 'json',   //返回值类型 
@@ -65,14 +65,35 @@
  	        	 		"<td>"+list[i].roleName+"</td>"+
  	        	 		"<td>"+list[i].stateStr+"</td>"+
  	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho("+list[i].id+")'><i class='layui-icon'>&#xe642;</i> 编辑</a>&nbsp;"+
- 	        	 		"<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].code+")'><i class='layui-icon'>&#xe640;</i> 删除</a>"+
- 	        	 		"<a href='/IOffice/emp?empId="+list[i].id+"&type=positions' data-id='1' data-opt='del' class='layui-btn layui-btn-normal layui-btn-xs'><i class='layui-icon'>&#xe631;</i> 分配职位</a></td></tr>";
+ 	        	 		"<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
  	       		}
  	          	$("#tbodyId").html(tbodyContent); 
  	     	} 
  	     }); 
 	}
 	
+	function del(code) {
+		if (confirm("确认要停用？")) {
+			window.location.href="<%=request.getContextPath()%>/superAdminServlet?del=del&i=2&id="+code;
+		} else {
+			window.close();
+		}
+		<%-- $.ajax({
+ 	       type:"GET", //请求方式     对应form的  method请求
+ 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=2", //请求路径  对应 form的action路径
+ 	       cache: false,  //是否缓存，false代表拒绝缓存
+ 	       data:{"id":code},  //传参 
+ 	       //dataType: 'text',   //返回值类型 
+ 	       success:function(data){
+ 	    	   var tx = $(this).parent().parent().find("td").eq(3).text();
+ 	    	   if(tx == "使用中"){
+ 	    	   		$(this).parent().parent().find("td").eq(3).html("已停用");
+ 	    	   }else if(tx == ""){
+ 	    		   
+ 	    	   }
+ 	       } 
+ 	    }); --%>
+	}
 	layui.use([ 'layer', 'laypage', 'element' ], function() {
 		var laypage = layui.laypage,
 		layer = layui.layer;

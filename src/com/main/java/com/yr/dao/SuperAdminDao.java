@@ -110,11 +110,12 @@ public class SuperAdminDao {
 	 */
 	public static void addAccount_role(Integer id,Integer role){
 		try{
-			String sql = "insert into account_role(account_id,role_id) values(?,?);";
+			String sql = "insert into account_role(account_id,role_id,state) values(?,?,?);";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setInt(1, id);
 			pre.setInt(2, role);
+			pre.setInt(3, 0);
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
@@ -285,12 +286,32 @@ public class SuperAdminDao {
 		return false;
 	}
 	/**
-	 * 删除职位
+	 * 停用职位
+	 * @param idStr 账户角色表id
 	 */
 	public static void delete(String idStr){
 		try{
 			Integer id = Integer.valueOf(idStr);
 			String sql = "update account_role set state=1 where id=?;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+			//将java对象List集合转换成json字符串
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 启用职位
+	 * @param idStr 账户角色表id
+	 */
+	public static void revive(String idStr){
+		try{
+			Integer id = Integer.valueOf(idStr);
+			String sql = "update account_role set state=0 where id=?;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setInt(1, id);
