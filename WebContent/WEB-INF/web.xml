@@ -26,12 +26,12 @@
     </servlet-mapping>
     <!-- 供应商 -->
     <servlet>
-        <servlet-name>supdao</servlet-name>
-        <servlet-class>com.yr.servlet.SupplieDao</servlet-class>
+        <servlet-name>supSer</servlet-name>
+        <servlet-class>com.yr.servlet.SupplieServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>supdao</servlet-name>
-        <url-pattern>/supdao</url-pattern>
+        <servlet-name>supSer</servlet-name>
+        <url-pattern>/supSer</url-pattern>
     </servlet-mapping>
     <!-- 注册 -->
 	<servlet>

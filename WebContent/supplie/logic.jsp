@@ -11,11 +11,13 @@
 <script type="text/javascript">
 /* 页面加载完出现 */
 	$(document).ready(function(){
+		var state = 0;
 	    $.ajax({
 	        type: "get",  // 请求方式(post或get)
 	        async:false,  //默认true(异步请求),设置为false(同步请求)
-	        url:"<%=request.getContextPath() %>/supdao?sup=5", // 发送请求的地址
+	        url:"<%=request.getContextPath() %>/supSer?sup=5", // 发送请求的地址
 	        dataType:"json",
+	        data:{"state":state},
 	        success:function(res){
 	            for (var i = 0; i < res.length; i++) {
 	                var js = res[i];
@@ -46,7 +48,7 @@
 	    $.ajax({
 	        type: "post",  // 请求方式(post或get)
 	        async:false,  //默认true(异步请求),设置为false(同步请求)
-	        url:"<%=request.getContextPath() %>/supdao", // 发送请求的地址
+	        url:"<%=request.getContextPath() %>/supSer", // 发送请求的地址
 	        dataType:"json",
 	        data:{"id":id}, // 传参数
 	        success:function(res){
@@ -64,7 +66,7 @@
 	        $.ajax({
 	            type: "get",  // 请求方式(post或get)
 	            async:false,  //默认true(异步请求),设置为false(同步请求)
-	            url:"<%=request.getContextPath() %>/supdao?sup=2", // 发送请求的地址
+	            url:"<%=request.getContextPath() %>/supSer?sup=2", // 发送请求的地址
 	            dataType:"json",
 	            data:{"id":id,"commodity":name},   // 传参数
 	            success:function(res){
@@ -94,7 +96,7 @@
 	    var va=a.find("td").eq(0).text(); // 获取到第一个td(id)的文本内容
 	    if(confirm('确定删除么')){
 	        $.ajax({
-	            url:"<%=request.getContextPath() %>/supdao?sup=3",
+	            url:"<%=request.getContextPath() %>/supSer?sup=3",
 	            type:"get",
 	            async:false,
 	            dataType:"json",
@@ -134,7 +136,7 @@
 	    $.ajax({
 	        type: "post",  // 请求方式(post或get)
 	        async:false,  //默认true(异步请求),设置为false(同步请求)
-	        url:"<%=request.getContextPath() %>/supdao?sup=4", // 发送请求的地址
+	        url:"<%=request.getContextPath() %>/supSer?sup=4", // 发送请求的地址
 	        dataType:"json",
 	        data:{"id":id,"commodity":name},   // 传参数
 	        success:function(res){
