@@ -8,23 +8,32 @@
  -->
  <!-- 超级管理员增删改查servlet -->
   <servlet>
-  	<servlet-name>superAdminServlet</servlet-name>
-  	<servlet-class>com.yr.servlet.SuperAdminServlet</servlet-class> <!-- 类的路径 -->
+    <servlet-name>superAdminServlet</servlet-name>
+    <servlet-class>com.yr.servlet.SuperAdminServlet</servlet-class> <!-- 类的路径 -->
   </servlet>
   <servlet-mapping>
-  	<servlet-name>superAdminServlet</servlet-name>
-  	<url-pattern>/superAdminServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
+    <servlet-name>superAdminServlet</servlet-name>
+    <url-pattern>/superAdminServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
   </servlet-mapping>
   <!-- 登录 -->
   <servlet>
-		<servlet-name>loginservlet</servlet-name>
-		<servlet-class>com.yr.servlet.LoginServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>loginservlet</servlet-name>
-		<url-pattern>/loginservlet</url-pattern>
-	</servlet-mapping>
-	<!-- 注册 -->
+        <servlet-name>loginservlet</servlet-name>
+        <servlet-class>com.yr.servlet.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>loginservlet</servlet-name>
+        <url-pattern>/loginservlet</url-pattern>
+    </servlet-mapping>
+    <!-- 供应商 -->
+    <servlet>
+        <servlet-name>supdao</servlet-name>
+        <servlet-class>com.yr.servlet.SupplieDao</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>supdao</servlet-name>
+        <url-pattern>/supdao</url-pattern>
+    </servlet-mapping>
+    <!-- 注册 -->
 	<servlet>
 		<servlet-name>outservlet</servlet-name>
 		<servlet-class>com.yr.servlet.OutServlet</servlet-class>
