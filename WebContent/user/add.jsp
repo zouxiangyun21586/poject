@@ -123,6 +123,7 @@
 			     return false;
 			});
 		});
+<<<<<<< HEAD
 		function kuang(){
 			//读取角色ajax
 			$("#interest").click(function(){
@@ -205,6 +206,9 @@
 	<script src="../src/js/jquery-2.2.4.min.js"></script>
 	<script>
 	layui.use([ 'layer', 'form' ], function() {});
+=======
+	});
+>>>>>>> branch 'master' of https://github.com/zouxiangyun21586/poject.git
 	</script>
 </html> --%>
 
