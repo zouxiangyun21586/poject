@@ -46,6 +46,7 @@ function isErr() {//特殊参数直接提供一个方法获取值
  * @param seachData 搜索的数据,如果没有搜索就传""    name=9&url=9
  */
 function page(pageCount,pageNow,pageCode,seachData){
+	alert("1");
 	var pageContent = "";
 		if(parseInt(pageNow)>1){
 			pageContent = "<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow=1'><<</a>"+
@@ -70,6 +71,7 @@ function page(pageCount,pageNow,pageCode,seachData){
 		}
 		pageContent += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='layui-btn layui-btn-mini'>第["+pageNow+"]页</a>" +
 				"&nbsp;&nbsp;<a class='layui-btn layui-btn-mini'>共["+pageCount+"]页</a>";
+		
 		if(parseInt(pageCount) > 0){
 			$("#page").show();
 			$("#page").html(pageContent);
