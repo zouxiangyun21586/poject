@@ -77,41 +77,140 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'permission/permission.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe857;</i><span> 商品管理</span></a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
-									class="layui-icon">&#xe857;</i><span> 商品</span></a>
-							</dd>
-							
-						</dl>
-					</li>
 					<li class="layui-nav-item"><a class="" href="javascript:;"><i
 							class="layui-icon">&#xe857;</i><span> 营销管理</span></a>
 						<dl class="layui-nav-child">
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
-									class="layui-icon">&#xe857;</i><span> 订单管理</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品管理',id:'4'}"><i
+									class="layui-icon">&#xe857;</i><span> 商品管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
-									class="layui-icon">&#xe857;</i><span> 买家</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'订单管理',id:'5'}"><i
+									class="layui-icon">&#xe63c;</i><span> 订单管理</span></a>
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品',id:'4'}"><i
-									class="layui-icon">&#xe857;</i><span> 卖家</span></a>
+									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'退单管理',id:'6'}"><i
+									class="layui-icon">&#xe63c;</i><span> 退单管理</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe612;',title:'买家',id:'7'}"><i
+									class="layui-icon">&#xe612;</i><span> 买家</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe612;',title:'卖家',id:'8'}"><i
+									class="layui-icon">&#xe612;</i><span> 卖家</span></a>
 							</dd>
 							
 						</dl>
+					</li>
+					<li class="layui-nav-item"><a class="" href="javascript:;"><i
+							class="layui-icon">&#xe698;</i><span> 采购管理</span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'采购订单',id:'9'}"><i
+									class="layui-icon">&#xe63c;</i><span> 采购订单</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'入库单',id:'10'}"><i
+									class="layui-icon">&#xe63c;</i><span> 入库单</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'采购退货单',id:'11'}"><i
+									class="layui-icon">&#xe63c;</i><span> 采购退货单</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
+									class="layui-icon">&#xe68e;</i><span> 供应商管理</span></a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item"><a class="" href="javascript:;"><i
+							class="layui-icon">&#xe68e;</i><span> 仓储管理</span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe68e;',title:'仓库管理',id:'13'}"><i
+									class="layui-icon">&#xe68e;</i><span> 仓库管理</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库存管理',id:'14'}"><i
+									class="layui-icon">&#xe6b2;</i><span> 库存管理</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库位管理',id:'15'}"><i
+									class="layui-icon">&#xe6b2;</i><span> 库位管理</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库存节点管理',id:'16'}"><i
+									class="layui-icon">&#xe6b2;</i><span> 库存节点管理</span></a>
+							</dd>
+						</dl>	
+					</li>
+					<li class="layui-nav-item"><a class="" href="javascript:;"><i
+							class="layui-icon">&#xe631;</i><span> 售后管理</span></a>
+							<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'售后申请审核',id:'17'}"><i
+									class="layui-icon">&#xe6b2;</i><span> 售后申请审核</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe61a;',title:'售后收货',id:'18'}"><i
+									class="layui-icon">&#xe61a;</i><span> 售后收货</span></a>
+							</dd>
+							<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe642;',title:'售后质检',id:'19'}"><i
+									class="layui-icon">&#xe642;</i><span> 售后质检</span></a>
+							</dd>
+							</dl>
+					</li>
+					<li class="layui-nav-item"><a class="" href="javascript:;"><i
+							class="layui-icon">&#xe63c;</i><span> 财务单据</span></a>
+							<dl class="layui-nav-child">
+								<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'销售订单收款单管理',id:'20'}"><i
+									class="layui-icon">&#xe857;</i><span> 销售订单收款单管理</span></a>
+								</dd>
+								<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'销售订单退款单管理',id:'21'}"><i
+									class="layui-icon">&#xe857;</i><span> 销售订单退款单管理</span></a>
+								</dd>
+								<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购订单付款单管理',id:'22'}"><i
+									class="layui-icon">&#xe857;</i><span> 采购订单付款单管理</span></a>
+								</dd>
+								<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购订单退款单管理',id:'23'}"><i
+									class="layui-icon">&#xe857;</i><span> 采购订单退款单管理</span></a>
+								</dd>
+								<dd>
+								<a href="javascript:;" kit-target
+									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购预付款查询',id:'24'}"><i
+									class="layui-icon">&#xe857;</i><span> 采购预付款查询</span></a>
+								</dd>
+							</dl>
 					</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;" kit-target
