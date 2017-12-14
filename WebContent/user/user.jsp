@@ -39,7 +39,7 @@
 	</body>
 	<script src="../plugins/layui/layui.js"></script>
 	<script src="../src/js/jquery-2.2.4.min.js"></script>
-	<script src="../js/myjs.js"></script>
+	<script src="<%=request.getContextPath() %>/js/myjs.js"></script>
 	<script>
 	$(document).ready(function(){
 		getData();
@@ -55,7 +55,7 @@
  	       cache: false,  //是否缓存，false代表拒绝缓存
  	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参 
  	       dataType: 'json',   //返回值类型 
- 	       success:function(data){   
+ 	       success:function(data){
  	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
  	    	 	var list =  data.list;
  	    	 	var tbodyContent = ""; 	
@@ -98,5 +98,17 @@
 			});
 		});
 	});
+	function updecho(id){
+		layer.open({
+			anim: 2,
+			title : '修改账号',
+			type: 2, //窗口类型
+			resize:false,//禁止拉伸
+			maxmin:false,//最大化,最小化
+			shade: [0.3,'#000'],
+			area: ['300px', '330px'],//窗口宽高
+			content: ['update.jsp','no']
+		});
+	}
 	</script>
 </html>
