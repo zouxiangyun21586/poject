@@ -39,11 +39,11 @@ public class SuperAdminServlet extends HttpServlet{
 		int pageCount=SuperAdminDao.getPageCount();//获得总页数
 		String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
 		Map<String, Object> map = new HashMap<>();
-		String jsonObjectStr = JSONObject.fromObject(map).toString();
 		map.put("list", list);
 		map.put("pageCount", pageCount + "");
 		map.put("pageNow", pageNow);
 		map.put("pageCode", pageCode);
+		String jsonObjectStr = JSONObject.fromObject(map).toString();
 		out.write(jsonObjectStr);
 		out.flush();
 		out.close();
@@ -60,12 +60,15 @@ public class SuperAdminServlet extends HttpServlet{
 			String name = request.getParameter("username");//用户名
 			String account = request.getParameter("account");//账号
 			String pass = request.getParameter("password");//密码
-			boolean bol = SuperAdminDao.add(role,name,account,pass);
-			if(bol){
-				out.write("good");
-			}else {
-				out.write("fuck");
-			}
+			String bol = SuperAdminDao.add(role,name,account,pass);
+			out.write(bol);
+			out.flush();
+			out.close();
+		}else if("3".equals(i)){
+			//获取角色
+			PrintWriter out = response.getWriter();
+			String strJson = SuperAdminDao.quroleName();
+			out.write(strJson);
 			out.flush();
 			out.close();
 		}

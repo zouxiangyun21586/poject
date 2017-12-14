@@ -10,6 +10,7 @@ import java.util.Map;
 
 import com.yr.pojo.Account_Role;
 import com.yr.pojo.Paging;
+import com.yr.pojo.Role;
 import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
@@ -25,10 +26,13 @@ public class SuperAdminDao {
 	 * @param account 账号
 	 * @param pass 密码
 	 */
-	public static boolean add(String role,String name,String account,String pass){
+	public static String add(String role,String name,String account,String pass){
 		try{
 			Connection conn = Conn.conn();
 			String sql = "insert into account(name,account,password) values(?,?,?);";
+			if(role == null || "".equals(role)){
+				return "1";
+			}
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, name);
 			pre.setString(2, account);
@@ -39,11 +43,11 @@ public class SuperAdminDao {
 			Integer account_id = getAccountId(name,account);
 			Integer role_id = getRoleId(role);
 			addAccount_role(account_id,role_id);
-			return true;
+			return "good";
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return false;
+		return "0";
 	}
 	/**
 	 * 获取刚刚添加的账户id
@@ -114,8 +118,35 @@ public class SuperAdminDao {
 			e.printStackTrace();
 		}
 	}
-	
-	
+	/**
+	 * 查询所有角色
+	 * @return 返回角色信息json
+	 */
+	public static String quroleName(){
+		try{
+			String sql = "select * from role;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			List<Role> list = new ArrayList<>();
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				Role us = new Role();
+				us.setId(rs.getInt(1));
+				us.setName(rs.getString(2));
+				list.add(us);
+			}
+			rs.close();
+			pre.close();
+			conn.close();
+			//将java对象List集合转换成json字符串
+			String jsonStr = JsonUtils.beanListToJson(list);
+			return jsonStr;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
 	
 	
 	/**

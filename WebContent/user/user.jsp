@@ -45,8 +45,8 @@
 						<thead>
 							<tr>
 								<th>编号</th>
-								<th>账号</th>
 								<th>角色</th>
+								<th>账号</th>
 								<th>状态</th>
 								<th>操作</th>
 							</tr>

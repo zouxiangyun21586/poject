@@ -26,8 +26,29 @@
 	<script src="<%=request.getContextPath() %>/js/jquery-3.2.1.js"></script>
 	<script>
 		$(document).ready(function(){
+			$.ajax({     
+		        //要用post方式      
+		        type: "POST",//请求方式,默认GET
+		        cache: false,  //是否缓存，false代表拒绝缓存
+		        //方法所在页面和方法名      
+		        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+		        contentType: "application/text; charset=utf-8",  
+		        dataType: "json",
+		        success: function(zh) {
+		            for(var i in zh){
+		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+		            }
+		        },     
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		     	   alert("失败");
+		           alert(XMLHttpRequest.status);//200客户端请求已成功
+		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+		           alert(textStatus);//parsererror
+		        }
+		     });
+			//添加ajax
 			$("#sb").click(function(){
-				$.ajax({     
+				$.ajax({
 			        //要用post方式      
 			        type: "POST",//请求方式,默认GET
 			        cache: false,  //是否缓存，false代表拒绝缓存
@@ -39,6 +60,8 @@
 			        success: function(zh) {
 			           if(zhi == "good"){
 			        	   window.location.href="<%=request.getContextPath()%>/user/user.jsp";
+			           }else if(zh == "1"){
+			        	   alert("请选择角色");
 			           }else {
 			        	   alert("添加失败");
 			           }
@@ -54,6 +77,34 @@
 			     return false;
 			});
 		});
+		function kuang(){
+			//读取角色ajax
+			$("#interest").click(function(){
+				alert("a");
+				$.ajax({     
+			        //要用post方式      
+			        type: "POST",//请求方式,默认GET
+			        cache: false,  //是否缓存，false代表拒绝缓存
+			        //方法所在页面和方法名      
+			        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+			        contentType: "application/text; charset=utf-8",  
+			        dataType: "json",
+			        success: function(zh) {
+			            for(var i in zh){
+			            	$("#interest").append("<option value='"+data[i].id+"'>"+data[i].name+"</option>");
+			            }
+			        },     
+			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			     	   alert("失败");
+			           alert(XMLHttpRequest.status);//200客户端请求已成功
+			           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+			           alert(textStatus);//parsererror
+			        }
+			     });
+			     //禁用按钮的提交      
+			     return false;
+			});
+		}
 	</script>
 	<body>
 		<br />
@@ -66,14 +117,14 @@
 						    <div class="layui-input-block">
 						    	<select id="interest" name="interest" lay-filter="aihao" lay-search>
 							        <option value=""></option>
-							        <option value="0">管理员</option>
+							        <!-- <option value="0">管理员</option>
 							        <option value="1">买家</option>
 							        <option value="2">卖家</option>
 							        <option value="3">供应商</option>
 							        <option value="4">角色管理员</option>
 							        <option value="5">审核员</option>
 							        <option value="6">采购员</option>
-							        <option value="7">商品审核员</option>
+							        <option value="7">商品审核员</option> -->
 						        </select>
 						    </div>
 						</div>
