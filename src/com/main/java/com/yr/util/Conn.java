@@ -16,7 +16,7 @@ public class Conn {
 		Connection conn = null;
 		try {
 			Class.forName(PropertiesUtils.getString("driver"));
-			conn = DriverManager.getConnection(PropertiesUtils.getString("url"),PropertiesUtils.getString("username"),PropertiesUtils.getString("password"));
+			conn = DriverManager.getConnection("jdbc:mysql://" + PropertiesUtils.getString("ip") + "/" + PropertiesUtils.getString("data") + "?useUnicode=true&characterEncoding=UTF-8", PropertiesUtils.getString("username"), PropertiesUtils.getString("password"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
