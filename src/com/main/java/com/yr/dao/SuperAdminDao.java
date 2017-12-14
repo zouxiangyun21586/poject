@@ -21,7 +21,7 @@ import com.yr.util.JsonUtils;
 public class SuperAdminDao {
 	/**
 	 * 添加
-	 * @param role 设置的权限
+	 * @param role 设置的角色id
 	 * @param name 用户名
 	 * @param account 账号
 	 * @param pass 密码
@@ -45,7 +45,7 @@ public class SuperAdminDao {
 			pre.close();
 			conn.close();
 			Integer account_id = getAccountId(name,account);
-			Integer role_id = getRoleId(role);
+			Integer role_id = Integer.valueOf(role);//强制转换类型
 			addAccount_role(account_id,role_id);
 			return "good";
 		}catch(Exception e){
@@ -62,7 +62,7 @@ public class SuperAdminDao {
 	public static Integer getAccountId(String name,String account){
 		try{
 			Connection conn = Conn.conn();
-			String sql = "select id form account where name=? and account=?;";
+			String sql = "select id from account where name=? and account=?;";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, name);
 			pre.setString(2, account);
@@ -87,7 +87,7 @@ public class SuperAdminDao {
 	public static Integer getRoleId(String role){
 		try{
 			Connection conn = Conn.conn();
-			String sql = "select id form role where name=?;";
+			String sql = "select id from role where name=?;";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, role);
 			ResultSet rs = pre.executeQuery();
