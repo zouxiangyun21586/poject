@@ -29,7 +29,7 @@
 						<tr>
 							<td>1</td>
 							<td>管理员</td>
-							<td style="width:122px;">
+							<td style="width:130px;" align="center">
 								<button class="layui-btn layui-btn-xs layui-btn-normal">
 								<i class="layui-icon">&#xe642;</i> 修改</button>
 								<button class="layui-btn layui-btn-xs layui-btn-danger">

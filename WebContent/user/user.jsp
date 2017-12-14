@@ -18,29 +18,6 @@
 					<button class="layui-btn layui-btn-sm layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 					<i class="layui-icon">&#xe615;</i> 搜索</button>
 					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;height:30px;" id = "select" name="select"/>
-					<!-- <table class="layui-table">
-						<thead>
-							<tr>
-								<td>表头</td>
-								<td>自己</td>
-								<td>修改</td>
-								<td>操作</td>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>数据</td>
-								<td>自己</td>
-								<td>改好</td>
-								<td style="width:122px;">
-									<button class="layui-btn layui-btn-xs layui-btn-normal">
-									<i class="layui-icon">&#xe642;</i> 修改</button>
-									<button class="layui-btn layui-btn-xs layui-btn-danger">
-									<i class="layui-icon">&#xe640;</i> 删除</button>
-								</td>
-							</tr>
-						</tbody>
-					</table> -->
 					<table class="layui-table">
 						<thead>
 							<tr>
@@ -55,6 +32,7 @@
 						</tbody>
 					</table>
 					<div id="page" class="page"></div>
+					<div id="demo7"></div>
 				</div>
 			</div>
 		</div>
@@ -86,9 +64,9 @@
  	        	 		"<td>"+list[i].userName+"</td>"+
  	        	 		"<td>"+list[i].roleName+"</td>"+
  	        	 		"<td>"+list[i].stateStr+"</td>"+
- 	        	 		"<td><a href='#' class='layui-btn layui-btn-mini' onclick='updecho("+list[i].id+")'>编辑</a>&nbsp;"+
- 	        	 		"<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-mini' onclick='del("+list[i].code+")'>删除</a>"+
- 	        	 		"<a href='/IOffice/emp?empId="+list[i].id+"&type=positions' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-mini'>分配职位</a></td></tr>";
+ 	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho("+list[i].id+")'><i class='layui-icon'>&#xe642;</i> 编辑</a>&nbsp;"+
+ 	        	 		"<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].code+")'><i class='layui-icon'>&#xe640;</i> 删除</a>"+
+ 	        	 		"<a href='/IOffice/emp?empId="+list[i].id+"&type=positions' data-id='1' data-opt='del' class='layui-btn layui-btn-normal layui-btn-xs'><i class='layui-icon'>&#xe631;</i> 分配职位</a></td></tr>";
  	       		}
  	          	$("#tbodyId").html(tbodyContent); 
  	     	} 
@@ -96,6 +74,17 @@
 	}
 	
 	layui.use([ 'layer', 'laypage', 'element' ], function() {
+		var laypage = layui.laypage,
+		layer = layui.layer;
+		laypage.render({
+		    elem: 'demo7',
+		    count: 100,
+		    limits:[5,10,15],
+		    layout: ['prev', 'page', 'next', 'limit', 'skip','count'],
+		    jump: function(obj){
+		      console.log(obj)
+		    }
+		  });
 		$('#adduser').click(function(){
 			layer.open({
 				anim: 2,
