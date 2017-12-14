@@ -33,6 +33,10 @@ public class SuperAdminDao {
 			if(role == null || "".equals(role)){
 				return "1";
 			}
+			boolean bol = repeatName(account);
+			if(bol){
+				return "1";
+			}
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, name);
 			pre.setString(2, account);
@@ -151,23 +155,26 @@ public class SuperAdminDao {
 	
 	/**
 	 * 修改职位
+	 * @param strId 修改的id
+	 * @param acc 账号
+	 * @param name 角色名
+	 * @return
 	 */
-	public static String update(String idStr,String name){
+	public static String update(String strId,String acc,String name){
 		try{
-//			name = new String(name.getBytes("ISO-8859-1"),"GB2312");
+			Integer roleId= quRoleId(name);
+			Integer accId = quAccId(acc);
+			Integer id = Integer.valueOf(strId);
+			//			name = new String(name.getBytes("ISO-8859-1"),"GB2312");
 			if(null == name || "".equals(name)){
-				return "4";
+				return "4";//请选择职位
 			}
-			boolean bol = repeatName(name);
-			if(bol){
-				return "1";
-			}
-			Integer id = Integer.valueOf(idStr);
 			Connection conn = Conn.conn();
-			String sql = "update shanglx set lx_name=? where id=?";
+			String sql = "update account_role set account_id=?,role_id=? where id=?";
 			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setString(1, name);
-			pre.setInt(2, id);
+			pre.setInt(1, accId);
+			pre.setInt(2, roleId);
+			pre.setInt(3, id);
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
@@ -178,6 +185,50 @@ public class SuperAdminDao {
 		return "good";
 	}
 	
+	/**
+	 * 查出角色的对应id
+	 * @param roleName 角色名字
+	 * @return 查出来的id
+	 */
+	public static Integer quRoleId(String roleName){
+		try{
+			String sql = "select id from role where roleName=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre=  conn.prepareStatement(sql);
+			pre.setString(1, roleName);
+			ResultSet rs=pre.executeQuery();
+			Integer i = null;
+			while(rs.next()){
+				i = rs.getInt(1);
+			}
+			return i;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 查出账号的对应id
+	 * @param roleName 账号
+	 * @return 查出来的id
+	 */
+	public static Integer quAccId(String accName){
+		try{
+			String sql = "select id from account where account=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre=  conn.prepareStatement(sql);
+			pre.setString(1, accName);
+			ResultSet rs=pre.executeQuery();
+			Integer i = null;
+			while(rs.next()){
+				i = rs.getInt(1);
+			}
+			return i;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 	/**
 	 * 修改数据回显
@@ -211,13 +262,13 @@ public class SuperAdminDao {
 	}
 	
 	/**
-	 * 判断添加的名称是否重复
-	 * @param name 要判断的名称
+	 * 判断添加的账号是否重复
+	 * @param name 要判断的账号
 	 * @return true 重复, false 不重复
 	 */
 	public static boolean repeatName(String name){
 		try{
-			String sql= "select lx_name from shanglx where lx_name=?";
+			String sql= "select account from account where account=?";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, name);

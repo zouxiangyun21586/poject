@@ -68,6 +68,7 @@ public class SuperAdminServlet extends HttpServlet{
 			//获取角色
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.quroleName();
+			System.out.println("来了");
 			out.write(strJson);
 			out.flush();
 			out.close();
