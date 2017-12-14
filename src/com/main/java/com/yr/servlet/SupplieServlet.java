@@ -35,18 +35,17 @@ public class SupplieServlet extends HttpServlet {
         if ("2".equals(sup)) { // 添加
             try {
                 req.setCharacterEncoding("UTF-8");
-                String strID = req.getParameter("id");
                 String strName = req.getParameter("commodity");
                 Connection conn = Conn.conn();
-                String str = "insert into supplier(id,commodity) values(?,?);"; // id自增长
+                String str = "insert into supplier(commodity) values(?);"; // id自增长
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-                ps.setString(1, strID);
-                ps.setString(2, strName);
+                ps.setString(1, strName);
                 ps.executeUpdate();// 执行查询
             } catch (Exception e) {
                 e.printStackTrace();
             }
             // 查询
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else if ("3".equals(sup)) { // 删除
             try {
                 Connection conn = Conn.conn();
@@ -62,6 +61,7 @@ public class SupplieServlet extends HttpServlet {
                 e.printStackTrace();
             }
             // 查询
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else if ("4".equals(sup)) { // 修改
             try {
                 String id = req.getParameter("id");
@@ -78,11 +78,14 @@ public class SupplieServlet extends HttpServlet {
                 e.printStackTrace();
             }
             // 查询
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else if ("5".equals(sup)) { // 查询
             resp.setCharacterEncoding("utf-8");
             try { // state 0状态在使用的账号,1状态是已停用账号
                 Connection conn = Conn.conn();
-                String str = "select Distinct su.commodity,me.money,me.`describe`,me.specificationID,me.upFrameTime,me.number from supplier su,merchandise me,account_role ar where su.commodity = me.`name` and ar.state = 0;";
+                // 获得id  状态
+                String state = req.getParameter("state");
+                String str = "select Distinct su.id,su.commodity,me.money,me.`describe`,me.specificationID,me.upFrameTime,me.number from supplier su,merchandise me,account_role ar where su.commodity = me.`name` and ar.state = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
                 ps.executeQuery();// 执行查询
                 ResultSet rs = ps.getResultSet();// 获取查询结果
@@ -90,8 +93,7 @@ public class SupplieServlet extends HttpServlet {
                 // 循环结果集
                 while (rs.next()) {// 取结果集中的下一个。
                     User la = new User();
-                    la.setId(rs.getInt(1));
-                    la.setName(rs.getString(2));
+                    la.setState(rs.getInt(state));
                     selist.add(la);
                 }
                 String strJson = JsonUtils.beanListToJson(selist);
