@@ -2,6 +2,9 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.SuperAdminDao;
+import com.yr.pojo.Account_Role;
+import com.yr.util.PageService;
+
+import net.sf.json.JSONObject;
 
 /**
  * 超级管理员servlet (操作管理员)
@@ -18,8 +25,28 @@ import com.yr.dao.SuperAdminDao;
 public class SuperAdminServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("text/json");
+		response.setCharacterEncoding("utf-8");
+		PrintWriter out = response.getWriter();
+//		String type= request.getParameter("type");
+		String pageNow = request.getParameter("pageNow");//获得页面传过来的当前页
+//		String sel = request.getParameter("select");
+		if (null == pageNow || "".equals(pageNow)) {
+			pageNow = "1";
+		}
+		List<Account_Role> list = SuperAdminDao.query();
+		int pageCount=SuperAdminDao.getPageCount();//获得总页数
+		String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+		Map<String, Object> map = new HashMap<>();
+		String jsonObjectStr = JSONObject.fromObject(map).toString();
+		map.put("list", list);
+		map.put("pageCount", pageCount + "");
+		map.put("pageNow", pageNow);
+		map.put("pageCode", pageCode);
+		out.write(jsonObjectStr);
+		out.flush();
+		out.close();
 	}
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

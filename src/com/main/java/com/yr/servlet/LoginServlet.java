@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.LinkMysql;
 import com.yr.pojo.User;
 
+/**
+ * 登录
+ * 
+ * @作者 千毅
+ *
+ * @时间 2017年12月13日 下午9:36:39
+ */
 public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +42,8 @@ public class LoginServlet extends HttpServlet {
                 req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
             }
         } else {
-            String randomCode = req.getParameter("randomCode");// 得到界面输入的验证码
+            String random = req.getParameter("randomCode");// 得到界面输入的验证码
+            String randomCode = random.toUpperCase();
             String yzm = (String) req.getSession().getAttribute("rand");// 得到我们生成的正确的验证码
             if (randomCode.equals("")) {
                 req.setAttribute("hiddenCode", 1);// 向hiddencode里设置一个值

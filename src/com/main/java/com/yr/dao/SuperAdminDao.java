@@ -3,8 +3,15 @@ package com.yr.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import com.yr.pojo.Account_Role;
+import com.yr.pojo.Paging;
 import com.yr.util.Conn;
+import com.yr.util.JsonUtils;
 
 /**
  * @author 周业好
@@ -98,26 +105,185 @@ public class SuperAdminDao {
 			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
+			pre.setInt(2, role);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	/**
+	 * 修改职位
+	 */
+	public static String update(String idStr,String name){
+		try{
+//			name = new String(name.getBytes("ISO-8859-1"),"GB2312");
+			if(null == name || "".equals(name)){
+				return "4";
+			}
+			boolean bol = repeatName(name);
+			if(bol){
+				return "1";
+			}
+			Integer id = Integer.valueOf(idStr);
+			Connection conn = Conn.conn();
+			String sql = "update shanglx set lx_name=? where id=?";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, name);
+			pre.setInt(2, id);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+//			resp.sendRedirect(req.getContextPath()+"/test?i=1");
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return "good";
+	}
+	
+	
+	/**
+	 * 修改数据回显
+	 */
+	public static String update_echo(String idStr){
+		try{
+			Integer id = Integer.valueOf(idStr);
+			String sql = "select * from shanglx where id=?;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
+			ResultSet rs = pre.executeQuery();
+			List<Account_Role> list = new ArrayList<>();
+			
+			while(rs.next()){
+				Account_Role us = new Account_Role();
+				us.setId(rs.getInt(1));
+				us.setRoleName(rs.getString(2));
+				us.setUserName(rs.getString(3));
+				list.add(us);
+			}
+			pre.close();
+			conn.close();
+			//将java对象List集合转换成json字符串
+			String jsonStr = JsonUtils.beanListToJson(list);
+			return jsonStr;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 判断添加的名称是否重复
+	 * @param name 要判断的名称
+	 * @return true 重复, false 不重复
+	 */
+	public static boolean repeatName(String name){
+		try{
+			String sql= "select lx_name from shanglx where lx_name=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, name);
+			ResultSet rs = pre.executeQuery();
+			while(rs.next()){
+				String oldname = rs.getString(1);
+				if(name.equals(oldname)){
+					return true;
+				}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	/**
+	 * 删除职位
+	 */
+	public static void delete(String idStr){
+		try{
+			Integer id = Integer.valueOf(idStr);
+			String sql = "update account_role set state=1 where id=?;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+			//将java对象List集合转换成json字符串
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * 修改
-	 */
-	public static void update(){
-		
-	}
-	/**
-	 * 删除
-	 */
-	public static void delete(){
-		
-	}
-	/**
 	 * 查询
 	 */
-	public static void query(){
-		
+	public static List<Account_Role> query(){
+		try {
+			String sql = "select ar.id,a.account,r.roleName,ar.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			ResultSet rs = pre.executeQuery();
+			List<Account_Role> list = new ArrayList<>();
+			Map<String, Object> map = new HashMap<>();
+			map.put("list", list);
+			while (rs.next()) {
+				Account_Role us = new Account_Role();
+				us.setId(rs.getInt(1));
+				us.setRoleName(rs.getString(2));
+				us.setUserName(rs.getString(3));
+				us.setState(rs.getInt(4));
+				if (us.getState() == 0) {
+					us.setStateStr("使用中");
+				} else {
+					us.setStateStr("已停用");
+				}
+				list.add(us);
+			}
+			rs.close();
+			pre.close();
+			conn.close();
+//			String jsonObjectStr = JSONObject.fromObject(map).toString();
+//			jsonObjectStr = new String(jsonObjectStr.getBytes("utf-8"),"utf-8");
+			return list;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 获得总页数
+	 * 
+	 * @return 返回总页数
+	 */
+	public static Integer getPageCount() {
+		int total = 0;// 总共多少条记录
+		int pageCount = 0;// 总页数
+		try {
+			Connection conn = Conn.conn();
+			String sql = "select count(*) from account_role";
+			PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+			prepar.executeQuery();
+			ResultSet resu = prepar.getResultSet();
+			while (resu.next()) {
+				total = resu.getInt(1);
+			}
+			resu.close();
+			prepar.close();
+			conn.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (total % Paging.getPageNumber() == 0) {
+			pageCount = total / Paging.getPageNumber();
+		} else {
+			pageCount = total / Paging.getPageNumber() + 1;
+		}
+		return pageCount;
 	}
 }
