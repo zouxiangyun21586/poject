@@ -48,8 +48,8 @@ function isErr() {//特殊参数直接提供一个方法获取值
 function page(pageCount,pageNow,pageCode,seachData){
 	var pageContent = "";
 		if(parseInt(pageNow)>1){
-			pageContent = "<a class='layui-btn layui-btn-mini' href='list.jsp?"+seachData+"&pageNow=1'><<</a>"+
-			"<a class='layui-btn layui-btn-mini' href='list.jsp?"+seachData+"&pageNow="+(pageNow-1)+"'><</a>";
+			pageContent = "<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow=1'><<</a>"+
+			"<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow="+(pageNow-1)+"'><</a>";
 		}else if(parseInt(pageNow)==1){
 			pageContent = "&nbsp; ";
 		}
@@ -57,14 +57,14 @@ function page(pageCount,pageNow,pageCode,seachData){
 			var pageCodeArr = pageCode.split(",");
 			for (var i in pageCodeArr) {
 				if (pageCodeArr[i] !== "") {
-					pageContent +=  "<a class='layui-btn layui-btn-mini' href='list.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</a>" ;
+					pageContent +=  "<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</a>" ;
 				}
 			}
 		}
 		if(parseInt(pageNow)!=parseInt(pageCount)){
 			
-		pageContent += "<a class='layui-btn layui-btn-mini' href='list.jsp?"+seachData+"&pageNow="+(parseInt(pageNow)+1)+"'>></a>"+
-				"<a class='layui-btn layui-btn-mini' href='list.jsp?"+seachData+"&pageNow="+pageCount+"'>>></a>";
+		pageContent += "<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow="+(parseInt(pageNow)+1)+"'>></a>"+
+				"<a class='layui-btn layui-btn-mini' href='user.jsp?"+seachData+"&pageNow="+pageCount+"'>>></a>";
 		}else{
 			pageContent += "&nbsp;";
 		}
