@@ -107,6 +107,7 @@
                                     <i class="layui-icon">&#xe642;</i>
                                 </label>
                                 <input type="hidden" name="hiddenCode" id="hiddenCodeId" value="${hiddenCode}">
+                                <input type="hidden" id="state" value="${state}">
                                 <input type="text" name="randomCode" autocomplete="off" placeholder="请输入验证码" maxlength="4" class="layui-input">
                                 <span class="form-code" id="changeCode" style="position:absolute;right:2px; top:2px;">
                                     <img src="authservlet" id="refImg" style="cursor:pointer;" title="单击刷新"/>
@@ -143,57 +144,38 @@
     <script src="plugins/sideshow/js/demo-1.js"></script>
     <script>
     $(document).ready(function(){
-    	var hiddenCodeId = $('#hiddenCodeId').val();
-    	var err = $('#errId').val();//得到错误的值
-    	if ("" == hiddenCodeId) {//如果值等于空，就说明是第一次登录
-    		document.getElementById("code").style.display = "none";//将验证码输入框隐藏起来
-    	} else if ("1" == hiddenCodeId) {//如果等于1 说明不是第一次
-    		document.getElementById("code").style.display = "";//将验证码输入框 
-    	}
-    });
-        layui.use(['layer', 'form'], function() {
+    	layui.use(['layer', 'form'], function() {
             var layer = layui.layer,
-                $ = layui.jquery,
-                form = layui.form;
-
-            $('#changeCode').on('click', function() {//单击验证码触发该函数
-                $('#changeCode > img')[0].src = 'authservlet?t='+Math.random();
-            });
-            /*var index = layer.load(2, {
-                shade: [0.3, '#333']
-            });
-             $(window).on('load', function() {
-                form.on('submit(login)', function(data) {// 点击登录触发该函数
-                    var loadIndex = layer.load(2, {
-                        shade: [0.3, '#333']
-                    });
-                    //以下写登录ajax
-                     $.ajax({
-		            type: "post",//数据发送的方式（post 或者 get）
-		            url: "loginservlet",//要发送的后台地址
-		            data: $('#login').serialize(),// 你的formid
-		            success : function(data) {
-		            	if(data==1){
-		            		setTimeout(function() {
-		                    	location.href = 'index.jsp';
-		                    }, 500);
-		            	}else{
-		            		err();
-		            	}
-						},error : function() {
-							layer.msg('请求异常', {
-								anim : 1,
-								icon : 2,
-								time : 1000,
-								shade : [ 0.5, '#000' ]
-							});
-						}
-		       		});
-                    return false;
-                });
-            }()); */
-
-        });
+            $ = layui.jquery,
+            form = layui.form;
+	    	var hiddenCodeId = $('#hiddenCodeId').val();
+	    	var state = $('#state').val();
+	    	var err = $('#errId').val();//得到错误的值
+	    	if ("" == hiddenCodeId) {//如果值等于空，就说明是第一次登录
+	    		document.getElementById("code").style.display = "none";//将验证码输入框隐藏起来
+	    	} else if ("1" == hiddenCodeId) {//如果等于1 说明不是第一次
+	    		document.getElementById("code").style.display = "";//将验证码输入框 
+	    	}
+            if(state=="1"){
+        		layer.msg('账号或密码错误!', {
+    				anim : 6,
+    				icon : 2,
+    				time : 1000,
+    				shade : [ 0.5, '#000' ]
+    			});
+        	}else if(state=="2"){
+        		layer.msg('验证码错误!', {
+    				anim : 6,
+    				icon : 2,
+    				time : 1000,
+    				shade : [ 0.5, '#000' ]
+    			});
+	        }
+    	});
+    	 $('#changeCode').on('click', function() {//单击验证码触发该函数
+             $('#changeCode > img')[0].src = 'authservlet?t='+Math.random();
+         });
+    });
     </script>
 </body>
 

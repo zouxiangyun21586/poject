@@ -21,7 +21,7 @@
 <body class="kit-theme">
 	<div class="layui-layout layui-layout-admin kit-layout-admin">
 		<div class="layui-header">
-			<div class="layui-logo" style="font-size: 35px;">某宝</div>
+			<div class="layui-logo" style="font-size: 35px;">某<i class="layui-icon" style="font-size: 35px;" id="x">&#xe62c;</i>宝</div>
 			<div class="layui-logo kit-logo-mobile" style="font-size: 35px;">宝</div>
 			<ul class="layui-nav layui-layout-right kit-nav">
 			<li class="layui-nav-item"><a href="javascript:;" onclick="$('#news').fadeIn();"><i class="layui-icon">&#xe63f;</i> 发送信息</a></li>
@@ -241,6 +241,16 @@
 	<script src="plugins/layui/layui.js"></script>
 	<script src="src/js/jquery-2.2.4.min.js"></script>
 	<script>
+	$(document).ready(function(){
+		blink($('#x'));
+	});
+	function blink(selector){    
+		$(selector).fadeOut('slow', function(){     
+			$(this).fadeIn('slow', function(){        
+				blink(this);      
+			});    
+		});  
+	}
 	function TIM(){
 		layer.open({
 			title : 'TIM',
