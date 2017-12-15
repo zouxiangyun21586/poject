@@ -47,7 +47,7 @@
 			getData();
 		}); */
 	});
-	
+	var state="";
 	function getData(){
 		$.ajax({
  	       type:"GET", //请求方式     对应form的  method请求
@@ -59,19 +59,23 @@
  	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
  	    	 	var list =  data.list;
  	    	 	var tbodyContent = ""; 	
- 	          	for(var i in list){ 
+ 	          	for(var i in list){
+ 	          		if("使用中"==list[i].stateStr){
+ 	          			state+="<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+ 	          		}else if("已停用"==list[i].stateStr){
+ 	          			state+="<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+ 	          		}
  	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
  	        	 		"<td>"+list[i].userName+"</td>"+
  	        	 		"<td>"+list[i].roleName+"</td>"+
  	        	 		"<td>"+list[i].stateStr+"</td>"+
- 	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho("+list[i].id+")'><i class='layui-icon'>&#xe642;</i> 编辑</a>&nbsp;"+
- 	        	 		"<a href='#' data-id='1' data-opt='del' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+ 	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
+ 	        	 		
  	       		}
  	          	$("#tbodyId").html(tbodyContent); 
  	     	} 
  	     }); 
 	}
-	
 	function del(code) {
 		if (confirm("确认要停用？")) {
 			window.location.href="<%=request.getContextPath()%>/superAdminServlet?del=del&i=2&id="+code;
@@ -119,16 +123,53 @@
 			});
 		});
 	});
-	function updecho(id){
-		layer.open({
-			anim: 2,
-			title : '修改账号',
-			type: 2, //窗口类型
-			resize:false,//禁止拉伸
-			maxmin:false,//最大化,最小化
-			shade: [0.3,'#000'],
-			area: ['300px', '330px'],//窗口宽高
-			content: ['update.jsp','no']
+	function updecho(obj){
+		layui.use([ 'layer', 'form' ], function() {
+			var a = $(obj).parent().parent().find("td").eq(1).text();
+			alert(a);
+			var select="<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div>";
+			var btn="<a href='#' class='layui-btn layui-btn-xs''><i class='layui-icon'>&#xe618;</i> 保存</a><a href='#' onclick='del(this,\""+a+"\");' class='layui-btn layui-btn-danger layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 取消</a>";
+			$(obj).parent().parent().find("td").eq(1).html(select);
+			$(obj).parent().parent().find("td").eq(4).html(btn);
+			role();
+		});
+	}
+	function del(obj,a){
+		var btn="";
+		var id=$(obj).parent().parent().find("td").eq(0).text();
+		var state=$(obj).parent().parent().find("td").eq(3).text();
+		if(state=="使用中"){
+			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+		}else if(state=="已停用"){
+			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+		}
+		$(obj).parent().parent().find("td").eq(1).html(a);
+		$(obj).parent().parent().find("td").eq(4).html(btn);
+	}
+	function role(){
+		layui.use([ 'layer', 'form' ], function() {
+			var form = layui.form;
+				$.ajax({     
+			        //要用post方式      
+			        type: "POST",//请求方式,默认GET
+			        cache: false,  //是否缓存，false代表拒绝缓存
+			        //方法所在页面和方法名      
+			        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+			        contentType: "application/text; charset=utf-8",  
+			        dataType: "json",
+			        success: function(zh) {
+			            for(var i in zh){
+			            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+			            }
+			            form.render('select');
+			        },     
+			        error: function(XMLHttpRequest, textStatus, errorThrown) {
+			     	   alert("失败");
+			           alert(XMLHttpRequest.status);//200客户端请求已成功
+			           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+			           alert(textStatus);//parsererror
+			    }
+			});
 		});
 	}
 	</script>
