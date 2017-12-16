@@ -161,7 +161,7 @@ public class SuperAdminDao {
 	 * @param name 角色名
 	 * @return
 	 */
-	public static String update(String strId,String acc,String name){
+	/*public static String update(String strId,String acc,String name){
 		try{
 			Integer roleId= quRoleId(name);
 			Integer accId = quAccId(acc);
@@ -184,10 +184,47 @@ public class SuperAdminDao {
 			e.printStackTrace();
 		}
 		return "good";
+	}*/
+	
+	/**
+	 * 修改职位
+	 * @param oldName 修改前的职位
+	 * @param idStr 修改后的 职位id 
+	 * @param id //修改的id
+	 * @param acc //修改的账号
+	 * @return 1 没有这个角色,2 不能修改一样的
+	 */
+	public static String update(String oldName,String roleIdStr,String idStr,String acc){
+		try{
+			String roleName= quRoleName(roleIdStr);
+			if(null == roleName || "".equals(roleName)){//判断他是否选择了职位
+				return "1";//请选择职位
+			}
+			if(oldName.equals(roleName)){//判断他是否是选择了一样的
+				return "2";//不能修改一样的
+			}
+			Integer roleId = Integer.valueOf(roleIdStr);//修改后的 职位id 
+			Integer id = Integer.valueOf(idStr);//修改的id
+			Integer accId = quAccId(acc);//修改的账号id
+			Connection conn = Conn.conn();
+			String sql = "update account_role set role_id=? where id=? and account_id=?;";
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, roleId);
+			pre.setInt(2, id);
+			pre.setInt(3, accId);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+//			resp.sendRedirect(req.getContextPath()+"/test?i=1");
+			return roleName;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
-	 * 查出角色的对应id
+	 * 根据角色名字查出对应的id
 	 * @param roleName 角色名字
 	 * @return 查出来的id
 	 */
@@ -208,6 +245,30 @@ public class SuperAdminDao {
 		}
 		return null;
 	}
+	/**
+	 * 根据角色id查出对应的角色名字
+	 * @param strId 角色id
+	 * @return 查出来的角色名字
+	 */
+	public static String quRoleName(String strId){
+		try{
+			Integer i = Integer.valueOf(strId);
+			String sql = "select roleName from role where id=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre=  conn.prepareStatement(sql);
+			pre.setInt(1, i);
+			ResultSet rs=pre.executeQuery();
+			String name = null;
+			while(rs.next()){
+				name = rs.getString(1);
+			}
+			return name;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	/**
 	 * 查出账号的对应id
 	 * @param roleName 账号
@@ -230,38 +291,6 @@ public class SuperAdminDao {
 		}
 		return null;
 	}
-	
-	/**
-	 * 修改数据回显
-	 */
-	public static String update_echo(String idStr){
-		try{
-			Integer id = Integer.valueOf(idStr);
-			String sql = "select * from shanglx where id=?;";
-			Connection conn = Conn.conn();
-			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setInt(1, id);
-			ResultSet rs = pre.executeQuery();
-			List<Account_Role> list = new ArrayList<>();
-			
-			while(rs.next()){
-				Account_Role us = new Account_Role();
-				us.setId(rs.getInt(1));
-				us.setRoleName(rs.getString(2));
-				us.setUserName(rs.getString(3));
-				list.add(us);
-			}
-			pre.close();
-			conn.close();
-			//将java对象List集合转换成json字符串
-			String jsonStr = JsonUtils.beanListToJson(list);
-			return jsonStr;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
 	/**
 	 * 判断添加的账号是否重复
 	 * @param name 要判断的账号

@@ -89,7 +89,17 @@ public class SuperAdminServlet extends HttpServlet{
 			//获取角色
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.quroleName();
-			System.out.println("来了");
+			out.write(strJson);
+			out.flush();
+			out.close();
+		}else if("4".equals(i)){
+			//修改保存
+			String oldrole = request.getParameter("oldrole");//原先的角色
+			String upRoleId = request.getParameter("upRoleId");//后来修改的角色id
+			String id = request.getParameter("id");//修改的id
+			String acc = request.getParameter("acc");//修改的账号
+			PrintWriter out = response.getWriter();
+			String strJson = SuperAdminDao.update(oldrole, upRoleId, id, acc);
 			out.write(strJson);
 			out.flush();
 			out.close();
