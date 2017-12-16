@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
                 session(req, resp, queaccount(req, resp, username));
             } else {
                 req.setAttribute("hiddenCode", 1);
+                req.setAttribute("state", 1);
                 req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
             }
         } else {
@@ -49,15 +50,16 @@ public class LoginServlet extends HttpServlet {
                 req.setAttribute("hiddenCode", 1);// 向hiddencode里设置一个值
                 req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
             } else {
-                System.out.println(randomCode + "--" + yzm);
                 if (randomCode.equals(yzm)) {
                     if (login(req, resp, username, password, ck)) {
                         session(req, resp, queaccount(req, resp, username));
                     } else {
                         req.setAttribute("hiddenCode", 1);
+                        req.setAttribute("state", 1);
                         req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
                     }
                 } else {
+                    req.setAttribute("state", 2);
                     req.setAttribute("hiddenCode", 1);// 向hiddencode里设置一个值
                     req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
                 }
