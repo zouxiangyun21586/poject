@@ -37,9 +37,9 @@
 			</div>
 		</div>
 	</body>
+	<script src="<%=request.getContextPath() %>/js/fenye.js"></script>
 	<script src="../plugins/layui/layui.js"></script>
 	<script src="../src/js/jquery-2.2.4.min.js"></script>
-	<script src="<%=request.getContextPath() %>/js/myjs.js"></script>
 	<script>
 	$(document).ready(function(){
 		getData();
