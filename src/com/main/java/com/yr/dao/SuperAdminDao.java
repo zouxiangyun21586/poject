@@ -80,30 +80,6 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * 获得角色的id
-	 * @param role 角色名称
-	 * @return 角色id Integer
-	 */
-	public static Integer getRoleId(String role){
-		try{
-			Connection conn = Conn.conn();
-			String sql = "select id from role where name=?;";
-			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setString(1, role);
-			ResultSet rs = pre.executeQuery();
-			Integer i=null;
-			while (rs.next()) {
-				i = rs.getInt(1);
-			}
-			pre.close();
-			conn.close();
-			return i;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-	}
-	/**
 	 * 添加用户同时给账户角色表加入对应的值
 	 * @param id 账户id
 	 * @param role 角色id
@@ -321,7 +297,7 @@ public class SuperAdminDao {
 	public static void delete(String idStr){
 		try{
 			Integer id = Integer.valueOf(idStr);
-			String sql = "update account_role set state=1 where id=?;";
+			String sql = "update account set state=1 where id=?;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setInt(1, id);
@@ -340,7 +316,7 @@ public class SuperAdminDao {
 	public static void revive(String idStr){
 		try{
 			Integer id = Integer.valueOf(idStr);
-			String sql = "update account_role set state=0 where id=?;";
+			String sql = "update account set state=0 where id=?;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setInt(1, id);
@@ -357,7 +333,7 @@ public class SuperAdminDao {
 	 */
 	public static List<Account_Role> query(){
 		try {
-			String sql = "select ar.id,a.account,r.roleName,ar.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id;";
+			String sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			ResultSet rs = pre.executeQuery();
@@ -384,6 +360,119 @@ public class SuperAdminDao {
 //			jsonObjectStr = new String(jsonObjectStr.getBytes("utf-8"),"utf-8");
 			return list;
 		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 查询数据并用list封装起来
+	 * @param acc 账号
+	 * @param rolename 角色名
+	 * @param pageNow 当前页
+	 * @param sel 判断是否用了查询功能
+	 * @return 返回所查询的数据
+	 */
+	public static List<Account_Role> selectemp(String acc,String rolename,Integer pageNow, String sel) {
+		String sql = "";
+		List<Account_Role> list = new ArrayList<>();
+		if (pageNow < 1) {
+			pageNow = 1;
+		}
+		pageNow = (pageNow - 1) * 10;
+		try {
+			Connection conn = Conn.conn();
+			if (null != sel && !"".equals(sel)) {//使用搜索功能进入这个if判断
+				List<Integer> paramIndex = new ArrayList<>();
+				List<Object> param = new ArrayList<>();
+				sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ";
+				if(acc != null && !acc.equals(""))
+				{
+					sql = sql + " and a.account=?";
+					paramIndex.add(0);
+					param.add(acc);
+				}
+				if(!rolename.equals("quan"))
+				{
+					sql = sql + " and r.roleName=?";
+					paramIndex.add(0);
+					rolename=quRoleName(rolename);//根据角色id查出对应的角色名字
+					param.add(rolename);
+				}
+				
+				sql = sql + " limit ?,?";
+				paramIndex.add(1);
+				paramIndex.add(1);
+				
+				
+				param.add(pageNow);
+				param.add(Paging.getPageNumber());
+				
+				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+				
+				for (int i = 0; i < paramIndex.size(); i++) {
+					int mark = paramIndex.get(i);
+					if(mark == 0 ){
+						prepar.setString( (i+1), (String)param.get(i) );
+					}
+					else if(mark == 1)
+					{
+						prepar.setInt( (i+1), (Integer)param.get(i) );
+					}
+				}
+				
+				
+				
+				/*sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id and a.account=? and r.roleName=? limit ?,?";
+				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+				prepar.setString(1, acc);
+				prepar.setString(2, rolename);
+				prepar.setInt(3, pageNow);
+				prepar.setInt(4, Paging.getPageNumber());*/
+				prepar.executeQuery();
+				ResultSet resu = prepar.getResultSet();
+				while (resu.next()) {
+					Account_Role us = new Account_Role();
+					us.setId(resu.getInt(1));
+					us.setRoleName(resu.getString(2));
+					us.setUserName(resu.getString(3));
+					us.setState(resu.getInt(4));
+					if (us.getState() == 0) {
+						us.setStateStr("使用中");
+					} else {
+						us.setStateStr("已停用");
+					}
+					list.add(us);
+				}
+				resu.close();
+				prepar.close();
+				conn.close();
+				return list;
+			} else {
+				sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
+				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+				prepar.setInt(1, pageNow);
+				prepar.setInt(2, Paging.getPageNumber());
+				prepar.executeQuery();
+				ResultSet resu = prepar.getResultSet();
+				while (resu.next()) {
+					Account_Role us = new Account_Role();
+					us.setId(resu.getInt(1));
+					us.setRoleName(resu.getString(2));
+					us.setUserName(resu.getString(3));
+					us.setState(resu.getInt(4));
+					if (us.getState() == 0) {
+						us.setStateStr("使用中");
+					} else {
+						us.setStateStr("已停用");
+					}
+					list.add(us);
+				}
+				resu.close();
+				prepar.close();
+				conn.close();
+				return list;
+			}
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

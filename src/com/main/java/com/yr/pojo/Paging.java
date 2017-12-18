@@ -22,9 +22,17 @@ public class Paging {
 	public void setPageCount(Integer pageCount) {
 		this.pageCount = pageCount;
 	}
+	/**
+	 * 获取页码数量
+	 * @return 页码数
+	 */
 	public static Integer getPageSize() {
 		return PAGE_SIZE;
 	}
+	/**
+	 * 获取每页显示多少条数据
+	 * @return 每页显示数
+	 */
 	public static Integer getPageNumber() {
 		return PAGE_NUMBER;
 	}

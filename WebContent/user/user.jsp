@@ -18,6 +18,7 @@
 					<button class="layui-btn layui-btn-sm layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 					<i class="layui-icon">&#xe615;</i> 搜索</button>
 					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;height:30px;" id = "select" name="select"/>
+					<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div>
 					<table class="layui-table">
 						<thead>
 							<tr>
@@ -43,9 +44,9 @@
 	<script>
 	$(document).ready(function(){
 		getData();
-		/* $("#sel").click(function (){
+		$("#sel").click(function (){
 			getData();
-		}); */
+		});
 	});
 	var state="";
 	function getData(){
@@ -53,7 +54,7 @@
  	       type:"GET", //请求方式     对应form的  method请求
  	       url:"<%=request.getContextPath()%>/superAdminServlet?i=1", //请求路径  对应 form的action路径
  	       cache: false,  //是否缓存，false代表拒绝缓存
- 	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参 
+ 	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val(),"interest":$("#interest option:selected").val()},  //传参 
  	       dataType: 'json',   //返回值类型 
  	       success:function(data){
  	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
@@ -72,9 +73,10 @@
  	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
  	        	 		
  	       		}
- 	          	$("#tbodyId").html(tbodyContent); 
+ 	          	$("#tbodyId").html(tbodyContent);
  	     	} 
- 	     }); 
+ 	     });
+		qurole();
 	}
 	function qi(code) {
 		if (confirm("确认要启用？")) {
@@ -206,6 +208,34 @@
 		        contentType: "application/text; charset=utf-8",  
 		        dataType: "json",
 		        success: function(zh) {
+		            for(var i in zh){
+		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+		            }
+		            form.render('select');
+		        },     
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		     	   alert("失败");
+		           alert(XMLHttpRequest.status);//200客户端请求已成功
+		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+		           alert(textStatus);//parsererror
+		   		}
+			});
+		});
+	}
+	//查询下拉框显示值
+	function qurole(){
+		layui.use([ 'layer', 'form' ], function() {
+			var form = layui.form;
+			$.ajax({     
+		        //要用post方式      
+		        type: "POST",//请求方式,默认GET
+		        cache: false,  //是否缓存，false代表拒绝缓存
+		        //方法所在页面和方法名      
+		        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+		        contentType: "application/text; charset=utf-8",  
+		        dataType: "json",
+		        success: function(zh) {
+		        	$("#interest").append("<option value='quan'>全部</option>");
 		            for(var i in zh){
 		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
 		            }

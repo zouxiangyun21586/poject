@@ -32,41 +32,47 @@ public class SuperAdminServlet extends HttpServlet{
 		if("1".equals(i)){
 			//页面显示值
 			PrintWriter out = response.getWriter();
-//			String type= request.getParameter("type");
+			String type= request.getParameter("type");
+			String select= request.getParameter("select");//搜索功能中输入框的值(账号)
+			String interest= request.getParameter("interest");//搜索功能中下拉框的值(角色)
 			String pageNow = request.getParameter("pageNow");//获得页面传过来的当前页
-//			String sel = request.getParameter("select");
-			if (null == pageNow || "".equals(pageNow)) {
-				pageNow = "1";
+			if (null != type && type.equals("list")) {
+				String sel = request.getParameter("select");
+				if (null == pageNow || "".equals(pageNow)) {
+					pageNow = "1";
+				}
+//				List<Account_Role> list = SuperAdminDao.query();
+				List<Account_Role> list = SuperAdminDao.selectemp(select,interest,Integer.valueOf(pageNow),sel);
+				int pageCount=SuperAdminDao.getPageCount();//获得总页数
+				String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+				Map<String, Object> map = new HashMap<>();
+				map.put("list", list);
+				map.put("pageCount", pageCount + "");
+				map.put("pageNow", pageNow);
+				map.put("pageCode", pageCode);
+				String jsonObjectStr = JSONObject.fromObject(map).toString();
+				out.write(jsonObjectStr);
+				out.flush();
+				out.close();
 			}
-			List<Account_Role> list = SuperAdminDao.query();
-			int pageCount=SuperAdminDao.getPageCount();//获得总页数
-			String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
-			Map<String, Object> map = new HashMap<>();
-			map.put("list", list);
-			map.put("pageCount", pageCount + "");
-			map.put("pageNow", pageNow);
-			map.put("pageCode", pageCode);
-			String jsonObjectStr = JSONObject.fromObject(map).toString();
-			out.write(jsonObjectStr);
-			out.flush();
-			out.close();
 		}else if("2".equals(i)){
 			//停用账号
-			PrintWriter out = response.getWriter();
+//			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.delete(id);
-			out.write("good");
-			out.flush();
-			out.close();
-			//response.sendRedirect("user/user.jsp");
+//			out.write("good");
+//			out.flush();
+//			out.close();
+			response.sendRedirect("user/user.jsp");
 		}else if("3".equals(i)){
 			//启动账号
-			PrintWriter out = response.getWriter();
+//			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.revive(id);
-			out.write("good");
-			out.flush();
-			out.close();
+//			out.write("good");
+//			out.flush();
+//			out.close();
+			response.sendRedirect("user/user.jsp");
 		}
 	}
 	@Override
