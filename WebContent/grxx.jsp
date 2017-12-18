@@ -15,6 +15,7 @@
 </style>
 <body>
 <c:set var="username" value="${username}"/>
+<c:set var="role" value="${role}"/>
 	<div class="layui-container" width="100%" height="100%" align="center">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8" style="width: 100%;">
@@ -30,7 +31,7 @@
 					    <label class="layui-form-label">
 					    	<i class="layui-icon">&#xe609;</i> 用户级别</label>
 					    <div class="layui-input-block">
-					      <span class="layui-badge" style="width:100px;height:37px;left:1px;line-height:36px;">管理员</span>
+					      <span class="layui-badge" style="width:100px;height:37px;left:1px;line-height:36px;">${role}</span>
 					    </div>
 					</div>
 				</div>

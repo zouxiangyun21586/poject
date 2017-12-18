@@ -170,6 +170,13 @@
     				time : 1000,
     				shade : [ 0.5, '#000' ]
     			});
+	        }else if(state=="3"){
+        		layer.msg('该账号以停用!', {
+    				anim : 6,
+    				icon : 2,
+    				time : 1000,
+    				shade : [ 0.5, '#000' ]
+    			});
 	        }
     	});
     	 $('#changeCode').on('click', function() {//单击验证码触发该函数
