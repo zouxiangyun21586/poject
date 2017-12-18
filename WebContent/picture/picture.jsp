@@ -77,7 +77,7 @@ layui.use([ 'layer', 'laypage', 'element' ], function() {
 			resize:false,//禁止拉伸
 			maxmin:false,//最大化,最小化
 			shade: [0.3,'#000'],
-			area: ['550px', '482px'],//窗口宽高
+			area: ['550px', '510px'],//窗口宽高
 			content: ['add.jsp','no']
 		});
 	});
