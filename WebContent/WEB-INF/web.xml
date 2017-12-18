@@ -52,6 +52,25 @@
 		<url-pattern>/authservlet</url-pattern>
 	</servlet-mapping>
 	
+	 <!-- 角色管理 -->
+	 <servlet>
+        <servlet-name>roleQuery</servlet-name>
+        <servlet-class>com.yr.servlet.RoleQueryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleQuery</servlet-name>
+        <url-pattern>/query</url-pattern>
+    </servlet-mapping>
+    
+        <servlet>
+        <servlet-name>roleDelete</servlet-name>
+        <servlet-class>com.yr.servlet.RoleDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleDelete</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+	
 	<!-- 过滤器 -->
 	<filter>
 		<filter-name>Filter</filter-name>
