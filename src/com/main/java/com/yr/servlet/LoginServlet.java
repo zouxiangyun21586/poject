@@ -35,8 +35,12 @@ public class LoginServlet extends HttpServlet {
         String hiddenCode = req.getParameter("hiddenCode");// 第一次进来hiddenCode等于空(标志是否为第一次登陆)
         if (hiddenCode == null || "".equals(hiddenCode)) {
             if (login(req, resp, username, password, ck)) {
-                System.out.println(queaccount(req, resp, username));
-                session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                if ("0".equals(questate(req, resp, username))) {
+                    session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                } else {
+                    req.setAttribute("state", 3);
+                    req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                }
             } else {
                 req.setAttribute("hiddenCode", 1);
                 req.setAttribute("state", 1);
@@ -52,7 +56,12 @@ public class LoginServlet extends HttpServlet {
             } else {
                 if (randomCode.equals(yzm)) {
                     if (login(req, resp, username, password, ck)) {
-                        session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                        if ("0".equals(questate(req, resp, username))) {
+                            session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                        } else {
+                            req.setAttribute("state", 3);
+                            req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                        }
                     } else {
                         req.setAttribute("hiddenCode", 1);
                         req.setAttribute("state", 1);
@@ -122,6 +131,34 @@ public class LoginServlet extends HttpServlet {
         try {
             Connection con = LinkMysql.getCon();
             String sql = "select name from account where account=?;";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                name = rs.getString(1);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    /**
+     * 查询用户状态
+     * 
+     * @param req
+     * @param resp
+     * @param username
+     * @return
+     */
+    public static String questate(HttpServletRequest req, HttpServletResponse resp, String username) {
+        String name = null;
+        try {
+            Connection con = LinkMysql.getCon();
+            String sql = "select state from account where account=?;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
             ps.executeQuery();
