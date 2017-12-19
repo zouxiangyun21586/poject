@@ -43,8 +43,7 @@
 <script src="../plugins/layui/layui.js"></script>
 <script src="../src/js/jquery-2.2.4.min.js"></script>
 <script>
-$(document).ready(function(){
-       
+$(document).ready(function(){  
     $.ajax({
         url:'<%=request.getContextPath()%>/query', //请求的路径
         type:'get',//请求方式   
@@ -67,7 +66,6 @@ function del(a)
 {
     var tr = $(a).parent().parent();
     var id = tr.find("td").eq(0).text();
-    alert(id);
     //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
     var mark = true;
     $.ajax({
@@ -86,8 +84,21 @@ function del(a)
                   alert("只有超级管理员能执行");
                   mark = false;
                }else if(result == "2"){
-                   alert("需要向超级管理员申请这个权限");
-                   mark=false;
+            	   $.ajax({
+                     url:"<%=request.getContextPath()%>/delete",//请求的路径
+                        type : "post",//请求方式   
+                        async : false,//是否异步请求,修改false就表示同步,true表示异步
+                        data : {
+                            "id" : id
+                        },//传递参数.json格式(这个明天再说)
+                        success : function(result){
+                        		 tr.remove();
+                                 alert("删除成功");   
+                        },//请求成功,进入该方法
+                        error : function(XMLHttpRequest, textStatus, errorThrown) {
+                            alert("后台发生错误!!");
+                        }
+                    });
                }
            },//请求成功,进入该方法
            error:function(XMLHttpRequest, textStatus, errorThrown)
@@ -95,32 +106,10 @@ function del(a)
                alert("后台发生错误!!");
            }
       });
-    
-    if(mark)
-    {
-        $.ajax({
-             url:"<%=request.getContextPath()%>/delete",//请求的路径
-                type : "post",//请求方式   
-                async : false,//是否异步请求,修改false就表示同步,true表示异步
-                data : {
-                    "id" : id
-                },//传递参数.json格式(这个明天再说)
-                success : function(result) {
-                    if (result == "3") {
-                        tr.remove();
-                        alert("删除成功");
-                    } else {
-                        alert("删除失败");
-                    }
-                },//请求成功,进入该方法
-                error : function(XMLHttpRequest, textStatus, errorThrown) {
-                    alert("后台发生错误!!");
-                }
-            });
-
-        }
 
     }
+    
+
     layui.use([ 'layer', 'laypage', 'element' ], function() {
         $('#adduser').click(function() {
             layer.open({
