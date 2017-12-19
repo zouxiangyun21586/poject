@@ -2,20 +2,12 @@ package com.yr.servlet;
 
 import java.io.IOException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yr.pojo.User;
-import com.yr.util.Conn;
-import com.yr.util.JsonUtils;
+import com.yr.dao.SupplieDao;
 
 public class SupplieServlet extends HttpServlet {
 
@@ -31,78 +23,75 @@ public class SupplieServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String sup = req.getParameter("sup"); // 页面传过来的值
-        if ("2".equals(sup)) { // 添加
-            try {
-                req.setCharacterEncoding("UTF-8");
-                String strName = req.getParameter("commodity");
-                Connection conn = Conn.conn();
-                String str = "insert into supplier(commodity) values(?);"; // id自增长
-                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-                ps.setString(1, strName);
-                ps.executeUpdate();// 执行查询
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // 查询
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
-        } else if ("3".equals(sup)) { // 删除
-            try {
-                Connection conn = Conn.conn();
-                String str = "delete from supplier where id = ?";
-                String strId = req.getParameter("supDel");
-                strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
-                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-                ps.setString(1, strId);
-                ps.executeUpdate(); // 执行修改
-                ps.close();
-                conn.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // 查询
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
-        } else if ("4".equals(sup)) { // 修改
-            try {
-                String id = req.getParameter("id");
-                String commodity = req.getParameter("commodity");
-                Connection conn = Conn.conn();
-                String str = "update supplier set commodity = ? where id = ?";
-
-                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-                ps.setString(1, commodity);
-                ps.setString(2, id);
-
-                ps.executeUpdate();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // 查询
-            req.getRequestDispatcher("login.jsp").forward(req, resp);
-        } else if ("5".equals(sup)) { // 查询
-            resp.setCharacterEncoding("utf-8");
-            try { // state 0状态在使用的账号,1状态是已停用账号
-                Connection conn = Conn.conn();
-                // 获得id  状态
-                String state = req.getParameter("state");
-                String str = "select Distinct su.id,su.commodity,me.money,me.`describe`,me.specificationID,me.upFrameTime,me.number from supplier su,merchandise me,account_role ar where su.commodity = me.`name` and ar.state = ?;";
-                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-                ps.executeQuery();// 执行查询
-                ResultSet rs = ps.getResultSet();// 获取查询结果
-                List<User> selist = new ArrayList<>();
-                // 循环结果集
-                while (rs.next()) {// 取结果集中的下一个。
-                    User la = new User();
-                    la.setState(rs.getInt(state));
-                    selist.add(la);
+        String sup = req.getParameter("sup"); // 页面传过来的值(用来判断执行哪一步)
+        String state = req.getParameter("state"); // 供应商账号使用状态
+        if("0".equals(state)){ // 如果使用状态为 0 代表账号未注销可以进入增删改查
+            if ("2".equals(sup)) { // 添加商品
+                try {
+                    req.setCharacterEncoding("UTF-8");
+                    String name = req.getParameter("commodity"); // 商品名
+                    String nameType = req.getParameter("merType"); // 商品类型
+                    String money = req.getParameter("money"); // 商品价格
+                    String describe = req.getParameter("describe"); // 商品描述
+                    String origin = req.getParameter("origin"); // 商品产地
+                    String netContent = req.getParameter("netContent"); // 商品净含量
+                    String packingMethod = req.getParameter("packingMethod"); // 商品包装
+                    String brand = req.getParameter("brand"); // 商品品牌
+                    String qGp = req.getParameter("qGp"); // 商品保质期
+                    String storageMethod = req.getParameter("storageMethod"); // 商品储藏方法
+                    String number = req.getParameter("number"); // 商品数量
+                    String specificationID = req.getParameter("specificationID"); // 商品规格Id
+                    String suptID = req.getParameter("suptID"); // 供应商规格字段Id
+                    String upFrametTime = req.getParameter("upFrametTime"); // 商品上架时间(网络时间)
+                    SupplieDao.suppAdd(nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID,upFrametTime); // 供应商添加商品信息
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                String strJson = JsonUtils.beanListToJson(selist);
-                resp.getWriter().write(strJson);
-                rs.close(); // 关闭结果集
-                ps.close(); // 关闭发送SQL对象
-            } catch (Exception e) {
-                e.printStackTrace();
+                req.getRequestDispatcher("logic.jsp").forward(req, resp);
+            } else if ("3".equals(sup)) { // 删除(根据ID删除商品)
+                try {
+                    String strId = req.getParameter("supDel"); // 页面传过来的值
+                    SupplieDao.suppDel(strId); // 删除方法
+                    SupplieDao.suppSel(); // 查询方法
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                req.getRequestDispatcher("logic.jsp").forward(req, resp);
+            } else if ("4".equals(sup)) { // 修改 商品信息
+                try {
+                    String id = req.getParameter("id"); // 供应商Id
+                    String commodity = req.getParameter("commodity"); // 供应商的商品信息
+                    String merId = req.getParameter("merId"); // 商品ID  
+                    String nameType = req.getParameter("merType"); //商品类型
+                    String name = req.getParameter("commodity"); // 商品名
+                    String money = req.getParameter("money"); // 商品价格
+                    String describe = req.getParameter("describe"); // 商品描述
+                    String origin = req.getParameter("origin"); // 商品产地
+                    String netContent = req.getParameter("netContent"); // 商品净含量
+                    String packingMethod = req.getParameter("packingMethod"); // 商品包装
+                    String brand = req.getParameter("brand"); // 商品品牌
+                    String qGp = req.getParameter("qGp"); // 商品保质期
+                    String storageMethod = req.getParameter("storageMethod"); // 商品储藏方法
+                    String number = req.getParameter("number"); // 商品数量
+                    String specificationID = req.getParameter("specificationID"); // 商品规格Id
+                    String suptID = req.getParameter("suptID"); // 供应商规格字段Id
+                    SupplieDao.suppUpd(commodity,id,merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); // 商品信息修改
+//                    SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                req.getRequestDispatcher("logic.jsp").forward(req, resp); //转发
+            } else if ("5".equals(sup)) { // 查询供应商商品
+                resp.setCharacterEncoding("utf-8");
+                try { // state 0状态在使用的账号,1状态是已停用账号
+                    String strJson = SupplieDao.suppSel(); // 查询
+                    resp.getWriter().write(strJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
+        }else{ // 如果state状态不为 0 那么就代表此供应商账号已注销(不能使用)
+            req.setAttribute("state", state);
         }
     }
     
@@ -118,25 +107,9 @@ public class SupplieServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String strId = req.getParameter("id");
-        String sId= "select count(*) from ajaxtable where id = ?";
-        try {
-            Connection conn = Conn.conn();
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sId);
-            ps.setString(1,strId);
-            ps.executeQuery();// 执行查询
-            ResultSet rs = ps.getResultSet();
-            rs.next();
-            int count = rs.getInt(1);
-            if (count == 0) {
-                resp.getWriter().write("0");
-            }else{
-                resp.getWriter().write("1");
-            }
-        } catch (Exception e) {
-            resp.getWriter().write("0");
-            e.printStackTrace();
-        }
+        String strId = req.getParameter("id"); // 获取页面传来的值
+        int id = SupplieDao.exsisId(strId);
+        resp.getWriter().write(id);
     }
 
 }
