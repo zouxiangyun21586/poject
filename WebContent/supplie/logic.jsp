@@ -14,7 +14,7 @@
         $.ajax({
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
-            url:"/projectYr/supSer?sup=5", // 发送请求的地址
+            url:"<%=request.getContextPath()%>/supSer?sup=5", // 发送请求的地址
             dataType:"json",
             data:{"state":0},
             success:function(res){
@@ -65,7 +65,7 @@
         $.ajax({
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
-            url:"/projectYr/supSer?sup=2", // 发送请求的地址
+            url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
             dataType:"json",
             data:{"id":id,"commodity":commo,"merType":merType,"money":money,"describe":describe,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"number":number,"upFrametTime":upFrameTime,"merId":merId,"specificationID":specificationID,"suptID":suptID,"state":0},   // 传参数
             success:function(res){
@@ -89,11 +89,6 @@
         } */
     }
     
-    
-    
-    
-            
-    
     /* 取消 */
     function cancel(cc){ // 有多个值时会把前面全删掉再删除选择删除的那个值
         $(cc).parent().parent().remove(); // 删除tr
@@ -106,7 +101,7 @@
         var va=a.find("td").eq(0).text(); // 获取到第一个td(id)的文本内容
         if(confirm('确定删除么')){
             $.ajax({
-                url:"/projectYr/supSer?sup=3",
+                url:"<%=request.getContextPath()%>/supSer?sup=3",
                 type:"get",
                 async:false,
                 dataType:"json",
@@ -180,7 +175,7 @@
         $.ajax({
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
-            url:"/projectYr/supSer?sup=4", // 发送请求的地址
+            url:"<%=request.getContextPath()%>/supSer?sup=4", // 发送请求的地址
             dataType:"json",
             data:{"id":id,"commodity":commo,"merType":merType,"money":money,"describe":describe,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"number":number,"upFrametTime":upFrameTime,"merId":merId,"specificationID":specificationID,"suptID":suptID,"state":0},   // 传参数
             success:function(res){
