@@ -1,5 +1,7 @@
 package com.yr.pojo;
 
+import java.sql.Date;
+
 public class Supplie {
     private int id; // 供应商id
     private String commo; // 商品名称
@@ -13,7 +15,7 @@ public class Supplie {
     private String qGp; // 商品保质期
     private String storageMethod; // 商品储藏方法
     private int number; // 商品数量
-    private int upFrameTime; // 商品上架时间
+    private String upFrameTime; // 商品上架时间
     private int merId; // 商品ID 
     private int specificationID; // 商品规格Id
     private int suptID; // 供应商规格字段Id
@@ -107,11 +109,11 @@ public class Supplie {
         this.number = number;
     }
 
-    public int getUpFrameTime() {
+    public String getUpFrameTime() {
         return upFrameTime;
     }
 
-    public void setUpFrameTime(int upFrameTime) {
+    public void setUpFrameTime(String upFrameTime) {
         this.upFrameTime = upFrameTime;
     }
 

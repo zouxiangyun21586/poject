@@ -1,6 +1,8 @@
 package com.yr.servlet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.SupplieDao;
 
 public class SupplieServlet extends HttpServlet {
-
+    public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
     /**
      * 供应商 增删改查
      * 
@@ -42,9 +44,20 @@ public class SupplieServlet extends HttpServlet {
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
-                    String upFrametTime = req.getParameter("upFrametTime"); // 商品上架时间(网络时间)
-                    String merchan = SupplieDao.merchandiseAdd(nameType, name, money, describe, number, upFrametTime);;
-                    SupplieDao.suppAdd(name,specificationID,suptID); // 供应商添加商品信息
+                    
+                    /**
+                     * 获取网络时间
+                     */
+                    System.out.println(SupplieDao.getWebsiteDatetime(webUrl4));
+                    String date = SupplieDao.getWebsiteDatetime(webUrl4);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    Date date1 = sdf.parse(date);
+                    long lg = date1.getTime(); // 日期转时间戳
+                    java.sql.Date time = new java.sql.Date(lg);
+                    
+                    SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
+                    SupplieDao.merchandiseAdd(nameType, name, money, describe, number, time); // 添加商品信息
+                    SupplieDao.suppAdd(name,specificationID,suptID); // 添加供应商商品信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

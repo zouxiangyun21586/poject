@@ -1,20 +1,28 @@
 package com.yr.dao;
 
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Locale;
 
 import com.yr.pojo.Supplie;
 import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
 public class SupplieDao {
+    public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
+
     /**
      * 添加商品信息
      * @author zxy
@@ -27,25 +35,31 @@ public class SupplieDao {
      * @param upFrametTime  商品上架时间
      * @throws SQLException
      * 2017年12月14日  下午5:35:56
+     * @throws ParseException 
      */
-    public static String merchandiseAdd(String nameType,String name,String money,String describe,String number,String upFrametTime) throws SQLException{
+    public static void merchandiseAdd(String nameType,String name,String money,String describe,String number,Date upFrametTime) throws SQLException, ParseException{
+        
+        /*System.out.println(getWebsiteDatetime(webUrl4));
+        String date = getWebsiteDatetime(webUrl4);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = sdf.parse(date);
+        long lg = date1.getTime(); // 日期转时间戳
+*/        
         Connection conn = Conn.conn();
-        String str = "insert into merchandise(nameTypeID,name,money,describe,specificationID,number,upFrametTime) values(?,?,?,?,?,?,?);"; // id自增长
+        String str = "insert into merchandise(nameTypeID,`name`,money,`describe`,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, nameType);
         ps.setString(2, name);
         ps.setString(3, money);
         ps.setString(4, describe);
         ps.setString(5, number);
-        ps.setString(6, upFrametTime);
+        ps.setDate(6, (java.sql.Date) upFrametTime);
         ps.executeUpdate();// 执行修改
-        String strJson = JsonUtils.beanToJson(ps);
-        return strJson;
     }
     
-    public static String speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
+    public static void speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
         Connection conn = Conn.conn();
-        String str = "insert into merchandise(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
+        String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, origin);
         ps.setString(2, netContent);
@@ -54,8 +68,6 @@ public class SupplieDao {
         ps.setString(5, qGp);
         ps.setString(6, storageMethod);
         ps.executeUpdate();// 执行修改
-        String strJson = JsonUtils.beanToJson(ps);
-        return strJson;
     }
     
     /**
@@ -66,7 +78,7 @@ public class SupplieDao {
      * @throws Exception
      * 2017年12月14日  下午3:10:51
      */
-    public static String suppAdd(String name,String mercd_id,String sup_mer_id) throws Exception{
+    public static void suppAdd(String name,String mercd_id,String sup_mer_id) throws Exception{
         Connection conn = Conn.conn();
         String str = "insert into supplier(commodity,mercd_id,sup_mer_id) values(?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -74,9 +86,7 @@ public class SupplieDao {
         ps.setString(2, mercd_id); // 商品id
         ps.setString(3, sup_mer_id); // 供应商对应的商品id
         ps.executeUpdate();// 执行修改
-        String strJson = JsonUtils.beanToJson(ps);
         suppSel();
-        return strJson;
     }
     
     /**
@@ -86,7 +96,7 @@ public class SupplieDao {
      * @return
      * 2017年12月16日  上午11:31:57
      */
-    /*private static String getWebsiteDatetime(String webUrl){
+    public static String getWebsiteDatetime(String webUrl){
         try {
             URL url = new URL(webUrl);// 取得资源对象
             URLConnection uc = url.openConnection();// 生成连接对象
@@ -101,7 +111,7 @@ public class SupplieDao {
             e.printStackTrace();
         }
         return null;
-    }*/
+    }
     
     /**
      * 删除供应商的商品信息
@@ -171,7 +181,7 @@ public class SupplieDao {
             sup.setqGp(rs.getString(9));
             sup.setStorageMethod(rs.getString(10));
             sup.setNumber(rs.getInt(11));
-            sup.setUpFrameTime(rs.getShort(12));
+            sup.setUpFrameTime(rs.getString(12));
             sup.setId(rs.getInt(13));
             list.add(sup);
         }
@@ -227,16 +237,16 @@ public class SupplieDao {
             la.setqGp(rs.getString(10));
             la.setStorageMethod(rs.getString(11));
             la.setNumber(rs.getInt(12));
-            la.setUpFrameTime(rs.getInt(13));
+            la.setUpFrameTime(rs.getString(13));
             la.setMerId(rs.getInt(14));
             la.setSpecificationID(rs.getInt(15));
             la.setSuptID(rs.getInt(16));
             selist.add(la);
         }
-        rs.close(); // 关闭结果集
-        ps.close(); // 关闭发送SQL对象
         String strJson = JsonUtils.beanListToJson(selist);
         return strJson;
+//        ps.close(); // 关闭发送SQL对象
+//        rs.close(); // 关闭结果集
     }
     
     /**

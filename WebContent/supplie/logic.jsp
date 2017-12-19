@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,12 +30,13 @@
             }
           });
         
+        var myDate = new Date();
+        var mytime = myDate.toLocaleString();
         
         /* 添加 */
-    $("#zui").click(function(){
-        $("tr:last").after("<tr id='jia'>"+"<td><input type='text' id='id'></td>"+"<td><input type='text' id='merType'></td>"+"<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='describe'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='netContent'></td>"+"<td><input type='text' id='packingMethod'></td>"+"<td><input type='text' id='brand'></td>"+"<td><input type='text' id='qGp'></td>"+"<td><input type='text' id='storageMethod'></td>"+"<td><input type='text' id='number'></td>"+
-        "<td><input type='text' id='upFrameTime'></td>"+"<td><input type='text' id='merId'></td>"+"<td><input type='text' id='specificationID'></td>"+"<td><input type='text' id='suptID'></td>"+"<td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>");
-    });
+	    $("#zui").click(function(){
+	        $("tr:last").after("<tr id='jia'>"+"<td><input type='text' id='id'></td>"+"<td><input type='text' id='merType'></td>"+"<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='describe'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='netContent'></td>"+"<td><input type='text' id='packingMethod'></td>"+"<td><input type='text' id='brand'></td>"+"<td><input type='text' id='qGp'></td>"+"<td><input type='text' id='storageMethod'></td>"+"<td><input type='text' id='number'></td><td>"+mytime+"</td><td><input type='text' id='merId'></td>"+"<td><input type='text' id='specificationID'></td>"+"<td><input type='text' id='suptID'></td>"+"<td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>");
+	    });
     });
     
     /* 保存 */
@@ -66,27 +66,21 @@
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
             url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
-            dataType:"json",
+            dataType:"text",
             data:{"id":id,"commodity":commo,"merType":merType,"money":money,"describe":describe,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"number":number,"upFrametTime":upFrameTime,"merId":merId,"specificationID":specificationID,"suptID":suptID,"state":0},   // 传参数
             success:function(res){
-                 alert(33);
+                 /* alert(33);
                  if(res == "1")
                  {
                      alert("保存失败");
-                 }else{
+                 }else{ */
                     tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+describe+"</td><td>"+origin+"</td><td>"+netContent+"</td><td>"+packingMethod+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td>"+merId+"</td><td>"+specificationID+"</td><td>"+suptID+"</td><td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td>");
-                 }
+                 /* } */
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert("保存失败(get)error");
             }
         });
-        
-        
-        /* 判断ID是否重复 */
-        /* if(panDuan){
-            pd();
-        } */
     }
     
     /* 取消 */
@@ -104,7 +98,7 @@
                 url:"<%=request.getContextPath()%>/supSer?sup=3",
                 type:"get",
                 async:false,
-                dataType:"json",
+                dataType:"text",
                 data:{"supDel":va,"state":0}, // data是服务器返回的数据
                 success:function(data){
                     alert("删除前");
@@ -133,13 +127,14 @@
         var storageMethod = tr.find("td").eq(10).text();
         var number = tr.find("td").eq(11).text();
         var upFrameTime = tr.find("td").eq(12).text();
-        var merId = tr.find("td").eq(13).find("input").val();
-        var specificationID = tr.find("td").eq(14).find("input").val();
-        var suptID = tr.find("td").eq(15).find("input").val();
+        var merId = tr.find("td").eq(13).text();
+        var specificationID = tr.find("td").eq(14).text();
+        var suptID = tr.find("td").eq(15).text();
         
         tr.html("<td>"+id+"</td>"+"<td><input type='text' id='merType' value="+merType+"></td>"+"<td><input type='text' id='commo' value="+commo+"></td>"+"<td><input type='text' id='money' value="+money+"></td>"+"<td><input type='text' id='describe' value="+describe+"></td>"+"<td><input type='text' id='origin' value="+origin+"></td>"+"<td><input type='text' id='netContent' value="+netContent+"></td>"+"<td><input type='text' id='packingMethod' value="+packingMethod+"></td>"+"<td><input type='text' id='brand' value="+brand+"></td>"+"<td><input type='text' id='qGp' value="+qGp+"></td>"+"<td><input type='text' id='storageMethod' value="+storageMethod+"></td>"+
-                "<td><input type='text' id='number' value="+number+"></td><td>"+upFrameTime+"</td><td>"+merId+"</td><td>"+specificationID+"</td><td>"+suptID+"</td><td><input type='button' value='取消' onclick='upXg(this,"+id+","+merType+","+commo+","+money+","+describe+","+origin+","+netContent+","+packingMethod+","+brand+","+qGp+","+storageMethod+","+number+","+upFrameTime+","+merId+","+specificationID+","+suptID+");'><input type='button' onclick='tjbc(this);' value='保存'></td>");
-    };
+                "<td><input type='text' id='number' value="+number+"></td><td>"+upFrameTime+"</td><td>"+merId+"</td><td>"+specificationID+"</td><td>"+suptID+
+                "</td><td><input type='button' value='取消' onclick=\"upXg(this,'"+id+"','"+merType+"','"+commo+"','"+money+"','"+describe+"','"+origin+"','"+netContent+"','"+packingMethod+"','"+brand+"','"+qGp+"','"+storageMethod+"','"+number+"','"+upFrameTime+"','"+merId+"','"+specificationID+"','"+suptID+"');\"><input type='button' onclick='tjbc(this);' value='保存'></td>");
+    }
     
     /* 修改取消 */
     function upXg(x,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p){
@@ -166,24 +161,24 @@
         var qGp = tr.find("td").eq(9).find("input").val();
         var storageMethod = tr.find("td").eq(10).find("input").val();
         var number = tr.find("td").eq(11).find("input").val();
-        var upFrameTime = tr.find("td").eq(12).find("input").val();
-        var merId = tr.find("td").eq(13).find("input").val();
-        var specificationID = tr.find("td").eq(14).find("input").val();
-        var suptID = tr.find("td").eq(15).find("input").val();
+        var upFrameTime = tr.find("td").eq(12).text();;
+        var merId = tr.find("td").eq(13).text();
+        var specificationID = tr.find("td").eq(14).text();
+        var suptID = tr.find("td").eq(15).text();
         
         var panDuan = true;
         $.ajax({
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
             url:"<%=request.getContextPath()%>/supSer?sup=4", // 发送请求的地址
-            dataType:"json",
+            dataType:"text",
             data:{"id":id,"commodity":commo,"merType":merType,"money":money,"describe":describe,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"number":number,"upFrametTime":upFrameTime,"merId":merId,"specificationID":specificationID,"suptID":suptID,"state":0},   // 传参数
             success:function(res){
                 /*  if(res == "1")
                  {
                      alert("修改失败");
                  }else{ */
-                     tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+describe+"</td><td>"+origin+"</td><td>"+netContent+"</td><td>"+packingMethod+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td>"+merId+"</td><td>"+specificationID+"</td><td>"+suptID+"</td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td>");
+                     tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+describe+"</td><td>"+origin+"</td><td>"+netContent+"</td><td>"+packingMethod+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td>"+merId+"</td><td>"+specificationID+"</td><td>"+suptID+"</td><td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td>");
                 /*  } */
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
