@@ -10,23 +10,29 @@
 </head>
 <body>
 <ul id="demo"></ul>
-<ul class="layui-nav layui-nav-tree" lay-filter="test" style="width:250px;">
-<%-- <c:catch var="1" items="${getstu}"> --%>
+<ul class="layui-nav layui-nav-tree" lay-filter="test" style="width:355px;">
+<c:catch var="1" items="${getstu}">
 	<li class="layui-nav-item">
     <a href="javascript:;">系统管理</a>
     <dl class="layui-nav-child">
-    <%-- <c:catch var="b" items="${getstu}"> --%>
+    <c:catch var="b" items="${getstu}">
       <dd>
 	      <label class="layui-form-label" style="width:50px;">账号管理</label>
 	      <div class="layui-input-inline">
 	      	<input class="layui-input" style="width:100px;background-color:#ffffff75;">
 	      </div>
-	      <span class="layui-badge-rim">状态:</span>
+	      <span class="layui-badge-rim" style="line-height:33px;height:33px;">状态:使用中</span>
+	      <c:if test="${b.state == '使用中'}">  
+		      <button class="layui-btn layui-btn-danger"><i class='layui-icon'>&#xe640;</i> 停用</button>
+	      </c:if>
+	      <c:if test="${b.state == '已停用'}">  
+		      <button class="layui-btn layui-btn-danger"><i class='layui-icon'>&#xe640;</i> 启用</button>
+	      </c:if>
       </dd>
-    <%-- </c:catch> --%>
+     </c:catch> 
     </dl>
   </li>
-<%-- </c:catch> --%>
+</c:catch>
 </ul>
 </body>
 <script src="plugins/layui/layui.js"></script>
