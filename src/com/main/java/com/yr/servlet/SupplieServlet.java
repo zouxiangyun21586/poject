@@ -43,11 +43,12 @@ public class SupplieServlet extends HttpServlet {
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
                     String upFrametTime = req.getParameter("upFrametTime"); // 商品上架时间(网络时间)
-                    SupplieDao.suppAdd(nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID,upFrametTime); // 供应商添加商品信息
+                    String merchan = SupplieDao.merchandiseAdd(nameType, name, money, describe, number, upFrametTime);;
+                    SupplieDao.suppAdd(name,specificationID,suptID); // 供应商添加商品信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("logic.jsp").forward(req, resp);
+                req.getRequestDispatcher("login.jsp").forward(req, resp);
             } else if ("3".equals(sup)) { // 删除(根据ID删除商品)
                 try {
                     String strId = req.getParameter("supDel"); // 页面传过来的值
@@ -56,7 +57,7 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("logic.jsp").forward(req, resp);
+                req.getRequestDispatcher("login.jsp").forward(req, resp);
             } else if ("4".equals(sup)) { // 修改 商品信息
                 try {
                     String id = req.getParameter("id"); // 供应商Id
@@ -75,12 +76,12 @@ public class SupplieServlet extends HttpServlet {
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
-                    SupplieDao.suppUpd(commodity,id,merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); // 商品信息修改
-//                    SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
+                    String supp = SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
+                    SupplieDao.suppUpd(commodity,id); // 供应商ID
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("logic.jsp").forward(req, resp); //转发
+                req.getRequestDispatcher("login.jsp").forward(req, resp); //转发
             } else if ("5".equals(sup)) { // 查询供应商商品
                 resp.setCharacterEncoding("utf-8");
                 try { // state 0状态在使用的账号,1状态是已停用账号
