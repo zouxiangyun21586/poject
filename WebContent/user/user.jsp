@@ -41,7 +41,6 @@
 						</tbody>
 					</table>
 					<div id="page" class="page"></div>
-					<div id="demo7"></div>
 				</div>
 			</div>
 		</div>
@@ -141,18 +140,9 @@
  	       } 
  	    }); --%>
 	}
-	layui.use([ 'layer', 'laypage', 'element' ], function() {
+	layui.use([ 'layer', 'element' ], function() {
 		var laypage = layui.laypage,
 		layer = layui.layer;
-		laypage.render({
-		    elem: 'demo7',
-		    count: 100,
-		    limits:[5,10,15],
-		    layout: ['prev', 'page', 'next', 'limit', 'skip','count'],
-		    jump: function(obj){
-		      console.log(obj)
-		    }
-		  });
 		$('#adduser').click(function(){
 			layer.open({
 				anim: 2,

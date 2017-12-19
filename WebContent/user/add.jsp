@@ -58,7 +58,7 @@
 							</div>
 						</div>
 				        <button type="submit" class="layui-btn" id="sb">立即提交</button>
-				        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
 					</div>
 				</div>
 			</div>
@@ -67,7 +67,12 @@
 	<script src="../plugins/layui/layui.js"></script>
 	<script src="../src/js/jquery-2.2.4.min.js"></script>
 	<script>
-	layui.use([ 'layer', 'form' ], function() {
+	$("#reset").click(function(){
+		$("#username").val("");
+		$("#password").val("");
+		$("#account").val("");
+	});
+	layui.use(['form','layer'], function() {
 		var form = layui.form;
 		$(document).ready(function(){
 			$.ajax({     
@@ -104,7 +109,12 @@
 			        success: function(zh) {
 			           if(zh == "good"){
 			        	   <%-- window.location.href="<%=request.getContextPath()%>/user/user.jsp"; --%>
-			        	   alert("添加成功,由于B政那个Bitch不解决所以无法关闭");
+			        	   layui.use(['layer', 'laypage', 'element'], function(){
+								layer.msg('添加成功!', 
+								{icon: 1}
+								); 
+								setTimeout('parent.location.href=parent.location.href;','1000');
+							  });
 			           }else if(zh == "1"){
 			        	   alert("账号已存在");
 			           }else if(zh == "0"){
