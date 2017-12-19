@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="zh-cn">
 <head>
@@ -77,8 +78,21 @@
         }
     </style>
 </head>
-
-
+<%
+String username="";
+String password="";
+Cookie [] c=request.getCookies();
+if(c!=null){
+	for(int i=0;i<c.length;i++){
+	    if(c[i].getName().equals("users")){
+	    	username=c[i].getValue().split("-")[0];
+	    	password=c[i].getValue().split("-")[1];
+	        request.setAttribute("username",username);
+	        request.setAttribute("password",password);
+	    }
+	}
+}
+ %>
 <body class="kit-login-bg">
     <div class="container demo-1">
         <div class="content">
@@ -94,13 +108,13 @@
                                 <label class="kit-login-icon">
                                     <i class="layui-icon">&#xe612;</i>
                                 </label>
-                                <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入账号" class="layui-input">
+                                <input type="text" name="username" lay-verify="required" autocomplete="off" placeholder="请输入账号" value="${username}" class="layui-input">
                             </div>
                             <div class="layui-form-item">
                                 <label class="kit-login-icon">
                                     <i class="layui-icon">&#xe642;</i>
                                 </label>
-                                <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" class="layui-input">
+                                <input type="password" name="password" lay-verify="required" autocomplete="off" placeholder="请输入密码" value="${password}" class="layui-input">
                             </div>
                             <div class="layui-form-item" id="code" style="display:none;">
                                 <label class="kit-login-icon">

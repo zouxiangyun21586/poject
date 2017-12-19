@@ -101,7 +101,7 @@ public class LoginServlet extends HttpServlet {
             while (rs.next()) {
                 if (rs.getString(1).equals(user.getUsername()) && rs.getString(2).equals(user.getPassword())) {
                     System.out.println("数据库的值" + rs.getString(1) + "---" + rs.getString(2));
-                    if ("on".equals(ck)) {
+                    if ("true".equals(ck)) {
                         System.out.println("ck状态:" + ck);
                         Cookie c = new Cookie("users", username + "-" + password);
                         c.setMaxAge(10 * 60);
@@ -219,4 +219,5 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
     }
+
 }
