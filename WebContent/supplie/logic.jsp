@@ -78,7 +78,7 @@
                  }
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
-                alert("保存失败(post)error");
+                alert("保存失败(get)error");
             }
         });
         

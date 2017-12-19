@@ -28,7 +28,7 @@ public class SupplieDao {
      * @throws SQLException
      * 2017年12月14日  下午5:35:56
      */
-    public static void merchandiseAdd(String nameType,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String upFrametTime) throws SQLException{
+    public static String merchandiseAdd(String nameType,String name,String money,String describe,String number,String upFrametTime) throws SQLException{
         Connection conn = Conn.conn();
         String str = "insert into merchandise(nameTypeID,name,money,describe,specificationID,number,upFrametTime) values(?,?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -36,17 +36,28 @@ public class SupplieDao {
         ps.setString(2, name);
         ps.setString(3, money);
         ps.setString(4, describe);
-        ps.setString(5, origin);
-        ps.setString(6, netContent);
-        ps.setString(7, packingMethod);
-        ps.setString(8, brand);
-        ps.setString(9, qGp);
-        ps.setString(10, storageMethod);
-        ps.setString(6, number);
-        ps.setString(7, upFrametTime);
+        ps.setString(5, number);
+        ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
         String strJson = JsonUtils.beanToJson(ps);
+        return strJson;
     }
+    
+    public static String speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
+        Connection conn = Conn.conn();
+        String str = "insert into merchandise(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
+        ps.setString(1, origin);
+        ps.setString(2, netContent);
+        ps.setString(3, packingMethod);
+        ps.setString(4, brand);
+        ps.setString(5, qGp);
+        ps.setString(6, storageMethod);
+        ps.executeUpdate();// 执行修改
+        String strJson = JsonUtils.beanToJson(ps);
+        return strJson;
+    }
+    
     /**
      * 添加供应商的商品信息
      * @author zxy
@@ -55,7 +66,7 @@ public class SupplieDao {
      * @throws Exception
      * 2017年12月14日  下午3:10:51
      */
-    public static String suppAdd(String nameType,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String upFrametTime,String mercd_id,String sup_mer_id) throws Exception{
+    public static String suppAdd(String name,String mercd_id,String sup_mer_id) throws Exception{
         Connection conn = Conn.conn();
         String str = "insert into supplier(commodity,mercd_id,sup_mer_id) values(?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -64,7 +75,6 @@ public class SupplieDao {
         ps.setString(3, sup_mer_id); // 供应商对应的商品id
         ps.executeUpdate();// 执行修改
         String strJson = JsonUtils.beanToJson(ps);
-        merchandiseAdd(nameType, name, money, describe, origin, netContent, packingMethod, brand, qGp, storageMethod, number, upFrametTime);;
         suppSel();
         return strJson;
     }
@@ -127,7 +137,7 @@ public class SupplieDao {
      * @throws SQLException
      * 2017年12月14日  下午5:41:00
      */
-    public static void merchandiseUpd(String nameTypeID,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String upFrametTime,String specificationID,String suptID) throws SQLException{
+    public static String merchandiseUpd(String nameTypeID,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String upFrametTime,String specificationID,String suptID) throws SQLException{
         Connection conn = Conn.conn();
         String str = "update merchandise mer ,specification_table supt set mer.nameTypeID = ?,mer.`name` = ?,mer.money = ?,mer.`describe` = ?,supt.origin = ?,supt.netContent = ?,supt.packingMethod = ?,supt.brand = ?,supt.qGp = ?,supt.storageMethod = ?,number = ? where mer.specificationID = ? and supt.id = ?;";
 
@@ -166,6 +176,7 @@ public class SupplieDao {
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
+        return strJson;
     }
     /**
      * 修改供应商的商品信息
@@ -175,7 +186,7 @@ public class SupplieDao {
      * @throws Exception
      * 2017年12月14日  下午3:11:06
      */
-    public static String suppUpd(String commodity,String id,String merId,String nameType,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String specificationID,String suptID) throws Exception{
+    public static String suppUpd(String commodity,String id) throws Exception{
         Connection conn = Conn.conn();
         String str = "update supplier set commodity = ? where id = ?";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -183,7 +194,6 @@ public class SupplieDao {
         ps.setString(2, id);
         ps.executeUpdate(); // 执行修改
         String strJson = JsonUtils.beanToJson(ps);
-        SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
         suppSel();
         return strJson;
     }
