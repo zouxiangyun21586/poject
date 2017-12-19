@@ -13,16 +13,22 @@
 	<div class="layui-container" width="100%" height="100%" align="center">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8" style="width: 100%;">
-				<button class="layui-btn layui-btn-sm" style="float: left;"
-					id="adduser">
-					<i class="layui-icon">&#xe654;</i>添加角色
-				</button>
+			<form class="layui-form layui-form-pane" action="">
 				<button class="layui-btn layui-btn-sm layui-btn-normal"
 					style="float: right; margin-left: 0px;" onclick="search(this)" id="sousuo">
 					<i class="layui-icon">&#xe615;</i>搜索
 				</button>
 				<input type="text" class="layui-input" placeholder="请根据职位查询"
 					style="float: right; width: 250px; height: 30px;" />
+					<div class="layui-inline">
+				      <label class="layui-form-label">根据</label>
+				      <div class="layui-input-inline">
+				        <select name="modules" lay-verify="required" lay-search="">
+				          <option value="">直接选择或搜索选择</option>
+				        </select>
+				      </div>
+				    </div>
+				</form>
 				<table class="layui-table" id="table">
 					<thead>
 						<tr>
@@ -43,15 +49,26 @@
 <script src="../plugins/layui/layui.js"></script>
 <script src="../src/js/jquery-2.2.4.min.js"></script>
 <script>
+
+layui.use('form', function(){
+	  var form = layui.form
+	  
+});
 $(document).ready(function(){  
     $.ajax({
         url:'<%=request.getContextPath()%>/query', //请求的路径
         type:'get',//请求方式   
         dataType:'json',
         success:function(strjson){
+        	var rolebtn="";
            for (var i = 0; i< strjson.length; i++) {
                var a=strjson[i];
-               $("#table").append("<tr><td>"+a.id+"</td><td>"+a.accountName+"</td><td>"+a.account+"</td><td>"+a.roleName+"</td><td>"+a.state+"</td><td><center><button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button></center></td></tr>");
+        	   if(a.roleName=="超级管理员"){
+        		   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button>";
+        	   }else{
+        		   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button>";
+        	   }
+               $("#table").append("<tr><td>"+a.id+"</td><td>"+a.accountName+"</td><td>"+a.account+"</td><td>"+a.roleName+"</td><td>"+a.state+"</td><td><center>"+rolebtn+"</center></td></tr>");
            }
         },error:function(XMLHttpRequest, textStatus, errorThrown)
         {
