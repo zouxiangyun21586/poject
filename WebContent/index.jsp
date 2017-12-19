@@ -21,7 +21,7 @@
 <body class="kit-theme">
 	<div class="layui-layout layui-layout-admin kit-layout-admin">
 		<div class="layui-header">
-			<div class="layui-logo" style="font-size: 35px;">某<i class="layui-icon" style="font-size: 35px;" id="x">&#xe62c;</i>宝</div>
+			<div class="layui-logo" style="font-size: 35px;">某<i class="layui-icon" style="font-size: 35px;" id="x"><script src="js/pmd.js"></script></i>宝</div>
 			<div class="layui-logo kit-logo-mobile" style="font-size: 35px;">宝</div>
 			<ul class="layui-nav layui-layout-right kit-nav">
 			<li class="layui-nav-item"><a href="javascript:;" onclick="$('#news').fadeIn();"><i class="layui-icon">&#xe63f;</i> 发送信息</a></li>
@@ -77,7 +77,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
+									data-options="{url:'quanxian.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
