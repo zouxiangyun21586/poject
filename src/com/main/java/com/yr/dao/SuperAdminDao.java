@@ -29,9 +29,9 @@ public class SuperAdminDao {
 	public static String add(String role,String name,String account,String pass){
 		try{
 			Connection conn = Conn.conn();
-			String sql = "insert into account(name,account,password) values(?,?,?);";
+			String sql = "insert into account(name,account,password,state) values(?,?,?,?);";
 			if(role == null || "".equals(role)){
-				return "1";
+				return "0";
 			}
 			boolean bol = repeatName(account);
 			if(bol){
@@ -41,6 +41,7 @@ public class SuperAdminDao {
 			pre.setString(1, name);
 			pre.setString(2, account);
 			pre.setString(3, pass);
+			pre.setInt(4, 0);
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
@@ -51,7 +52,7 @@ public class SuperAdminDao {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return "0";
+		return "-1";
 	}
 	/**
 	 * 获取刚刚添加的账户id
@@ -86,12 +87,11 @@ public class SuperAdminDao {
 	 */
 	public static void addAccount_role(Integer id,Integer role){
 		try{
-			String sql = "insert into account_role(account_id,role_id,state) values(?,?,?);";
+			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setInt(1, id);
 			pre.setInt(2, role);
-			pre.setInt(3, 0);
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
@@ -381,17 +381,17 @@ public class SuperAdminDao {
 		pageNow = (pageNow - 1) * 10;
 		try {
 			Connection conn = Conn.conn();
-			if (null != sel && !"".equals(sel)) {//使用搜索功能进入这个if判断
+			if (null != sel && !"".equals(sel) || !"quan".equals(rolename)) {//使用搜索功能进入这个if判断
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
 				sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ";
-				if(acc != null && !acc.equals(""))
+				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
 					paramIndex.add(0);
 					param.add(acc);
 				}
-				if(!rolename.equals("quan"))
+				if(!"quan".equals(rolename))
 				{
 					sql = sql + " and r.roleName=?";
 					paramIndex.add(0);

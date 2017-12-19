@@ -103,11 +103,14 @@
 			        dataType: "text",
 			        success: function(zh) {
 			           if(zh == "good"){
-			        	   windows.location.href="<%=request.getContextPath()%>/user/user.jsp";
+			        	   <%-- window.location.href="<%=request.getContextPath()%>/user/user.jsp"; --%>
+			        	   alert("添加成功,由于B政那个Bitch不解决所以无法关闭");
 			           }else if(zh == "1"){
+			        	   alert("账号已存在");
+			           }else if(zh == "0"){
 			        	   alert("请选择角色");
-			           }else {
-			        	   alert("添加失败");
+			           }else{
+			        	   alert("连接数据库出错");
 			           }
 			        },     
 			        error: function(XMLHttpRequest, textStatus, errorThrown) {

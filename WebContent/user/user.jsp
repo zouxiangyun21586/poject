@@ -15,10 +15,18 @@
 				<div class="layui-col-md8"  style="width: 100%;">
 					<button class="layui-btn layui-btn-sm" style="float:left;" id="adduser">
 					<i class="layui-icon">&#xe654;</i> 添加账号</button>
-					<button class="layui-btn layui-btn-sm layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
+					<button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 					<i class="layui-icon">&#xe615;</i> 搜索</button>
-					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;height:30px;" id = "select" name="select"/>
-					<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div>
+					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;" id = "select" name="select"/>
+					<!-- <div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div> -->
+					<div class='layui-form layui-form-pane' style="float:right;">
+					<div class="layui-inline">
+					  <label class="layui-form-label">所属角色:</label>
+				      <div class="layui-input-inline">
+				        <select id='interest' name='interest' lay-filter='aihao' lay-search></select>
+				      </div>
+				    </div>
+				    </div>
 					<table class="layui-table">
 						<thead>
 							<tr>
@@ -50,33 +58,58 @@
 	});
 	var state="";
 	function getData(){
-		$.ajax({
- 	       type:"GET", //请求方式     对应form的  method请求
- 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=1", //请求路径  对应 form的action路径
- 	       cache: false,  //是否缓存，false代表拒绝缓存
- 	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val(),"interest":$("#interest option:selected").val()},  //传参 
- 	       dataType: 'json',   //返回值类型 
- 	       success:function(data){
- 	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
- 	    	 	var list =  data.list;
- 	    	 	var tbodyContent = ""; 	
- 	          	for(var i in list){
- 	          		if("使用中"==list[i].stateStr){
- 	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
- 	          		}else if("已停用"==list[i].stateStr){
- 	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
- 	          		}
- 	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
- 	        	 		"<td>"+list[i].userName+"</td>"+
- 	        	 		"<td>"+list[i].roleName+"</td>"+
- 	        	 		"<td>"+list[i].stateStr+"</td>"+
- 	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
- 	        	 		
- 	       		}
- 	          	$("#tbodyId").html(tbodyContent);
- 	     	} 
- 	     });
-		qurole();
+		layui.use([ 'layer', 'form' ], function() {
+			var form = layui.form;
+			$.ajax({     
+		        //要用post方式      
+		        type: "POST",//请求方式,默认GET
+		        cache: false,  //是否缓存，false代表拒绝缓存
+		        //方法所在页面和方法名      
+		        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+		        contentType: "application/text; charset=utf-8",  
+		        dataType: "json",
+		        success: function(zh) {
+		        	$("#interest").append("<option value='quan'>全部</option>");
+		            for(var i in zh){
+		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+		            }
+		            form.render('select');
+		            $.ajax({
+		      	       type:"GET", //请求方式     对应form的  method请求
+		      	       url:"<%=request.getContextPath()%>/superAdminServlet?i=1", //请求路径  对应 form的action路径
+		      	       cache: false,  //是否缓存，false代表拒绝缓存
+		      	       data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val(),"interest":$("#interest option:selected").val()},  //传参
+		      	       dataType: 'json',   //返回值类型 
+		      	       success:function(data){
+		      	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
+		      	    	 	var list =  data.list;
+		      	    	 	var tbodyContent = ""; 	
+		      	          	for(var i in list){
+		      	          		if("使用中"==list[i].stateStr){
+		      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+		      	          		}else if("已停用"==list[i].stateStr){
+		      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+		      	          		}
+		      	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
+		      	        	 		"<td>"+list[i].userName+"</td>"+
+		      	        	 		"<td>"+list[i].roleName+"</td>"+
+		      	        	 		"<td>"+list[i].stateStr+"</td>"+
+		      	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
+		      	        	 		
+		      	       		}
+		      	          	$("#tbodyId").html(tbodyContent);
+		      	     	} 
+		      	     });
+		        },     
+		        error: function(XMLHttpRequest, textStatus, errorThrown) {
+		     	   alert("失败");
+		           alert(XMLHttpRequest.status);//200客户端请求已成功
+		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+		           alert(textStatus);//parsererror
+		   		}
+			});
+		});
+		
 	}
 	function qi(code) {
 		if (confirm("确认要启用？")) {
@@ -223,7 +256,7 @@
 		});
 	}
 	//查询下拉框显示值
-	function qurole(){
+	<%-- function qurole(){
 		layui.use([ 'layer', 'form' ], function() {
 			var form = layui.form;
 			$.ajax({     
@@ -249,6 +282,6 @@
 		   		}
 			});
 		});
-	}
+	} --%>
 	</script>
 </html>
