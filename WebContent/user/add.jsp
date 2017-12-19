@@ -102,7 +102,7 @@
 			        data:{"interest":$("#interest option:selected").val(),"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val()},  //传参 
 			        dataType: "text",
 			        success: function(zh) {
-			           if(zhi == "good"){
+			           if(zh == "good"){
 			        	   windows.location.href="<%=request.getContextPath()%>/user/user.jsp";
 			           }else if(zh == "1"){
 			        	   alert("请选择角色");
