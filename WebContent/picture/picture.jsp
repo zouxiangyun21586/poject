@@ -83,5 +83,4 @@ layui.use([ 'layer', 'laypage', 'element' ], function() {
 	});
 });
 </script>
-</script>
 </html>
