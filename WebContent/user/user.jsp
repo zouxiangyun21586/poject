@@ -139,7 +139,7 @@
 			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的id
 			var a = $(obj).parent().parent().find("td").eq(1).text();//修改前的值
 			var acc = $(obj).parent().parent().find("td").eq(2).text();//修改前的值
-			var select="<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div>";
+			var select="<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interes' name='interes' lay-filter='aihao' lay-search></select></div></div></div>";
 			var btn="<button class='layui-btn layui-btn-xs' onclick='baoup(\""+a+"\",\""+id+"\",\""+acc+"\",this)'><i class='layui-icon'>&#xe618;</i> 保存</button><a href='#' onclick='quxiao(this,\""+a+"\");' class='layui-btn layui-btn-danger layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 取消</a>";
 			$(obj).parent().parent().find("td").eq(1).html(select);
 			$(obj).parent().parent().find("td").eq(4).html(btn);
@@ -152,7 +152,7 @@
  	       type:"POST", //请求方式     对应form的  method请求
  	       url:"<%=request.getContextPath()%>/superAdminServlet?i=4", //请求路径  对应 form的action路径
  	       cache: false,  //是否缓存，false代表拒绝缓存
- 	       data:{"oldrole":oldrole,"upRoleId":$("#interest option:selected").val(),"id":id,"acc":acc},  //传参 
+ 	       data:{"oldrole":oldrole,"upRoleId":$("#interes option:selected").val(),"id":id,"acc":acc},  //传参 
  	       dataType: 'text',   //返回值类型 
  	       success:function(data){
  	    	   //1 没有这个角色,2 不能修改一样的
@@ -209,7 +209,7 @@
 		        dataType: "json",
 		        success: function(zh) {
 		            for(var i in zh){
-		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+		            	$("#interes").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
 		            }
 		            form.render('select');
 		        },     
