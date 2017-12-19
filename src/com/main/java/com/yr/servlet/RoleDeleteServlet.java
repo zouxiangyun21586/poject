@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.yr.dao.LinkMysql;
+import com.yr.util.Conn;
 
 public class RoleDeleteServlet extends HttpServlet {
 	/**
@@ -47,11 +48,34 @@ public class RoleDeleteServlet extends HttpServlet {
 		try {
 			String id = req.getParameter("id");
 			Connection conn = (Connection) LinkMysql.getCon();
-			String sql = "delete from accout where id = ?";
+			String sql = "delete from account where id = ?";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.executeUpdate();
+			Integer role_id = Integer.valueOf(id);
+			delAccount_role(role_id);
 		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	/**
+	 * 删除用户同时删除给账户角色表对应的值
+	 * @param role_id 账户id
+	 * @param role 角色id
+	 */
+	public static void delAccount_role(Integer role_id){
+		try{
+			Connection conn = (Connection) LinkMysql.getCon();
+			String sql = "delete from account_role where account_id=?;";
+			PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
+			pre.setInt(1,role_id);
+			pre.executeUpdate();
+			pre.close();
+			conn.close();
+		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
