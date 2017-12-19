@@ -29,15 +29,13 @@ public class RoleDeleteServlet extends HttpServlet {
 			ps.executeQuery();
 			ResultSet rs = ps.getResultSet();
 			rs.next();
-			int count = rs.getInt(1);
-			if (count == 1) {
+			int number = rs.getInt(1);
+			if (number == 1 || number == 2) {
 				resp.getWriter().write("0");
-			} else if (count == 2) {
+			} else if (number <= 7 && number > 2) {
 				resp.getWriter().write("1");
-			} else if (count <= 7 && count > 2) {
+			} else if (number == 8) {
 				resp.getWriter().write("2");
-			} else if (count == 8) {
-				resp.getWriter().write("3");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -49,7 +47,7 @@ public class RoleDeleteServlet extends HttpServlet {
 		try {
 			String id = req.getParameter("id");
 			Connection conn = (Connection) LinkMysql.getCon();
-			String sql = "delete from account where id = ?";
+			String sql = "delete from accout where id = ?";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.executeUpdate();

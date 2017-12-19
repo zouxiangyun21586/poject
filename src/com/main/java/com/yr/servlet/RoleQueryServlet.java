@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.LinkMysql;
-import com.yr.pojo.Role;
 import com.yr.pojo.RoleTzh;
 import com.yr.util.JsonUtils;
 
@@ -35,7 +34,7 @@ public class RoleQueryServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		try {
 			Connection conn = LinkMysql.getCon();
-			String sql = "select a.id,a.name,a.account,r.roleName,ar.state from role r,account a, account_role ar where r.id = ar.role_id and a.id = ar.account_id";
+			String sql = "select a.id,a.name,a.account,r.roleName,a.state from role r,account a, account_role ar where r.id = ar.role_id and a.id = ar.account_id";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.executeQuery();
 			ResultSet rs = ps.getResultSet();
