@@ -18,10 +18,10 @@
 					<i class="layui-icon">&#xe654;</i>添加角色
 				</button>
 				<button class="layui-btn layui-btn-sm layui-btn-normal"
-					style="float: right; margin-left: 0px;">
+					style="float: right; margin-left: 0px;" onclick="search(this)" id="sousuo">
 					<i class="layui-icon">&#xe615;</i>搜索
 				</button>
-				<input type="text" class="layui-input" placeholder="请输入要查询的角色"
+				<input type="text" class="layui-input" placeholder="请根据职位查询"
 					style="float: right; width: 250px; height: 30px;" />
 				<table class="layui-table" id="table">
 					<thead>
@@ -51,7 +51,7 @@ $(document).ready(function(){
         success:function(strjson){
            for (var i = 0; i< strjson.length; i++) {
                var a=strjson[i];
-               $("#table").append("<tr><td>"+a.id+"</td><td>"+a.accountName+"</td><td>"+a.account+"</td><td>"+a.roleName+"</td><td>"+a.state+"</td><td><button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' ><i class='layui-icon'>&#xe640;</i> 删除</button></td></tr>");
+               $("#table").append("<tr><td>"+a.id+"</td><td>"+a.accountName+"</td><td>"+a.account+"</td><td>"+a.roleName+"</td><td>"+a.state+"</td><td><center><button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button></center></td></tr>");
            }
         },error:function(XMLHttpRequest, textStatus, errorThrown)
         {
@@ -60,11 +60,13 @@ $(document).ready(function(){
    });
 });
 
-
+function update(a){
+	alert("此功能暂未开放");
+}
 
 function del(a)
 {
-    var tr = $(a).parent().parent();
+    var tr = $(a).parent().parent().parent();
     var id = tr.find("td").eq(0).text();
     //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
     var mark = true;
@@ -108,8 +110,6 @@ function del(a)
       });
 
     }
-    
-
     layui.use([ 'layer', 'laypage', 'element' ], function() {
         $('#adduser').click(function() {
             layer.open({
