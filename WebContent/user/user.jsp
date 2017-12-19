@@ -15,10 +15,18 @@
 				<div class="layui-col-md8"  style="width: 100%;">
 					<button class="layui-btn layui-btn-sm" style="float:left;" id="adduser">
 					<i class="layui-icon">&#xe654;</i> 添加账号</button>
-					<button class="layui-btn layui-btn-sm layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
+					<button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 					<i class="layui-icon">&#xe615;</i> 搜索</button>
-					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;height:30px;" id = "select" name="select"/>
-					<div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div>
+					<input type="text" class="layui-input" placeholder="请输入要查询的账号" style="float:right;width:250px;" id = "select" name="select"/>
+					<!-- <div class='layui-form layui-form-pane'><div class='layui-form-item'><div class='layui-input-inline'><select id='interest' name='interest' lay-filter='aihao' lay-search></select></div></div></div> -->
+					<div class='layui-form layui-form-pane' style="float:right;">
+					<div class="layui-inline">
+					  <label class="layui-form-label">所属角色:</label>
+				      <div class="layui-input-inline">
+				        <select id='interest' name='interest' lay-filter='aihao' lay-search></select>
+				      </div>
+				    </div>
+				    </div>
 					<table class="layui-table">
 						<thead>
 							<tr>
