@@ -8,31 +8,35 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 </head>
+<script>
+	$("#aa").text();
+</script>
 <body>
 <ul id="demo"></ul>
 <ul class="layui-nav layui-nav-tree" lay-filter="test" style="width:355px;">
-<c:catch var="1" items="${getstu}">
+<c:forEach var="a" items="${genList}">
 	<li class="layui-nav-item">
-    <a href="javascript:;">系统管理</a>
+    <a href="javascript:;" id="aa">${a.fatherName }</a>
     <dl class="layui-nav-child">
-    <c:catch var="b" items="${getstu}">
+    <c:redirect url="<%=request.getContextPath() %>/powerServlet?i=0&name="+${a.fatherName }/>
+    <c:forEach var="b" items="${testList}">
       <dd>
-	      <label class="layui-form-label" style="width:50px;">账号管理</label>
+	      <label class="layui-form-label" style="width:50px;">${b.fatherName }</label>
 	      <div class="layui-input-inline">
 	      	<input class="layui-input" style="width:100px;background-color:#ffffff75;">
 	      </div>
 	      <span class="layui-badge-rim" style="line-height:33px;height:33px;">状态:使用中</span>
-	      <c:if test="${b.state == '使用中'}">  
+	     <%--  <c:if test="${b.state == '使用中'}">  
 		      <button class="layui-btn layui-btn-danger"><i class='layui-icon'>&#xe640;</i> 停用</button>
 	      </c:if>
 	      <c:if test="${b.state == '已停用'}">  
 		      <button class="layui-btn layui-btn-danger"><i class='layui-icon'>&#xe640;</i> 启用</button>
-	      </c:if>
+	      </c:if> --%>
       </dd>
-     </c:catch> 
+     </c:forEach> 
     </dl>
   </li>
-</c:catch>
+</c:forEach>
 </ul>
 </body>
 <script src="plugins/layui/layui.js"></script>
