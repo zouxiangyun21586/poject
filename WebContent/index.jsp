@@ -132,7 +132,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
+									data-options="{url:'supplie/logic.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
 									class="layui-icon">&#xe68e;</i><span> 供应商管理</span></a>
 							</dd>
 						</dl>
