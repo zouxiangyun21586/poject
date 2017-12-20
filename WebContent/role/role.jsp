@@ -85,8 +85,12 @@ $(document).ready(function(){
 		        data:{"id":id},
 		        dataType:'json',
 		        success:function(strjson){
-		        	tr.remove();
-		        	alert("删除成功！");
+		        	if(strjson == "0"){
+			        	tr.remove();
+			        	alert("删除成功！");
+		        	}else{
+		        		alert("删除失败！");
+		        	}
 		        },
 		        error:function(XMLHttpRequest, textStatus, errorThrown)
 		        {
