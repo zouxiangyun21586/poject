@@ -20,26 +20,6 @@ public class RoleDeleteServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		try {
-			Connection conn = (Connection) LinkMysql.getCon();
-			String id = req.getParameter("id");
-			String sql = "select count from role where id= ? ";
-			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-			ps.setString(1, id);
-			ps.executeQuery();
-			ResultSet rs = ps.getResultSet();
-			rs.next();
-			int number = rs.getInt(1);
-			if (number == 1 || number == 2) {
-				resp.getWriter().write("0");
-			} else if (number <= 7 && number > 2) {
-				resp.getWriter().write("1");
-			} else if (number == 8) {
-				resp.getWriter().write("2");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	@Override
