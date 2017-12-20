@@ -14,8 +14,6 @@
 }
 </style>
 <body>
-<c:set var="username" value="${username}"/>
-<c:set var="role" value="${role}"/>
 	<div class="layui-container" width="100%" height="100%" align="center">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8" style="width: 100%;">
