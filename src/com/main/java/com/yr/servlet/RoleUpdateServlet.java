@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.tomcat.util.digester.Rules;
+
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.yr.dao.LinkMysql;
@@ -61,12 +63,9 @@ public class RoleUpdateServlet extends HttpServlet{
             ps.setString(1,roleName);
             ps.setString(2,id);
             ps.executeUpdate();
-            String strJson = JsonUtils.beanToJson(ps);
-            resp.getWriter().write(strJson);
             ps.close();
         }catch(Exception e){
             e.printStackTrace();
         }
-        resp.sendRedirect("roleQuery");
     }
 }

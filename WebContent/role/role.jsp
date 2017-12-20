@@ -137,7 +137,7 @@ $(document).ready(function(){
                 url:"<%=request.getContextPath()%>/update", // 发送请求的地址
                 dataType:"text",
                 data:{"id":id,"roleName":roleName},   // 传参数
-                success:function(res){
+                success:function(){
 					if(roleName == "超级管理员"){
 					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
 					}
@@ -145,6 +145,7 @@ $(document).ready(function(){
 					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
 					}
 					tr.html("<td>"+id+"</td><td>"+roleName+"</td><td>"+rolebtn+"</td>");
+					alert("修改成功^o^");
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
