@@ -25,6 +25,7 @@ public class SuperAdminDao {
 	 * @param name 用户名
 	 * @param account 账号
 	 * @param pass 密码
+	 * @return "0"请选择角色,"1" 账号已存在 , "2"账号或者密码不能为空 
 	 */
 	public static String add(String role,String name,String account,String pass){
 		try{
@@ -32,6 +33,9 @@ public class SuperAdminDao {
 			String sql = "insert into account(name,account,password,state) values(?,?,?,?);";
 			if(role == null || "".equals(role)){
 				return "0";
+			}
+			if(account == null || "".equals(account) || pass == null || "".equals(pass)){
+				return "2";
 			}
 			boolean bol = repeatName(account);
 			if(bol){
@@ -46,8 +50,9 @@ public class SuperAdminDao {
 			pre.close();
 			conn.close();
 			Integer account_id = getAccountId(name,account);
-			Integer role_id = Integer.valueOf(role);//强制转换类型
-			addAccount_role(account_id,role_id);
+			String str[] = role.split(",");
+//			Integer[] role_id = Integer.valueOf(str);//强制转换类型
+			addAccount_role(account_id,str);
 			return "good";
 		}catch(Exception e){
 			e.printStackTrace();
@@ -83,16 +88,20 @@ public class SuperAdminDao {
 	/**
 	 * 添加用户同时给账户角色表加入对应的值
 	 * @param id 账户id
-	 * @param role 角色id
+	 * @param str 角色id数组
 	 */
-	public static void addAccount_role(Integer id,Integer role){
+	public static void addAccount_role(Integer id,String[] str){
 		try{
 			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setInt(1, id);
-			pre.setInt(2, role);
-			pre.executeUpdate();
+			for (int i = 0; i < str.length; i++) {
+				String roleIdStr = str[i];
+				Integer roleId = Integer.valueOf(roleIdStr);
+				pre.setInt(1, id);
+				pre.setInt(2, roleId);
+				pre.executeUpdate();
+			}
 			pre.close();
 			conn.close();
 		}catch(Exception e){
@@ -179,16 +188,22 @@ public class SuperAdminDao {
 			if(oldName.equals(roleName)){//判断他是否是选择了一样的
 				return "2";//不能修改一样的
 			}
-			Integer roleId = Integer.valueOf(roleIdStr);//修改后的 职位id 
+			String str[] = roleIdStr.split(",");
+			
 			Integer id = Integer.valueOf(idStr);//修改的id
 			Integer accId = quAccId(acc);//修改的账号id
 			Connection conn = Conn.conn();
 			String sql = "update account_role set role_id=? where id=? and account_id=?;";
 			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setInt(1, roleId);
-			pre.setInt(2, id);
-			pre.setInt(3, accId);
-			pre.executeUpdate();
+			
+			for (int i = 0; i < str.length; i++) {
+				String ids = str[i];
+				Integer roleId = Integer.valueOf(ids);//修改后的 职位id 
+				pre.setInt(1, roleId);
+				pre.setInt(2, id);
+				pre.setInt(3, accId);
+				pre.executeUpdate();
+			}
 			pre.close();
 			conn.close();
 //			resp.sendRedirect(req.getContextPath()+"/test?i=1");

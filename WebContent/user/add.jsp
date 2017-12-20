@@ -28,14 +28,14 @@
 		<div class="layui-container" width="100%" height="100%" align="center">
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md8" style="width: 100%;">
-					<div class="layui-form layui-form-pane">
-						<div class="layui-form-item">
+					<div class="layui-form layui-form-pane" id="di">
+						<!-- <div class="layui-form-item">
 						    <label class="layui-form-label">TA是</label>
-						    <div class="layui-input-block">
+						    <div class="layui-input-block" id="di">
 						    	<select id="interest" name="interest" lay-filter="aihao" lay-search>
 						        </select>
 						    </div>
-						</div>
+						</div> -->
 						<div class="layui-form-item">
 							<label class="layui-form-label">用户名</label>
 							<div class="layui-input-block">
@@ -85,9 +85,10 @@
 		        dataType: "json",
 		        success: function(zh) {
 		            for(var i in zh){
-		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
+		            	/* $("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>"); */
+		            	$("#di").append("<input id='interest' name='interest' type='checkbox' value='"+zh[i].id+"' />"+zh[i].name+" ");
 		            }
-		            form.render('select');
+		            form.render('checkbox');
 		        },     
 		        error: function(XMLHttpRequest, textStatus, errorThrown) {
 		     	   alert("失败");
@@ -98,27 +99,35 @@
 		     });
 			//添加ajax
 			$("#sb").click(function(){
+				var id_array=new Array();  
+				$('input[name="interest"]:checked').each(function(){  
+					id_array.push($(this).val());//向数组中添加元素  
+				});  
+				var idstr=id_array.join(',');//将数组元素连接起来以构建一个字符串  
+				alert(idstr);
 				$.ajax({
-			        //要用post方式      
+			        //要用post方式
 			        type: "POST",//请求方式,默认GET
 			        cache: false,  //是否缓存，false代表拒绝缓存
 			        //方法所在页面和方法名      
 			        url: "<%=request.getContextPath() %>/superAdminServlet?i=2",     
-			        data:{"interest":$("#interest option:selected").val(),"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val()},  //传参 
+			        data:{"interest":idstr,"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val()},  //传参 
 			        dataType: "text",
 			        success: function(zh) {
 			           if(zh == "good"){
 			        	   <%-- window.location.href="<%=request.getContextPath()%>/user/user.jsp"; --%>
 			        	   layui.use(['layer', 'laypage', 'element'], function(){
-								layer.msg('添加成功!', 
-								{icon: 1}
-								); 
-								setTimeout('parent.location.href=parent.location.href;','1000');
-							  });
+							layer.msg('添加成功!', 
+							{icon: 1}
+							); 
+							setTimeout('parent.location.href=parent.location.href;','1000');
+						  });
 			           }else if(zh == "1"){
 			        	   alert("账号已存在");
 			           }else if(zh == "0"){
 			        	   alert("请选择角色");
+			           }else if(zh == "2"){
+			        	   alert("账号或者密码不能为空 ");
 			           }else{
 			        	   alert("连接数据库出错");
 			           }
