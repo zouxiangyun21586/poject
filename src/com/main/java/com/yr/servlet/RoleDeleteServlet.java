@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.yr.dao.LinkMysql;
-import com.yr.util.Conn;
 
 public class RoleDeleteServlet extends HttpServlet {
 	/**
@@ -24,7 +23,7 @@ public class RoleDeleteServlet extends HttpServlet {
 		try {
 			Connection conn = (Connection) LinkMysql.getCon();
 			String id = req.getParameter("id");
-			String sql = "select r.id from role r,account a, account_role ar where r.id = ar.role_id and a.id = ar.account_id and a.id=? ";
+			String sql = "select count from role where id= ? ";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.executeQuery();
@@ -54,6 +53,7 @@ public class RoleDeleteServlet extends HttpServlet {
 			ps.executeUpdate();
 			Integer role_id = Integer.valueOf(id);
 			delAccount_role(role_id);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
