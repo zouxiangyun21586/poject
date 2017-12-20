@@ -83,7 +83,7 @@ public class SuperAdminServlet extends HttpServlet{
 		if("2".equals(i)){
 			//添加
 			PrintWriter out = response.getWriter();
-			String role = request.getParameter("interest");//角色
+			String role = request.getParameter("interest");//角色的id
 			String name = request.getParameter("username");//用户名
 			String account = request.getParameter("account");//账号
 			String pass = request.getParameter("password");//密码
