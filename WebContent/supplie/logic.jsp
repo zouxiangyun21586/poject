@@ -30,13 +30,12 @@
             }
           });
         
-        var myDate = new Date();
+        /* var myDate = new Date();
         var mytime = myDate.toLocaleString();
         
-        /* 添加 */
-	    $("#zui").click(function(){
+	    $("#zui").click(function(){  // 添加
 	        $("tr:last").after("<tr id='jia'>"+"<td><input type='text' id='id'></td>"+"<td><input type='text' id='merType'></td>"+"<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td><td><input type='text' id='origin'></td>"+"<td><input type='text' id='brand'></td>"+"<td><input type='text' id='qGp'></td>"+"<td><input type='text' id='storageMethod'></td>"+"<td><input type='text' id='number'></td><td>"+mytime+"</td><td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>");
-	    });
+	    }); */
     });
     
     /* 保存 */

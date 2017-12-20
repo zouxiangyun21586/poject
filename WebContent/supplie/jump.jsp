@@ -51,38 +51,17 @@ layui.use(['form','layer'], function() {
                 alert("查询后台出现错误");
             }
          });
-
-/* 页面加载完出现 */
-<%--     $(document).ready(function(){
-        $.ajax({
-            type: "get",  // 请求方式(post或get)
-            async:false,  //默认true(异步请求),设置为false(同步请求)
-            url:"<%=request.getContextPath()%>/supSer?sup=5", // 发送请求的地址
-            dataType:"json",
-            data:{"state":0},
-            success:function(res){
-                for (var i = 0; i < res.length; i++) {
-                    var js = res[i];
-                    $("#table").append("<tr id='jia'><td>"+js.id+"</td><td>"+js.merType+"</td><td>"+js.commo+"</td><td>"+js.money+"</td><td>"+js.origin+"</td><td>"+js.brand+"</td><td>"+js.qGp+"</td><td>"+js.number+"</td><td>"+js.upFrameTime+"</td><td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td></tr>");
-                }
-            },
-            error:function(XMLHttpRequest, textStatus, errorThrown){
-                alert(XMLHttpRequest.status);  
-                alert(XMLHttpRequest.readyState);  
-                alert(textStatus); 
-                alert("查询后台出现错误");
-            }
-          }); --%>
-        
-        var myDate = new Date();
+    
+    	var myDate = new Date();
         var mytime = myDate.toLocaleString();
         
-        /* 添加            -- 跳出弹出层       */
+        /* 添加   */
         $("#zui").click(function(){
-        	alert();
         	$("tr:last").after("<tr id='jia'>"+"<td><input type='text' id='id'></td>"+"<td><input type='text' id='merType'></td>"+"<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='brand'></td>"+"<td><input type='text' id='qGp'></td>"+"<td><input type='text' id='number'></td><td>"+mytime+"</td><td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>")
         });
     });
+    
+}
     
     /* 保存 */
     function baoCun(bc){
@@ -212,7 +191,7 @@ layui.use(['form','layer'], function() {
                         <label class="layui-form-label">商品类型</label>
                         <div class="layui-input-block">
                             <input type="text" id="mertype" name="mertype" autocomplete="off"
-                                placeholder="请输入商品名" class="layui-input">
+                                placeholder="请输入商品类型" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
