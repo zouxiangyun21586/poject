@@ -50,18 +50,13 @@ public class SupplieServlet extends HttpServlet {
                      */
                     System.out.println(SupplieDao.getWebsiteDatetime(webUrl4));
                     String date = SupplieDao.getWebsiteDatetime(webUrl4);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    Date date1 = sdf.parse(date);
-                    long lg = date1.getTime(); // 日期转时间戳
-                    java.sql.Date time = new java.sql.Date(lg);
                     
                     SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
-                    SupplieDao.merchandiseAdd(nameType, name, money, describe, number, time); // 添加商品信息
+                    SupplieDao.merchandiseAdd(nameType, name, money, describe, number, date); // 添加商品信息
                     SupplieDao.suppAdd(name,specificationID,suptID); // 添加供应商商品信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("login.jsp").forward(req, resp);
             } else if ("3".equals(sup)) { // 删除(根据ID删除商品)
                 try {
                     String strId = req.getParameter("supDel"); // 页面传过来的值
@@ -70,7 +65,7 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("login.jsp").forward(req, resp);
+                req.getRequestDispatcher("jump.jsp").forward(req, resp);
             } else if ("4".equals(sup)) { // 修改 商品信息
                 try {
                     String id = req.getParameter("id"); // 供应商Id
@@ -94,7 +89,7 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("login.jsp").forward(req, resp); //转发
+                req.getRequestDispatcher("jump.jsp").forward(req, resp); //转发
             } else if ("5".equals(sup)) { // 查询供应商商品
                 resp.setCharacterEncoding("utf-8");
                 try { // state 0状态在使用的账号,1状态是已停用账号
