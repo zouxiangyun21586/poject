@@ -77,7 +77,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'quanxian.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
+									data-options="{url:'<%=request.getContextPath() %>/powerServlet?i=0',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
@@ -132,7 +132,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'supplie/logic.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
+									data-options="{url:'supplie/jump.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
 									class="layui-icon">&#xe68e;</i><span> 供应商管理</span></a>
 							</dd>
 						</dl>
