@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yr.pojo.Account_Role;
+import com.yr.pojo.Mune;
 import com.yr.pojo.Power;
 import com.yr.util.Conn;
 
@@ -125,7 +125,99 @@ public class PowerDao {
 		}
 	}
 	/**
-	 * 查询
+	 * 获取根节点名字
+	 */
+	public static List<Mune> genName(){
+		try{
+			String sql = "select fatherName from menu where menu_id=0";
+			Connection con = Conn.conn();
+			PreparedStatement pre = con.prepareStatement(sql);
+			ResultSet rs = pre.executeQuery();
+			List<Mune> list = new ArrayList<>();
+			while(rs.next()){
+				Mune j = new Mune();
+				j.setFatherName(rs.getString(1));
+				list.add(j);
+			}
+			return list;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 获取根节点 的id
+	 */
+	public static List<Mune> genId(){
+		try{
+			String sql = "select id from menu where menu_id=0";
+			Connection con = Conn.conn();
+			PreparedStatement pre = con.prepareStatement(sql);
+			ResultSet rs = pre.executeQuery();
+			List<Mune> list = new ArrayList<>();
+			while(rs.next()){
+				Mune j = new Mune();
+				j.setId(rs.getInt(1));
+				list.add(j);
+			}
+			return list;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
+	/**
+	 * 查询级联的值
+	 * @param id
+	 * @return
+	 */
+	public static List<Mune> jilian(Integer id){
+		try{
+			String sql = "select * from menu where menu_id=?";
+			Connection con = Conn.conn();
+			PreparedStatement pre = con.prepareStatement(sql);
+			pre.setInt(1, id);
+			ResultSet rs = pre.executeQuery();
+			List<Mune> list = new ArrayList<>();
+			while(rs.next()){
+				Mune j = new Mune();
+				j.setId(rs.getInt(1));
+				j.setMuneId(rs.getInt(2));
+				j.setFatherName(rs.getString(3));
+				list.add(j);
+			}
+			return list;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	//根据名称获取根节点id
+	/**
+	 * 根据名称获取根节点id
+	 */
+	public static Integer getGenId(String name){
+		try{
+			String sql = "select id from menu where fatherName=?";
+			Connection con = Conn.conn();
+			PreparedStatement pre = con.prepareStatement(sql);
+			pre.setString(1, name);
+			ResultSet rs = pre.executeQuery();
+			Integer i = null;
+			while(rs.next()){
+				i = rs.getInt(1);
+			}
+			return i;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	/**
+	 * 查询全部,没用到
 	 */
 	public static List<Power> query(){
 		try {
