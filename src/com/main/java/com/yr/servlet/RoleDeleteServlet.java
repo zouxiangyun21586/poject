@@ -47,15 +47,16 @@ public class RoleDeleteServlet extends HttpServlet {
 		try {
 			String id = req.getParameter("id");
 			Connection conn = (Connection) LinkMysql.getCon();
-			String sql = "delete from account where id = ?";
+			String sql = "delete from role where id = ?";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.executeUpdate();
 			Integer role_id = Integer.valueOf(id);
 			delAccount_role(role_id);
-			
+			resp.getWriter().write("0");
 		} catch (Exception e) {
 			e.printStackTrace();
+			resp.getWriter().write("1");
 		}
 	}
 	
