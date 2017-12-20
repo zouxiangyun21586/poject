@@ -34,7 +34,7 @@ public class RoleQueryServlet extends HttpServlet {
 		resp.setCharacterEncoding("UTF-8");
 		try {
 			Connection conn = LinkMysql.getCon();
-			String sql = "select a.id,a.name,a.account,r.roleName,a.state from role r,account a, account_role ar where r.id = ar.role_id and a.id = ar.account_id";
+			String sql = "select id,roleName from role;";
 			PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
 			ps.executeQuery();
 			ResultSet rs = ps.getResultSet();
@@ -42,10 +42,7 @@ public class RoleQueryServlet extends HttpServlet {
 			while (rs.next()){
 				RoleTzh role = new RoleTzh();
 				role.setId(rs.getInt(1));
-				role.setAccountName(rs.getString(2));
-				role.setAccount(rs.getString(3));
-				role.setRoleName(rs.getString(4));
-				role.setState(rs.getInt(5));
+				role.setRoleName(rs.getString(2));
 				list.add(role);
 			}
 			String strjson = JsonUtils.beanListToJson(list);

@@ -80,6 +80,16 @@
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 	
+	
+	<servlet>
+        <servlet-name>roleAdd</servlet-name>
+        <servlet-class>com.yr.servlet.RoleAddServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleAdd</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    
 	<!-- 过滤器 -->
 	<filter>
 		<filter-name>Filter</filter-name>

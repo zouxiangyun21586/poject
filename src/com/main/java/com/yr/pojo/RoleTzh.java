@@ -10,39 +10,19 @@ package com.yr.pojo;
  */
 public class RoleTzh {
 	private Integer id;
-	private String account;
-	private String accountName;
-	private String RoleName;
-	private Integer state;
+	private String roleName;
 	public Integer getId() {
 		return id;
 	}
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getAccount() {
-		return account;
-	}
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public String getAccountName() {
-		return accountName;
-	}
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
 	public String getRoleName() {
-		return RoleName;
+		return roleName;
 	}
 	public void setRoleName(String roleName) {
-		RoleName = roleName;
+		this.roleName = roleName;
 	}
-	public Integer getState() {
-		return state;
-	}
-	public void setState(Integer state) {
-		this.state = state;
-	}
+	
 	
 }
