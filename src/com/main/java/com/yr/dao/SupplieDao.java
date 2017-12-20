@@ -37,7 +37,7 @@ public class SupplieDao {
      * 2017年12月14日  下午5:35:56
      * @throws ParseException 
      */
-    public static void merchandiseAdd(String nameType,String name,String money,String describe,String number,Date upFrametTime) throws SQLException, ParseException{
+    public static void merchandiseAdd(String nameType,String name,String money,String describe,String number,String upFrametTime) throws SQLException, ParseException{
         
         /*System.out.println(getWebsiteDatetime(webUrl4));
         String date = getWebsiteDatetime(webUrl4);
@@ -53,7 +53,7 @@ public class SupplieDao {
         ps.setString(3, money);
         ps.setString(4, describe);
         ps.setString(5, number);
-        ps.setDate(6, (java.sql.Date) upFrametTime);
+        ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
     }
     
@@ -124,6 +124,25 @@ public class SupplieDao {
     public static void suppDel(String strId) throws Exception{
         Connection conn = Conn.conn();
         String str = "delete from supplier where id = ?";
+        strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
+        ps.setString(1, strId);
+        ps.executeUpdate(); // 执行修改
+        ps.close();
+        conn.close();
+        suppSel();
+    }
+    
+    /**
+     * 删除商品表的商品信息
+     * 
+     * @author zxy
+     * @param strId
+     * 2017年12月20日  下午4:47:30
+     */
+    public static void merDel(String strId) throws Exception{
+        Connection conn = Conn.conn();
+        String str = "delete from merchandise where id = ?";
         strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, strId);
