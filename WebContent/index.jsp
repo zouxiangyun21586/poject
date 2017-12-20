@@ -23,6 +23,10 @@
 		<div class="layui-header">
 			<div class="layui-logo" style="font-size: 35px;">某<i class="layui-icon" style="font-size: 35px;" id="x"><script src="js/pmd.js"></script></i>宝</div>
 			<div class="layui-logo kit-logo-mobile" style="font-size: 35px;">宝</div>
+			<ul class="layui-nav layui-layout-left kit-nav">
+                <li class="layui-nav-item"><a href="javascript:;" kit-target data-options="{url:'picture/picture.jsp',icon:'&#xe64a;',title:'图片管理',id:'966'}"><span><i class="layui-icon">&#xe64a;</i> 图片管理</span></a></li>
+                <li class="layui-nav-item"><a href="javascript:;" kit-target data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'967'}"><span><i class="layui-icon">&#xe640;</i> 回收站</span></a></li>
+            </ul>
 			<ul class="layui-nav layui-layout-right kit-nav">
 			<li class="layui-nav-item"><a href="javascript:;" onclick="$('#news').fadeIn();"><i class="layui-icon">&#xe63f;</i> 发送信息</a></li>
 				<li class="layui-nav-item"><a href="javascript:;"> <i
@@ -77,7 +81,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'<%=request.getContextPath() %>/powerServlet?i=0',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
+									data-options="{url:'quanxian.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
 									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
 							</dd>
 						</dl></li>
@@ -212,16 +216,6 @@
 								</dd>
 							</dl>
 					</li>
-					<li class="layui-nav-item">
-							<a href="javascript:;" kit-target
-									data-options="{url:'picture/picture.jsp',icon:'&#xe64a;',title:'图片管理',id:'99'}"><i
-									class="layui-icon">&#xe64a;</i><span> 图片管理</span></a>
-						</li>
-						<li class="layui-nav-item">
-							<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'100'}"><i
-									class="layui-icon">&#xe640;</i><span> 回收站</span></a>
-						</li>
 				</ul>
 			</div>
 		</div>
