@@ -140,55 +140,55 @@ public class SuperAdminDao {
 	
 	
 	/**
-	 * 修改职位
-	 * @param strId 修改的id
-	 * @param acc 账号
+	 * 修改数据回显
 	 * @param name 角色名
-	 * @return
+	 * @return 角色id
 	 */
-	/*public static String update(String strId,String acc,String name){
+	public static String updateEcho(String name){
 		try{
-			Integer roleId= quRoleId(name);
-			Integer accId = quAccId(acc);
-			Integer id = Integer.valueOf(strId);
-			//			name = new String(name.getBytes("ISO-8859-1"),"GB2312");
-			if(null == name || "".equals(name)){
-				return "4";//请选择职位
-			}
+			String str[] = name.split(",");
+			String sql = "select id from role where roleName=?";
 			Connection conn = Conn.conn();
-			String sql = "update account_role set account_id=?,role_id=? where id=?";
-			PreparedStatement pre = conn.prepareStatement(sql);
-			pre.setInt(1, accId);
-			pre.setInt(2, roleId);
-			pre.setInt(3, id);
-			pre.executeUpdate();
+			PreparedStatement pre=  conn.prepareStatement(sql);
+			String id="";
+			for (int i = 0; i < str.length; i++) {
+				String nameStr = str[i];
+				
+				pre.setString(1, nameStr);
+				ResultSet rs=pre.executeQuery();
+				Integer j = null;
+				while(rs.next()){
+					j = rs.getInt(1);
+				}
+				id = id+j.toString()+",";
+			}
 			pre.close();
-			conn.close();
-//			resp.sendRedirect(req.getContextPath()+"/test?i=1");
+			return id;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return "good";
-	}*/
+	}
 	
 	//根据账号把账号角色表里面账号关联的角色全部删掉
 	/**
 	 * 修改职位
-	 * @param oldName 修改前的职位
+	 * @param oldNameId 修改前的职位
 	 * @param roleIdStr 修改后的角色id
-	 * @param idStr 要修改的id
+	 * @param idStr 要修改的用户表id
 	 * @param acc 修改的账号
 	 * @return 1 没有这个角色
 	 */
-	public static String update(String oldName,String roleIdStr,String idStr,String acc){
+	public static String update(String oldNameId,String roleIdStr,String idStr,String acc){
 		
 		try{
 			String str[] = roleIdStr.split(",");
-			Integer id = Integer.valueOf(idStr);//修改的id
+			Integer id = Integer.valueOf(idStr);//修改的用户表id
 			Integer accId = quAccId(acc);//修改的账号id
 			Connection conn = Conn.conn();
-			delAccRole(acc);
-			String sql = "update account_role set role_id=? where id=? and account_id=?;";
+//			delAccRole(acc);/删除 角色用户表中对应账号的角色
+//			String sql = "update account_role set role_id=? where id=? and account_id=?;";
+			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			
 			for (int i = 0; i < str.length; i++) {
@@ -201,9 +201,9 @@ public class SuperAdminDao {
 					return "2";//不能修改一样的
 				}*/
 				Integer roleId = Integer.valueOf(ids);//修改后的 职位id 
-				pre.setInt(1, roleId);
-				pre.setInt(2, id);
-				pre.setInt(3, accId);
+				pre.setInt(1, accId);
+				pre.setInt(2, roleId);
+//				pre.setInt(2, id);
 				pre.executeUpdate();
 			}
 			pre.close();
@@ -426,7 +426,7 @@ public class SuperAdminDao {
 			if (null != sel && !"".equals(sel) || !"quan".equals(rolename)) {//使用搜索功能进入这个if判断
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
-				sql = "SELECT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+				sql = "SELECT DISTINCT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";

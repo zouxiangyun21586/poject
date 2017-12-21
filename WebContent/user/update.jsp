@@ -4,27 +4,22 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="<%=request.getContextPath() %>/plugins/layui/css/layui.css" media="all" />
 		<title>Insert title here</title>
 	</head>
 	<body>
-		<div class="layui-container" width="100%" height="100%" align="center">
-			<div class="layui-row layui-col-space15">
-				<div class="layui-col-md8" style="width: 100%;">
-					<div class="layui-form layui-form-pane" id="di">
-						
-						<button type="submit" class="layui-btn" onclick="baoup()">完成</button>
-				        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
-					</div>
-				</div>
-			</div>
-		</div><br/>
-		<input type="hidden" id="zhi1" value="${param.id}">
-		<input type="hidden" id="zhi2" value="${param.oldRole}">
-		<input type="hidden" id="zhi3" value="${param.acc}">
+		<button type="submit" class="layui-btn" onclick="baoup()">完成</button>
+        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+        <div id="di"></div>
+		<input type="text" id="zhi1" value="${id}"><!-- 账户表id -->
+		<input type="text" id="zhi2" value="${acc}"><!-- 账号 -->
+		<input type="text" id="zhi3" value="${roleId}"><!-- 角色id -->
+		<a>${id}</a>
+		<a>${acc}</a>
+		<a>${roleId}</a>
 	</body>
-	<script src="../plugins/layui/layui.js"></script>
-	<script src="../src/js/jquery-2.2.4.min.js"></script>
+	<script src="<%=request.getContextPath() %>/plugins/layui/layui.js"></script>
+	<script src="<%=request.getContextPath() %>/src/js/jquery-2.2.4.min.js"></script>
 	<script>
 		$(document).ready(function(){
 			layui.use([ 'layer', 'form' ], function() {
@@ -38,11 +33,40 @@
 			        contentType: "application/text; charset=utf-8",  
 			        dataType: "json",
 			        success: function(zh) {
+			        	var id_array=new Array();  
+			        	id_array = $("#zhi3").val().split(',');
+			        	var dataObj=zh;
+			        	var a="";
+			        	$.each(dataObj, function(index, item){
+			        		for (var z = 0; z < id_array.length; z++) {
+		        				if(id_array[z]!=item.id){
+				        			a="<input id='interes' style='display:inline;' name='interes' type='checkbox' value='"+item.id+"' title='"+item.name+"'/>";
+				        		}else{
+					        		a="<input id='interes' style='display:inline;' name='interes' type='checkbox' value='"+item.id+"' title='"+item.name+"' checked='checked'/>";
+				        		}
+			        		}
+			        		$("#di").append(a);
+			        	}); 
+			        	/* var id_array=new Array();
+			        	var a="";
+			        	var b="";
+			        	id_array = $("#zhi3").val().split(',');
+			        	alert(id_array); 
 			            for(var i in zh){
-			            	$("#di").append("<input id='interes' name='interes' type='checkbox' value='"+zh[i].id+"' />"+zh[i].name+" ");
-			            }
+			            	for (var z = 0; z < id_array.length; z++) {
+				        		var ro = id_array[z];
+				            	if(ro == zh[i].id){
+				            		
+				            		a="<input id='interes' name='interes' type='checkbox' value='"+zh[i].id+"' title='"+zh[i].name+"' checked='checked'/>";
+				            		
+				            		 	}else{
+				            		a="<input id='interes' name='interes' type='checkbox' value='"+zh[i].id+"' title='"+zh[i].name+"'/>";
+				            			}
+			            	$("#di").append(a);
+				            			}
+			            } */
 			            form.render('checkbox');
-			        },     
+			        },
 			        error: function(XMLHttpRequest, textStatus, errorThrown) {
 			     	   alert("失败");
 			           alert(XMLHttpRequest.status);//200客户端请求已成功
@@ -54,6 +78,7 @@
 		});
 		//保存修改
 		function baoup(){
+			alert($("zhi2").val()+"  "+$("zhi1").val()+"  "+$("zhi3").val()+"  ");
 			var id_array=new Array();  
 			$('input[name="interes"]:checked').each(function(){  
 				id_array.push($(this).val());//向数组中添加元素  
@@ -63,7 +88,7 @@
 	 	       type:"POST", //请求方式     对应form的  method请求
 	 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=4", //请求路径  对应 form的action路径
 	 	       cache: false,  //是否缓存，false代表拒绝缓存
-	 	       data:{"oldrole":$("zhi2").val(),"upRoleId":idstr,"id":$("zhi1").val(),"acc":$("zhi3").val()},  //传参 
+	 	       data:{"oldroleId":$("zhi3").val(),"upRoleId":idstr,"id":$("zhi1").val(),"acc":$("zhi2").val()},  //传参 
 	 	       dataType: 'text',   //返回值类型 
 	 	       success:function(data){
 	 	    	  if(data == "1"){

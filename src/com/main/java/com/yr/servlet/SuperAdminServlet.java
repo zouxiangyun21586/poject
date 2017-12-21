@@ -73,6 +73,19 @@ public class SuperAdminServlet extends HttpServlet{
 //			out.flush();
 //			out.close();
 			response.sendRedirect("user/user.jsp");
+		}else if("4".equals(i)){
+			//修改数据回显
+			String id = request.getParameter("id");//修改的账号表id
+			id = new String(id.getBytes("ISO-8859-1"),"UTF-8");
+			String acc = request.getParameter("acc");//修改的账号
+			acc = new String(acc.getBytes("ISO-8859-1"),"UTF-8");
+			String oldrole = request.getParameter("oldRole");//原先的角色
+			oldrole = new String(oldrole.getBytes("ISO-8859-1"),"UTF-8");
+			String roleId = SuperAdminDao.updateEcho(oldrole);
+			request.setAttribute("id",id);
+			request.setAttribute("acc",acc);
+			request.setAttribute("roleId",roleId);
+			request.getRequestDispatcher("user/update.jsp").forward(request, response);
 		}
 	}
 	@Override
@@ -100,9 +113,9 @@ public class SuperAdminServlet extends HttpServlet{
 			out.close();
 		}else if("4".equals(i)){
 			//修改保存
-			String oldrole = request.getParameter("oldrole");//原先的角色
+			String oldrole = request.getParameter("oldroleId");//原先的角色id
 			String upRoleId = request.getParameter("upRoleId");//后来修改的角色id
-			String id = request.getParameter("id");//修改的id
+			String id = request.getParameter("id");//修改的账号表id
 			String acc = request.getParameter("acc");//修改的账号
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.update(oldrole, upRoleId, id, acc);

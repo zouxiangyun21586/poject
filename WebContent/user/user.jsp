@@ -157,9 +157,10 @@
 		});
 	});
 		function updecho(obj){
-			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的id
-			var oldRole = $(obj).parent().parent().find("td").eq(1).text();//修改前的值
-			var acc = $(obj).parent().parent().find("td").eq(2).text();//修改前的值
+			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的用户表id
+			var acc = $(obj).parent().parent().find("td").eq(1).text();//修改的账号
+			var oldRole = $(obj).parent().parent().find("td").eq(2).text();//修改前的角色值
+			//alert(id+"  "+oldRole+"  "+acc);
 			layer.open({
 				anim: 2,
 				title : '修改职位',
@@ -168,7 +169,7 @@
 				maxmin:false,//最大化,最小化
 				shade: [0.3,'#000'],
 				area: ['570px', '360px'],//窗口宽高
-				content: ['update.jsp?id='+id+'&oldRole='+oldRole+'&acc='+acc,'no']
+				content: ['/projectYr/superAdminServlet?i=4&id='+id+'&oldRole='+oldRole+'&acc='+acc,'no']
 			});	
 		}
 	//修改调用的回显
