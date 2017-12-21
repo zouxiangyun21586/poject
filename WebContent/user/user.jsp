@@ -31,8 +31,8 @@
 						<thead>
 							<tr>
 								<th>编号</th>
-								<th>角色</th>
 								<th>账号</th>
+								<th>角色</th>
 								<th>状态</th>
 								<th>操作</th>
 							</tr>
@@ -93,7 +93,7 @@
 		      	        	 		"<td>"+list[i].userName+"</td>"+
 		      	        	 		"<td>"+list[i].roleName+"</td>"+
 		      	        	 		"<td>"+list[i].stateStr+"</td>"+
-		      	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
+		      	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
 		      	        	 		
 		      	       		}
 		      	          	$("#tbodyId").html(tbodyContent);
@@ -156,8 +156,23 @@
 			});
 		});
 	});
+		function updecho(obj){
+			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的id
+			var oldRole = $(obj).parent().parent().find("td").eq(1).text();//修改前的值
+			var acc = $(obj).parent().parent().find("td").eq(2).text();//修改前的值
+			layer.open({
+				anim: 2,
+				title : '修改职位',
+				type: 2, //窗口类型
+				resize:false,//禁止拉伸
+				maxmin:false,//最大化,最小化
+				shade: [0.3,'#000'],
+				area: ['570px', '360px'],//窗口宽高
+				content: ['update.jsp?id='+id+'&oldRole='+oldRole+'&acc='+acc,'no']
+			});	
+		}
 	//修改调用的回显
-	function updecho(obj){
+	/* function updecho(obj){
 		layui.use([ 'layer', 'form' ], function() {
 			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的id
 			var a = $(obj).parent().parent().find("td").eq(1).text();//修改前的值
@@ -168,7 +183,7 @@
 			$(obj).parent().parent().find("td").eq(4).html(btn);
 			role();//修改下拉框显示值
 		});
-	}
+	} */
 	//修改保存    修改前的角色    修改的id  修改的账号
 	function baoup(oldrole,id,acc,th){
 		var id_array=new Array();  
@@ -196,9 +211,9 @@
 	 	    		var id=$(th).parent().parent().find("td").eq(0).text();
 	 	    		var state=$(th).parent().parent().find("td").eq(3).text();
 	 	    		if(state=="使用中"){
-	 	    			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+	 	    			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho()'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
 	 	    		}else if(state=="已停用"){
-	 	    			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+	 	    			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho()'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
 	 	    		}
 	 	    		$(th).parent().parent().find("td").eq(4).html(btn);
  	    	   }
@@ -217,14 +232,14 @@
 		var id=$(obj).parent().parent().find("td").eq(0).text();
 		var state=$(obj).parent().parent().find("td").eq(3).text();
 		if(state=="使用中"){
-			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho()'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
 		}else if(state=="已停用"){
-			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this)'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+			btn="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho()'><i class='layui-icon'>&#xe642;</i> 修改职位</a><a href='#' class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
 		}
 		$(obj).parent().parent().find("td").eq(1).html(a);
 		$(obj).parent().parent().find("td").eq(4).html(btn);
 	}
-	//修改下拉框显示值
+	//修改复选框显示值
 	function role(){
 		layui.use([ 'layer', 'form' ], function() {
 			var form = layui.form;

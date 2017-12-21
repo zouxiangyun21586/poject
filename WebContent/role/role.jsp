@@ -65,6 +65,9 @@ $(document).ready(function(){
        },
        error:function(XMLHttpRequest, textStatus, errorThrown)
        {
+    	   alert(XMLHttpRequest.status);  
+           alert(XMLHttpRequest.readyState);  
+           alert(textStatus); 
            alert("后台发生错误!!");
        }
    });
@@ -94,14 +97,65 @@ $(document).ready(function(){
 		        },
 		        error:function(XMLHttpRequest, textStatus, errorThrown)
 		        {
+		        	alert(XMLHttpRequest.status);  
+	                alert(XMLHttpRequest.readyState);  
+	                alert(textStatus); 
 		            alert("后台发生错误!!");
 		        }
 		    });
-		    
-		
 		}
-
-
+		
+		/* 修改 */
+		function update(upd){
+			var tr = $(upd).parent().parent();
+	        var id = tr.find("td").eq(0).text();
+	        var roleName = tr.find("td").eq(1).text();
+	        
+	        tr.html("<td>"+id+"</td>"+"<td><input type='text' id='roleName' value="+roleName+"></td><td><button class='layui-btn layui-btn-xs layui-btn-danger' onclick=\"cancel(this,'"+id+"','"+roleName+"');\"><i class='layui-icon'>&#xe640;</i> 取消</button><button onclick='updPreservation(this);' class='layui-btn layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 保存</button></td>");
+		}
+		/* 修改取消 */
+		function cancel(updc,id,rome){
+			if(rome == "超级管理员"){
+                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+            }
+            else{
+                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+            }
+			var tr = $(updc).parent().parent();
+			tr.html("<td>"+id+"</td><td>"+rome+"</td><td>"+rolebtn+"</td>");
+		}
+		
+		/* 修改保存 */
+        function updPreservation(updp){
+        	var tr = $(updp).parent().parent();
+            var id = tr.find("td").eq(0).text();
+            var roleName = tr.find("td").eq(1).find("input").val();
+            
+            $.ajax({
+                type: "post",  // 请求方式(post或get)
+                async:false,  //默认true(异步请求),设置为false(同步请求)
+                url:"<%=request.getContextPath()%>/update", // 发送请求的地址
+                dataType:"text",
+                data:{"id":id,"roleName":roleName},   // 传参数
+                success:function(){
+					if(roleName == "超级管理员"){
+					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+					}
+					else{
+					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+					}
+					tr.html("<td>"+id+"</td><td>"+roleName+"</td><td>"+rolebtn+"</td>");
+					alert("修改成功^o^");
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown)
+                {
+                	alert(XMLHttpRequest.status);  
+                    alert(XMLHttpRequest.readyState);  
+                    alert(textStatus); 
+                    alert("后台发生错误!!");
+                }
+            });
+		}
 
     layui.use([ 'layer', 'laypage', 'element' ], function() {
         $('#addrole').click(function() {

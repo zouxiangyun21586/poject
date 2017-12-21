@@ -15,17 +15,17 @@ import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
 /**
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ13ÈÕ ÉÏÎç11:14:54
+ * @author å‘¨ä¸šå¥½
+ * 2017å¹´12æœˆ13æ—¥ ä¸Šåˆ11:14:54
  */
 public class SuperAdminDao {
 	/**
-	 * Ìí¼Ó
-	 * @param role ÉèÖÃµÄ½ÇÉ«id
-	 * @param name ÓÃ»§Ãû
-	 * @param account ÕËºÅ
-	 * @param pass ÃÜÂë
-	 * @return "0"ÇëÑ¡Ôñ½ÇÉ«,"1" ÕËºÅÒÑ´æÔÚ , "2"ÕËºÅ»òÕßÃÜÂë²»ÄÜÎª¿Õ 
+	 * æ·»åŠ 
+	 * @param role è®¾ç½®çš„è§’è‰²id
+	 * @param name ç”¨æˆ·å
+	 * @param account è´¦å·
+	 * @param pass å¯†ç 
+	 * @return "0"è¯·é€‰æ‹©è§’è‰²,"1" è´¦å·å·²å­˜åœ¨ , "2"è´¦å·æˆ–è€…å¯†ç ä¸èƒ½ä¸ºç©º 
 	 */
 	public static String add(String role,String name,String account,String pass){
 		try{
@@ -48,10 +48,10 @@ public class SuperAdminDao {
 			pre.setInt(4, 0);
 			pre.executeUpdate();
 			pre.close();
-			conn.close();
+//			conn.close();
 			Integer account_id = getAccountId(name,account);
 			String str[] = role.split(",");
-//			Integer[] role_id = Integer.valueOf(str);//Ç¿ÖÆ×ª»»ÀàĞÍ
+//			Integer[] role_id = Integer.valueOf(str);//å¼ºåˆ¶è½¬æ¢ç±»å‹
 			addAccount_role(account_id,str);
 			return "good";
 		}catch(Exception e){
@@ -60,10 +60,10 @@ public class SuperAdminDao {
 		return "-1";
 	}
 	/**
-	 * »ñÈ¡¸Õ¸ÕÌí¼ÓµÄÕË»§id
-	 * @param name ÓÃ»§Ãû
-	 * @param account ÓÃ»§µÄÕËºÅ
-	 * @return ²é³öÀ´µÄid Integer
+	 * è·å–åˆšåˆšæ·»åŠ çš„è´¦æˆ·id
+	 * @param name ç”¨æˆ·å
+	 * @param account ç”¨æˆ·çš„è´¦å·
+	 * @return æŸ¥å‡ºæ¥çš„id Integer
 	 */
 	public static Integer getAccountId(String name,String account){
 		try{
@@ -78,7 +78,7 @@ public class SuperAdminDao {
 				i = rs.getInt(1);
 			}
 			pre.close();
-			conn.close();
+//			conn.close();
 			return i;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -86,9 +86,9 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * Ìí¼ÓÓÃ»§Í¬Ê±¸øÕË»§½ÇÉ«±í¼ÓÈë¶ÔÓ¦µÄÖµ
-	 * @param id ÕË»§id
-	 * @param str ½ÇÉ«idÊı×é
+	 * æ·»åŠ ç”¨æˆ·åŒæ—¶ç»™è´¦æˆ·è§’è‰²è¡¨åŠ å…¥å¯¹åº”çš„å€¼
+	 * @param id è´¦æˆ·id
+	 * @param str è§’è‰²idæ•°ç»„
 	 */
 	public static void addAccount_role(Integer id,String[] str){
 		try{
@@ -103,14 +103,14 @@ public class SuperAdminDao {
 				pre.executeUpdate();
 			}
 			pre.close();
-			conn.close();
+//			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ²éÑ¯ËùÓĞ½ÇÉ«
-	 * @return ·µ»Ø½ÇÉ«ĞÅÏ¢json
+	 * æŸ¥è¯¢æ‰€æœ‰è§’è‰²
+	 * @return è¿”å›è§’è‰²ä¿¡æ¯json
 	 */
 	public static String quroleName(){
 		try{
@@ -127,8 +127,8 @@ public class SuperAdminDao {
 			}
 			rs.close();
 			pre.close();
-			conn.close();
-			//½«java¶ÔÏóList¼¯ºÏ×ª»»³Éjson×Ö·û´®
+//			conn.close();
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
 			String jsonStr = JsonUtils.beanListToJson(list);
 			return jsonStr;
 		}catch(Exception e){
@@ -140,10 +140,10 @@ public class SuperAdminDao {
 	
 	
 	/**
-	 * ĞŞ¸ÄÖ°Î»
-	 * @param strId ĞŞ¸ÄµÄid
-	 * @param acc ÕËºÅ
-	 * @param name ½ÇÉ«Ãû
+	 * ä¿®æ”¹èŒä½
+	 * @param strId ä¿®æ”¹çš„id
+	 * @param acc è´¦å·
+	 * @param name è§’è‰²å
 	 * @return
 	 */
 	/*public static String update(String strId,String acc,String name){
@@ -153,7 +153,7 @@ public class SuperAdminDao {
 			Integer id = Integer.valueOf(strId);
 			//			name = new String(name.getBytes("ISO-8859-1"),"GB2312");
 			if(null == name || "".equals(name)){
-				return "4";//ÇëÑ¡ÔñÖ°Î»
+				return "4";//è¯·é€‰æ‹©èŒä½
 			}
 			Connection conn = Conn.conn();
 			String sql = "update account_role set account_id=?,role_id=? where id=?";
@@ -171,53 +171,72 @@ public class SuperAdminDao {
 		return "good";
 	}*/
 	
+	//æ ¹æ®è´¦å·æŠŠè´¦å·è§’è‰²è¡¨é‡Œé¢è´¦å·å…³è”çš„è§’è‰²å…¨éƒ¨åˆ æ‰
 	/**
-	 * ĞŞ¸ÄÖ°Î»
-	 * @param oldName ĞŞ¸ÄÇ°µÄÖ°Î»
-	 * @param idStr ĞŞ¸ÄºóµÄ Ö°Î»id 
-	 * @param id //ĞŞ¸ÄµÄid
-	 * @param acc //ĞŞ¸ÄµÄÕËºÅ
-	 * @return 1 Ã»ÓĞÕâ¸ö½ÇÉ«,2 ²»ÄÜĞŞ¸ÄÒ»ÑùµÄ
+	 * ä¿®æ”¹èŒä½
+	 * @param oldName ä¿®æ”¹å‰çš„èŒä½
+	 * @param roleIdStr ä¿®æ”¹åçš„è§’è‰²id
+	 * @param idStr è¦ä¿®æ”¹çš„id
+	 * @param acc ä¿®æ”¹çš„è´¦å·
+	 * @return 1 æ²¡æœ‰è¿™ä¸ªè§’è‰²
 	 */
 	public static String update(String oldName,String roleIdStr,String idStr,String acc){
+		
 		try{
-			String roleName= quRoleName(roleIdStr);
-			if(null == roleName || "".equals(roleName)){//ÅĞ¶ÏËûÊÇ·ñÑ¡ÔñÁËÖ°Î»
-				return "1";//ÇëÑ¡ÔñÖ°Î»
-			}
-			if(oldName.equals(roleName)){//ÅĞ¶ÏËûÊÇ·ñÊÇÑ¡ÔñÁËÒ»ÑùµÄ
-				return "2";//²»ÄÜĞŞ¸ÄÒ»ÑùµÄ
-			}
 			String str[] = roleIdStr.split(",");
-			
-			Integer id = Integer.valueOf(idStr);//ĞŞ¸ÄµÄid
-			Integer accId = quAccId(acc);//ĞŞ¸ÄµÄÕËºÅid
+			Integer id = Integer.valueOf(idStr);//ä¿®æ”¹çš„id
+			Integer accId = quAccId(acc);//ä¿®æ”¹çš„è´¦å·id
 			Connection conn = Conn.conn();
+			delAccRole(acc);
 			String sql = "update account_role set role_id=? where id=? and account_id=?;";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			
 			for (int i = 0; i < str.length; i++) {
 				String ids = str[i];
-				Integer roleId = Integer.valueOf(ids);//ĞŞ¸ÄºóµÄ Ö°Î»id 
+				String roleName= quRoleName(ids);
+				if(null == roleName || "".equals(roleName)){//åˆ¤æ–­ä»–æ˜¯å¦é€‰æ‹©äº†èŒä½
+					return "1";//è¯·é€‰æ‹©èŒä½
+				}
+				/*if(oldName.equals(roleName)){//åˆ¤æ–­ä»–æ˜¯å¦æ˜¯é€‰æ‹©äº†ä¸€æ ·çš„
+					return "2";//ä¸èƒ½ä¿®æ”¹ä¸€æ ·çš„
+				}*/
+				Integer roleId = Integer.valueOf(ids);//ä¿®æ”¹åçš„ èŒä½id 
 				pre.setInt(1, roleId);
 				pre.setInt(2, id);
 				pre.setInt(3, accId);
 				pre.executeUpdate();
 			}
 			pre.close();
-			conn.close();
+//			conn.close();
 //			resp.sendRedirect(req.getContextPath()+"/test?i=1");
-			return roleName;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
 	/**
-	 * ¸ù¾İ½ÇÉ«Ãû×Ö²é³ö¶ÔÓ¦µÄid
-	 * @param roleName ½ÇÉ«Ãû×Ö
-	 * @return ²é³öÀ´µÄid
+	 * åˆ é™¤ è§’è‰²ç”¨æˆ·è¡¨ä¸­å¯¹åº”è´¦å·çš„è§’è‰²
+	 * @param acc è´¦å·
+	 */
+	public static void delAccRole(String acc){
+		Integer accId = quAccId(acc);
+		try{
+			String sql = "delete from account_role where account_id=?;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, accId);
+			pre.executeUpdate();
+			pre.close();
+//			conn.close();
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * æ ¹æ®è§’è‰²åå­—æŸ¥å‡ºå¯¹åº”çš„id
+	 * @param roleName è§’è‰²åå­—
+	 * @return æŸ¥å‡ºæ¥çš„id
 	 */
 	public static Integer quRoleId(String roleName){
 		try{
@@ -230,6 +249,8 @@ public class SuperAdminDao {
 			while(rs.next()){
 				i = rs.getInt(1);
 			}
+			pre.close();
+//			conn.close();
 			return i;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -237,9 +258,9 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * ¸ù¾İ½ÇÉ«id²é³ö¶ÔÓ¦µÄ½ÇÉ«Ãû×Ö
-	 * @param strId ½ÇÉ«id
-	 * @return ²é³öÀ´µÄ½ÇÉ«Ãû×Ö
+	 * æ ¹æ®è§’è‰²idæŸ¥å‡ºå¯¹åº”çš„è§’è‰²åå­—
+	 * @param strId è§’è‰²id
+	 * @return æŸ¥å‡ºæ¥çš„è§’è‰²åå­—
 	 */
 	public static String quRoleName(String strId){
 		try{
@@ -253,6 +274,8 @@ public class SuperAdminDao {
 			while(rs.next()){
 				name = rs.getString(1);
 			}
+			pre.close();
+//			conn.close();
 			return name;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -261,9 +284,9 @@ public class SuperAdminDao {
 	}
 	
 	/**
-	 * ²é³öÕËºÅµÄ¶ÔÓ¦id
-	 * @param roleName ÕËºÅ
-	 * @return ²é³öÀ´µÄid
+	 * æŸ¥å‡ºè´¦å·çš„å¯¹åº”id
+	 * @param roleName è´¦å·
+	 * @return æŸ¥å‡ºæ¥çš„id
 	 */
 	public static Integer quAccId(String accName){
 		try{
@@ -276,6 +299,8 @@ public class SuperAdminDao {
 			while(rs.next()){
 				i = rs.getInt(1);
 			}
+			pre.close();
+//			conn.close();
 			return i;
 		}catch(Exception e){
 			e.printStackTrace();
@@ -283,9 +308,9 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * ÅĞ¶ÏÌí¼ÓµÄÕËºÅÊÇ·ñÖØ¸´
-	 * @param name ÒªÅĞ¶ÏµÄÕËºÅ
-	 * @return true ÖØ¸´, false ²»ÖØ¸´
+	 * åˆ¤æ–­æ·»åŠ çš„è´¦å·æ˜¯å¦é‡å¤
+	 * @param name è¦åˆ¤æ–­çš„è´¦å·
+	 * @return true é‡å¤, false ä¸é‡å¤
 	 */
 	public static boolean repeatName(String name){
 		try{
@@ -300,14 +325,16 @@ public class SuperAdminDao {
 					return true;
 				}
 			}
+			pre.close();
+//			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return false;
 	}
 	/**
-	 * Í£ÓÃÖ°Î»
-	 * @param idStr ÕË»§½ÇÉ«±íid
+	 * åœç”¨èŒä½
+	 * @param idStr è´¦æˆ·è¡¨id
 	 */
 	public static void delete(String idStr){
 		try{
@@ -318,15 +345,15 @@ public class SuperAdminDao {
 			pre.setInt(1, id);
 			pre.executeUpdate();
 			pre.close();
-			conn.close();
-			//½«java¶ÔÏóList¼¯ºÏ×ª»»³Éjson×Ö·û´®
+//			conn.close();
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ÆôÓÃÖ°Î»
-	 * @param idStr ÕË»§½ÇÉ«±íid
+	 * å¯ç”¨èŒä½
+	 * @param idStr è´¦æˆ·è¡¨id
 	 */
 	public static void revive(String idStr){
 		try{
@@ -337,14 +364,14 @@ public class SuperAdminDao {
 			pre.setInt(1, id);
 			pre.executeUpdate();
 			pre.close();
-			conn.close();
-			//½«java¶ÔÏóList¼¯ºÏ×ª»»³Éjson×Ö·û´®
+//			conn.close();
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ²éÑ¯
+	 * æŸ¥è¯¢
 	 */
 	public static List<Account_Role> query(){
 		try {
@@ -362,15 +389,15 @@ public class SuperAdminDao {
 				us.setUserName(rs.getString(3));
 				us.setState(rs.getInt(4));
 				if (us.getState() == 0) {
-					us.setStateStr("Ê¹ÓÃÖĞ");
+					us.setStateStr("ä½¿ç”¨ä¸­");
 				} else {
-					us.setStateStr("ÒÑÍ£ÓÃ");
+					us.setStateStr("å·²åœç”¨");
 				}
 				list.add(us);
 			}
 			rs.close();
 			pre.close();
-			conn.close();
+//			conn.close();
 //			String jsonObjectStr = JSONObject.fromObject(map).toString();
 //			jsonObjectStr = new String(jsonObjectStr.getBytes("utf-8"),"utf-8");
 			return list;
@@ -380,12 +407,12 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * ²éÑ¯Êı¾İ²¢ÓÃlist·â×°ÆğÀ´
-	 * @param acc ÕËºÅ
-	 * @param rolename ½ÇÉ«Ãû
-	 * @param pageNow µ±Ç°Ò³
-	 * @param sel ÅĞ¶ÏÊÇ·ñÓÃÁË²éÑ¯¹¦ÄÜ
-	 * @return ·µ»ØËù²éÑ¯µÄÊı¾İ
+	 * æŸ¥è¯¢æ•°æ®å¹¶ç”¨listå°è£…èµ·æ¥
+	 * @param acc è´¦å·
+	 * @param rolename è§’è‰²å
+	 * @param pageNow å½“å‰é¡µ
+	 * @param sel åˆ¤æ–­æ˜¯å¦ç”¨äº†æŸ¥è¯¢åŠŸèƒ½
+	 * @return è¿”å›æ‰€æŸ¥è¯¢çš„æ•°æ®
 	 */
 	public static List<Account_Role> selectemp(String acc,String rolename,Integer pageNow, String sel) {
 		String sql = "";
@@ -396,10 +423,10 @@ public class SuperAdminDao {
 		pageNow = (pageNow - 1) * 10;
 		try {
 			Connection conn = Conn.conn();
-			if (null != sel && !"".equals(sel) || !"quan".equals(rolename)) {//Ê¹ÓÃËÑË÷¹¦ÄÜ½øÈëÕâ¸öifÅĞ¶Ï
+			if (null != sel && !"".equals(sel) || !"quan".equals(rolename)) {//ä½¿ç”¨æœç´¢åŠŸèƒ½è¿›å…¥è¿™ä¸ªifåˆ¤æ–­
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
-				sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ";
+				sql = "SELECT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
@@ -410,7 +437,7 @@ public class SuperAdminDao {
 				{
 					sql = sql + " and r.roleName=?";
 					paramIndex.add(0);
-					rolename=quRoleName(rolename);//¸ù¾İ½ÇÉ«id²é³ö¶ÔÓ¦µÄ½ÇÉ«Ãû×Ö
+					rolename=quRoleName(rolename);//æ ¹æ®è§’è‰²idæŸ¥å‡ºå¯¹åº”çš„è§’è‰²åå­—
 					param.add(rolename);
 				}
 				
@@ -449,21 +476,22 @@ public class SuperAdminDao {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
 					us.setRoleName(resu.getString(2));
-					us.setUserName(resu.getString(3));
-					us.setState(resu.getInt(4));
+					us.setState(resu.getInt(3));
+					us.setUserName(resu.getString(4));
 					if (us.getState() == 0) {
-						us.setStateStr("Ê¹ÓÃÖĞ");
+						us.setStateStr("ä½¿ç”¨ä¸­");
 					} else {
-						us.setStateStr("ÒÑÍ£ÓÃ");
+						us.setStateStr("å·²åœç”¨");
 					}
 					list.add(us);
 				}
 				resu.close();
 				prepar.close();
-				conn.close();
+//				conn.close();
 				return list;
 			} else {
-				sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
+				sql = "SELECT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
+				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 				prepar.setInt(1, pageNow);
 				prepar.setInt(2, Paging.getPageNumber());
@@ -472,19 +500,19 @@ public class SuperAdminDao {
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(2));
-					us.setUserName(resu.getString(3));
-					us.setState(resu.getInt(4));
+					us.setRoleName(resu.getString(4));
+					us.setUserName(resu.getString(2));
+					us.setState(resu.getInt(3));
 					if (us.getState() == 0) {
-						us.setStateStr("Ê¹ÓÃÖĞ");
+						us.setStateStr("ä½¿ç”¨ä¸­");
 					} else {
-						us.setStateStr("ÒÑÍ£ÓÃ");
+						us.setStateStr("å·²åœç”¨");
 					}
 					list.add(us);
 				}
 				resu.close();
 				prepar.close();
-				conn.close();
+//				conn.close();
 				return list;
 			}
 		} catch (Exception e) {
@@ -493,17 +521,17 @@ public class SuperAdminDao {
 		return null;
 	}
 	/**
-	 * »ñµÃ×ÜÒ³Êı
+	 * è·å¾—æ€»é¡µæ•°
 	 * 
-	 * @return ·µ»Ø×ÜÒ³Êı
+	 * @return è¿”å›æ€»é¡µæ•°
 	 */
 	public static Integer getPageCount() {
-		int total = 0;// ×Ü¹²¶àÉÙÌõ¼ÇÂ¼
-		int pageCount = 0;// ×ÜÒ³Êı
+		int total = 0;// æ€»å…±å¤šå°‘æ¡è®°å½•
+		int pageCount = 0;// æ€»é¡µæ•°
 		try {
 			Connection conn = Conn.conn();
 			String sql = "select count(*) from account_role";
-			PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+			PreparedStatement prepar = conn.prepareStatement(sql);
 			prepar.executeQuery();
 			ResultSet resu = prepar.getResultSet();
 			while (resu.next()) {
@@ -511,7 +539,7 @@ public class SuperAdminDao {
 			}
 			resu.close();
 			prepar.close();
-			conn.close();
+//			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

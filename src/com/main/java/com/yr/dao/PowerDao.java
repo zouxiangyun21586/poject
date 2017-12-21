@@ -13,15 +13,15 @@ import com.yr.pojo.Power;
 import com.yr.util.Conn;
 
 /**
- * È¨ÏŞ¹ÜÀíDao
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ19ÈÕ ÏÂÎç9:35:35
+ * æƒé™ç®¡ç†Dao
+ * @author å‘¨ä¸šå¥½
+ * 2017å¹´12æœˆ19æ—¥ ä¸‹åˆ9:35:35
  */
 public class PowerDao {
 	/**
-	 * Ìí¼Ó
-	 * @param url ²Ëµ¥Â·¾¶
-	 * @return 0²Ëµ¥urlÎª¿Õ,goodÖ´ĞĞ³É¹¦ ,-1Ö´ĞĞ±¨´í
+	 * æ·»åŠ 
+	 * @param url èœå•è·¯å¾„
+	 * @return 0èœå•urlä¸ºç©º,goodæ‰§è¡ŒæˆåŠŸ ,-1æ‰§è¡ŒæŠ¥é”™
 	 */
 	public static String add(String url){
 		try{
@@ -43,10 +43,10 @@ public class PowerDao {
 		return "-1";
 	}
 	/**
-	 * ĞŞ¸Äurl
-	 * @param idStr ĞŞ¸ÄurlµÄÈ¨ÏŞ±íid
-	 * @param url ÒªĞŞ¸Ä³ÉµÄurl
-	 * @return 0²Ëµ¥Îª¿Õ,goodÖ´ĞĞ³É¹¦ ,-1Ö´ĞĞ±¨´í
+	 * ä¿®æ”¹url
+	 * @param idStr ä¿®æ”¹urlçš„æƒé™è¡¨id
+	 * @param url è¦ä¿®æ”¹æˆçš„url
+	 * @return 0èœå•ä¸ºç©º,goodæ‰§è¡ŒæˆåŠŸ ,-1æ‰§è¡ŒæŠ¥é”™
 	 */
 	public static String update(String idStr,String url){
 		try{
@@ -69,8 +69,8 @@ public class PowerDao {
 		return "-1";
 	}
 	/**
-	 * Í£ÓÃ²Ëµ¥
-	 * @param idStr È¨ÏŞ±íid
+	 * åœç”¨èœå•
+	 * @param idStr æƒé™è¡¨id
 	 */
 	public static void stop(String idStr){
 		try{
@@ -82,14 +82,14 @@ public class PowerDao {
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
-			//½«java¶ÔÏóList¼¯ºÏ×ª»»³Éjson×Ö·û´®
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * ÆôÓÃ²Ëµ¥
-	 * @param idStr È¨ÏŞ±íid
+	 * å¯ç”¨èœå•
+	 * @param idStr æƒé™è¡¨id
 	 */
 	public static void start(String idStr){
 		try{
@@ -101,14 +101,14 @@ public class PowerDao {
 			pre.executeUpdate();
 			pre.close();
 			conn.close();
-			//½«java¶ÔÏóList¼¯ºÏ×ª»»³Éjson×Ö·û´®
+			//å°†javaå¯¹è±¡Listé›†åˆè½¬æ¢æˆjsonå­—ç¬¦ä¸²
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 	}
 	/**
-	 * É¾³ı²Ëµ¥
-	 * @param idStr ÒªÉ¾³ıµÄÈ¨ÏŞ±íid
+	 * åˆ é™¤èœå•
+	 * @param idStr è¦åˆ é™¤çš„æƒé™è¡¨id
 	 */
 	public static void delete(String idStr){
 		try{
@@ -125,7 +125,7 @@ public class PowerDao {
 		}
 	}
 	/**
-	 * »ñÈ¡¸ù½ÚµãÃû×Ö
+	 * è·å–æ ¹èŠ‚ç‚¹åå­—
 	 */
 	public static List<Mune> genName(){
 		try{
@@ -146,7 +146,7 @@ public class PowerDao {
 		return null;
 	}
 	/**
-	 * »ñÈ¡¸ù½Úµã µÄid
+	 * è·å–æ ¹èŠ‚ç‚¹ çš„id
 	 */
 	public static List<Mune> genId(){
 		try{
@@ -170,7 +170,7 @@ public class PowerDao {
 	
 	
 	/**
-	 * ²éÑ¯¼¶ÁªµÄÖµ
+	 * æŸ¥è¯¢çº§è”çš„å€¼
 	 * @param id
 	 * @return
 	 */
@@ -195,9 +195,9 @@ public class PowerDao {
 		}
 		return null;
 	}
-	//¸ù¾İÃû³Æ»ñÈ¡¸ù½Úµãid
+	//æ ¹æ®åç§°è·å–æ ¹èŠ‚ç‚¹id
 	/**
-	 * ¸ù¾İÃû³Æ»ñÈ¡¸ù½Úµãid
+	 * æ ¹æ®åç§°è·å–æ ¹èŠ‚ç‚¹id
 	 */
 	public static Integer getGenId(String name){
 		try{
@@ -217,7 +217,7 @@ public class PowerDao {
 		return 0;
 	}
 	/**
-	 * ²éÑ¯È«²¿,Ã»ÓÃµ½
+	 * æŸ¥è¯¢å…¨éƒ¨,æ²¡ç”¨åˆ°
 	 */
 	public static List<Power> query(){
 		try {
@@ -235,9 +235,9 @@ public class PowerDao {
 				us.setUrl(rs.getString(3));
 				us.setState(rs.getInt(4));
 				if (us.getState() == 0) {
-					us.setStaStr("Ê¹ÓÃÖĞ");
+					us.setStaStr("ä½¿ç”¨ä¸­");
 				} else {
-					us.setStaStr("ÒÑÍ£ÓÃ");
+					us.setStaStr("å·²åœç”¨");
 				}
 				list.add(us);
 			}

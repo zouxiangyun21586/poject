@@ -39,12 +39,6 @@ public class SupplieDao {
      */
     public static void merchandiseAdd(String nameType,String name,String money,String describe,String number,String upFrametTime) throws SQLException, ParseException{
         
-        /*System.out.println(getWebsiteDatetime(webUrl4));
-        String date = getWebsiteDatetime(webUrl4);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date1 = sdf.parse(date);
-        long lg = date1.getTime(); // 日期转时间戳
-*/        
         Connection conn = Conn.conn();
         String str = "insert into merchandise(nameTypeID,`name`,money,`describe`,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -55,6 +49,7 @@ public class SupplieDao {
         ps.setString(5, number);
         ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
+        ps.close();
     }
     
     public static void speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
@@ -68,6 +63,7 @@ public class SupplieDao {
         ps.setString(5, qGp);
         ps.setString(6, storageMethod);
         ps.executeUpdate();// 执行修改
+        ps.close();
     }
     
     /**
@@ -87,6 +83,7 @@ public class SupplieDao {
         ps.setString(3, sup_mer_id); // 供应商对应的商品id
         ps.executeUpdate();// 执行修改
         suppSel();
+        ps.close();
     }
     
     /**
@@ -205,6 +202,8 @@ public class SupplieDao {
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
+        rs.close();
+        ps.close();
         return strJson;
     }
     /**
@@ -224,6 +223,7 @@ public class SupplieDao {
         ps.executeUpdate(); // 执行修改
         String strJson = JsonUtils.beanToJson(ps);
         suppSel();
+        ps.close();
         return strJson;
     }
     /**
@@ -263,9 +263,9 @@ public class SupplieDao {
             selist.add(la);
         }
         String strJson = JsonUtils.beanListToJson(selist);
+        rs.close(); // 关闭结果集
+        ps.close(); // 关闭发送SQL对象
         return strJson;
-//        ps.close(); // 关闭发送SQL对象
-//        rs.close(); // 关闭结果集
     }
     
     /**
@@ -292,6 +292,7 @@ public class SupplieDao {
 //                resp.getWriter().write("1");
                 int iid = 1;
             }
+            rs.close();
             return count;
         } catch (Exception e) {
 //            resp.getWriter().write("0");

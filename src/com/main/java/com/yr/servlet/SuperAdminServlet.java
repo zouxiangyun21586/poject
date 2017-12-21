@@ -18,9 +18,9 @@ import com.yr.util.PageService;
 import net.sf.json.JSONObject;
 
 /**
- * ³¬¼¶¹ÜÀíÔ±servlet (²Ù×÷¹ÜÀíÔ±)
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ13ÈÕ ÉÏÎç11:14:00
+ * è¶…çº§ç®¡ç†å‘˜servlet (æ“ä½œç®¡ç†å‘˜)
+ * @author å‘¨ä¸šå¥½
+ * 2017å¹´12æœˆ13æ—¥ ä¸Šåˆ11:14:00
  */
 public class SuperAdminServlet extends HttpServlet{
 	private static final long serialVersionUID = 1L;
@@ -30,12 +30,12 @@ public class SuperAdminServlet extends HttpServlet{
 		response.setCharacterEncoding("utf-8");
 		String i = request.getParameter("i");
 		if("1".equals(i)){
-			//Ò³ÃæÏÔÊ¾Öµ
+			//é¡µé¢æ˜¾ç¤ºå€¼
 			PrintWriter out = response.getWriter();
 			String type= request.getParameter("type");
-			String select= request.getParameter("select");//ËÑË÷¹¦ÄÜÖĞÊäÈë¿òµÄÖµ(ÕËºÅ)
-			String interest= request.getParameter("interest");//ËÑË÷¹¦ÄÜÖĞÏÂÀ­¿òµÄÖµ(½ÇÉ«)
-			String pageNow = request.getParameter("pageNow");//»ñµÃÒ³Ãæ´«¹ıÀ´µÄµ±Ç°Ò³
+			String select= request.getParameter("select");//æœç´¢åŠŸèƒ½ä¸­è¾“å…¥æ¡†çš„å€¼(è´¦å·)
+			String interest= request.getParameter("interest");//æœç´¢åŠŸèƒ½ä¸­ä¸‹æ‹‰æ¡†çš„å€¼(è§’è‰²)
+			String pageNow = request.getParameter("pageNow");//è·å¾—é¡µé¢ä¼ è¿‡æ¥çš„å½“å‰é¡µ
 			if (null != type && type.equals("list")) {
 				String sel = request.getParameter("select");
 				if (null == pageNow || "".equals(pageNow)) {
@@ -43,7 +43,7 @@ public class SuperAdminServlet extends HttpServlet{
 				}
 //				List<Account_Role> list = SuperAdminDao.query();
 				List<Account_Role> list = SuperAdminDao.selectemp(select,interest,Integer.valueOf(pageNow),sel);
-				int pageCount=SuperAdminDao.getPageCount();//»ñµÃ×ÜÒ³Êı
+				int pageCount=SuperAdminDao.getPageCount();//è·å¾—æ€»é¡µæ•°
 				String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
 				Map<String, Object> map = new HashMap<>();
 				map.put("list", list);
@@ -56,7 +56,7 @@ public class SuperAdminServlet extends HttpServlet{
 				out.close();
 			}
 		}else if("2".equals(i)){
-			//Í£ÓÃÕËºÅ
+			//åœç”¨è´¦å·
 //			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.delete(id);
@@ -65,7 +65,7 @@ public class SuperAdminServlet extends HttpServlet{
 //			out.close();
 			response.sendRedirect("user/user.jsp");
 		}else if("3".equals(i)){
-			//Æô¶¯ÕËºÅ
+			//å¯åŠ¨è´¦å·
 //			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.revive(id);
@@ -81,29 +81,29 @@ public class SuperAdminServlet extends HttpServlet{
 		response.setCharacterEncoding("utf-8");
 		String i = request.getParameter("i");
 		if("2".equals(i)){
-			//Ìí¼Ó
+			//æ·»åŠ 
 			PrintWriter out = response.getWriter();
-			String role = request.getParameter("interest");//½ÇÉ«µÄid
-			String name = request.getParameter("username");//ÓÃ»§Ãû
-			String account = request.getParameter("account");//ÕËºÅ
-			String pass = request.getParameter("password");//ÃÜÂë
+			String role = request.getParameter("interest");//è§’è‰²çš„id
+			String name = request.getParameter("username");//ç”¨æˆ·å
+			String account = request.getParameter("account");//è´¦å·
+			String pass = request.getParameter("password");//å¯†ç 
 			String bol = SuperAdminDao.add(role,name,account,pass);
 			out.write(bol);
 			out.flush();
 			out.close();
 		}else if("3".equals(i)){
-			//»ñÈ¡½ÇÉ«
+			//è·å–è§’è‰²
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.quroleName();
 			out.write(strJson);
 			out.flush();
 			out.close();
 		}else if("4".equals(i)){
-			//ĞŞ¸Ä±£´æ
-			String oldrole = request.getParameter("oldrole");//Ô­ÏÈµÄ½ÇÉ«
-			String upRoleId = request.getParameter("upRoleId");//ºóÀ´ĞŞ¸ÄµÄ½ÇÉ«id
-			String id = request.getParameter("id");//ĞŞ¸ÄµÄid
-			String acc = request.getParameter("acc");//ĞŞ¸ÄµÄÕËºÅ
+			//ä¿®æ”¹ä¿å­˜
+			String oldrole = request.getParameter("oldrole");//åŸå…ˆçš„è§’è‰²
+			String upRoleId = request.getParameter("upRoleId");//åæ¥ä¿®æ”¹çš„è§’è‰²id
+			String id = request.getParameter("id");//ä¿®æ”¹çš„id
+			String acc = request.getParameter("acc");//ä¿®æ”¹çš„è´¦å·
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.update(oldrole, upRoleId, id, acc);
 			out.write(strJson);
