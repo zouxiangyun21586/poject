@@ -24,9 +24,7 @@ public class PowerServlet extends HttpServlet {
         resp.setContentType("text/json");
         resp.setCharacterEncoding("utf-8");
         String id = req.getParameter("id");
-        System.out.println(id);
         String json = JsonUtils.beanListToJson(jilian(Integer.valueOf(id)));
-        System.out.println(id + "============" + json);
         resp.getWriter().write(json);
     }
 
@@ -43,6 +41,7 @@ public class PowerServlet extends HttpServlet {
                 j.setId(rs.getInt(1));
                 j.setMuneId(rs.getInt(2));
                 j.setFatherName(rs.getString(3));
+                j.setUrl(rs.getString(4));
                 list.add(j);
             }
             return list;

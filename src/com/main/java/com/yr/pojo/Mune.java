@@ -1,41 +1,59 @@
 package com.yr.pojo;
 
 public class Mune {
-	private Integer id;//²Ëµ¥±íid
-	private Integer muneId;//²Ëµ¥±í¼¶Áªid
-	private String fatherName;//²Ëµ¥Ãû×Ö
-	private Integer state;//×´Ì¬  ÐÞ¸ÄÇ°
-	private String staStr;//×´Ì¬   ÐÞ¸Äºó
-	
-	public Integer getState() {
-		return state;
-	}
-	public void setState(Integer state) {
-		this.state = state;
-	}
-	public String getStaStr() {
-		return staStr;
-	}
-	public void setStaStr(String staStr) {
-		this.staStr = staStr;
-	}
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public Integer getMuneId() {
-		return muneId;
-	}
-	public void setMuneId(Integer muneId) {
-		this.muneId = muneId;
-	}
-	public String getFatherName() {
-		return fatherName;
-	}
-	public void setFatherName(String fatherName) {
-		this.fatherName = fatherName;
-	}
-	
+    private Integer id;// ï¿½Ëµï¿½ï¿½ï¿½id
+    private Integer muneId;// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½id
+    private String fatherName;// ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½
+    private Integer state;// ×´Ì¬ ï¿½Þ¸ï¿½Ç°
+    private String staStr;// ×´Ì¬ ï¿½Þ¸Äºï¿½
+    private String url;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getMuneId() {
+        return muneId;
+    }
+
+    public void setMuneId(Integer muneId) {
+        this.muneId = muneId;
+    }
+
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public String getStaStr() {
+        return staStr;
+    }
+
+    public void setStaStr(String staStr) {
+        this.staStr = staStr;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
 }
