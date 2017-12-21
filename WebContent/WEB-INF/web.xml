@@ -80,6 +80,14 @@
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 	
+	<servlet>
+        <servlet-name>roleUpdate</servlet-name>
+        <servlet-class>com.yr.servlet.RoleUpdateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleUpdate</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
 	
 	<servlet>
         <servlet-name>roleAdd</servlet-name>
