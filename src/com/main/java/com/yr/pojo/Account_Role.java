@@ -1,7 +1,7 @@
 package com.yr.pojo;
 
 public class Account_Role {
-	private Integer id;//用户角色表id
+	private Integer id;//用户表id
 	private String userName;//用户名字
 	private String roleName;//用户角色
 	private Integer state;//状态  改变前
