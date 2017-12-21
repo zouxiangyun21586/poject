@@ -1,11 +1,11 @@
 package com.yr.pojo;
 
 public class Mune {
-	private Integer id;//²Ëµ¥±íid
-	private Integer muneId;//²Ëµ¥±í¼¶Áªid
-	private String fatherName;//²Ëµ¥Ãû×Ö
-	private Integer state;//×´Ì¬  ĞŞ¸ÄÇ°
-	private String staStr;//×´Ì¬   ĞŞ¸Äºó
+	private Integer id;//èœå•è¡¨id
+	private Integer muneId;//èœå•è¡¨çº§è”id
+	private String fatherName;//èœå•åå­—
+	private Integer state;//çŠ¶æ€  ä¿®æ”¹å‰
+	private String staStr;//çŠ¶æ€   ä¿®æ”¹å
 	
 	public Integer getState() {
 		return state;

@@ -1,11 +1,11 @@
 package com.yr.pojo;
 
 public class Account_Role {
-	private Integer id;
-	private String userName;
-	private String roleName;
-	private Integer state;
-	private String stateStr;
+	private Integer id;//用户角色表id
+	private String userName;//用户名字
+	private String roleName;//用户角色
+	private Integer state;//状态  改变前
+	private String stateStr;//状态  改变后
 	
 	public Integer getState() {
 		return state;

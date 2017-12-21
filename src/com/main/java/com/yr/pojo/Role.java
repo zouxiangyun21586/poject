@@ -1,9 +1,9 @@
 package com.yr.pojo;
 
 /**
- * ½ÇÉ«±íÊµÌåÀà
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ14ÈÕ ÉÏÎç11:22:37
+ * è§’è‰²è¡¨å®ä½“ç±»
+ * @author å‘¨ä¸šå¥½
+ * 2017å¹´12æœˆ14æ—¥ ä¸Šåˆ11:22:37
  */
 public class Role {
 	private Integer id;

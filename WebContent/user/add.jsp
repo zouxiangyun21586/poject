@@ -104,7 +104,6 @@
 					id_array.push($(this).val());//向数组中添加元素  
 				});  
 				var idstr=id_array.join(',');//将数组元素连接起来以构建一个字符串  
-				alert(idstr);
 				$.ajax({
 			        //要用post方式
 			        type: "POST",//请求方式,默认GET

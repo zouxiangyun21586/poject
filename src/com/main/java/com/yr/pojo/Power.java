@@ -1,16 +1,16 @@
 package com.yr.pojo;
 
 /**
- * È¨ÏŞ±íÊµÌåÀà
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ19ÈÕ ÏÂÎç9:35:00
+ * æƒé™è¡¨å®ä½“ç±»
+ * @author å‘¨ä¸šå¥½
+ * 2017å¹´12æœˆ19æ—¥ ä¸‹åˆ9:35:00
  */
 public class Power {
-	private Integer id;//È¨ÏŞid
-	private String name;//²Ëµ¥Ãû×Ö
-	private String url;//²Ëµ¥url
-	private Integer state;//×´Ì¬  ¸Ä±äÇ°
-	private String staStr;//×´Ì¬  ¸Ä±äºó
+	private Integer id;//æƒé™id
+	private String name;//èœå•åå­—
+	private String url;//èœå•url
+	private Integer state;//çŠ¶æ€  æ”¹å˜å‰
+	private String staStr;//çŠ¶æ€  æ”¹å˜å
 	public Integer getId() {
 		return id;
 	}
