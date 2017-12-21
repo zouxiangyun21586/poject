@@ -4,20 +4,37 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>权限管理</title>
 <link rel="stylesheet" href="plugins/layui/css/layui.css" media="all" />
 </head>
 <body>
-<input type="hidden" value="0" id="id">
-<div class="layui-form">
-<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:465px;"></ul>
-</div>
+<br/>
+	<div class="layui-container" width="100%" height="100%" align="center">
+    	<div class="layui-row layui-col-space15">
+			<div class="layui-col-md8"  style="width: 100%;">
+			<input type="hidden" value="0" id="id">
+			<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
+			<div class="layui-form" style="width:425px;">
+				<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
+			</div>
+			</div>
+		</div>
+	</div>
 </body>
 <script src="plugins/layui/layui.js"></script>
 <script src="src/js/jquery-2.2.4.min.js"></script>
 <script>
 $(document).ready(function(){
-	layui.use(['tree','element'], function(){
+	var i=0;
+	$('#submit').click(function(){
+		var a="";
+		$(".layui-input").each(function(){
+		   var value = $(this).val();
+		   a+=value;
+		});
+		    $('#p').addpend(a);
+	});
+	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
 		$.ajax({     
 	        type: "POST",//请求方式,默认GET
@@ -26,7 +43,6 @@ $(document).ready(function(){
 	        success: function(data) {
 	        	var dataObj=data;
 	        	var fu="";
-	        	var i=0;
 	        	$.each(dataObj, function(index, item){
 	        		zi(item.id,i);//执行添加子节点
         			fu+="<li class='layui-nav-item'>"
@@ -60,9 +76,8 @@ $(document).ready(function(){
 		        		}
 	        			zi+="<dd><label class='layui-form-label' style='width:50px;'>"+item.fatherName+"</label>"
     	            	+"<div class='layui-input-inline' style='padding-left:70px;'>"
-    	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='空'></div>"
-    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:36px;'>状态:"+state+"</span>"
-    	            	+"<input type='checkbox' name='like1[write]' lay-skin='primary' checked=''>"
+    	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
+    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+state+"</span>"
     	            	+"</dd>";
 		        	});
 
