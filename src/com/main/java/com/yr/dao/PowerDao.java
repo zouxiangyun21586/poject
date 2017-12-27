@@ -174,19 +174,26 @@ public class PowerDao {
 	 * @param id
 	 * @return
 	 */
-	public static List<Mune> jilian(Integer id){
+	public static List<Power> jilian(Integer id){
 		try{
-			String sql = "select * from menu where menu_id=?";
+			String sql = "select p.id,m.fatherName,p.url,p.state,p.icon from permission p,menu m where p.id=m.id";
 			Connection con = Conn.conn();
 			PreparedStatement pre = con.prepareStatement(sql);
 			pre.setInt(1, id);
 			ResultSet rs = pre.executeQuery();
-			List<Mune> list = new ArrayList<>();
+			List<Power> list = new ArrayList<>();
 			while(rs.next()){
-				Mune j = new Mune();
+				Power j = new Power();
 				j.setId(rs.getInt(1));
-				j.setMuneId(rs.getInt(2));
-				j.setFatherName(rs.getString(3));
+				j.setName(rs.getString(2));
+				j.setUrl(rs.getString(3));
+				j.setState(rs.getInt(4));
+				if (j.getState() == 0) {
+					j.setStaStr("使用中");
+				} else {
+					j.setStaStr("已停用");
+				}
+				j.setIcon(rs.getString(5));
 				list.add(j);
 			}
 			return list;

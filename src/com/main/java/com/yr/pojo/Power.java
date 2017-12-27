@@ -11,6 +11,14 @@ public class Power {
 	private String url;//菜单url
 	private Integer state;//状态  改变前
 	private String staStr;//状态  改变后
+	private String icon;//图片
+	
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 	public Integer getId() {
 		return id;
 	}
