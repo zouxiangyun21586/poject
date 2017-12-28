@@ -12,7 +12,7 @@
 	<br />
 	<div class="layui-container" width="100%" height="100%">
 		<div class="layui-row layui-col-space15">
-			<div class="layui-col-md8" style="width: 80%;">
+			<div class="layui-col-md8" style="width: 70%;">
 			<button class="layui-btn layui-btn-sm" style="float:left;" id="addrole">
                     <i class="layui-icon">&#xe654;</i> 添加职位</button>
 			<form class="layui-form layui-form-pane">
