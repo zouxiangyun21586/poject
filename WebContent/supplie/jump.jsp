@@ -40,8 +40,8 @@ layui.use(['form','layer'], function() {
             data:{"state":0},
             success:function(res){
                 for (var i = 0; i < res.length; i++) {
-                    var js = res[i];
-                    $("#table").append("<tr id='jia'><td>"+js.id+"</td><td>"+js.merType+"</td><td>"+js.commo+"</td><td>"+js.money+"</td><td>"+js.origin+"</td><td>"+js.brand+"</td><td>"+js.qGp+"</td><td>"+js.number+"</td><td>"+js.upFrameTime+"</td><td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td></tr>");
+                    var ym = res[i];
+                    $("#table").append("<tr id='zui'><td>"+ym.id+"</td><td>"+ym.commo+"</td><td>"+ym.money+"</td><td>"+ym.netContent+"</td><td>"+ym.packingMethod+"</td><td>"+ym.qGp+"</td><td>"+ym.storageMethod+"</td><td>"+ym.upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td></tr>");
                 }
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -57,7 +57,7 @@ layui.use(['form','layer'], function() {
         
         /* 添加   */
         $("#zui").click(function(){
-        	$("tr:last").after("<tr id='jia'>"+"<td><input type='text' id='id'></td>"+"<td><input type='text' id='merType'></td>"+"<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='brand'></td>"+"<td><input type='text' id='qGp'></td>"+"<td><input type='text' id='number'></td><td>"+mytime+"</td><td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>")
+        	$("tr:last").after("<td><input type='text' id='commo'></td>"+"<td><select id='sel'><option value='1'>汇吃美食</option><option value='2'>手机数码</option></select></td>"+"<td><input type='text' id='netContent' type='text'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='brand'></td>"+"<td><select value='selMot'><option value='1'>一个月</option><option value='2'>两个月</option><option value='3'>三个月</option><option value='4'>四个月</option><option value='5'>五个月</option><option value='6'>六个月</option><option value='7'>七个月</option><option value='38'>八个月</option><option value='9'>九个月</option><option value='10'>十个月</option><option value='11'>十一个月</option><option value='12'>十二个月</option></select></td>"+"<td><input type='text' id='number'></td><td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>")
         });
     });
     
@@ -66,24 +66,23 @@ layui.use(['form','layer'], function() {
     /* 保存 */
     function baoCun(bc){
         var tr = $(bc).parent().parent();
-        var id = tr.find("td").eq(0).find("input").val();
-        var merType = tr.find("td").eq(1).find("input").val();
-        var commo = tr.find("td").eq(2).find("input").val();
+        var commo = tr.find("td").eq(0).find("input").val();
+        var merType = tr.$("#sel").find("option:selected").val(); // 获取下拉框的值 
+        var netContent = tr.find("td").eq(2).find("input").val();
         var money = tr.find("td").eq(3).find("input").val();
         var origin = tr.find("td").eq(4).find("input").val();
         var brand = tr.find("td").eq(5).find("input").val();
-        var qGp = tr.find("td").eq(6).find("input").val();
+        var qGp = tr.$("#selMot").find("option:selected").val();
         var number = tr.find("td").eq(7).find("input").val();
-        var upFrameTime = tr.find("td").eq(8).find("input").val();
         
         $.ajax({
             type: "get",  // 请求方式(post或get)
             async:false,  //默认true(异步请求),设置为false(同步请求)
             url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
             dataType:"text",
-            data:{"id":id,"commodity":commo,"merType":merType,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"upFrametTime":upFrameTime,"state":0},   // 传参数
+            data:{"commodity":commo,"merType":merType,"netContent":netContent,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
             success:function(res){
-                tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><input type='button' name='sc' onclick='del(this);' value='删除'><input type='button' name='xg' onclick='upd(this);' value='修改'></td>");
+                tr.html("<td>"+id+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+netContent+"</td><td>"+packingMethod+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td></td>");
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert("保存失败(get)error");

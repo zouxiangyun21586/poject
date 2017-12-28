@@ -183,7 +183,7 @@ public class SuperAdminDao {
 		
 		try{
 			String str[] = roleIdStr.split(",");
-			Integer id = Integer.valueOf(idStr);//修改的用户表id
+//			Integer id = Integer.valueOf(idStr);//修改的用户表id
 			Integer accId = quAccId(acc);//修改的账号id
 			Connection conn = Conn.conn();
 //			delAccRole(acc);/删除 角色用户表中对应账号的角色
@@ -530,7 +530,7 @@ public class SuperAdminDao {
 		int pageCount = 0;// 总页数
 		try {
 			Connection conn = Conn.conn();
-			String sql = "select count(*) from account_role";
+			String sql = "select count(*) from account";
 			PreparedStatement prepar = conn.prepareStatement(sql);
 			prepar.executeQuery();
 			ResultSet resu = prepar.getResultSet();

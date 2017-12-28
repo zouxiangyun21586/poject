@@ -98,7 +98,7 @@
    	            	i++;
 	        	});
 	        	$('#nvaul').append(fu);
-	        	//element.render('nav');
+	        	
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
 	     	   alert("失败");
 	           alert(XMLHttpRequest.status);//200客户端请求已成功

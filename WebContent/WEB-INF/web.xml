@@ -24,6 +24,7 @@
     <servlet-name>powerServlet</servlet-name>
     <url-pattern>/powerServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
   </servlet-mapping>
+  
   <!-- 登录 -->
   <servlet>
         <servlet-name>loginservlet</servlet-name>
