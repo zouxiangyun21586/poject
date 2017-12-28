@@ -27,7 +27,7 @@
 				      </div>
 				    </div>
 				    </div>
-					<table class="layui-table" style="background-color:#fff0;">
+					<table class="layui-table" style="background-color:#ffffff6b;">
 						<thead>
 							<tr>
 								<th>编号</th>
