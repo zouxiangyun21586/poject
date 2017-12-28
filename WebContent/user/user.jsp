@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="../plugins/layui/css/global.css" media="all">
 		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	</head>
-	<body>
+	<body background="../images/jjs.jpg">
 	<br/>
 		<div class="layui-container" width="100%" height="100%" align="center">
 	    	<div class="layui-row layui-col-space15">
@@ -27,7 +27,7 @@
 				      </div>
 				    </div>
 				    </div>
-					<table class="layui-table">
+					<table class="layui-table" style="background-color:#fff0;">
 						<thead>
 							<tr>
 								<th>编号</th>
