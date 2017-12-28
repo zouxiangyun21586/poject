@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 
 import com.yr.dao.SimpleFilter;
 
+/**
+ * @author 周业好
+ * 2017年12月28日 下午9:41:06
+ */
 public class Conn extends SimpleFilter{
 	private static Connection conn; 
 	public static void main(String[] args) {
