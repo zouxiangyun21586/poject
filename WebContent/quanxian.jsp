@@ -68,16 +68,16 @@ $(document).ready(function(){
 		        	var dataObj=data;
 		        	var zi="";
 		        	$.each(dataObj, function(index, item){
-		        		var state="";
+		        		/* var state="";
 		        		if(item.state=="0"){
 		        			state="使用中";
 		        		}else if(item.state=="1"){
 		        			state="已停用";
-		        		}
+		        		} */
 	        			zi+="<dd><label class='layui-form-label' style='width:50px;'>"+item.fatherName+"</label>"
     	            	+"<div class='layui-input-inline' style='padding-left:70px;'>"
     	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
-    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+state+"</span>"
+    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+item.staStr+"</span>"
     	            	+"</dd>";
 		        	});
 
