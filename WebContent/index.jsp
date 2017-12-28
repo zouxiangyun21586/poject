@@ -110,7 +110,7 @@
 							</dd>
 							<dd>
 								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe612;',title:'卖家',id:'8'}"><i
+									data-options="{url:'seller/user.jsp',icon:'&#xe612;',title:'卖家',id:'8'}"><i
 									class="layui-icon">&#xe612;</i><span> 卖家</span></a>
 							</dd>
 							
