@@ -186,7 +186,6 @@ public class SupplieDao {
         List<Supplie> list = new ArrayList<>();
         while(rs.next()){ // 循环结果集
             Supplie sup = new Supplie();
-            sup.setMerType(rs.getString(1));
             sup.setCommo(rs.getString(2));
             sup.setMoney(rs.getInt(3));
             sup.setDescribe(rs.getString(4));
@@ -236,31 +235,28 @@ public class SupplieDao {
     public static String suppSel() throws Exception{
         Connection conn = Conn.conn();
         // 获取id
-        String str = "SELECT su.id,su.commodity,mertype.type,mer.money,mer.`describe`,spectable.origin,spectable.netContent,spectable.packingMethod,spectable.brand,spectable.qGp,spectable.storageMethod,mer.number,mer.upFrameTime,mer.id,mer.specificationID,su.mercd_id FROM supplier su, merchandise mer ,merchandise_type mertype , specification_table spectable where su.mercd_id = mer.id and mer.nameTypeID = mertype.id and mer.specificationID = spectable.id and su.sup_mer_id = mer.supplier_id;";
+        String str = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.executeQuery();// 执行查询
         ResultSet rs = ps.getResultSet();// 获取查询结果
         List<Supplie> selist = new ArrayList<>();
         // 循环结果集
         while (rs.next()) {// 取结果集中的下一个。
-            Supplie la = new Supplie();
-            la.setId(rs.getInt(1));
-            la.setMerType(rs.getString(3));
-            la.setCommo(rs.getString(2));
-            la.setMoney(rs.getDouble(4));
-            la.setDescribe(rs.getString(5));
-            la.setOrigin(rs.getString(6));
-            la.setNetContent(rs.getString(7));
-            la.setPackingMethod(rs.getString(8));
-            la.setBrand(rs.getString(9));
-            la.setqGp(rs.getString(10));
-            la.setStorageMethod(rs.getString(11));
-            la.setNumber(rs.getInt(12));
-            la.setUpFrameTime(rs.getString(13));
-            la.setMerId(rs.getInt(14));
-            la.setSpecificationID(rs.getInt(15));
-            la.setSuptID(rs.getInt(16));
-            selist.add(la);
+            Supplie sup = new Supplie();
+            sup.setId(rs.getInt(1));
+            sup.setCommo(rs.getString(2));
+            sup.setMoney(rs.getDouble(3));
+            sup.setSupMerName(rs.getString(4));
+            sup.setNumber(rs.getInt(5));
+            sup.setTypeName(rs.getString(6));
+            sup.setqGp(rs.getString(7));
+            sup.setBrand(rs.getString(8));
+            sup.setNetContent(rs.getString(9));
+            sup.setOrigin(rs.getString(10));
+            sup.setPackingMethod(rs.getString(11));
+            sup.setStorageMethod(rs.getString(12));
+            sup.setUpFrameTime(rs.getString(13));
+            selist.add(sup);
         }
         String strJson = JsonUtils.beanListToJson(selist);
         rs.close(); // 关闭结果集
