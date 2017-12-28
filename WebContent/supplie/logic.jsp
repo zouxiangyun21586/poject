@@ -29,9 +29,9 @@
                 alert("查询后台出现错误");
             }
           });
-        /* $("#jia").click(function(){
+        $("#jia").click(function(){
             $("tr:last").after("<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='number'></td>"+"<td><select id='sel'><option value='1'>汇吃美食</option><option value='2'>手机数码</option></select></td>"+"<td><select value='selMot'><option value='1'>一个月</option><option value='2'>两个月</option><option value='3'>三个月</option><option value='4'>四个月</option><option value='5'>五个月</option><option value='6'>六个月</option><option value='7'>七个月</option><option value='38'>八个月</option><option value='9'>九个月</option><option value='10'>十个月</option><option value='11'>十一个月</option><option value='12'>十二个月</option></select></td>"+"<td><input type='text' id='brand' type='text'></td>"+"<td><input type='text' id='storageMethod'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='netContent'></td>"+"<td><input type='text' id='packingMethod'></td>"+"<td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>")
-        }); */
+        });
     });
     
     /* 保存 */
@@ -61,7 +61,6 @@
             data:{"id":id,"commodity":commo,"merType":merType,"SupMerName":SupMerName,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"NetContent":NetContent,"packingMethod":packingMethod,"number":number,"upFrametTime":upFrameTime,"state":0},   // 传参数
             success:function(res){
                 tr.html("<td>"+id+"</td><td>"+commo+"</td><td>"+merType+"</td><td>"+SupMerName+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+NetContent+"</td><td>"+packingMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
-                window.location.reload();
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert("保存失败(get)error");

@@ -152,52 +152,38 @@ public class SupplieDao {
     /**
      * 修改商品
      * @author zxy
-     * @param id 商品id
-     * @param nameType  商品类型
-     * @param name  商品名
-     * @param money 商品价格
-     * @param describe  商品描述
-     * @param specification 商品规格
-     * @param number    商品数量
-     * @param upFrametTime  商品上架时间
+     * @param name
+     * @param money
+     * @param number
+     * @param nameTypeId
+     * @param specificationID
+     * @param id
+     * @return
      * @throws SQLException
      * 2017年12月14日  下午5:41:00
      */
-    public static String merchandiseUpd(String nameTypeID,String name,String money,String describe,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String number,String upFrametTime,String specificationID,String suptID) throws SQLException{
+    public static String merchandiseUpd(String name,String money,String number,Integer nameTypeId,Integer specificationID,Integer id) throws SQLException{
         Connection conn = Conn.conn();
-        String str = "update merchandise mer ,specification_table supt set mer.nameTypeID = ?,mer.`name` = ?,mer.money = ?,mer.`describe` = ?,supt.origin = ?,supt.netContent = ?,supt.packingMethod = ?,supt.brand = ?,supt.qGp = ?,supt.storageMethod = ?,number = ? where mer.specificationID = ? and supt.id = ?;";
+        String str = "update merchandise mer set name= ?,money = ?,number = ?,nameTypeID = ?,specificationID = ? where id = ?";
 
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-        ps.setString(1, nameTypeID);
-        ps.setString(2, name);
-        ps.setString(3, money);
-        ps.setString(4, describe);
-        ps.setString(5, origin);
-        ps.setString(6, netContent);
-        ps.setString(7, packingMethod);
-        ps.setString(8, brand);
-        ps.setString(9, qGp);
-        ps.setString(10, storageMethod);
-        ps.setString(11, number);
-        ps.setString(12, specificationID);
-        ps.setString(13, suptID);
+        ps.setString(1, name);
+        ps.setString(2, money);
+        ps.setString(3, number);
+        ps.setInt(5, nameTypeId);
+        ps.setInt(6, specificationID);
+        ps.setInt(7, id);
         ps.executeUpdate(); // 执行修改
         ResultSet rs = ps.getResultSet(); // 获取查询结果
         List<Supplie> list = new ArrayList<>();
         while(rs.next()){ // 循环结果集
             Supplie sup = new Supplie();
-            sup.setCommo(rs.getString(2));
-            sup.setMoney(rs.getInt(3));
-            sup.setDescribe(rs.getString(4));
-            sup.setOrigin(rs.getString(5));
-            sup.setNetContent(rs.getString(6));
-            sup.setPackingMethod(rs.getString(7));
-            sup.setBrand(rs.getString(8));
-            sup.setqGp(rs.getString(9));
-            sup.setStorageMethod(rs.getString(10));
-            sup.setNumber(rs.getInt(11));
-            sup.setUpFrameTime(rs.getString(12));
-            sup.setId(rs.getInt(13));
+            sup.setCommo(rs.getString(1));
+            sup.setMoney(rs.getDouble(2));
+            sup.setNumber(rs.getInt(3));
+            sup.setNameTypeId(rs.getInt(4));
+            sup.setSpecificationId(rs.getInt(5));
+            sup.setId(rs.getInt(6));
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
