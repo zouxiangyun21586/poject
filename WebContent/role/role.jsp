@@ -10,12 +10,12 @@
 </head>
 <body>
 	<br />
-	<div class="layui-container" width="100%" height="100%" align="center">
+	<div class="layui-container" width="100%" height="100%">
 		<div class="layui-row layui-col-space15">
-			<div class="layui-col-md8" style="width: 100%;">
+			<div class="layui-col-md8" style="width: 80%;">
 			<button class="layui-btn layui-btn-sm" style="float:left;" id="addrole">
                     <i class="layui-icon">&#xe654;</i> 添加职位</button>
-			<form class="layui-form layui-form-pane" action="">
+			<form class="layui-form layui-form-pane">
 				<button class="layui-btn layui-btn-sm layui-btn-normal"
 					style="float: right; margin-left: 0px;" onclick="search(this)" id="sousuo">
 					<i class="layui-icon">&#xe615;</i>搜索
@@ -34,19 +34,36 @@
 					<tbody id="table"></tbody>
 				</table>
 			</div>
+				<div class="layui-form" id="layui-xtree-demo1" style="float:left;width:250px; border:1px solid #009688;"></div>
 		</div>
 	</div>
 </body>
 <script src="../plugins/layui/layui.js"></script>
+<script src="../js/layui-xtree.js"></script>
+<script src="json.js"></script>
 <script src="../src/js/jquery-2.2.4.min.js"></script>
 <script>
 
 layui.use('form', function(){
-	  var form = layui.form
-	  
+	  var form = layui.form;
+	  var xtree = new layuiXtree({
+          elem: 'layui-xtree-demo1' //放xtree的容器（必填）
+           , form: form              //layui form对象 （必填）
+           , data: json              //数据，结构请参照下面 （必填）
+           , isopen: false            //初次加载时全部展开，默认true （选填）
+           , color: "#000"           //图标颜色 （选填）
+           , icon: {                 //图标样式 （选填）
+               open: "&#xe7a0;"      //节点打开的图标
+               , close: "&#xe622;"   //节点关闭的图标
+               , end: "&#xe621;"     //末尾节点的图标
+           }
+      });
 });
 
 $(document).ready(function(){
+	$(window).resize(function() {
+		var width = $(window).width();
+	});
     $.ajax({
        url:'<%=request.getContextPath()%>/query',
        type:'get',
@@ -60,7 +77,9 @@ $(document).ready(function(){
                else{
             	   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
                }
-               $("#table").append("<tr><td>"+a.id+"</td><td>"+a.roleName+"</td><td>"+rolebtn+"</td></tr>");
+               $("#table").append("<tr><td>"+a.id
+            		   +"</td><td>"+a.roleName+"</td><td>"
+            		   +rolebtn+"</td></tr>");
            }
        },
        error:function(XMLHttpRequest, textStatus, errorThrown)

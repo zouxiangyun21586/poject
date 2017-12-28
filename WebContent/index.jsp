@@ -23,10 +23,6 @@
 		<div class="layui-header">
 			<div class="layui-logo" style="font-size: 35px;">某<i class="layui-icon" style="font-size: 35px;" id="x"><script src="js/pmd.js"></script></i>宝</div>
 			<div class="layui-logo kit-logo-mobile" style="font-size: 35px;">宝</div>
-			<ul class="layui-nav layui-layout-left kit-nav">
-                <li class="layui-nav-item"><a href="javascript:;" kit-target data-options="{url:'picture/picture.jsp',icon:'&#xe64a;',title:'图片管理',id:'966'}"><span><i class="layui-icon">&#xe64a;</i> 图片管理</span></a></li>
-                <li class="layui-nav-item"><a href="javascript:;" kit-target data-options="{url:'a.jsp',icon:'&#xe640;',title:'回收站',id:'967'}"><span><i class="layui-icon">&#xe640;</i> 回收站</span></a></li>
-            </ul>
 			<ul class="layui-nav layui-layout-right kit-nav">
 			<li class="layui-nav-item"><a href="javascript:;" onclick="$('#news').fadeIn();"><i class="layui-icon">&#xe63f;</i> 发送信息</a></li>
 				<li class="layui-nav-item"><a href="javascript:;"> <i
@@ -63,160 +59,7 @@
 				<div class="kit-side-fold">
 					<i class="fa fa-navicon" aria-hidden="true" style="line-height:35px;"></i>
 				</div>
-				<ul class="layui-nav layui-nav-tree" lay-filter="kitNavbar"
-					kit-navbar>
-					<li class="layui-nav-item layui-nav-itemed"><a class=""
-						href="javascript:;"><i class="layui-icon">&#xe614;</i><span>
-								系统管理</span></a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'user/user.jsp',icon:'&#xe613;',title:'账号管理',id:'1'}"><i
-									class="layui-icon">&#xe613;</i><span> 账号管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'role/role.jsp',icon:'&#xe612;',title:'角色管理',id:'2'}"><i
-									class="layui-icon">&#xe612;</i><span> 角色管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'quanxian.jsp',icon:'&#xe857;',title:'权限管理',id:'3'}"><i
-									class="layui-icon">&#xe857;</i><span> 权限管理</span></a>
-							</dd>
-						</dl></li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe857;</i><span> 营销管理</span></a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'商品管理',id:'4'}"><i
-									class="layui-icon">&#xe857;</i><span> 商品管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'订单管理',id:'5'}"><i
-									class="layui-icon">&#xe63c;</i><span> 订单管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'退单管理',id:'6'}"><i
-									class="layui-icon">&#xe63c;</i><span> 退单管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe612;',title:'买家',id:'7'}"><i
-									class="layui-icon">&#xe612;</i><span> 买家</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe612;',title:'卖家',id:'8'}"><i
-									class="layui-icon">&#xe612;</i><span> 卖家</span></a>
-							</dd>
-							
-						</dl>
-					</li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe698;</i><span> 采购管理</span></a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'采购订单',id:'9'}"><i
-									class="layui-icon">&#xe63c;</i><span> 采购订单</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'入库单',id:'10'}"><i
-									class="layui-icon">&#xe63c;</i><span> 入库单</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe63c;',title:'采购退货单',id:'11'}"><i
-									class="layui-icon">&#xe63c;</i><span> 采购退货单</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'supplie/logic.jsp',icon:'&#xe68e;',title:'供应商管理',id:'12'}"><i
-									class="layui-icon">&#xe68e;</i><span> 供应商管理</span></a>
-							</dd>
-						</dl>
-					</li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe68e;</i><span> 仓储管理</span></a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe68e;',title:'仓库管理',id:'13'}"><i
-									class="layui-icon">&#xe68e;</i><span> 仓库管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库存管理',id:'14'}"><i
-									class="layui-icon">&#xe6b2;</i><span> 库存管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库位管理',id:'15'}"><i
-									class="layui-icon">&#xe6b2;</i><span> 库位管理</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'库存节点管理',id:'16'}"><i
-									class="layui-icon">&#xe6b2;</i><span> 库存节点管理</span></a>
-							</dd>
-						</dl>	
-					</li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe631;</i><span> 售后管理</span></a>
-							<dl class="layui-nav-child">
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe6b2;',title:'售后申请审核',id:'17'}"><i
-									class="layui-icon">&#xe6b2;</i><span> 售后申请审核</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe61a;',title:'售后收货',id:'18'}"><i
-									class="layui-icon">&#xe61a;</i><span> 售后收货</span></a>
-							</dd>
-							<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe642;',title:'售后质检',id:'19'}"><i
-									class="layui-icon">&#xe642;</i><span> 售后质检</span></a>
-							</dd>
-							</dl>
-					</li>
-					<li class="layui-nav-item"><a class="" href="javascript:;"><i
-							class="layui-icon">&#xe63c;</i><span> 财务单据</span></a>
-							<dl class="layui-nav-child">
-								<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'销售订单收款单管理',id:'20'}"><i
-									class="layui-icon">&#xe857;</i><span> 销售订单收款单管理</span></a>
-								</dd>
-								<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'销售订单退款单管理',id:'21'}"><i
-									class="layui-icon">&#xe857;</i><span> 销售订单退款单管理</span></a>
-								</dd>
-								<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购订单付款单管理',id:'22'}"><i
-									class="layui-icon">&#xe857;</i><span> 采购订单付款单管理</span></a>
-								</dd>
-								<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购订单退款单管理',id:'23'}"><i
-									class="layui-icon">&#xe857;</i><span> 采购订单退款单管理</span></a>
-								</dd>
-								<dd>
-								<a href="javascript:;" kit-target
-									data-options="{url:'a.jsp',icon:'&#xe857;',title:'采购预付款查询',id:'24'}"><i
-									class="layui-icon">&#xe857;</i><span> 采购预付款查询</span></a>
-								</dd>
-							</dl>
-					</li>
-				</ul>
+				<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
 			</div>
 		</div>
 		<div class="layui-body" id="container">
@@ -235,9 +78,60 @@
 	<script src="plugins/layui/layui.js"></script>
 	<script src="src/js/jquery-2.2.4.min.js"></script>
 	<script>
+	layui.use(['tree','element','form','layer'], function(){
+		var element = layui.element;
 	$(document).ready(function(){
 		blink($('#x'));
+		var i=0;
+		$.ajax({     
+	        type: "get",//请求方式,默认GET
+	        url: "powerServlet?id=0",     
+	        dataType: "json",
+	        success: function(data) {
+	        	var dataObj=data;
+	        	var fu="";
+	        	$.each(dataObj, function(index, item){
+	        		fu+="<li class='layui-nav-item'>"
+	   	            	+"<a href='javascript:;'><i class='layui-icon'>"+item.icon+"</i> <span>"+item.name+"</span></a>"
+	   	            	+"<dl class='layui-nav-child' id='fu"+item.id+"'></dl></li>";
+	        		zi(item.id,i);//执行添加子节点
+   	            	i++;
+	        	});
+	        	$('#nvaul').append(fu);
+	        	
+	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
+	     	   alert("失败");
+	           alert(XMLHttpRequest.status);//200客户端请求已成功
+	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+	           alert(textStatus);//parsererror
+	        }
+	     });	
+	     
 	});
+	function zi(id,i){
+		$.ajax({     
+	        type: "get",//请求方式,默认GET
+	        url: "powerServlet?id="+id,     
+	        dataType: "json",
+	        success: function(data) {
+	        	var dataObj=data;
+	        	var zi="";
+	        	$.each(dataObj, function(index, item){
+        			zi+='<dd><a href="javascript:;" kit-target data-options="{url:\''+item.url
+        				+'\',icon:\''+item.icon+'\',title:\''+item.name+'\',id:\''+item.id+'\'}"><i class="layui-icon">'
+        				+item.icon+'</i><span> '+item.name+'</span></a></dd>';
+        			
+	        	});
+	        	$('#fu'+id).append(zi);
+	        	element.render('nav');
+	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
+	     	   alert("失败");
+	           alert(XMLHttpRequest.status);//200客户端请求已成功
+	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+	           alert(textStatus);//parsererror
+	        }
+	     });
+	}
 	function blink(selector){    
 		$(selector).fadeOut('slow', function(){     
 			$(this).fadeIn('slow', function(){        
@@ -326,6 +220,7 @@
 						switchSkin(skin === undefined ? 'default' : skin);
 					}();
 				});
+	});	
 	</script>
 </body>
 </html>
