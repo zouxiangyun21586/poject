@@ -84,7 +84,7 @@ public class SupplieServlet extends HttpServlet {
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
-                    String supp = SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
+//                    String supp = SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
                     SupplieDao.suppUpd(commodity,id); // 供应商ID
                 } catch (Exception e) {
                     e.printStackTrace();
