@@ -50,9 +50,9 @@
         </div>
     </div>
 </body>
-<script src="../src/js/fenye.js"></script>
+<script src="../js/fenye.js"></script>
 <script src="../plugins/layui/layui.js"></script>
-<script src="../src/js/jquery-3.2.1.js"></script>
+<script src="../js/jquery-3.2.1.js"></script>
 <script>
 $(document).ready(function(){
     Data();
