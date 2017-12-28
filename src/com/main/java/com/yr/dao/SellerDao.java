@@ -31,7 +31,6 @@ public class SellerDao {
      * 查询卖家发布表里的所有信息
      */
     public static String queryGoods() {
-        new LinkMysql();
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try {
@@ -83,7 +82,6 @@ public class SellerDao {
         }
         pageNow = (pageNow - 1) * 10;
         try {
-            new LinkMysql();
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
                 List<Integer> paramIndex = new ArrayList<>();
@@ -180,7 +178,6 @@ public class SellerDao {
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
         try {
-            new LinkMysql();
             Connection conn = LinkMysql.getCon();
             String sql = "select count(*) from release_seller";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
