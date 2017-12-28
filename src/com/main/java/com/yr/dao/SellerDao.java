@@ -177,8 +177,8 @@ public class SellerDao {
     public static Integer getPageCount() {
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
+        Connection conn = LinkMysql.getCon();
         try {
-            Connection conn = LinkMysql.getCon();
             String sql = "select count(*) from release_seller";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
             prepar.executeQuery();
