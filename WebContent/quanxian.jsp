@@ -28,11 +28,25 @@ $(document).ready(function(){
 	var i=0;
 	$('#submit').click(function(){
 		var a="";
-		$(".layui-input").each(function(){
-		   var value = $(this).val();
-		   a+=value;
+		var b="";
+		$(".layui-nav-item").each(function(){//取到输入框里面所有的值
+		   var value = $(".layui-form-label").text();
+		   var inp = $(".layui-input").val();
+		   a+=value+" "+inp+",";
+		   alert(value);
+		   alert(inp);
 		});
-		    $('#p').addpend(a);
+		/* $(".layui-input").each(function(){//取到输入框里面所有的值
+		   var value = $(this).val();
+		   a+=value+",";
+		   //alert(value);
+		});
+		$(".layui-form-label").each(function(){//取到输入框里面所有的值
+		   var value = $(this).text();
+		   b+=value+",";
+		   alert(value);
+		}); */
+		    //$('#p').addpend(a);
 	});
 	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
@@ -68,11 +82,11 @@ $(document).ready(function(){
 		        	var dataObj=data;
 		        	var zi="";
 		        	$.each(dataObj, function(index, item){
-	        			zi+="<dd><label class='layui-form-label' style='width:50px;'>"+item.name+"</label>"
-    	            	+"<div class='layui-input-inline' style='padding-left:70px;'>"
-    	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
-    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+item.staStr+"</span>"
-    	            	+"</dd>";
+	        			zi+="<dd><table><tr><td><label class='layui-form-label' style='width:50px;'>"+item.name+"</label></td>"
+    	            	+"<td><div class='layui-input-inline' style='padding-left:70px;'></td>"
+    	            	+"<td><input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div></td>"
+    	            	+"<td><span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+item.staStr+"</span></td>"
+    	            	+"</tr></table></dd>";
 		        	});
 
 		        	$('.layui-nav-child:eq('+i+')').append(zi);

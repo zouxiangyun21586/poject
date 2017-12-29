@@ -4,6 +4,8 @@
 <html>
 <head>
 	<script src="/projectYr/js/jquery-3.2.1.js"></script>
+	<script src="../plugins/layui/layui.js"></script>
+	<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Insert title here</title>
 </head>
@@ -19,7 +21,7 @@
             success:function(res){
                 for (var i = 0; i < res.length; i++) {
                     var ym = res[i];
-                    $("#table").append("<tr id='jia'><td>"+ym.id+"</td><td>"+ym.commo+"</td><td>"+ym.money+"</td><td>"+ym.number+"</td><td>"+ym.typeName+"</td><td>"+ym.qGp+"</td><td>"+ym.brand+"</td><td>"+ym.storageMethod+"</td><td>"+ym.origin+"</td><td>"+ym.netContent+"</td><td>"+ym.packingMethod+"</td><td>"+ym.upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td></tr>");
+                    $("#table").append("<tr id='zui'><td>"+ym.id+"</td><td>"+ym.commo+"</td><td>"+ym.money+"</td><td>"+ym.number+"</td><td>"+ym.typeName+"</td><td>"+ym.qGp+"</td><td>"+ym.brand+"</td><td>"+ym.storageMethod+"</td><td>"+ym.origin+"</td><td>"+ym.netContent+"</td><td>"+ym.packingMethod+"</td><td>"+ym.upFrameTime+"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd(this);'>修改商品</button></td></tr>");
                 }
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -29,8 +31,22 @@
                 alert("查询后台出现错误");
             }
           });
-        $("#jia").click(function(){
-            $("tr:last").after("<td><input type='text' id='commo'></td>"+"<td><input type='text' id='money'></td>"+"<td><input type='text' id='number'></td>"+"<td><select id='sel'><option value='1'>汇吃美食</option><option value='2'>手机数码</option></select></td>"+"<td><select value='selMot'><option value='1'>一个月</option><option value='2'>两个月</option><option value='3'>三个月</option><option value='4'>四个月</option><option value='5'>五个月</option><option value='6'>六个月</option><option value='7'>七个月</option><option value='38'>八个月</option><option value='9'>九个月</option><option value='10'>十个月</option><option value='11'>十一个月</option><option value='12'>十二个月</option></select></td>"+"<td><input type='text' id='brand' type='text'></td>"+"<td><input type='text' id='storageMethod'></td>"+"<td><input type='text' id='origin'></td>"+"<td><input type='text' id='netContent'></td>"+"<td><input type='text' id='packingMethod'></td>"+"<td><input type='button' value='取消' onclick='cancel(this);'><input type='button' onclick='baoCun(this);' value='保存'></td>"+"</tr>")
+    });
+    
+    layui.use([ 'layer', 'element' ], function() {
+        var laypage = layui.laypage,
+        layer = layui.layer;
+        $('#zui').click(function(){
+            layer.open({
+                anim: 2,
+                title : '添加商品',
+                type: 2, //窗口类型
+                resize:false,//禁止拉伸
+                maxmin:false,//最大化,最小化
+                shade: [0.3,'#000'],
+                area: ['570px', '700px'],//窗口宽高
+                content: ['jump.jsp','no']
+            });
         });
     });
     
@@ -60,7 +76,7 @@
             dataType:"text",
             data:{"id":id,"commodity":commo,"merType":merType,"SupMerName":SupMerName,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"storageMethod":storageMethod,"NetContent":NetContent,"packingMethod":packingMethod,"number":number,"upFrametTime":upFrameTime,"state":0},   // 传参数
             success:function(res){
-                tr.html("<td>"+id+"</td><td>"+commo+"</td><td>"+merType+"</td><td>"+SupMerName+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+NetContent+"</td><td>"+packingMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
+                tr.html("<td>"+id+"</td><td>"+commo+"</td><td>"+merType+"</td><td>"+SupMerName+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+NetContent+"</td><td>"+packingMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><button name='xj' onclick='xiajia(this);' class='layui-btn layui-btn-xs'>下架商品</button><button class='layui-btn layui-btn-xs' type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
                 alert("保存失败(get)error");
@@ -94,22 +110,21 @@
         		"<td><input type='text' id='commo' value="+commo+"></td>"+
         		"<td><input type='text' id='money' value="+money+"></td>"+
         		"<td><input type='text' id='number' value="+number+"></td>"+
-        		"<td><input type='text' id='merType' value="+merType+"></td>"+
-        		"<td><input type='text' id='qGp' value="+qGp+"></td>"+
+        		"<td><select value='sel'><option value='1'>汇吃美食</option><option value='2'>手机数码</option></select></td>"+
+        		"<td><select value='selMot'><option value='1'>一个月</option><option value='2'>两个月</option><option value='3'>三个月</option><option value='4'>四个月</option><option value='5'>五个月</option><option value='6'>六个月</option><option value='7'>七个月</option><option value='38'>八个月</option><option value='9'>九个月</option><option value='10'>十个月</option><option value='11'>十一个月</option><option value='12'>十二个月</option></select></td>"+
         		"<td><input type='text' id='brand' value="+brand+"></td>"+
-                "<td><input type='text' id='NetContent' value="+NetContent+"></td>"+
+                "<td><select id='stoSel'><option value='1'>干燥阴凉环境</option><option value='2'>密封环境</option><option value='3'>通风环境</option><option value='4'>高温环境</option><option value='5'>低温环境</option></select></td>"+
                 "<td><input type='text' id='origin' value="+origin+"></td>"+
-                "<td><input type='text' id='packingMethod' value="+packingMethod+"></td>"+
-                "<td><input type='text' id='storageMethod' value="+storageMethod+"></td>"+
+                "<td><input type='text' id='origin' value="+packingMethod+"></td>"+
+                "<td><select id='pakSel'><option value='1'>盒装</option><option value='2'>箱装</option><option value='3'>袋装</option><option value='4'>罐藏</option><option value='5'>瓶装</option></select></td>"+
                 "<td>"+upFrameTime+"</td>"+
-                "<td><input type='button' value='取消' onclick=\"upXg(this,'"+id+"','"+commo+"','"+money+"','"+number+"','"+merType+"','"+qGp+"','"+brand+"','"+NetContent+"','"+origin+"','"+packingMethod+"','"+storageMethod+"','"+upFrameTime+"');\"><input type='button' onclick='tjbc(this);' value='保存'></td>");
+                "<td><button class='layui-btn layui-btn-xs' onclick=\"upCencel(this,'"+id+"','"+commo+"','"+money+"','"+number+"','"+merType+"','"+qGp+"','"+brand+"','"+NetContent+"','"+origin+"','"+packingMethod+"','"+storageMethod+"','"+upFrameTime+"');\">取消</button><button class='layui-btn layui-btn-xs' onclick='tjbc(this);'>保存</button></td>");
     }
     
     /* 修改取消 */    //  OK -----
-    function upXg(x,a,b,c,d,e,f,g,h,i,j,k,l){
-        alert("<td>"+a+"</td><td>"+b+"</td><td>"+c+"</td><td>"+d+"</td><td>"+e+"</td><td>"+f+"</td><td>"+g+"</td><td>"+h+"</td><td>"+i+"</td><td>"+j+"</td><td>"+k+"</td><td>"+l+"</td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
+    function upCencel(x,a,b,c,d,e,f,g,h,i,j,k,l){
         var tr = $(x).parent().parent();
-        tr.html("<td>"+a+"</td>"+"<td>"+b+"</td><td>"+c+"</td><td>"+d+"</td><td>"+e+"</td><td>"+f+"</td><td>"+g+"</td><td>"+h+"</td><td>"+i+"</td><td>"+j+"</td><td>"+k+"</td><td>"+l+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
+        tr.html("<td>"+a+"</td>"+"<td>"+b+"</td><td>"+c+"</td><td>"+d+"</td><td>"+e+"</td><td>"+f+"</td><td>"+g+"</td><td>"+h+"</td><td>"+i+"</td><td>"+j+"</td><td>"+k+"</td><td>"+l+"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' onclick='upd(this);'>修改商品</button></td>");
     }
     
     /* 修改保存 */
@@ -140,7 +155,7 @@
                  {
                      alert("修改失败");
                  }else{ */
-                     tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><input type='button' name='xj' onclick='xiajia(this);' value='下架商品'><input type='button' name='xg' onclick='upd(this);' value='修改商品'></td>");
+                     tr.html("<td>"+id+"</td><td>"+merType+"</td><td>"+commo+"</td><td>"+money+"</td><td>"+origin+"</td><td>"+brand+"</td><td>"+qGp+"</td><td>"+storageMethod+"</td><td>"+number+"</td><td>"+upFrameTime+"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd(this);'>修改商品</button></td>");
                 /*  } */
             },
             error:function(XMLHttpRequest, textStatus, errorThrown){
@@ -151,25 +166,35 @@
     
 </script>
 <body>
-    <form>
-        <table border="2" id="table">
-            <tr>
-                <th>编号</th>
-                <th>名称</th>
-                <th>价格</th>
-                <th>数量</th>
-                <th>类型</th>
-                <th>保质期</th>
-                <th>品牌</th>
-                <th>储藏方法</th>
-                <th>出产地</th>
-                <th>净含量</th>
-                <th>包装</th>
-                <th>上架时间</th>
-                <th>操作</th>
-            </tr>
-        </table>
-        <input id="zui" type="button" value="添加"/>
-    </form>
+<br/>
+        <div class="layui-container" width="100%" height="100%" align="center">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md8"  style="width: 100%;">
+                <button class="layui-btn layui-btn-sm" style="float:left;" id="zui">
+                    <i class="layui-icon">&#xe654;</i> 添加商品</button>
+                <form>
+			        <table id="table" class="layui-table">
+			        <thead>
+			            <tr>
+			                <th>编号</th>
+			                <th>名称</th>
+			                <th>价格</th>
+			                <th>数量</th>
+			                <th>类型</th>
+			                <th>保质期</th>
+			                <th>品牌</th>
+			                <th>储藏方法</th>
+			                <th>出产地</th>
+			                <th>净含量</th>
+			                <th>包装</th>
+			                <th>上架时间</th>
+			                <th>操作</th>
+			            </tr>
+			        </thead>
+			        </table>    
+			    </form>
+                </div>
+            </div>
+        </div>
 </body>
 </html>
