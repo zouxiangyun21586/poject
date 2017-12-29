@@ -48,7 +48,7 @@ layui.use(['form','layer'], function() {
 });
     
     /* 保存 */
-    function baoCun(bc){
+    $("#sb").click(function(bc){
         var tr = $(bc).parent().parent();
         var commo = tr.find("td").eq(0).find("input").val();
         var merType = tr.$("#sel").find("option:selected").val(); // 获取下拉框的值 
@@ -72,7 +72,7 @@ layui.use(['form','layer'], function() {
                 alert("保存失败(get)error");
             }
         });
-    }
+    });
     
     /* 取消 */
     function cancel(cc){ // 有多个值时会把前面全删掉再删除选择删除的那个值
@@ -80,7 +80,7 @@ layui.use(['form','layer'], function() {
     }
     
     /* 删除值 (删除数据库中保存好的值) */
-    function del(dlt){
+    <%-- function del(dlt){
         alert("删除");
         var a = $(dlt).parent().parent() // 自己本身的父类的父类 tr
         var va=a.find("td").eq(0).text(); // 获取到第一个td(id)的文本内容
@@ -97,10 +97,10 @@ layui.use(['form','layer'], function() {
                 }
             });
         }
-    }
+    } --%>
     
     
-    /* 修改 */
+   <%--  /* 修改 */
     function upd(x){
         var tr = $(x).parent().parent();
         var id = tr.find("td").eq(0).text();
@@ -154,7 +154,7 @@ layui.use(['form','layer'], function() {
                 alert("修改失败(get)error");
             }
         });
-    }
+    } --%>
     
 </script>
 <body>
@@ -230,9 +230,17 @@ layui.use(['form','layer'], function() {
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">储藏方法</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="merstm" name="merstm" autocomplete="off"
-                                placeholder="请输入商品储藏方法" class="layui-input">
+                        <div class="layui-input-block" id="merstm">
+                            <!-- <input type="text" id="merstm" name="merstm" autocomplete="off"
+                                placeholder="请输入商品储藏方法" class="layui-input"> -->
+                             <select value='stoSel' id="interest" name="interest" lay-filter="aihao" lay-search>
+                                <option value="">请选择商品储藏方法</option>
+                                <option value='1'>干燥阴凉环境</option>
+                                <option value='2'>密封环境</option>
+                                <option value='3'>通风环境</option>
+                                <option value='4'>高温环境</option>
+                                <option value='5'>低温环境</option>
+                             </select>
                         </div>
                     </div>
                     
@@ -252,9 +260,17 @@ layui.use(['form','layer'], function() {
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品包装</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="merpack" name="merpack" autocomplete="off"
-                                placeholder="请输入商品包装" class="layui-input">
+                        <div class="layui-input-block" id="merpack">
+                            <!-- <input type="text" id="merpack" name="merpack" autocomplete="off"
+                                placeholder="请输入商品包装" class="layui-input"> -->
+                            <select value='pakSel' id="interest" name="interest" lay-filter="aihao" lay-search>
+                                <option value="">请选择商品包装</option>
+                                <option value='1'>盒装</option>
+                                <option value='2'>箱装</option>
+                                <option value='3'>袋装</option>
+                                <option value='4'>罐藏</option>
+                                <option value='5'>瓶装</option>
+                             </select>
                         </div>
                     </div>
                     <a href="logic.jsp"><button type="submit" class="layui-btn" id="sb">立即提交</button></a>

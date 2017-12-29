@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import com.yr.pojo.Account_Role;
+import com.yr.pojo.Paging;
 import com.yr.pojo.Supplie;
 import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
@@ -286,6 +288,101 @@ public class SupplieDao {
         rs.close(); // 关闭结果集
         ps.close(); // 关闭发送SQL对象
         return strJson;
+    }
+    
+    
+    /**
+     * 查询数据并用list封装起来
+     * @param pageNow 当前页
+     * @return 返回所查询的数据
+     */
+    public static List<Account_Role> selectemp(Integer pageNow) {
+        String sql = "";
+        List<Account_Role> list = new ArrayList<>();
+        if (pageNow < 1) {
+            pageNow = 1;
+        }
+        pageNow = (pageNow - 1) * 10;
+        try {
+            Connection conn = Conn.conn();
+            List<Integer> paramIndex = new ArrayList<>();
+            List<Object> param = new ArrayList<>();
+            sql = "SELECT DISTINCT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+            
+            sql = sql + " limit ?,?";
+            paramIndex.add(1);
+            paramIndex.add(1);
+            
+            
+            param.add(pageNow);
+            param.add(Paging.getPageNumber());
+            
+            PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+            
+            for (int i = 0; i < paramIndex.size(); i++) {
+                int mark = paramIndex.get(i);
+                if(mark == 0 ){
+                    prepar.setString( (i+1), (String)param.get(i) );
+                }
+                else if(mark == 1)
+                {
+                    prepar.setInt( (i+1), (Integer)param.get(i) );
+                }
+            }
+            
+            prepar.executeQuery();
+            ResultSet resu = prepar.getResultSet();
+            while (resu.next()) {
+                Account_Role us = new Account_Role();
+                us.setId(resu.getInt(1));
+                us.setRoleName(resu.getString(2));
+                us.setState(resu.getInt(3));
+                us.setUserName(resu.getString(4));
+                if (us.getState() == 0) {
+                    us.setStateStr("使用中");
+                } else {
+                    us.setStateStr("已停用");
+                }
+                list.add(us);
+            }
+            resu.close();
+            prepar.close();
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 获得总页数
+     * 
+     * @return 返回总页数
+     */
+    public static Integer getPageCount() {
+        int total = 0;// 总共多少条记录
+        int pageCount = 0;// 总页数
+        try {
+            Connection conn = Conn.conn();
+            String sql = "select count(*) from supplie";
+            PreparedStatement prepar = conn.prepareStatement(sql);
+            prepar.executeQuery();
+            ResultSet resu = prepar.getResultSet();
+            while (resu.next()) {
+                total = resu.getInt(1);
+            }
+            resu.close();
+            prepar.close();
+//          conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (total % Paging.getPageNumber() == 0) {
+            pageCount = total / Paging.getPageNumber();
+        } else {
+            pageCount = total / Paging.getPageNumber() + 1;
+        }
+        return pageCount;
     }
     
     /**

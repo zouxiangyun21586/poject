@@ -1,15 +1,24 @@
 package com.yr.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yr.dao.SuperAdminDao;
 import com.yr.dao.SupplieDao;
+import com.yr.pojo.Account_Role;
+import com.yr.util.PageService;
+
+import net.sf.json.JSONObject;
 
 /**
  * 
@@ -107,9 +116,28 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            } else if("6".equals(sup)){
+              //页面显示值
+                PrintWriter out = resp.getWriter();
+                String type= req.getParameter("type");
+                String pageNow = req.getParameter("pageNow");//获得页面传过来的当前页
+                String sel = req.getParameter("select");
+                if (null == pageNow || "".equals(pageNow)) {
+                    pageNow = "1";
+                }
+                List<Account_Role> list = SupplieDao.selectemp(Integer.valueOf(pageNow));
+                int pageCount=SuperAdminDao.getPageCount();//获得总页数
+                String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+                Map<String, Object> map = new HashMap<>();
+                map.put("list", list);
+                map.put("pageCount", pageCount + "");
+                map.put("pageNow", pageNow);
+                map.put("pageCode", pageCode);
+                String jsonObjectStr = JSONObject.fromObject(map).toString();
+                out.write(jsonObjectStr);
+                out.flush();
+                out.close();
             }
-        }else{ // 如果state状态不为 0 那么就代表此供应商账号已注销(不能使用)
-            req.setAttribute("state", state);
         }
     }
     
