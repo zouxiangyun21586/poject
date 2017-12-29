@@ -423,7 +423,7 @@ public class SuperAdminDao {
 		pageNow = (pageNow - 1) * 10;
 		try {
 			Connection conn = Conn.conn();
-			if (null != sel && !"".equals(sel) || !"quan".equals(rolename) && "".equals(rolename) && null != rolename) {//使用搜索功能进入这个if判断
+			if (null != sel && !"".equals(sel) && !"".equals(rolename) || null != rolename && !"quan".equals(rolename)) {//使用搜索功能进入这个if判断
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
 				sql = "SELECT DISTINCT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
