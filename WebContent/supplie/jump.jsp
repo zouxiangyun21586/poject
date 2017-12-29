@@ -11,22 +11,6 @@
 </head>
 <script src="../plugins/layui/layui.js"></script>
 <script src="../src/js/jquery-2.2.4.min.js"></script>
-<style>
-    .layui-form-select dl{
-        position:absolute;
-        left:0px;
-        top:42px;
-        padding:5px 0px;
-        min-width:100%;
-        border:1px solid #d2d2d2;
-        max-height:190px;
-        overflow-y:auto;
-        background-color:#fff;
-        border-radius:2px;
-        box-shadow:0 2px 4px rgba(0,0,0,.12);
-        box-sizing:border-box;
-    }
-    </style>
 <script type="text/javascript">
 
 layui.use(['form','layer'], function() {
@@ -61,7 +45,7 @@ layui.use(['form','layer'], function() {
         });
     });
     
-}
+});
     
     /* 保存 */
     function baoCun(bc){
@@ -180,17 +164,10 @@ layui.use(['form','layer'], function() {
             <div class="layui-col-md8" style="width: 100%;">
                 <div class="layui-form layui-form-pane">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">添加商品信息</label>
+                        <label class="layui-form-label">商品信息</label>
                         <div class="layui-input-block">
-                            <select id="addmer" name="addmer" lay-filter="aihao" lay-search>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">商品类型</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="mertype" name="mertype" autocomplete="off"
-                                placeholder="请输入商品类型" class="layui-input">
+                            <!-- <select id="addmer" name="addmer" lay-filter="aihao" lay-search>
+                            </select> -->
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -208,6 +185,58 @@ layui.use(['form','layer'], function() {
                         </div>
                     </div>
                     <div class="layui-form-item">
+                        <label class="layui-form-label">商品数量</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="mernumber" name="mernumber" autocomplete="off"
+                                placeholder="请输入商品数量" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品类型</label>
+                        <div class="layui-input-block" id="mertype">
+                            <select value='sel' id="interest" name="interest" lay-filter="aihao" lay-search>
+	                            <option value="">请选择商品类型</option>
+	                            <option value='1'>汇吃美食</option>
+	                            <option value='2'>手机数码</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品保质期</label>
+                        <div class="layui-input-block" id="merbrand">
+                            <select value='selMot' id="interest" name="interest" lay-filter="aihao" lay-search>
+	                            <option value="">请选择商品保质期</option>
+	                            <option value='1'>一个月</option>
+	                            <option value='2'>两个月</option>
+	                            <option value='3'>三个月</option>
+	                            <option value='4'>四个月</option>
+	                            <option value='5'>五个月</option>
+	                            <option value='6'>六个月</option>
+	                            <option value='7'>七个月</option>
+	                            <option value='38'>八个月</option>
+	                            <option value='9'>九个月</option>
+	                            <option value='10'>十个月</option>
+	                            <option value='11'>十一个月</option>
+	                            <option value='12'>十二个月</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品品牌</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="merbrand" name="merbrand" autocomplete="off"
+                                placeholder="请输入商品品牌" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">储藏方法</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="merstm" name="merstm" autocomplete="off"
+                                placeholder="请输入商品储藏方法" class="layui-input">
+                        </div>
+                    </div>
+                    
+                    <div class="layui-form-item">
                         <label class="layui-form-label">商品产地</label>
                         <div class="layui-input-block">
                             <input type="text" id="merorigin" name="merorigin" autocomplete="off"
@@ -215,24 +244,17 @@ layui.use(['form','layer'], function() {
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">商品品牌</label>
+                        <label class="layui-form-label">商品净含量</label>
                         <div class="layui-input-block">
-                            <input type="text" id="merbrand" name="merbrand" autocomplete="off"
-                                placeholder="商品品牌" class="layui-input">
+                            <input type="text" id="mernetc" name="mernetc" autocomplete="off"
+                                placeholder="请输入商品净含量" class="layui-input">
                         </div>
                     </div>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">商品保质期</label>
+                        <label class="layui-form-label">商品包装</label>
                         <div class="layui-input-block">
-                            <input type="text" id="merqGp" name="merqGp" autocomplete="off"
-                                placeholder="商品保质期" class="layui-input">
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">商品数量</label>
-                        <div class="layui-input-block">
-                            <input type="text" id="mernumber" name="mernumber" autocomplete="off"
-                                placeholder="请输入商品数量" class="layui-input">
+                            <input type="text" id="merpack" name="merpack" autocomplete="off"
+                                placeholder="请输入商品包装" class="layui-input">
                         </div>
                     </div>
                     <a href="logic.jsp"><button type="submit" class="layui-btn" id="sb">立即提交</button></a>

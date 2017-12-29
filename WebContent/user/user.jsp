@@ -94,7 +94,6 @@
 		      	        	 		"<td>"+list[i].roleName+"</td>"+
 		      	        	 		"<td>"+list[i].stateStr+"</td>"+
 		      	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
-		      	        	 		
 		      	       		}
 		      	          	$("#tbodyId").html(tbodyContent);
 		      	     	} 

@@ -11,11 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.SupplieDao;
 
+/**
+ * 
+ * 2017
+ * @author zxy
+ * Administrator
+ * 2017年12月28日 下午8:34:54
+ */
 public class SupplieServlet extends HttpServlet {
-    public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
     /**
-     * 供应商 增删改查
-     * 
+     * 获取网络时间.
+     */
+    public static final String webUrl4 = "http://www.ntsc.ac.cn"; // 中国科学院国家授时中心
+    /**
+     * 供应商 增删改查.
+     *
      * @author zxy
      * @param req
      * @param resp
@@ -44,6 +54,7 @@ public class SupplieServlet extends HttpServlet {
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
+                    String merId = req.getParameter("merId"); // 商品ID 
                     
                     /**
                      * 获取网络时间
@@ -53,7 +64,7 @@ public class SupplieServlet extends HttpServlet {
                     
                     SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
                     SupplieDao.merchandiseAdd(nameType, name, money, describe, number, date); // 添加商品信息
-                    SupplieDao.suppAdd(name,specificationID,suptID); // 添加供应商商品信息
+                    SupplieDao.suppAdd(name,merId,merId); // 添加供应商商品信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -69,12 +80,10 @@ public class SupplieServlet extends HttpServlet {
             } else if ("4".equals(sup)) { // 修改 商品信息
                 try {
                     String id = req.getParameter("id"); // 供应商Id
-                    String commodity = req.getParameter("commodity"); // 供应商的商品信息
                     String merId = req.getParameter("merId"); // 商品ID  
                     String nameType = req.getParameter("merType"); //商品类型
-                    String name = req.getParameter("commodity"); // 商品名
+                    String name = req.getParameter("commodity"); // 商品名/供应商商品名
                     String money = req.getParameter("money"); // 商品价格
-                    String describe = req.getParameter("describe"); // 商品描述
                     String origin = req.getParameter("origin"); // 商品产地
                     String netContent = req.getParameter("netContent"); // 商品净含量
                     String packingMethod = req.getParameter("packingMethod"); // 商品包装
@@ -83,9 +92,9 @@ public class SupplieServlet extends HttpServlet {
                     String storageMethod = req.getParameter("storageMethod"); // 商品储藏方法
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
-                    String suptID = req.getParameter("suptID"); // 供应商规格字段Id
-//                    String supp = SupplieDao.merchandiseUpd(merId,nameType,name,money,describe,origin,netContent,packingMethod,brand,qGp,storageMethod,number,specificationID,suptID); //商品信息修改
-                    SupplieDao.suppUpd(commodity,id); // 供应商ID
+                    String spe = SupplieDao.speUpd(origin,netContent,packingMethod,brand,qGp,storageMethod,specificationID);
+                    String supp = SupplieDao.merchandiseUpd(name,money,number,nameType,specificationID,id); //商品信息的修改
+                    SupplieDao.suppUpd(name,id); // 供应商ID
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

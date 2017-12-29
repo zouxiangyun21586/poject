@@ -37,21 +37,33 @@ public class SupplieDao {
      * 2017年12月14日  下午5:35:56
      * @throws ParseException 
      */
-    public static void merchandiseAdd(String nameType,String name,String money,String describe,String number,String upFrametTime) throws SQLException, ParseException{
+    public static void merchandiseAdd(String nameType,String name,String money,String specification,String number,String upFrametTime) throws SQLException, ParseException{
         
         Connection conn = Conn.conn();
-        String str = "insert into merchandise(nameTypeID,`name`,money,`describe`,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
+        String str = "insert into merchandise(nameTypeID,`name`,money,specificationID,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, nameType);
         ps.setString(2, name);
         ps.setString(3, money);
-        ps.setString(4, describe);
+        ps.setString(4, specification);
         ps.setString(5, number);
         ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
         ps.close();
     }
     
+    /**
+     * 添加规格表中信息
+     * @author zxy
+     * @param origin
+     * @param netContent
+     * @param packingMethod
+     * @param brand
+     * @param qGp
+     * @param storageMethod
+     * @throws SQLException
+     * 2017年12月28日  下午10:21:47
+     */
     public static void speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
         Connection conn = Conn.conn();
         String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
@@ -131,25 +143,6 @@ public class SupplieDao {
     }
     
     /**
-     * 删除商品表的商品信息
-     * 
-     * @author zxy
-     * @param strId
-     * 2017年12月20日  下午4:47:30
-     */
-    public static void merDel(String strId) throws Exception{
-        Connection conn = Conn.conn();
-        String str = "delete from merchandise where id = ?";
-        strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-        ps.setString(1, strId);
-        ps.executeUpdate(); // 执行修改
-        ps.close();
-        conn.close();
-        suppSel();
-    }
-    
-    /**
      * 修改商品
      * @author zxy
      * @param name
@@ -162,7 +155,7 @@ public class SupplieDao {
      * @throws SQLException
      * 2017年12月14日  下午5:41:00
      */
-    public static String merchandiseUpd(String name,String money,String number,Integer nameTypeId,Integer specificationID,Integer id) throws SQLException{
+    public static String merchandiseUpd(String name,String money,String number,String nameTypeId,String specificationID,String id) throws SQLException{
         Connection conn = Conn.conn();
         String str = "update merchandise mer set name= ?,money = ?,number = ?,nameTypeID = ?,specificationID = ? where id = ?";
 
@@ -170,9 +163,9 @@ public class SupplieDao {
         ps.setString(1, name);
         ps.setString(2, money);
         ps.setString(3, number);
-        ps.setInt(5, nameTypeId);
-        ps.setInt(6, specificationID);
-        ps.setInt(7, id);
+        ps.setString(5, nameTypeId);
+        ps.setString(6, specificationID);
+        ps.setString(7, id);
         ps.executeUpdate(); // 执行修改
         ResultSet rs = ps.getResultSet(); // 获取查询结果
         List<Supplie> list = new ArrayList<>();
@@ -184,6 +177,51 @@ public class SupplieDao {
             sup.setNameTypeId(rs.getInt(4));
             sup.setSpecificationId(rs.getInt(5));
             sup.setId(rs.getInt(6));
+            list.add(sup);
+        }
+        String strJson = JsonUtils.beanToJson(ps);
+        rs.close();
+        ps.close();
+        return strJson;
+    }
+    
+    /**
+     * 修改规格表
+     * @author zxy
+     * @param origin
+     * @param netContent
+     * @param packingMethod
+     * @param brand
+     * @param qGp
+     * @param storageMethod
+     * @param speId
+     * @return
+     * @throws SQLException
+     * 2017年12月28日  下午10:06:30
+     */
+    public static String speUpd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String speId) throws SQLException{
+        Connection conn = Conn.conn();
+        String str = "update specification_table spe set origin= ?,netContent = ?,packingMethod = ?,brand = ?,qGp = ?,storageMethod = ? where id = ?";
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
+        ps.setString(1, origin);
+        ps.setString(2, netContent);
+        ps.setString(3, packingMethod);
+        ps.setString(4, brand);
+        ps.setString(5, qGp);
+        ps.setString(6, storageMethod);
+        ps.setString(7, speId);
+        ps.executeUpdate(); // 执行修改
+        ResultSet rs = ps.getResultSet(); // 获取查询结果
+        List<Supplie> list = new ArrayList<>();
+        while(rs.next()){ // 循环结果集
+            Supplie sup = new Supplie();
+            sup.setOrigin(rs.getString(1));
+            sup.setNetContent(rs.getString(2));
+            sup.setPackingMethod(rs.getString(3));
+            sup.setBrand(rs.getString(4));
+            sup.setqGp(rs.getString(5));
+            sup.setStorageMethod(rs.getString(6));
+            sup.setSpecificationId(7);
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
@@ -268,16 +306,13 @@ public class SupplieDao {
             rs.next();
             int count = rs.getInt(1); // sql语句查出总数为1代表id存在,总数为0代表可以添加此id(无人使用)
             if (count == 0) {
-//                resp.getWriter().write("0");
                 int iid = 0;
             }else{
-//                resp.getWriter().write("1");
                 int iid = 1;
             }
             rs.close();
             return count;
         } catch (Exception e) {
-//            resp.getWriter().write("0");
             e.printStackTrace();
             int iid = 0;
         }
