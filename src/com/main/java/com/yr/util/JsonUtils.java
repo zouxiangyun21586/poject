@@ -15,7 +15,7 @@ import net.sf.json.JsonConfig;
 /**
  * Json与javaBean之间的转换工具类
  * 
- * @author liucong
+ * @author 周业好
  *
  * @date 2017年8月4日
  */

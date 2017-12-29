@@ -75,7 +75,6 @@ public class SellerServlet extends HttpServlet {
         int seller_id = 7;
         String o = request.getParameter("o");
         String i = request.getParameter("i");
-        new LinkMysql();
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try {

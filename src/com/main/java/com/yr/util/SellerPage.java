@@ -1,14 +1,16 @@
 package com.yr.util;
+
 /**
- * 显示页码数
- * @author 周业好
- * 2017年12月13日 下午9:37:08
+ * @作者 林水桥 2017年12月29日上午9:20:19
  */
 public class SellerPage {
     /**
      * 显示页码数
-     * @param pageNowStr 当前页
-     * @param pageCountStr 总页数
+     * 
+     * @param pageNowStr
+     *            当前页
+     * @param pageCountStr
+     *            总页数
      * @return
      */
     public String getPageCode(Integer pageNowStr, Integer pageCountStr) {
@@ -37,9 +39,9 @@ public class SellerPage {
                 }
             }
         } else if (pageNow >= (pageCount - pageSize) + 1) {// 总页数-显示页数+1 =
-                                                            // 最后要显示的页码数
-                                                            // 当 当前页大于等于
-                                                            // 最后要显示的页码数 时的情况
+                                                           // 最后要显示的页码数
+                                                           // 当 当前页大于等于
+                                                           // 最后要显示的页码数 时的情况
             for (int i = pageCount - pageSize + 1; i <= pageCount; i++) {
                 if (i > 0) {
                     sb.append(i).append(",");

@@ -122,7 +122,7 @@
     </div>
 </body>
 <script src="plugins/layui/layui.js"></script>
-<script src="src/js/jquery-3.2.1.js"></script>
+<script src="js/jquery-3.2.1.js"></script>
 <script>
 $("#btn").click(function(){
     var Id = $("#id").val();
