@@ -15,7 +15,9 @@
 			<input type="hidden" value="0" id="id">
 			<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
 			<div class="layui-form" style="width:425px;">
-				<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
+				<form action="<%=request.getContextPath() %>/powerServlet?i=2" method="GET">
+					<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
+				</form>
 			</div>
 			</div>
 		</div>
@@ -28,11 +30,25 @@ $(document).ready(function(){
 	var i=0;
 	$('#submit').click(function(){
 		var a="";
-		$(".layui-input").each(function(){
+		var b="";
+		/* $(".layui-nav-item").each(function(){//取到输入框里面所有的值
+		   var value = $(".layui-form-label").text();
+		   var inp = $(".layui-input").val();
+		   a+=value+" "+inp+",";
+		   alert(value);
+		   alert(inp);
+		}); */
+		$(".layui-input").each(function(){//取到输入框里面所有的值
 		   var value = $(this).val();
-		   a+=value;
+		   a+=value+",";
+		   //alert(value);
 		});
-		    $('#p').addpend(a);
+		$(".layui-form-label").each(function(){//取到输入框里面所有的值
+		   var value = $(this).text();
+		   b+=value+",";
+		   alert(value);
+		});
+		    //$('#p').addpend(a);
 	});
 	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
@@ -70,6 +86,7 @@ $(document).ready(function(){
 		        	$.each(dataObj, function(index, item){
 	        			zi+="<dd><label class='layui-form-label' style='width:50px;'>"+item.name+"</label>"
     	            	+"<div class='layui-input-inline' style='padding-left:70px;'>"
+    	            	+"<input type='hidden' value='"+item.id+"'>"
     	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
     	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+item.staStr+"</span>"
     	            	+"</dd>";

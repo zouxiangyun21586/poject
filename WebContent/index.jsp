@@ -85,7 +85,7 @@
 		var i=0;
 		$.ajax({     
 	        type: "get",//请求方式,默认GET
-	        url: "powerServlet?id=0",     
+	        url: "powerServlet?id=0&i=1",     
 	        dataType: "json",
 	        success: function(data) {
 	        	var dataObj=data;
