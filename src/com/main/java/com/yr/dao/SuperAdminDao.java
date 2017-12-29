@@ -426,7 +426,7 @@ public class SuperAdminDao {
 			if (null != sel && !"".equals(sel) || !"quan".equals(rolename) && "".equals(rolename) && null != rolename) {//使用搜索功能进入这个if判断
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
-				sql = "SELECT DISTINCT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+				sql = "SELECT DISTINCT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
@@ -475,9 +475,9 @@ public class SuperAdminDao {
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(2));
+					us.setRoleName(resu.getString(4));
 					us.setState(resu.getInt(3));
-					us.setUserName(resu.getString(4));
+					us.setUserName(resu.getString(2));
 					if (us.getState() == 0) {
 						us.setStateStr("使用中");
 					} else {
@@ -490,7 +490,7 @@ public class SuperAdminDao {
 //				conn.close();
 				return list;
 			} else {
-				sql = "SELECT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
+				sql = "SELECT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
 				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 				prepar.setInt(1, pageNow);
