@@ -15,14 +15,14 @@
 			<div class="layui-col-md8" style="width: 70%;">
 			<button class="layui-btn layui-btn-sm" style="float:left;" id="addrole">
                     <i class="layui-icon">&#xe654;</i> 添加职位</button>
-			<form class="layui-form layui-form-pane">
+			<div class="layui-form layui-form-pane">
 				<button class="layui-btn layui-btn-sm layui-btn-normal"
 					style="float: right; margin-left: 0px;" onclick="search(this)" id="sousuo">
 					<i class="layui-icon">&#xe615;</i>搜索
 				</button>
 				<input type="text" class="layui-input" placeholder="请根据职位查询"
-					style="float: right; width: 250px; height: 30px;" />
-				</form>
+					style="float: right; width: 250px; height: 30px;" / id="zhi">
+				</div>
 				<table class="layui-table" id="table">
 					<thead>
 						<tr>
@@ -93,7 +93,81 @@ $(document).ready(function(){
 });
 
 
-
+function search(){
+    var zhi=$("#zhi").val();
+    $.ajax({
+        url:'<%=request.getContextPath()%>/search',
+        type:'get',
+        async:false,
+        data:{"roleName":zhi},
+        dataType:'json',
+        success:function(strjson){
+            if(strjson=="0"){
+                alert("你输入的职位不存在");
+                return;
+            }else if(strjson=="1"){
+                $.ajax({
+                    url:'<%=request.getContextPath()%>/search',
+                    type:'post',
+                    async:false,
+                    data:{"roleName":zhi},
+                    dataType:'json',
+                    success:function(strjson){
+                       if(strjson=="0"){
+                          alert("你输入的值为空,"); 
+                          return;
+                       }else{
+                           $.ajax({
+                               url:'<%=request.getContextPath()%>/search',
+                               type:'post',
+                               async:false,
+                               data:{"roleName":zhi},
+                               dataType:'json',
+                               success:function(strjson){
+                                   var b="";
+                                  for (var i = 0; i< strjson.length; i++){
+                                      var a=strjson[i];
+                                      if(a.roleName =="超级管理员"){
+                                          rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+                                      }
+                                      else{
+                                          rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+                                      }
+                                      b+="<tr><td>"+a.id
+                                              +"</td><td>"+a.roleName+"</td><td>"
+                                              +rolebtn+"</td></tr>";
+                                  }
+                                  $("#table").html(b);
+                               },
+                               error:function(XMLHttpRequest, textStatus, errorThrown)
+                               {
+                                   alert(XMLHttpRequest.status);  
+                                   alert(XMLHttpRequest.readyState);  
+                                   alert(textStatus); 
+                                   alert("后台发生错误!!");
+                               }
+                           });
+                       }
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown)
+                    {
+                        alert(XMLHttpRequest.status);  
+                        alert(XMLHttpRequest.readyState);  
+                        alert(textStatus); 
+                        alert("后台发生错误!!");
+                    }
+                });
+            }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown)
+        {
+            alert(XMLHttpRequest.status);  
+            alert(XMLHttpRequest.readyState);  
+            alert(textStatus); 
+            alert("后台发生错误!!");
+        } 
+    })
+}
 		function del(a)
 		{
 		    var tr = $(a).parent().parent();
