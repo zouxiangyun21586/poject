@@ -72,7 +72,7 @@ public class SellerServlet extends HttpServlet {
         
         response.setContentType("text/json");
         response.setCharacterEncoding("utf-8"); // 转码 防止中文乱码
-        int seller_id = (int)request.getSession().getAttribute("username");
+        int seller_id = (int)request.getSession().getAttribute("userID");
         String o = request.getParameter("o");
         String i = request.getParameter("i");
         Connection conn = LinkMysql.getCon();
