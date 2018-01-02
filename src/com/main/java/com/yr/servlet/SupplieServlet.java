@@ -2,8 +2,9 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.SuperAdminDao;
 import com.yr.dao.SupplieDao;
 import com.yr.pojo.Account_Role;
+import com.yr.util.ConnectTime;
 import com.yr.util.PageService;
 
 import net.sf.json.JSONObject;
@@ -53,7 +55,7 @@ public class SupplieServlet extends HttpServlet {
                     String name = req.getParameter("commodity"); // 商品名
                     String nameType = req.getParameter("merType"); // 商品类型
                     String money = req.getParameter("money"); // 商品价格
-                    String describe = req.getParameter("describe"); // 商品描述
+                    String describe = req.getParameter("describe"); // 商品描述   ------- 没用
                     String origin = req.getParameter("origin"); // 商品产地
                     String netContent = req.getParameter("netContent"); // 商品净含量
                     String packingMethod = req.getParameter("packingMethod"); // 商品包装
@@ -63,7 +65,7 @@ public class SupplieServlet extends HttpServlet {
                     String number = req.getParameter("number"); // 商品数量
                     String specificationID = req.getParameter("specificationID"); // 商品规格Id
                     String suptID = req.getParameter("suptID"); // 供应商规格字段Id
-                    String merId = req.getParameter("merId"); // 商品ID 
+                    String merId = req.getParameter("merId"); // 商品ID
                     
                     /**
                      * 获取网络时间
@@ -72,20 +74,28 @@ public class SupplieServlet extends HttpServlet {
                     String date = SupplieDao.getWebsiteDatetime(webUrl4);
                     
                     SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
-                    SupplieDao.merchandiseAdd(nameType, name, money, describe, number, date); // 添加商品信息
+                    SupplieDao.merchandiseAdd(nameType, name, money, specificationID, number, date); // 添加商品信息
                     SupplieDao.suppAdd(name,merId,merId); // 添加供应商商品信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if ("3".equals(sup)) { // 删除(根据ID删除商品)
-                try {
+                /*try {
                     String strId = req.getParameter("supDel"); // 页面传过来的值
                     SupplieDao.suppDel(strId); // 删除方法
                     SupplieDao.suppSel(); // 查询方法
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("jump.jsp").forward(req, resp);
+                req.getRequestDispatcher("jump.jsp").forward(req, resp);*/
+                try {
+                    String id = req.getParameter("id");
+                    System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
+                    String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                    SupplieDao.xiajia(date, id);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             } else if ("4".equals(sup)) { // 修改 商品信息
                 try {
                     String id = req.getParameter("id"); // 供应商Id
