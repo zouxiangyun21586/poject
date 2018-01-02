@@ -13,7 +13,8 @@ import com.yr.dao.LinkMysql;
 import com.yr.util.JsonUtils;
 
 /**
- * @×÷Õß ÁÖË®ÇÅ 2017Äê12ÔÂ29ÈÕÉÏÎç9:18:57
+ * 
+ * @ä½œè€… æ—æ°´æ¡¥ 2018å¹´1æœˆ2æ—¥ä¸Šåˆ9:36:37
  */
 public class SellerDao {
     private static final int NUB_1 = 1;
@@ -31,7 +32,7 @@ public class SellerDao {
     private static final int NUB_13 = 13;
 
     /**
-     * ²éÑ¯Âô¼Ò·¢²¼±íÀïµÄËùÓĞĞÅÏ¢
+     * æŸ¥è¯¢å–å®¶å‘å¸ƒè¡¨é‡Œçš„æ‰€æœ‰ä¿¡æ¯
      */
     public static String queryGoods() {
         Connection conn = LinkMysql.getCon();
@@ -40,7 +41,7 @@ public class SellerDao {
             String sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from release_seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id;";// ,account
                                                                                                                                                                                                                                                                                                                                            // acc
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.executeQuery(); // Ö´ĞĞ²éÑ¯
+            ps.executeQuery(); // æ‰§è¡ŒæŸ¥è¯¢
             ResultSet rs = ps.getResultSet();
             while (rs.next()) {
                 Seller goods = new Seller();
@@ -72,17 +73,17 @@ public class SellerDao {
     }
 
     /**
-     * ²éÑ¯Êı¾İ²¢ÓÃlist·â×°ÆğÀ´
+     * æŸ¥è¯¢æ•°æ®å¹¶ç”¨listå°è£…èµ·æ¥
      * 
      * @param abc
-     *            ÕËºÅ
+     *            è´¦å·
      * @param rolename
-     *            ½ÇÉ«Ãû
+     *            è§’è‰²å
      * @param pageNow
-     *            µ±Ç°Ò³
+     *            å½“å‰é¡µ
      * @param sel
-     *            ÅĞ¶ÏÊÇ·ñÓÃÁË²éÑ¯¹¦ÄÜ
-     * @return ·µ»ØËù²éÑ¯µÄÊı¾İ
+     *            åˆ¤æ–­æ˜¯å¦ç”¨äº†æŸ¥è¯¢åŠŸèƒ½
+     * @return è¿”å›æ‰€æŸ¥è¯¢çš„æ•°æ®
      */
     public static List<Seller> selectGoods(String abc, Integer pageNow, String sel) {
         String sql = "";
@@ -138,8 +139,11 @@ public class SellerDao {
                     goods.setAuditStatus(rs.getInt(NUB_13));
                     list.add(goods);
                 }
+                rs.close();
+                pre.close();
+                conn.close();
                 return list;
-            } else {// ²éÑ¯ËùÓĞÊı¾İ
+            } else {// æŸ¥è¯¢æ‰€æœ‰æ•°æ®
                 sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from release_seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(NUB_1, pageNow);
@@ -163,6 +167,9 @@ public class SellerDao {
                     goods.setAuditStatus(rs.getInt(NUB_13));
                     list.add(goods);
                 }
+                rs.close();
+                pre.close();
+                conn.close();
                 return list;
             }
         } catch (Exception e) {
@@ -172,15 +179,15 @@ public class SellerDao {
     }
 
     /**
-     * »ñµÃ×ÜÒ³Êı
+     * è·å¾—æ€»é¡µæ•°
      * 
-     * @return ·µ»Ø×ÜÒ³Êı
+     * @return è¿”å›æ€»é¡µæ•°
      */
     public static Integer getPageCount() {
-        int total = 0;// ×Ü¹²¶àÉÙÌõ¼ÇÂ¼
-        int pageCount = 0;// ×ÜÒ³Êı
+        int total = 0;// æ€»å…±å¤šå°‘æ¡è®°å½•
+        int pageCount = 0;// æ€»é¡µæ•°
+        Connection conn = LinkMysql.getCon();
         try {
-            Connection conn = LinkMysql.getCon();
             String sql = "select count(*) from release_seller";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
             prepar.executeQuery();
@@ -188,6 +195,9 @@ public class SellerDao {
             while (resu.next()) {
                 total = resu.getInt(1);
             }
+            resu.close();
+            prepar.close();
+            conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

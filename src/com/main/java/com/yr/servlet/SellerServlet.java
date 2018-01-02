@@ -27,12 +27,12 @@ import net.sf.json.JSONObject;
 
 /**
  * 
- * @×÷Õß ÁÖË®ÇÅ 2017Äê12ÔÂ13ÈÕÉÏÎç10:58:37
+ * @ä½œè€… æ—æ°´æ¡¥ 2017å¹´12æœˆ13æ—¥ä¸Šåˆ10:58:37
  */
 @WebServlet(urlPatterns = "/sellerServlet")
 public class SellerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    public static final String webUrl4 = "http://www.ntsc.ac.cn";// ÖĞ¹ú¿ÆÑ§Ôº¹ú¼ÒÊÚÊ±ÖĞĞÄ
+    public static final String webUrl4 = "http://www.ntsc.ac.cn";// ä¸­å›½ç§‘å­¦é™¢å›½å®¶æˆæ—¶ä¸­å¿ƒ
     private static final int NUB_0 = 0;
     private static final int NUB_1 = 1;
     private static final int NUB_2 = 2;
@@ -56,14 +56,14 @@ public class SellerServlet extends HttpServlet {
 
 
     /**
-     * Âô¼Ò±í
-     * i=1 o=1 Îª    ²é¿´ÉÌÆ·ÏêÏ¸ĞÅÏ¢
-     * i=1 o=2 Îª    ĞŞ¸ÄÒ³Ãæ
-     * i=2 Îª    É¾³ı±£´æµÄÉÌÆ·ĞÅÏ¢
-     * i=3 Îª    ³·ÏúÕıÔÚÉóºËµÄÉÌÆ·
-     * i=4 Îª    ÏÂ¼ÜÉÌÆ·
-     * i=5 Îª    ĞŞ¸ÄÉÌÆ·ĞÅÏ¢
-     * i=6 Îª    Ìí¼ÓÉÌÆ·
+     * å–å®¶è¡¨
+     * i=1 o=1 ä¸º    æŸ¥çœ‹å•†å“è¯¦ç»†ä¿¡æ¯
+     * i=1 o=2 ä¸º    ä¿®æ”¹é¡µé¢
+     * i=2 ä¸º    åˆ é™¤ä¿å­˜çš„å•†å“ä¿¡æ¯
+     * i=3 ä¸º    æ’¤é”€æ­£åœ¨å®¡æ ¸çš„å•†å“
+     * i=4 ä¸º    ä¸‹æ¶å•†å“
+     * i=5 ä¸º    ä¿®æ”¹å•†å“ä¿¡æ¯
+     * i=6 ä¸º    æ·»åŠ å•†å“
      * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -71,14 +71,14 @@ public class SellerServlet extends HttpServlet {
             throws ServletException, IOException {
         
         response.setContentType("text/json");
-        response.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8"); // è½¬ç  é˜²æ­¢ä¸­æ–‡ä¹±ç 
         int seller_id = 7;
         String o = request.getParameter("o");
         String i = request.getParameter("i");
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try {
-            if ("1".equals(i)) { // ²é¿´»òĞŞ¸ÄÉÌÆ·ÏêÏ¸ĞÅÏ¢
+            if ("1".equals(i)) { // æŸ¥çœ‹æˆ–ä¿®æ”¹å•†å“è¯¦ç»†ä¿¡æ¯
                 int id = Integer.valueOf(request.getParameter("id"));
                 String sql = "select mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,mth.`month`,spt.qGP,spt.storageMethod,m.money,m.number,m.upFrameTime,rs.time,rs.downtime,rs.id,m.id,spt.id,m.nameTypeID from release_seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and rs.id=?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
@@ -110,14 +110,14 @@ public class SellerServlet extends HttpServlet {
                 }
                 rs.close();
                 ps.close();
-                if ("1".equals(o)) { // ½øÈë²é¿´Ò³Ãæ
+                if ("1".equals(o)) { // è¿›å…¥æŸ¥çœ‹é¡µé¢
                     request.setAttribute("list", list);
                     request.getRequestDispatcher("seller/detail.jsp").forward(request, response);
-                } else if ("2".equals(o)) { // ½øÈëĞŞ¸ÄÒ³Ãæ
+                } else if ("2".equals(o)) { // è¿›å…¥ä¿®æ”¹é¡µé¢
                     request.setAttribute("list", list);
                     request.getRequestDispatcher("seller/update.jsp").forward(request, response);
                 }
-            } else if ("2".equals(i)) { // É¾³ı±£´æµÄÉÌÆ·ĞÅÏ¢
+            } else if ("2".equals(i)) { // åˆ é™¤ä¿å­˜çš„å•†å“ä¿¡æ¯
                 int id = Integer.valueOf(request.getParameter("id"));
                 int sellers_id = Integer.valueOf(request.getParameter("seller_id"));
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
@@ -148,7 +148,7 @@ public class SellerServlet extends HttpServlet {
                 ps1.executeUpdate();
                 ps1.close();
                 response.getWriter().write("0");
-            } else if ("3".equals(i)) { // ³·ÏúÕıÔÚÉóºËµÄÉÌÆ·
+            } else if ("3".equals(i)) { // æ’¤é”€æ­£åœ¨å®¡æ ¸çš„å•†å“
                 int id = Integer.valueOf(request.getParameter("id"));
                 String sql = "update release_seller set audits = ? where id = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
@@ -157,7 +157,7 @@ public class SellerServlet extends HttpServlet {
                 ps.executeUpdate();
                 ps.close();
                 response.getWriter().write("0");
-            } else if ("4".equals(i)) { // ÏÂ¼ÜÒÑÉóºËµÄÉÌÆ·
+            } else if ("4".equals(i)) { // ä¸‹æ¶å·²å®¡æ ¸çš„å•†å“
                 int id = Integer.valueOf(request.getParameter("id"));
                 System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
                 String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
@@ -181,30 +181,30 @@ public class SellerServlet extends HttpServlet {
                 String sst = JsonUtils.beanListToJson(list);
                 response.setContentType("application/json; charset=utf-8");
                 response.getWriter().write(sst);
-            } else if ("5".equals(i)) { // ĞŞ¸ÄÉÌÆ·ĞÅÏ¢
+            } else if ("5".equals(i)) { // ä¿®æ”¹å•†å“ä¿¡æ¯
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 int spec_id = Integer.valueOf(request.getParameter("speciID"));
                 String nameType = request.getParameter("nameType");
-                nameType = new String(nameType.getBytes("ISO-8859-1"),"UTF-8");
+                nameType = new String(nameType.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String name = request.getParameter("name");
-                name = new String(name.getBytes("ISO-8859-1"),"UTF-8");
+                name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String money = request.getParameter("money");
-                money = new String(money.getBytes("ISO-8859-1"),"UTF-8");
+                money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String desc = request.getParameter("desc");
-                desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8");
+                desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 int number = Integer.valueOf(request.getParameter("number"));
                 String origin = request.getParameter("origin");
-                origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8");
+                origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String netContent = request.getParameter("netContent");
-                netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8");
+                netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String packingMethod = request.getParameter("packingMethod");
-                packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8");
+                packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String brand = request.getParameter("brand");
-                brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8");
+                brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 int qGP = Integer.valueOf(request.getParameter("qGP"));
                 String storageMethod = request.getParameter("storageMethod");
-                storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8");
-                // »ñÈ¡ĞŞ¸ÄºóµÄ ÉÌÆ·ÀàĞÍID
+                storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
+                // è·å–ä¿®æ”¹åçš„ å•†å“ç±»å‹ID
                 String sql = "select id from merchandise_type where type=?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setString(NUB_1, nameType);
@@ -216,7 +216,7 @@ public class SellerServlet extends HttpServlet {
                 }
                 rs.close();
                 ps.close();
-                // ¸ù¾İ¹æ¸ñIDĞŞ¸Ä ¹æ¸ñÊı¾İ
+                // æ ¹æ®è§„æ ¼IDä¿®æ”¹ è§„æ ¼æ•°æ®
                 String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
                 PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
                 ps1.setString(NUB_1, origin);
@@ -228,7 +228,7 @@ public class SellerServlet extends HttpServlet {
                 ps1.setInt(NUB_7, spec_id);
                 ps1.executeUpdate();
                 ps1.close();
-                // ¸ù¾İÉÌÆ·IDĞŞ¸Ä ÉÌÆ·Êı¾İ
+                // æ ¹æ®å•†å“IDä¿®æ”¹ å•†å“æ•°æ®
                 String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
                 PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
                 ps2.setInt(NUB_1, newNTID);
@@ -240,32 +240,31 @@ public class SellerServlet extends HttpServlet {
                 ps2.setInt(NUB_7, wares_id);
                 ps2.executeUpdate();
                 ps2.close();
-                //response.getWriter().write("<script>layui.use(['layer', 'laypage', 'element'], function(){layer.msg('ĞŞ¸Ä³É¹¦!',{icon: 1});setTimeout('parent.location.href=parent.location.href;','1000');});</script>");
-                //response.getWriter().write("window.location.href = 'about:blank ';");
-            } else if ("6".equals(i)) { // Ìí¼ÓÉÌÆ·
-                int select = Integer.valueOf(request.getParameter("interest")); // ÉÌÆ·ÀàĞÍ
+                response.getWriter().write("1");
+            } else if ("6".equals(i)) { // æ·»åŠ å•†å“
+                int select = Integer.valueOf(request.getParameter("interest")); // å•†å“ç±»å‹
                 String name = request.getParameter("name");
-                name = new String(name.getBytes("ISO-8859-1"),"UTF-8");
+                name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String money = request.getParameter("money");
-                money = new String(money.getBytes("ISO-8859-1"),"UTF-8");
+                money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String desc = request.getParameter("desc");
-                desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8");
+                desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String origin = request.getParameter("origin");
-                origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8");
+                origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String netContent = request.getParameter("netContent");
-                netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8");
+                netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String packingMethod = request.getParameter("packingMethod");
-                packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8");
+                packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 String brand = request.getParameter("brand");
-                brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8");
+                brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 int qGP = Integer.valueOf(request.getParameter("qGP"));
                 String storageMethod = request.getParameter("storageMethod");
-                storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8");
+                storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // è½¬ä¸ºutf-8æ ¼å¼ é˜²æ­¢ä¸­æ–‡ä¹±ç 
                 int number = Integer.valueOf(request.getParameter("number"));
-                // »ñÈ¡ÍøÂçÊ±¼ä
+                // è·å–ç½‘ç»œæ—¶é—´
                 System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
                 String date = ConnectTime.getWebsiteDatetime(webUrl4);
-                /** Ìí¼Ó¹æ¸ñ±íÊı¾İ */
+                /** æ·»åŠ è§„æ ¼è¡¨æ•°æ® */
                 String sql = "insert into specification_table(origin,netContent,packingMethod,brand,qGP,storageMethod) values(?,?,?,?,?,?);";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setString(NUB_1, origin);
@@ -276,7 +275,7 @@ public class SellerServlet extends HttpServlet {
                 ps.setString(NUB_6, storageMethod);
                 ps.executeUpdate();
                 ps.close();
-                /** »ñÈ¡¹æ¸ñ±íID */
+                /** è·å–è§„æ ¼è¡¨ID */
                 String sql1 = "select max(id) from specification_table;";
                 PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
                 ps1.executeQuery();
@@ -287,7 +286,7 @@ public class SellerServlet extends HttpServlet {
                 }
                 rs1.close();
                 ps1.close();
-                /** Ìí¼ÓÉÌÆ·±íÊı¾İ */
+                /** æ·»åŠ å•†å“è¡¨æ•°æ® */
                 String sql2 = "insert into merchandise(nameTypeID,`name`,money,`describe`,specificationID,number,upFrameTime) values(?,?,?,?,?,?,?);";
                 PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
                 ps2.setInt(NUB_1, select);
@@ -299,7 +298,7 @@ public class SellerServlet extends HttpServlet {
                 ps2.setString(NUB_7, date);
                 ps2.executeUpdate();
                 ps2.close();
-                /** ²éÑ¯ÉÌÆ·ID */
+                /** æŸ¥è¯¢å•†å“ID */
                 String sql3 = "select m.id from merchandise m,specification_table stb where m.specificationID=stb.id and stb.id=?;";
                 PreparedStatement ps3 = (PreparedStatement) conn.prepareStatement(sql3);
                 ps3.setInt(NUB_1, s_tb);
@@ -311,7 +310,7 @@ public class SellerServlet extends HttpServlet {
                 }
                 rs3.close();
                 ps3.close();
-                /** Ìí¼Ó·¢²¼±íÊı¾İ */
+                /** æ·»åŠ å‘å¸ƒè¡¨æ•°æ® */
                 String sql4 = "insert into release_seller(seller_id,wares_id,time,downtime,audits) values(?,?,?,?,?);";
                 PreparedStatement ps4 = (PreparedStatement) conn.prepareStatement(sql4);
                 ps4.setInt(NUB_1, seller_id);
@@ -322,10 +321,26 @@ public class SellerServlet extends HttpServlet {
                 ps4.executeUpdate();
                 ps4.close();
                 response.sendRedirect("seller/user.jsp");
-            } else if ("7".equals(i)) {//Âô¼ÒÉÏ¼Ü,ÕıÔÚÉóºË
-                
-            } else if ("8".equals(i)) {//Âô¼ÒÉÏ¼Ü,ÉóºË³É¹¦
-                
+            } else if ("7".equals(i)) {//å–å®¶ä¸Šæ¶,æ­£åœ¨å®¡æ ¸
+                int id = Integer.valueOf(request.getParameter("id"));
+                String sql = "update release_seller set audits = ? where id = ?;";
+                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+                ps.setInt(NUB_1, NUB_1);
+                ps.setInt(NUB_2, id);
+                ps.executeUpdate();
+                ps.close();
+            } else if ("8".equals(i)) {//å–å®¶ä¸Šæ¶,å®¡æ ¸æˆåŠŸ
+                int id = Integer.valueOf(request.getParameter("id"));
+                System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
+                String date = ConnectTime.getWebsiteDatetime(webUrl4);
+                String sql = "update release_seller set time=?,audits=? where id =?;";
+                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+                ps.setString(NUB_1, date);
+                ps.setInt(NUB_2, NUB_2);
+                ps.setInt(NUB_3, id);
+                ps.executeUpdate();
+                ps.close();
+                response.getWriter().write("0");
             } else if ("9".equals(i)) {
                 
             } else {
@@ -339,7 +354,7 @@ public class SellerServlet extends HttpServlet {
     }
 
     /**
-     * ²éÑ¯Âô¼Ò±íËùÓĞÊı¾İ
+     * æŸ¥è¯¢å–å®¶è¡¨æ‰€æœ‰æ•°æ®
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -347,21 +362,21 @@ public class SellerServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/json");
         response.setCharacterEncoding("utf-8");
-        //Ò³ÃæÏÔÊ¾Öµ
+        //é¡µé¢æ˜¾ç¤ºå€¼
         PrintWriter out = response.getWriter();
         String type= request.getParameter("type");
-        String select= request.getParameter("select");//ËÑË÷¹¦ÄÜÖĞÊäÈë¿òµÄÖµ(ÕËºÅ)
-        String pageNow = request.getParameter("pageNow");//»ñµÃÒ³Ãæ´«¹ıÀ´µÄµ±Ç°Ò³
+        String select= request.getParameter("select");//æœç´¢åŠŸèƒ½ä¸­è¾“å…¥æ¡†çš„å€¼(è´¦å·)
+        String pageNow = request.getParameter("pageNow");//è·å¾—é¡µé¢ä¼ è¿‡æ¥çš„å½“å‰é¡µ
         if (null != type && type.equals("list")) {
             String sel = request.getParameter("select");
             if (null == pageNow || "".equals(pageNow)) {
                 pageNow = "1";
             }
-         // ²éÑ¯²¢·ÖÒ³
+         // æŸ¥è¯¢å¹¶åˆ†é¡µ
             List<Seller> list = SellerDao.selectGoods(select,Integer.valueOf(pageNow),sel);
-         // »ñµÃ×ÜÒ³Êı
+         // è·å¾—æ€»é¡µæ•°
             int pageCount=SellerDao.getPageCount();
-         // ÏÔÊ¾µ±Ç°Ò³
+         // æ˜¾ç¤ºå½“å‰é¡µ
             String pageCode = new SellerPage().getPageCode(Integer.parseInt(pageNow), pageCount);
             Map<String, Object> map = new HashMap<>();
             map.put("list", list);

@@ -7,27 +7,27 @@ import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
 /**
- * @×÷Õß ÁÖË®ÇÅ
- * 2017Äê12ÔÂ28ÈÕÏÂÎç5:36:40
+ * @ä½œè€… æ—æ°´æ¡¥ 2017å¹´12æœˆ28æ—¥ä¸‹åˆ5:36:40
  */
 public class ConnectTime {
     /**
-     * »ñÈ¡Ö¸¶¨ÍøÕ¾µÄÈÕÆÚÊ±¼ä
+     * è·å–æŒ‡å®šç½‘ç«™çš„æ—¥æœŸæ—¶é—´
      * 
      * @param webUrl
      * @return
      * @author SHANHY
-     * @date 2015Äê11ÔÂ27ÈÕ
+     * @date 2015å¹´11æœˆ27æ—¥
      */
     public static String getWebsiteDatetime(String webUrl) {
         try {
-            URL url = new URL(webUrl);// È¡µÃ×ÊÔ´¶ÔÏó
-            URLConnection uc = url.openConnection();// Éú³ÉÁ¬½Ó¶ÔÏó
-            uc.connect();// ·¢³öÁ¬½Ó
-            long ld = uc.getDate();// ¶ÁÈ¡ÍøÕ¾ÈÕÆÚÊ±¼ä
-            Date date = new Date(ld);// ×ª»»Îª±ê×¼Ê±¼ä¶ÔÏó
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);// Êä³öÍøÂçÊ±¼ä
+            URL url = new URL(webUrl);// å–å¾—èµ„æºå¯¹è±¡
+            URLConnection uc = url.openConnection();// ç”Ÿæˆè¿æ¥å¯¹è±¡
+            uc.connect();// å‘å‡ºè¿æ¥
+            long ld = uc.getDate();// è¯»å–ç½‘ç«™æ—¥æœŸæ—¶é—´
+            Date date = new Date(ld);// è½¬æ¢ä¸ºæ ‡å‡†æ—¶é—´å¯¹è±¡
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);// è¾“å‡ºç½‘ç»œæ—¶é—´
             return sdf.format(date);
         } catch (MalformedURLException e) {
             e.printStackTrace();
