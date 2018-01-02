@@ -145,6 +145,27 @@ public class SupplieDao {
     }
     
     /**
+     * 下架商品
+     * @author zxy
+     * 2018年1月2日  上午10:31:46
+     * @throws SQLException 
+     */
+    public static void xiajia(String date,String id) throws SQLException{
+        Connection conn = Conn.conn();
+        String str = "update release_supplier set time=? where id=?;";
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
+        ps.setString(1, date);
+        ps.setString(2, id);
+        ps.executeUpdate();
+        ps.close();
+        String strsql = "select time from release_supplier where id=?;";
+        PreparedStatement psp = (PreparedStatement) conn.prepareStatement(strsql);
+        psp.setString(1, id);
+        psp.executeQuery();
+        ResultSet rs = psp.getResultSet();
+    }
+    
+    /**
      * 修改商品
      * @author zxy
      * @param name
