@@ -47,6 +47,8 @@ public class RoleQueryServlet extends HttpServlet {
 			}
 			String strjson = JsonUtils.beanListToJson(list);
 			resp.getWriter().write(strjson);
+			rs.close();
+			ps.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

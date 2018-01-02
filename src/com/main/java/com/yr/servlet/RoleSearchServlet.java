@@ -49,8 +49,10 @@ public class RoleSearchServlet extends HttpServlet{
 				System.out.println("查询如下");
 				resp.getWriter().write("1");
 			}
+			rs.close();
+			ps.close();
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 	}
 	/* 作者：唐子壕
@@ -80,6 +82,8 @@ public class RoleSearchServlet extends HttpServlet{
 				}
 				String strjson = JsonUtils.beanListToJson(list);
 				resp.getWriter().write(strjson);
+				rs.close();
+				ps.close();
 			}
 		}catch(Exception e){
 			e.printStackTrace();

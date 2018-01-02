@@ -34,6 +34,7 @@ public class RoleDeleteServlet extends HttpServlet {
 			Integer role_id = Integer.valueOf(id);
 			delAccount_role(role_id);
 			resp.getWriter().write("0");
+			ps.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			resp.getWriter().write("1");
@@ -54,6 +55,7 @@ public class RoleDeleteServlet extends HttpServlet {
 			PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
 			pre.setInt(1,role_id);
 			pre.executeUpdate();
+			pre.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}

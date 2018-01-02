@@ -20,11 +20,11 @@ import com.yr.pojo.RoleTzh;
 import com.yr.util.JsonUtils;
 
 /**
- * ÐÞ¸Ä
+ * ï¿½Þ¸ï¿½
  * 2017
  * @author zxy
  * Administrator
- * 2017Äê12ÔÂ20ÈÕ ÏÂÎç5:51:09
+ * 2017ï¿½ï¿½12ï¿½ï¿½20ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½5:51:09
  */
 public class RoleUpdateServlet extends HttpServlet{
     @Override
@@ -59,7 +59,7 @@ public class RoleUpdateServlet extends HttpServlet{
             Connection conn = (Connection) LinkMysql.getCon();
             String str = "update role set roleName = ? where id = ?";
             
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// ·¢ËÍSQLµ½Êý¾Ý¿â
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// ï¿½ï¿½ï¿½ï¿½SQLï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
             ps.setString(1,roleName);
             ps.setString(2,id);
             ps.executeUpdate();

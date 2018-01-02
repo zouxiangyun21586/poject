@@ -69,6 +69,7 @@ public class RoleAddServlet extends HttpServlet{
 		ps.setString(1,roleName);
 		ps.executeUpdate();
 		resp.getWriter().write("0");
+		ps.close();
 		}catch(Exception e){
 			e.printStackTrace();
 			resp.getWriter().write("1");
