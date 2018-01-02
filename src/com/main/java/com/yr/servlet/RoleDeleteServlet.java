@@ -54,8 +54,6 @@ public class RoleDeleteServlet extends HttpServlet {
 			PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
 			pre.setInt(1,role_id);
 			pre.executeUpdate();
-			pre.close();
-			conn.close();
 		}catch(Exception e){
 			e.printStackTrace();
 		}
