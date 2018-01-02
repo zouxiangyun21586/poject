@@ -12,7 +12,8 @@
 </head>
 <script type="text/javascript">
 	/* 修改保存 */
-	$("#sb").click(function tjbc(){
+	$("#sb").click(function tjbc(obj){
+		var tr = $(xj).parent().parent();
 	    var id = tr.find("td").eq(0).text();
 	    var commo = $("#mername").val();
         var money = $("#mermoney").val();
