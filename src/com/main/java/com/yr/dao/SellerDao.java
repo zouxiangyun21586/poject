@@ -141,7 +141,7 @@ public class SellerDao {
                 }
                 rs.close();
                 pre.close();
-                conn.close();
+                //conn.close();
                 return list;
             } else {// 查询所有数据
                 sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from release_seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
@@ -169,7 +169,7 @@ public class SellerDao {
                 }
                 rs.close();
                 pre.close();
-                conn.close();
+                //conn.close();
                 return list;
             }
         } catch (Exception e) {
@@ -197,7 +197,7 @@ public class SellerDao {
             }
             resu.close();
             prepar.close();
-            conn.close();
+            //conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
