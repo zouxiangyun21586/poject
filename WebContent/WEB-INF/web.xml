@@ -99,6 +99,15 @@
         <url-pattern>/add</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>roleSearch</servlet-name>
+        <servlet-class>com.yr.servlet.RoleSearchServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>roleSearch</servlet-name>
+        <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    
 	<!-- 过滤器 -->
 	<filter>
 		<filter-name>Filter</filter-name>
