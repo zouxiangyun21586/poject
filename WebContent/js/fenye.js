@@ -48,29 +48,28 @@ function urls() { //拆分取url中?后面的参数各和值,组成对象返回
 	function page(pageCount,pageNow,pageCode,seachData){
 		var pageContent = "";
 			if(parseInt(pageNow)>1){
-				pageContent = "<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow=1'><<</a>"+
-				"<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+(pageNow-1)+"'><</a>";
+				pageContent = "<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow=1'>首页</a>"+
+				"<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+(pageNow-1)+"'>上一页</a>";
 			}else if(parseInt(pageNow)==1){
-				pageContent = "&nbsp; ";
+				pageContent = "&nbsp;";
 			}
 			if (null != pageCode && "" != pageCode) {
 				var pageCodeArr = pageCode.split(",");
 				for (var i in pageCodeArr) {
 					if (pageCodeArr[i] !== "") {
-						pageContent +=  "<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</a>" ;
+						pageContent +=  "<a href='user.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'><span class='layui-badge-rim' style='height:27px;width:20px;line-height:28px;background-color:#fff;color:#000;' id='ye"+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</span></a>" ;
 					}
 				}
 			}
 			if(parseInt(pageNow)!=parseInt(pageCount)){
 				
-			pageContent += "<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+(parseInt(pageNow)+1)+"'>></a>"+
-					"<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+pageCount+"'>>></a>";
+			pageContent += "<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+(parseInt(pageNow)+1)+"'>下一页</a>"+
+					"<a class='layui-btn layui-btn-sm' href='user.jsp?"+seachData+"&pageNow="+pageCount+"'>尾页</a>";
 			}else{
 				pageContent += "&nbsp;";
 			}
 			pageContent += "&nbsp;&nbsp;&nbsp;&nbsp;<a class='layui-btn layui-btn-sm'>第["+pageNow+"]页</a>" +
-					"&nbsp;&nbsp;<a class='layui-btn layui-btn-sm'>共["+pageCount+"]页</a>";
-			
+					"<a class='layui-btn layui-btn-sm'>共["+pageCount+"]页</a>";
 			if(parseInt(pageCount) > 0){
 				$("#page").show();
 				$("#page").html(pageContent);

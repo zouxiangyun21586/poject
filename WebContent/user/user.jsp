@@ -13,7 +13,7 @@
 		<div class="layui-container" width="100%" height="100%" align="center">
 	    	<div class="layui-row layui-col-space15">
 				<div class="layui-col-md8"  style="width: 100%;">
-					<button class="layui-btn layui-btn-sm" style="float:left;" id="adduser">
+					<button class="layui-btn" style="float:left;" id="adduser">
 					<i class="layui-icon">&#xe654;</i> 添加账号</button>
 					<button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 					<i class="layui-icon">&#xe615;</i> 搜索</button>
@@ -22,7 +22,7 @@
 					<div class='layui-form layui-form-pane' style="float:right;">
 					<div class="layui-inline">
 					  <label class="layui-form-label">所属角色:</label>
-				      <div class="layui-input-inline">
+				      <div class="layui-input-inline" style="width:120px;">
 				        <select id='interest' name='interest' lay-filter='aihao' lay-search></select>
 				      </div>
 				    </div>
