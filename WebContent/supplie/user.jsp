@@ -23,37 +23,35 @@
     * 添加保存
     */
     function getAd(){
+    	alert(142);
     	layui.use([ 'layer', 'form' ], function() {
             var form = layui.form;
 	        $.ajax({
 	            type: "get",  // 请求方式(post或get)
 	            async:false,  //默认true(异步请求),设置为false(同步请求)
-	            url:"<%=request.getContextPath()%>/supSer?sup=5", // 发送请求的地址
+	            url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
 	            dataType:"json",
 	            data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
 	            success:function(res){
-	                for (var i = 0; i < res.length; i++) {
-	                	var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
-	                    var list =  data.list;
-	                    var html = "";
-	                    $("#t_body").empty();
-	                    for(var i in list){
-	                    	/* if("0"==list[i].auditStatus){ // 添加前操作 */
-		                    	html += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
-	                            +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
-	                            +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
-	                            +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                            +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
-		                    	/*}else if("1"==list[i].auditStatus){ // 添加后操作*/
-	                    		/*html += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
-	                            +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
-	                            +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
-	                            +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                            +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
-	                    	} */
-	                    }
-	                    $("#t_body").append(html);
-	                }
+                	var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
+                    var list =  res.list;
+                    var tobody_limt = "";
+                    for(var i in list){
+	                   	/* if("0"==list[i].auditStatus){ // 添加前操作 */
+	                    	tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+	                           +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
+	                    	/*}else if("1"==list[i].auditStatus){ // 添加后操作*/
+	                   		/*tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+	                           +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
+	                   	} */
+                    }
+                    $("#tobody_limt").append(tobody_limt);
 	           }
 	       });
 	   });
@@ -202,6 +200,8 @@
 	                <th>操作</th>
 	            </tr>
 	        </thead>
+	        <tbody id="tobody_limt">
+            </tbody>
         </table>    
         <div id="page" class="page"></div>
     </form>

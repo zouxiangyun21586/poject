@@ -2,8 +2,6 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.SuperAdminDao;
 import com.yr.dao.SupplieDao;
 import com.yr.pojo.Account_Role;
+import com.yr.pojo.Supplie;
 import com.yr.util.ConnectTime;
 import com.yr.util.PageService;
 
@@ -49,7 +48,32 @@ public class SupplieServlet extends HttpServlet {
         String sup = req.getParameter("sup"); // 页面传过来的值(用来判断执行哪一步)
         String state = req.getParameter("state"); // 供应商账号使用状态
         if("0".equals(state)){ // 如果使用状态为 0 代表账号未注销可以进入增删改查
-            if ("2".equals(sup)) { // 添加商品
+            if("1".equals(sup)){
+                //页面显示值
+                PrintWriter out = resp.getWriter();
+                String type= req.getParameter("type");
+                String select= req.getParameter("select");//搜索功能中输入框的值(账号)
+                String interest= req.getParameter("interest");//搜索功能中下拉框的值(角色)
+                String pageNow = req.getParameter("pageNow");//获得页面传过来的当前页
+                if (null != type && type.equals("list")) {
+                    String sel = req.getParameter("select");
+                    if (null == pageNow || "".equals(pageNow)) {
+                        pageNow = "1";
+                    }
+                    List<Supplie> list = SupplieDao.selectemp(Integer.valueOf(pageNow));
+                    int pageCount=SupplieDao.getPageCount();//获得总页数
+                    String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("list", list);
+                    map.put("pageCount", pageCount + "");
+                    map.put("pageNow", pageNow);
+                    map.put("pageCode", pageCode);
+                    String jsonObjectStr = JSONObject.fromObject(map).toString();
+                    out.write(jsonObjectStr);
+                    out.flush();
+                    out.close();
+                }
+            }else if ("2".equals(sup)) { // 添加商品
                 try {
                     req.setCharacterEncoding("UTF-8");
                     String name = req.getParameter("commodity"); // 商品名
@@ -126,27 +150,6 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if("6".equals(sup)){
-              //页面显示值
-                PrintWriter out = resp.getWriter();
-                String type= req.getParameter("type");
-                String pageNow = req.getParameter("pageNow");//获得页面传过来的当前页
-                String sel = req.getParameter("select");
-                if (null == pageNow || "".equals(pageNow)) {
-                    pageNow = "1";
-                }
-                List<Account_Role> list = SupplieDao.selectemp(Integer.valueOf(pageNow));
-                int pageCount=SuperAdminDao.getPageCount();//获得总页数
-                String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
-                Map<String, Object> map = new HashMap<>();
-                map.put("list", list);
-                map.put("pageCount", pageCount + "");
-                map.put("pageNow", pageNow);
-                map.put("pageCode", pageCode);
-                String jsonObjectStr = JSONObject.fromObject(map).toString();
-                out.write(jsonObjectStr);
-                out.flush();
-                out.close();
             }
         }
     }
