@@ -194,7 +194,6 @@ public class PowerDao {
         try {
             Connection con = Conn.conn();
             PreparedStatement pre = con.prepareStatement(sql);
-            System.out.println(sql);
             pre.setInt(1, id);
             ResultSet rs = pre.executeQuery();
             List<Power> list = new ArrayList<>();

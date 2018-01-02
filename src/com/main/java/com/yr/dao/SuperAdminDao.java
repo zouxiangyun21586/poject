@@ -1,6 +1,7 @@
 package com.yr.dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import com.yr.util.JsonUtils;
  * 2017年12月13日 上午11:14:54
  */
 public class SuperAdminDao {
+	private static String pageCountSql=null;
 	/**
 	 * 添加
 	 * @param role 设置的角色id
@@ -426,12 +428,14 @@ public class SuperAdminDao {
 			if (null != sel && !"".equals(sel) && !"".equals(rolename) || null != rolename && !"quan".equals(rolename)) {//使用搜索功能进入这个if判断
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
+				pageCountSql = "create VIEW shitu1 as  SELECT DISTINCT a.id FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				sql = "SELECT DISTINCT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
 					paramIndex.add(0);
 					param.add(acc);
+					pageCountSql = pageCountSql + " and a.account=?";
 				}
 				if(!"quan".equals(rolename))
 				{
@@ -439,9 +443,11 @@ public class SuperAdminDao {
 					paramIndex.add(0);
 					rolename=quRoleName(rolename);//根据角色id查出对应的角色名字
 					param.add(rolename);
+					pageCountSql = pageCountSql + "and r.roleName=?";
 				}
 				
 				sql = sql + " limit ?,?";
+				pageCountSql = pageCountSql + " limit ?,?";
 				paramIndex.add(1);
 				paramIndex.add(1);
 				
@@ -449,8 +455,9 @@ public class SuperAdminDao {
 				param.add(pageNow);
 				param.add(Paging.getPageNumber());
 				
+//				pageCountSql = pageCountSql + " limit "+pageNow+","+Paging.getPageNumber();
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
-				
+				PreparedStatement prepar2 = (PreparedStatement) conn.prepareStatement(pageCountSql);
 				for (int i = 0; i < paramIndex.size(); i++) {
 					int mark = paramIndex.get(i);
 					if(mark == 0 ){
@@ -461,17 +468,19 @@ public class SuperAdminDao {
 						prepar.setInt( (i+1), (Integer)param.get(i) );
 					}
 				}
+				for (int i = 0; i < paramIndex.size(); i++) {
+					int mark = paramIndex.get(i);
+					if(mark == 0 ){
+						prepar2.setString( (i+1), (String)param.get(i) );
+					}
+					else if(mark == 1)
+					{
+						prepar2.setInt( (i+1), (Integer)param.get(i) );
+					}
+				}
+				PreparedStatement prepar1 = (PreparedStatement) conn.prepareStatement("drop view if exists shitu1;");
 				
-				
-				
-				/*sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id and a.account=? and r.roleName=? limit ?,?";
-				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
-				prepar.setString(1, acc);
-				prepar.setString(2, rolename);
-				prepar.setInt(3, pageNow);
-				prepar.setInt(4, Paging.getPageNumber());*/
-				prepar.executeQuery();
-				ResultSet resu = prepar.getResultSet();
+				ResultSet resu = prepar.executeQuery();
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
@@ -485,18 +494,26 @@ public class SuperAdminDao {
 					}
 					list.add(us);
 				}
+				prepar1.executeUpdate();
+				prepar2.executeUpdate();
 				resu.close();
+				prepar1.close();
+				prepar2.close();
 				prepar.close();
 //				conn.close();
 				return list;
 			} else {
 				sql = "SELECT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
+				pageCountSql = "create VIEW shitu1 as select * from account";
 				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
+				PreparedStatement prepar1 = (PreparedStatement) conn.prepareStatement("drop view if exists shitu1;");
+				prepar1.executeUpdate();
+				PreparedStatement prepar2 = (PreparedStatement) conn.prepareStatement(pageCountSql);
+				prepar2.executeUpdate();
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 				prepar.setInt(1, pageNow);
 				prepar.setInt(2, Paging.getPageNumber());
-				prepar.executeQuery();
-				ResultSet resu = prepar.getResultSet();
+				ResultSet resu = prepar.executeQuery();
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
@@ -512,6 +529,8 @@ public class SuperAdminDao {
 				}
 				resu.close();
 				prepar.close();
+				prepar2.close();
+				prepar1.close();
 //				conn.close();
 				return list;
 			}
@@ -530,7 +549,7 @@ public class SuperAdminDao {
 		int pageCount = 0;// 总页数
 		try {
 			Connection conn = Conn.conn();
-			String sql = "select count(*) from account";
+			String sql = "select count(*) from shitu1";
 			PreparedStatement prepar = conn.prepareStatement(sql);
 			prepar.executeQuery();
 			ResultSet resu = prepar.getResultSet();

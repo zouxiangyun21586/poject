@@ -317,9 +317,9 @@ public class SupplieDao {
      * @param pageNow 当前页
      * @return 返回所查询的数据
      */
-    public static List<Account_Role> selectemp(Integer pageNow) {
+    public static List<Supplie> selectemp(Integer pageNow) {
         String sql = "";
-        List<Account_Role> list = new ArrayList<>();
+        List<Supplie> list = new ArrayList<>();
         if (pageNow < 1) {
             pageNow = 1;
         }
@@ -328,7 +328,7 @@ public class SupplieDao {
             Connection conn = Conn.conn();
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "SELECT DISTINCT a.id,a.name,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+            sql = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id";
             
             sql = sql + " limit ?,?";
             paramIndex.add(1);
@@ -354,16 +354,22 @@ public class SupplieDao {
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
             while (resu.next()) {
-                Account_Role us = new Account_Role();
+                Supplie us = new Supplie();
                 us.setId(resu.getInt(1));
-                us.setRoleName(resu.getString(2));
-                us.setState(resu.getInt(3));
-                us.setUserName(resu.getString(4));
-                if (us.getState() == 0) {
-                    us.setStateStr("使用中");
-                } else {
-                    us.setStateStr("已停用");
-                }
+                us.setCommo(resu.getString(2));
+                us.setId(resu.getInt(1));
+                us.setCommo(resu.getString(2));
+                us.setMoney(resu.getDouble(3));
+                us.setSupMerName(resu.getString(4));
+                us.setNumber(resu.getInt(5));
+                us.setTypeName(resu.getString(6));
+                us.setqGp(resu.getString(7));
+                us.setBrand(resu.getString(8));
+                us.setNetContent(resu.getString(9));
+                us.setOrigin(resu.getString(10));
+                us.setPackingMethod(resu.getString(11));
+                us.setStorageMethod(resu.getString(12));
+                us.setUpFrameTime(resu.getString(13));
                 list.add(us);
             }
             resu.close();
@@ -385,7 +391,7 @@ public class SupplieDao {
         int pageCount = 0;// 总页数
         try {
             Connection conn = Conn.conn();
-            String sql = "select count(*) from supplie";
+            String sql = "select count(*) from supplier";
             PreparedStatement prepar = conn.prepareStatement(sql);
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();

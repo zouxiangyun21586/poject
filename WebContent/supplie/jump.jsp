@@ -29,6 +29,7 @@
 	            type: "get",  // 请求方式(post或get)
 	            async:false,  //默认true(异步请求),设置为false(同步请求)
 	            url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
+	            contentType: "application/text; charset=utf-8",
 	            dataType:"text",
 	            data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
 	            success:function(res){

@@ -29,26 +29,12 @@
 $(document).ready(function(){
 	var i=0;
 	$('#submit').click(function(){
-		var a="";
-		var b="";
-		/* $(".layui-nav-item").each(function(){//取到输入框里面所有的值
-		   var value = $(".layui-form-label").text();
-		   var inp = $(".layui-input").val();
-		   a+=value+" "+inp+",";
-		   alert(value);
-		   alert(inp);
-		}); */
-		$(".layui-input").each(function(){//取到输入框里面所有的值
-		   var value = $(this).val();
-		   a+=value+",";
-		   //alert(value);
-		});
-		$(".layui-form-label").each(function(){//取到输入框里面所有的值
-		   var value = $(this).text();
-		   b+=value+",";
-		   alert(value);
-		});
-		    //$('#p').addpend(a);
+		var d = {};
+	    var t = $('#for').serializeArray();
+	    $.each(t, function() {
+	      d[this.name] = this.value;
+	    });
+	    alert(JSON.stringify(d));
 	});
 	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
