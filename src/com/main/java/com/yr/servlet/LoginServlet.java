@@ -236,7 +236,7 @@ public class LoginServlet extends HttpServlet {
     public void session(HttpServletRequest req, HttpServletResponse resp, String username, String role) {
         try {
             try {
-                req.getSession().setMaxInactiveInterval(5 * 60);
+                req.getSession().setMaxInactiveInterval(30 * 60);
                 req.getSession().setAttribute("username", username);
                 req.getSession().setAttribute("role", role);
                 req.getSession().setAttribute("ip", InetAddress.getLocalHost());
