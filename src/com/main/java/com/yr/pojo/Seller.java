@@ -1,30 +1,30 @@
 package com.yr.pojo;
 /**
- * @×÷Õß ÁÖË®ÇÅ
- * 2017Äê12ÔÂ28ÈÕÏÂÎç6:02:53
+ * @ä½œè€… æ—æ°´æ¡¥
+ * 2017å¹´12æœˆ28æ—¥ä¸‹åˆ6:02:53
  */
 public class Seller {
-    private int wares_id; // ÉÌÆ·ID
-    private String name;  // ÉÌÆ·Ãû³Æ
-    private String money; // ÉÌÆ·¼Û¸ñ
-    private String describe;  // ÉÌÆ·ÃèÊö
-    private int speciID;  // ÉÌÆ·¹æ¸ñID
-    private int number;   // ÉÌÆ·ÊıÁ¿
-    private String upFrameTime;   // ÉÌÆ·ĞÅÏ¢±£´æÊ±¼ä
-    private int id;       // Âô¼Ò·¢²¼ID
-    private String origin; // ÃÀÊ³²úµØ 
-    private String netContent; // ÃÀÊ³¾»º¬Á¿
-    private String packingMethod; // °ü×°·½Ê½
-    private String brand; // ÉÌÆ·Æ·ÅÆ
-    private int qGP; // ÉÌÆ·±£ÖÊÆÚID
-    private String storageMethod; // ÉÌÆ·´¢²Ø·½Ê½
-    private int seller_id; // Âô¼ÒID
-    private String nameType; // ÉÌÆ·ÀàĞÍ
-    private int auditStatus; // Âô¼ÒÉÌÆ·×´Ì¬ 0ÊÇ±£´æ 1ÊÇÕıÔÚÉóºË 2ÊÇÉóºË³É¹¦
-    private String time; // Âô¼ÒÉÌÆ·ÉÏ¼ÜÊ±¼ä
-    private String downtime; // Âô¼ÒÉÌÆ·ÏÂ¼ÜÊ±¼ä
-    private int nameTypeID; // ÉÌÆ·ÀàĞÍID
-    private String month; // ÃÀÊ³±£ÖÊÆÚ
+    private int wares_id; // å•†å“ID
+    private String name;  // å•†å“åç§°
+    private String money; // å•†å“ä»·æ ¼
+    private String describe;  // å•†å“æè¿°
+    private int speciID;  // å•†å“è§„æ ¼ID
+    private int number;   // å•†å“æ•°é‡
+    private String upFrameTime;   // å•†å“ä¿¡æ¯ä¿å­˜æ—¶é—´
+    private int id;       // å–å®¶å‘å¸ƒID
+    private String origin; // ç¾é£Ÿäº§åœ° 
+    private String netContent; // ç¾é£Ÿå‡€å«é‡
+    private String packingMethod; // åŒ…è£…æ–¹å¼
+    private String brand; // å•†å“å“ç‰Œ
+    private int qGP; // å•†å“ä¿è´¨æœŸID
+    private String storageMethod; // å•†å“å‚¨è—æ–¹å¼
+    private int seller_id; // å–å®¶ID
+    private String nameType; // å•†å“ç±»å‹
+    private int auditStatus; // å–å®¶å•†å“çŠ¶æ€ 0æ˜¯ä¿å­˜ 1æ˜¯æ­£åœ¨å®¡æ ¸ 2æ˜¯å®¡æ ¸æˆåŠŸ
+    private String time; // å–å®¶å•†å“ä¸Šæ¶æ—¶é—´
+    private String downtime; // å–å®¶å•†å“ä¸‹æ¶æ—¶é—´
+    private int nameTypeID; // å•†å“ç±»å‹ID
+    private String month; // ç¾é£Ÿä¿è´¨æœŸ
     public String getMonth() {
         return month;
     }

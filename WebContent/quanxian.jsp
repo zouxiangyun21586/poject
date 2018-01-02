@@ -13,10 +13,10 @@
     	<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8"  style="width: 100%;">
 			<input type="hidden" value="0" id="id">
-			<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
 			<div class="layui-form" style="width:425px;">
-				<form action="<%=request.getContextPath() %>/powerServlet?i=2" method="GET">
+				<form action="<%=request.getContextPath() %>/powerServlet?i=2" method="GET" id="for">
 					<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
+					<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
 				</form>
 			</div>
 			</div>

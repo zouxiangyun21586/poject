@@ -1,53 +1,55 @@
 package com.yr.util;
 
 /**
- * @×÷Õß ÁÖË®ÇÅ 2017Äê12ÔÂ29ÈÕÉÏÎç9:20:19
+ * æ˜¾ç¤ºé¡µç æ•°
+ * 
+ * @ä½œè€… æ—æ°´æ¡¥ 2018å¹´1æœˆ2æ—¥ä¸Šåˆ9:31:56
  */
 public class SellerPage {
     /**
-     * ÏÔÊ¾Ò³ÂëÊı
+     * æ˜¾ç¤ºé¡µç æ•°
      * 
      * @param pageNowStr
-     *            µ±Ç°Ò³
+     *            å½“å‰é¡µ
      * @param pageCountStr
-     *            ×ÜÒ³Êı
+     *            æ€»é¡µæ•°
      * @return
      */
     public String getPageCode(Integer pageNowStr, Integer pageCountStr) {
         StringBuffer sb = new StringBuffer();
-        int pageNow = pageNowStr;// µ±Ç°
-        int pageCount = pageCountStr;// ×ÜµÄ
-        int pageSize = 5;// ÏÔÊ¾µÄÒ³ÂëÊıÁ¿
-        // µ±ÊÇÊ×Ò³Ê±,²¢ÇÒ×ÜÒ³ÃæĞ¡ÓÚÒ³ÂëÊı
+        int pageNow = pageNowStr;// å½“å‰
+        int pageCount = pageCountStr;// æ€»çš„
+        int pageSize = 5;// æ˜¾ç¤ºçš„é¡µç æ•°é‡
+        // å½“æ˜¯é¦–é¡µæ—¶,å¹¶ä¸”æ€»é¡µé¢å°äºé¡µç æ•°
         if (pageNow < 0) {
             pageNow = 1;
         }
-        if (pageNow == 1) {// µ±Ç°Ò³==1µÄÊ±ºòµÄÇé¿ö
-            if (pageCount < pageSize && pageNow != pageCount) {// µ±×ÜÒ³ÊıĞ¡ÓÚÏÔÊ¾Ò³ÂëÊıÊ±µÄÇé¿ö
+        if (pageNow == 1) {// å½“å‰é¡µ==1çš„æ—¶å€™çš„æƒ…å†µ
+            if (pageCount < pageSize && pageNow != pageCount) {// å½“æ€»é¡µæ•°å°äºæ˜¾ç¤ºé¡µç æ•°æ—¶çš„æƒ…å†µ
                 for (int i = 1; i <= pageCount; i++) {
                     sb.append(i).append(",");
                 }
             } else if (pageNow == pageCount) {
                 sb.append(1).append(",");
-            } else if (pageCount == pageSize) {// µ±×ÜÒ³ÊıµÈÓÚÏÔÊ¾Ò³ÂëÊıÊ±µÄÇé¿ö
+            } else if (pageCount == pageSize) {// å½“æ€»é¡µæ•°ç­‰äºæ˜¾ç¤ºé¡µç æ•°æ—¶çš„æƒ…å†µ
                 for (int i = 1; i <= pageSize; i++) {
                     sb.append(i).append(",");
                 }
-            } else {// µ±×ÜÒ³Êı´óÓÚÏÔÊ¾Ò³ÂëÊıÊÇµÄÇé¿ö
+            } else {// å½“æ€»é¡µæ•°å¤§äºæ˜¾ç¤ºé¡µç æ•°æ˜¯çš„æƒ…å†µ
                 for (int i = pageNow; i < pageNow + pageSize; i++) {
                     sb.append(i).append(",");
                 }
             }
-        } else if (pageNow >= (pageCount - pageSize) + 1) {// ×ÜÒ³Êı-ÏÔÊ¾Ò³Êı+1 =
-                                                           // ×îºóÒªÏÔÊ¾µÄÒ³ÂëÊı
-                                                           // µ± µ±Ç°Ò³´óÓÚµÈÓÚ
-                                                           // ×îºóÒªÏÔÊ¾µÄÒ³ÂëÊı Ê±µÄÇé¿ö
+        } else if (pageNow >= (pageCount - pageSize) + 1) {// æ€»é¡µæ•°-æ˜¾ç¤ºé¡µæ•°+1 =
+                                                           // æœ€åè¦æ˜¾ç¤ºçš„é¡µç æ•°
+                                                           // å½“ å½“å‰é¡µå¤§äºç­‰äº
+                                                           // æœ€åè¦æ˜¾ç¤ºçš„é¡µç æ•° æ—¶çš„æƒ…å†µ
             for (int i = pageCount - pageSize + 1; i <= pageCount; i++) {
                 if (i > 0) {
                     sb.append(i).append(",");
                 }
             }
-        } else {// Õı³£Çé¿ö
+        } else {// æ­£å¸¸æƒ…å†µ
             for (int i = pageNow; i < pageNow + pageSize; i++) {
                 sb.append(i).append(",");
             }

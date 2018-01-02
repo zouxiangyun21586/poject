@@ -1,6 +1,8 @@
 package com.yr.servlet;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,10 +24,6 @@ import com.yr.pojo.User;
  * @时间 2017年12月13日 下午9:36:39
  */
 public class LoginServlet extends HttpServlet {
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -203,6 +201,32 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
+     * 获取数据库已用内存
+     * 
+     * @param req
+     * @param resp
+     * @return
+     */
+    public static String quemysqlsize(HttpServletRequest req, HttpServletResponse resp) {
+        String name = null;
+        try {
+            Connection con = LinkMysql.getCon();
+            String sql = "select concat(round((sum(data_length)+sum(index_length))/1024/1024,2),'MB') from information_schema.tables where table_schema='cyh8zkz';";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                name = rs.getString(1);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
+
+    /**
      * 将用户名,角色存于session
      * 
      * @param req
@@ -211,13 +235,20 @@ public class LoginServlet extends HttpServlet {
      */
     public void session(HttpServletRequest req, HttpServletResponse resp, String username, String role) {
         try {
-            req.getSession().setMaxInactiveInterval(5 * 60);
-            req.getSession().setAttribute("username", username);
-            req.getSession().setAttribute("role", role);
+            try {
+                req.getSession().setMaxInactiveInterval(5 * 60);
+                req.getSession().setAttribute("username", username);
+                req.getSession().setAttribute("role", role);
+                req.getSession().setAttribute("ip", InetAddress.getLocalHost());
+                req.getSession().setAttribute("mysqlsize", quemysqlsize(req, resp));
+                req.getSession().setAttribute("jdk", System.getProperty("java.version"));
+                req.getSession().setAttribute("port", req.getLocalPort());
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
             req.getRequestDispatcher("index.jsp").forward(req, resp);// 跳到欢迎页面
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
