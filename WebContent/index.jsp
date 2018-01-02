@@ -100,10 +100,7 @@
 	        	$('#nvaul').append(fu);
 	        	
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
-	     	   alert("失败");
-	           alert(XMLHttpRequest.status);//200客户端请求已成功
-	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
-	           alert(textStatus);//parsererror
+	        	layer.msg('父节点取值失败!',{icon: 2});
 	        }
 	     });	
 	     
@@ -111,7 +108,7 @@
 	function zi(id,i){
 		$.ajax({     
 	        type: "get",//请求方式,默认GET
-	        url: "powerServlet?id="+id,     
+	        url: "powerServlet?i=1&id="+id,     
 	        dataType: "json",
 	        success: function(data) {
 	        	var dataObj=data;
@@ -125,10 +122,7 @@
 	        	$('#fu'+id).append(zi);
 	        	element.render('nav');
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
-	     	   alert("失败");
-	           alert(XMLHttpRequest.status);//200客户端请求已成功
-	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
-	           alert(textStatus);//parsererror
+	        	layer.msg('子节点取值失败!',{icon: 2});
 	        }
 	     });
 	}
