@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
         if (hiddenCode == null || "".equals(hiddenCode)) {
             if (login(req, resp, username, password, ck)) {
                 if ("0".equals(questate(req, resp, username))) {
-                    session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                    session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
                 } else {
                     req.setAttribute("state", 3);
                     req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
@@ -55,7 +55,7 @@ public class LoginServlet extends HttpServlet {
                 if (randomCode.equals(yzm)) {
                     if (login(req, resp, username, password, ck)) {
                         if ("0".equals(questate(req, resp, username))) {
-                            session(req, resp, queaccount(req, resp, username), querole(req, resp, username));
+                            session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
                         } else {
                             req.setAttribute("state", 3);
                             req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
@@ -142,6 +142,34 @@ public class LoginServlet extends HttpServlet {
             e.printStackTrace();
         }
         return name;
+    }
+    
+    /**
+     * 根据账号查询用户ID
+     * 
+     * @param req
+     * @param resp
+     * @param username
+     * @return
+     */
+    public static int queID(HttpServletRequest req, HttpServletResponse resp, String username) {
+        int id = 0;
+        try {
+            Connection con = LinkMysql.getCon();
+            String sql = "select id from account where account=?;";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                id = rs.getInt(1);
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     /**
@@ -233,11 +261,12 @@ public class LoginServlet extends HttpServlet {
      * @param resp
      * @param username
      */
-    public void session(HttpServletRequest req, HttpServletResponse resp, String username, String role) {
+    public void session(HttpServletRequest req, HttpServletResponse resp, String username, int userID, String role) {
         try {
             try {
                 req.getSession().setMaxInactiveInterval(30 * 60);
                 req.getSession().setAttribute("username", username);
+                req.getSession().setAttribute("userID", userID);
                 req.getSession().setAttribute("role", role);
                 req.getSession().setAttribute("ip", InetAddress.getLocalHost());
                 req.getSession().setAttribute("mysqlsize", quemysqlsize(req, resp));

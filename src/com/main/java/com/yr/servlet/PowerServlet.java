@@ -20,7 +20,6 @@ public class PowerServlet extends HttpServlet {
         String id = req.getParameter("id");
         String sql = "select p.id,m.fatherName,p.url,p.icon,p.state from permission p,menu m where p.id=m.id and m.menu_id=?;";
         String json = JsonUtils.beanListToJson(PowerDao.jilian(Integer.valueOf(id), sql));
-        System.out.println(json);
         resp.getWriter().write(json);
     }
 
@@ -33,7 +32,6 @@ public class PowerServlet extends HttpServlet {
 	        String id = req.getParameter("id");
 	        String sql = "select p.id,m.fatherName,p.url,p.icon,p.state from permission p,menu m where p.id=m.id and m.menu_id=?;";
 	        String json = JsonUtils.beanListToJson(PowerDao.jilian(Integer.valueOf(id), sql));
-	        System.out.println(json);
 	        resp.getWriter().write(json);
         }else if("2".equals(i)){
         	
