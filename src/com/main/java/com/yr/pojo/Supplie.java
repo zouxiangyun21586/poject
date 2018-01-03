@@ -95,6 +95,28 @@ public class Supplie {
      */
     private String storageMethod;
     /**
+     * 判断是否通过审核,并且是否上/下架
+     */
+    private String auditStatus;
+    /**
+     * 
+     * @author zxy
+     * @return
+     * 2018年1月2日  下午5:04:49
+     */
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+    /**
+     * 
+     * @author zxy
+     * @param auditStatus
+     * 2018年1月2日  下午5:04:52
+     */
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+    /**
      *
      * @author zxy
      * @return

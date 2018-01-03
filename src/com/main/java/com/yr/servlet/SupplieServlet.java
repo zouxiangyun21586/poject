@@ -2,6 +2,8 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +17,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.SuperAdminDao;
 import com.yr.dao.SupplieDao;
 import com.yr.pojo.Account_Role;
+import com.yr.pojo.Seller;
 import com.yr.pojo.Supplie;
 import com.yr.util.ConnectTime;
+import com.yr.util.JsonUtils;
 import com.yr.util.PageService;
 
 import net.sf.json.JSONObject;
@@ -45,6 +49,8 @@ public class SupplieServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setCharacterEncoding("UTF-8");
         String sup = req.getParameter("sup"); // 页面传过来的值(用来判断执行哪一步)
         String state = req.getParameter("state"); // 供应商账号使用状态
         if("0".equals(state)){ // 如果使用状态为 0 代表账号未注销可以进入增删改查
@@ -103,20 +109,13 @@ public class SupplieServlet extends HttpServlet {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if ("3".equals(sup)) { // 删除(根据ID删除商品)
-                /*try {
-                    String strId = req.getParameter("supDel"); // 页面传过来的值
-                    SupplieDao.suppDel(strId); // 删除方法
-                    SupplieDao.suppSel(); // 查询方法
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                req.getRequestDispatcher("jump.jsp").forward(req, resp);*/
+            } else if ("3".equals(sup)) { // 撤销商品
                 try {
                     String id = req.getParameter("id");
                     System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
                     String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
-                    SupplieDao.xiajia(date, id);
+                    SupplieDao.cencel(date, id);
+                    resp.getWriter().write("0");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -148,6 +147,17 @@ public class SupplieServlet extends HttpServlet {
                     String strJson = SupplieDao.suppSel(); // 查询
                     resp.getWriter().write(strJson);
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if ("6".equals(sup)){ // 下架商品
+                try {
+                    String id = req.getParameter("id");
+                    System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
+                    String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                    String so = SupplieDao.xiajia(date,id);
+                    resp.setContentType("application/json; charset=utf-8");
+                    resp.getWriter().write(so);
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }

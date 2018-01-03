@@ -30,7 +30,7 @@
 	            type: "get",  // 请求方式(post或get)
 	            async:false,  //默认true(异步请求),设置为false(同步请求)
 	            url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
-	            contentType: "application/text; charset=utf-8",
+	            scriptCharset: 'utf-8',
 	            dataType:"json",
 	            data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
 	            success:function(res){
@@ -38,19 +38,25 @@
                     var list =  res.list;
                     var tobody_limt = "";
                     for(var i in list){
-	                   	/* if("0"==list[i].auditStatus){ // 添加前操作 */
+	                   	if("0"==list[i].auditStatus){ // 未提交
 	                    	tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
 	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
 	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
 	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
 	                           +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
-	                    	/*}else if("1"==list[i].auditStatus){ // 添加后操作*/
-	                   		/*tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+	                    	}else if("2"==list[i].auditStatus){ // 已审核
+	                   		tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
 	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
 	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
 	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                           +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
-	                   	} */
+	                           +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
+	                   	   }else if("1"==list[i].auditStatus){ // 未审核
+		                   		tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+	                            +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+	                            +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+	                            +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+	                            +"</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
+	                   	   }
                     }
                     $("#tobody_limt").append(tobody_limt);
 	           }
@@ -58,6 +64,50 @@
 	   });
    };
     
+   
+    //撤销
+   function cancel(cencel){
+       if(confirm("确定撤销商品?")){
+           var tr = $(cencel).parent().parent();
+           var id = tr.find("td").eq(0).text();
+           var commo = tr.find("td").eq(1).text();
+           var money = tr.find("td").eq(2).text();
+           var number = tr.find("td").eq(3).text();
+           var merType = tr.find("td").eq(4).text();
+           var qGp = tr.find("td").eq(5).text();
+           var brand = tr.find("td").eq(6).text();
+           var storageMethod = tr.find("td").eq(7).text();
+           var origin = tr.find("td").eq(8).text();
+           var netContent = tr.find("td").eq(9).text();
+           var packingMethod = tr.find("td").eq(10).text();
+           $.ajax({
+               url:"<%=request.getContextPath()%>/supSer?sup=3",
+               type:"get",
+               cache:false,
+               async:true,
+               data:{"id":id,"state":0},
+               success:function(result){
+                   tr.html("<td style='display:none;'>"+id+"</td>"+
+                   "<td>"+commo+"</td>"+
+                   "<td>"+money+"</td>"+
+                   "<td>"+number+"</td>"+
+                   "<td>"+merType+"</td>"+
+                   "<td>"+qGp+"</td>"+
+                   "<td>"+brand+"</td>"+
+                   "<td>"+storageMethod+"</td>"+
+                   "<td>"+origin+"</td>"+
+                   "<td>"+netContent+"</td>"+
+                   "<td>"+packingMethod+"</td>"+
+                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td>");
+               },
+               error:function(XMLHttpRequest, textStatus, errorThrown)
+               {
+                   alert("后台出现错误");
+               }
+           });
+       }
+   }
+   
     //下架
     function xiajia(xj){
         if(confirm("确定下架商品?")){
@@ -109,7 +159,7 @@
     
     
     /* 修改 */
-    $("#sb").click(function updt(obj){
+    function updt(obj){
     	var tr = $(obj).parent().parent();
         var id = tr.find("td").eq(0).text();
         var commo = $("#mername").val();
@@ -137,10 +187,13 @@
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown){
                     alert("修改失败");
+                    alert(XMLHttpRequest.status);//200客户端请求已成功
+                    alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+                    alert(textStatus);//parsererror
                 }
             });
         });
-    });
+    }
     
     layui.use([ 'layer', 'element' ], function() {
         var laypage = layui.laypage,
