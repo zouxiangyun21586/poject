@@ -14,7 +14,7 @@
 			<div class="layui-col-md8"  style="width: 100%;">
 			<input type="hidden" value="0" id="id">
 			<div class="layui-form" style="width:425px;">
-				<form action="<%=request.getContextPath() %>/powerServlet?i=2" method="GET" id="for">
+				<form id="for">
 					<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
 					<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
 				</form>
@@ -28,13 +28,24 @@
 <script>
 $(document).ready(function(){
 	var i=0;
-	$('#submit').click(function(){
-		var d = {};
-	    var t = $('#for').serializeArray();
-	    $.each(t, function() {
+	$('#for').submit(function(){
+	   /*  $.each(t, function() {
 	      d[this.name] = this.value;
 	    });
-	    alert(JSON.stringify(d));
+	    alert(JSON.stringify(d)); */
+	    $.ajax({     
+	        type: "GET",//请求方式,默认GET
+	        url: "<%=request.getContextPath() %>/powerServlet?i=2",   
+	        data:{"yname":$("#yname").text(),"yid":$("#yid").val(),"yurl":$("#yurl").val(),"ysta":$("#ysta").text()},
+	        dataType: "text",
+	        success: function(data) {
+	        	
+	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
+	           alert(XMLHttpRequest.status);//200客户端请求已成功
+	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+	           alert(textStatus);//parsererror
+	        }
+	     });
 	});
 	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
@@ -70,11 +81,11 @@ $(document).ready(function(){
 		        	var dataObj=data;
 		        	var zi="";
 		        	$.each(dataObj, function(index, item){
-	        			zi+="<dd><label class='layui-form-label' style='width:50px;'>"+item.name+"</label>"
+	        			zi+="<dd><label class='layui-form-label' style='width:50px;' id='yname' name='yname'>"+item.name+"</label>"
     	            	+"<div class='layui-input-inline' style='padding-left:70px;'>"
-    	            	+"<input type='hidden' value='"+item.id+"'>"
-    	            	+"<input class='layui-input' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
-    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;'>状态:"+item.staStr+"</span>"
+    	            	+"<input type='hidden' id='yid' name='yname' value='"+item.id+"'>"
+    	            	+"<input class='layui-input' id='yurl' name='yurl' style='width:198px;background-color:rgba(255, 255, 255, 0.64);' value='"+item.url+"'></div>"
+    	            	+"<span class='layui-badge-rim' style='line-height:35px;height:35px;color:#0c9b8e;' id='ysta' name='ysta'>"+item.staStr+"</span>"
     	            	+"</dd>";
 		        	});
 
