@@ -1,6 +1,8 @@
 package com.yr.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +36,22 @@ public class PowerServlet extends HttpServlet {
 	        String json = JsonUtils.beanListToJson(PowerDao.jilian(Integer.valueOf(id), sql));
 	        resp.getWriter().write(json);
         }else if("2".equals(i)){
-        	
+        	/*String yname = req.getParameter("yname");
+        	yname=new String(yname.getBytes("ISO-8859-1"),"UTF-8");
+        	String yid = req.getParameter("yid");
+        	yid=new String(yid.getBytes("ISO-8859-1"),"UTF-8");
+        	String yurl = req.getParameter("yurl");
+        	yurl=new String(yurl.getBytes("ISO-8859-1"),"UTF-8");
+        	String ysta = req.getParameter("ysta");
+        	ysta=new String(ysta.getBytes("ISO-8859-1"),"UTF-8");*/
+        	String yfor = req.getParameter("for");
+        	yfor=new String(yfor.getBytes("ISO-8859-1"),"UTF-8");
+        	System.out.println(yfor);
+        	PrintWriter out = resp.getWriter();
+//        	System.out.println(yname+", "+yid+", "+yurl+", "+ysta);
+			out.write("a");
+			out.flush();
+			out.close();
         }
     }
 
