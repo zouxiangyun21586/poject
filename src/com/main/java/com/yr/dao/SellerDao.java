@@ -114,7 +114,7 @@ public class SellerDao {
                 for (int i = 0; i < paramIndex.size(); i++) {
                     int mark = paramIndex.get(i);
                     if (mark == 0) {
-                        pre.setString((i + 1), "%" + (String) param.get(i) + "%");
+                        pre.setString((i + 1), "%" + "\\" + (String) param.get(i) + "%");
                     } else if (mark == 1) {
                         pre.setInt((i + 1), (Integer) param.get(i));
                     }
