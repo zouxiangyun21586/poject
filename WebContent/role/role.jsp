@@ -34,7 +34,7 @@
 					<tbody id="table"></tbody>
 				</table>
 			</div>
-				<div class="layui-form" id="layui-xtree-demo1" style="float:left;width:250px; border:1px solid #009688;"></div>
+			 <div class="layui-form" style="display:none;" id="layui-xtree-demo1" style="float:left;width:250px; border:0px solid #009688;"></div>
 		</div>
 	</div>
 </body>
@@ -91,7 +91,9 @@ $(document).ready(function(){
        }
    });
 });
-
+function empowerment(a){
+	$("#layui-xtree-demo1").toggle();
+}
 
 function search(){
     var zhi=$("#zhi").val();
