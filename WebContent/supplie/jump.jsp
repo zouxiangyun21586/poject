@@ -13,30 +13,33 @@
 <script src="../src/js/jquery-2.2.4.min.js"></script>
 <script type="text/javascript"> 
     /* 添加 */
-    $("#sb").click(function(){
-        var commo = $("#mername").val();
-        var money = $("#mermoney").val();
-        var number = $("#mernumber").val();
-        var merType = $("#mertype").val();
-        var qGp = $("#merqGp").val(); // 需获取下拉框值的value 传值过去
-        var brand = $("#merbrand").val();
-        var storageMethod = $("#merstm").val();  // 下拉框值的value
-        var origin = $("#merorigin").val();
-        var netContent = $("#mernetc").val();
-        var packingMethod = $("#merpack").val();  // 下拉框值的value
-        layui.use(['layer', 'form', 'element'], function(){
-	        $.ajax({
-	            type: "get",  // 请求方式(post或get)
-	            async:false,  //默认true(异步请求),设置为false(同步请求)
-	            url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
-	            contentType: "application/text; charset=utf-8",
-	            dataType:"text",
-	            data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
-	            success:function(res){
-	            	layer.msg('保存成功!',{icon: 1});
-	            	setTimeout("parent.location.href=parent.location.href;","1000");
-	            },
-	        });
+    $(document).ready(function(){
+        $("#sb").click(function(){
+            var commo = $("#mername").val();
+            var money = $("#mermoney").val();
+            var number = $("#mernumber").val();
+            var merType = $("#mertype  option:selected").val();
+            var qGp = $("#merqGp  option:selected").val(); // 需获取下拉框值的value 传值过去
+            var brand = $("#merbrand").val();
+            var storageMethod = $("#merstm option:selected").val();  // 下拉框值的value
+            var origin = $("#merorigin").val();
+            var netContent = $("#mernetc").val();
+            var packingMethod = $("#merpack  option:selected").val();  // 下拉框值的value
+            layui.use(['layer', 'form', 'element'], function(){
+                $.ajax({
+                    type: "get",  // 请求方式(post或get)
+                    async:false,  //默认true(异步请求),设置为false(同步请求)
+                    url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
+                    /* contentType: "application/text; charset=utf-8", */
+                    scriptCharset: 'utf-8',
+                    dataType:"text",
+                    data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
+                    success:function(){
+                    	layer.msg('保存成功',{icoin:1});
+                    	setTimeout("parent.location.href=parent.location.href;","1000");
+                    },
+                });
+            });
         });
     });
     layui.use([ 'layer', 'form' ], function() {});

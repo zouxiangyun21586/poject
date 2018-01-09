@@ -12,56 +12,92 @@
 </head>
 <script type="text/javascript">
 /* 页面加载完出现 */
-    alert(123);
     $(document).ready(function(){
-    	getAd();
+    	/* getAd(); */
+    	layui.use([ 'layer', 'form' ], function() {
+            var form = layui.form;
+            $.ajax({
+                type: "get",  // 请求方式(post或get)
+                async:false,  //默认true(异步请求),设置为false(同步请求)
+                url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
+                scriptCharset: 'utf-8',
+                dataType:"json",
+                data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
+                success:function(res){
+                    var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
+                    var list =  res.list;
+                    var tobody_limt = "";
+                    for(var i in list){
+                        if("0"==list[i].auditStatus){ // 未提交
+                            tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                               +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                               +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                               +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                               +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
+                            }else if("2"==list[i].auditStatus){ // 已审核
+                            tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                               +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                               +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                               +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                               +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
+                           }else if("1"==list[i].auditStatus){ // 未审核
+                                tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                                +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                                +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                                +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                                +"</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
+                           }
+                    }
+                    $("#tobody_limt").append(tobody_limt);
+               }
+           });
+       });
         $("#sel").click(function (){
         	getAd();
         });
     });
     /**
-    * 添加保存
-    */
+     * 添加保存
+     */
     function getAd(){
-    	alert(142);
     	layui.use([ 'layer', 'form' ], function() {
             var form = layui.form;
-	        $.ajax({
-	            type: "get",  // 请求方式(post或get)
-	            async:false,  //默认true(异步请求),设置为false(同步请求)
-	            url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
-	            scriptCharset: 'utf-8',
-	            dataType:"json",
-	            data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
-	            success:function(res){
-                	var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
+            $.ajax({
+                type: "get",  // 请求方式(post或get)
+                async:false,  //默认true(异步请求),设置为false(同步请求)
+                url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
+                scriptCharset: 'utf-8',
+                dataType:"json",
+                data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
+                success:function(res){
+                    var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
                     var list =  res.list;
                     var tobody_limt = "";
                     for(var i in list){
-	                   	if("0"==list[i].auditStatus){ // 未提交
-	                    	tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
-	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
-	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
-	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                           +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
-	                    	}else if("2"==list[i].auditStatus){ // 已审核
-	                   		tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
-	                           +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
-	                           +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
-	                           +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                           +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
-	                   	   }else if("1"==list[i].auditStatus){ // 未审核
-		                   		tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
-	                            +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
-	                            +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
-	                            +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
-	                            +"</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
-	                   	   }
+                        if("0"==list[i].auditStatus){ // 未提交
+                            tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                               +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                               +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                               +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                               +"</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' onclick='upd("+list[i].id+");'>修改商品</button></td></tr>";
+                            }else if("2"==list[i].auditStatus){ // 已审核
+                            tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                               +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                               +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                               +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                               +"</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
+                           }else if("1"==list[i].auditStatus){ // 未审核
+                                tobody_limt += "<tr id='zui'><td>"+list[i].id+"</td><td>"+list[i].commo+"</td><td>"+list[i].money+"</td><td>"
+                                +list[i].number+"</td><td>"+list[i].typeName+"</td><td>"+list[i].qGp+"</td><td>"+list[i].brand+"</td><td>"
+                                +list[i].storageMethod+"</td><td>"+list[i].origin+"</td><td>"+list[i].netContent+"</td><td>"
+                                +list[i].packingMethod+"</td><td>"+list[i].upFrameTime
+                                +"</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
+                           }
                     }
                     $("#tobody_limt").append(tobody_limt);
-	           }
-	       });
-	   });
+               }
+           });
+       });
    };
     
    
@@ -82,6 +118,7 @@
            var packingMethod = tr.find("td").eq(10).text();
            $.ajax({
                url:"<%=request.getContextPath()%>/supSer?sup=3",
+               scriptCharset: 'utf-8',
                type:"get",
                cache:false,
                async:true,
@@ -126,6 +163,7 @@
             var upFrameTime = tr.find("td").qu(11).text(); // 需获取网络时间
             $.ajax({
                 url:"<%=request.getContextPath()%>/supSer?sup=3",
+                scriptCharset: 'utf-8',
                 type:"get",
                 cache:false,
                 async:true,
@@ -166,12 +204,12 @@
         var money = $("#mermoney").val();
         var number = $("#mernumber").val();
         var merType = $("#mertype").val();
-        var qGp = $("#merqGp").val();
+        var qGp = $("#merqGp  option:selected").val();
         var brand = $("#merbrand").val();
-        var storageMethod = $("#merstm").val();
+        var storageMethod = $("#merstm  option:selected").val();
         var origin = $("#merorigin").val();
         var netContent = $("#mernetc").val();
-        var packingMethod = $("#merpack").val();
+        var packingMethod = $("#merpack  option:selected").val();
         var upFrameTime = tr.find("td").eq(11).text();
         layui.use(['layer', 'form', 'element'], function(){
             $.ajax({
@@ -236,6 +274,11 @@
                 <button class="layui-btn layui-btn-sm" style="float:left;" id="zui">
                     <i class="layui-icon">&#xe654;</i> 添加商品
                 </button>
+                <button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
+                    <i class="layui-icon">&#xe615;</i> 搜索
+                </button>
+                <input type="text" class="layui-input" placeholder="请输入要查询的商品" style="float:right;width:250px;" id = "select" name="select"/>
+                <div class='layui-form layui-form-pane' style="float:right;">
              <form>
         <table id="table" class="layui-table">  <!-- style="background-color:#ffffff6b;"  透明度 -->
 	        <thead>

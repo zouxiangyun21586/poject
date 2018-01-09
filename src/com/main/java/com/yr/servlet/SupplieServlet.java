@@ -37,6 +37,7 @@ public class SupplieServlet extends HttpServlet {
      * 获取网络时间.
      */
     public static final String webUrl4 = "http://www.ntsc.ac.cn"; // 中国科学院国家授时中心
+    
     /**
      * 供应商 增删改查.
      *
@@ -50,6 +51,7 @@ public class SupplieServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
         String sup = req.getParameter("sup"); // 页面传过来的值(用来判断执行哪一步)
         String state = req.getParameter("state"); // 供应商账号使用状态
@@ -175,6 +177,9 @@ public class SupplieServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
+        resp.setContentType("text/json");
+        resp.setCharacterEncoding("UTF-8");
         String strId = req.getParameter("id"); // 获取页面传来的值
         int id = SupplieDao.exsisId(strId);
         resp.getWriter().write(id);
