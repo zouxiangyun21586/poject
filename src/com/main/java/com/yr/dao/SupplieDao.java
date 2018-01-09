@@ -25,7 +25,6 @@ import com.yr.util.JsonUtils;
 public class SupplieDao {
     public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
     static List<Supplie> list = new ArrayList<>();
-    static Connection conn = Conn.conn();
 
     /**
      * 添加商品信息
@@ -42,6 +41,7 @@ public class SupplieDao {
      * @throws ParseException 
      */
     public static void merchandiseAdd(String nameType,String name,String money,String specification,String number,String upFrametTime) throws SQLException, ParseException{
+        Connection conn = Conn.conn();
         String str = "insert into merchandise(nameTypeID,`name`,money,specificationID,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, nameType);
@@ -51,7 +51,6 @@ public class SupplieDao {
         ps.setString(5, number);
         ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
-        ps.close();
     }
     
     /**
@@ -67,6 +66,7 @@ public class SupplieDao {
      * 2017年12月28日  下午10:21:47
      */
     public static void speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
+        Connection conn = Conn.conn();
         String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, origin);
@@ -76,7 +76,6 @@ public class SupplieDao {
         ps.setString(5, qGp);
         ps.setString(6, storageMethod);
         ps.executeUpdate();// 执行修改
-        ps.close();
     }
     
     /**
@@ -88,6 +87,7 @@ public class SupplieDao {
      * 2017年12月14日  下午3:10:51
      */
     public static void suppAdd(String name,String mercd_id,String sup_mer_id) throws Exception{
+        Connection conn = Conn.conn();
         String str = "insert into supplier(commodity,mercd_id,sup_mer_id) values(?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, name); // 供应商id 
@@ -95,7 +95,6 @@ public class SupplieDao {
         ps.setString(3, sup_mer_id); // 供应商对应的商品id
         ps.executeUpdate();// 执行修改
         suppSel();
-        ps.close();
     }
     
     /**
@@ -106,6 +105,7 @@ public class SupplieDao {
      * 2017年12月16日  上午11:31:57
      */
     public static String getWebsiteDatetime(String webUrl){
+        Connection conn = Conn.conn();
         try {
             URL url = new URL(webUrl);// 取得资源对象
             URLConnection uc = url.openConnection();// 生成连接对象
@@ -131,13 +131,12 @@ public class SupplieDao {
      * 2017年12月14日  下午3:10:57
      */
     public static void suppDel(String strId) throws Exception{
+        Connection conn = Conn.conn();
         String str = "delete from supplier where id = ?";
         strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, strId);
         ps.executeUpdate(); // 执行修改
-        ps.close();
-        conn.close();
         suppSel();
     }
     
@@ -148,12 +147,12 @@ public class SupplieDao {
      * @throws SQLException 
      */
     public static void cencel(String date,String id) throws SQLException{
+        Connection conn = Conn.conn();
         String str = "update release_supplier set time=? where id=?;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
         ps.setString(1, date);
         ps.setString(2, id);
         ps.executeUpdate();
-        ps.close();
     }
     
     /**
@@ -163,12 +162,12 @@ public class SupplieDao {
      * @throws SQLException 
      */
     public static String xiajia(String date,String id) throws SQLException{
+        Connection conn = Conn.conn();
         String str = "update release_supplier set time=? where id=?;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
         ps.setString(1, date);
         ps.setString(2, id);
         ps.executeUpdate();
-        ps.close();
         String sql = "select time from release_supplier where id=?;";
         PreparedStatement psp = (PreparedStatement) conn.prepareStatement(sql);
         psp.setString(1, id);
@@ -197,6 +196,7 @@ public class SupplieDao {
      * 2017年12月14日  下午5:41:00
      */
     public static String merchandiseUpd(String name,String money,String number,String nameTypeId,String specificationID,String id) throws SQLException{
+        Connection conn = Conn.conn();
         String str = "update merchandise mer set name= ?,money = ?,number = ?,nameTypeID = ?,specificationID = ? where id = ?";
 
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -219,8 +219,6 @@ public class SupplieDao {
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
-        rs.close();
-        ps.close();
         return strJson;
     }
     
@@ -239,6 +237,7 @@ public class SupplieDao {
      * 2017年12月28日  下午10:06:30
      */
     public static String speUpd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod,String speId) throws SQLException{
+        Connection conn = Conn.conn();
         String str = "update specification_table spe set origin= ?,netContent = ?,packingMethod = ?,brand = ?,qGp = ?,storageMethod = ? where id = ?";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, origin);
@@ -262,8 +261,6 @@ public class SupplieDao {
             list.add(sup);
         }
         String strJson = JsonUtils.beanToJson(ps);
-        rs.close();
-        ps.close();
         return strJson;
     }
     /**
@@ -275,6 +272,7 @@ public class SupplieDao {
      * 2017年12月14日  下午3:11:06
      */
     public static String suppUpd(String commodity,String id) throws Exception{
+        Connection conn = Conn.conn();
         String str = "update supplier set commodity = ? where id = ?";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, commodity);
@@ -282,7 +280,6 @@ public class SupplieDao {
         ps.executeUpdate(); // 执行修改
         String strJson = JsonUtils.beanToJson(ps);
         suppSel();
-        ps.close();
         return strJson;
     }
     /**
@@ -293,6 +290,7 @@ public class SupplieDao {
      * 2017年12月14日  下午3:11:13
      */
     public static String suppSel() throws Exception{
+        Connection conn = Conn.conn();
         // 获取id
         String str = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
@@ -317,8 +315,6 @@ public class SupplieDao {
             list.add(sup);
         }
         String strJson = JsonUtils.beanListToJson(list);
-        rs.close(); // 关闭结果集
-        ps.close(); // 关闭发送SQL对象
         return strJson;
     }
     
@@ -329,6 +325,7 @@ public class SupplieDao {
      * @return 返回所查询的数据
      */
     public static List<Supplie> selectemp(Integer pageNow) {
+        Connection conn = Conn.conn();
         String sql = "";
         if (pageNow < 1) {
             pageNow = 1;
@@ -337,7 +334,7 @@ public class SupplieDao {
         try {
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id";
+            sql = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id and mer.`name` = sup.commodity";
             
             sql = sql + " limit ?,?";
             paramIndex.add(1);
@@ -366,8 +363,6 @@ public class SupplieDao {
                 Supplie us = new Supplie();
                 us.setId(resu.getInt(1));
                 us.setCommo(resu.getString(2));
-                us.setId(resu.getInt(1));
-                us.setCommo(resu.getString(2));
                 us.setMoney(resu.getDouble(3));
                 us.setSupMerName(resu.getString(4));
                 us.setNumber(resu.getInt(5));
@@ -379,10 +374,9 @@ public class SupplieDao {
                 us.setPackingMethod(resu.getString(11));
                 us.setStorageMethod(resu.getString(12));
                 us.setUpFrameTime(resu.getString(13));
+                us.setAuditStatus(resu.getString(14));
                 list.add(us);
             }
-            resu.close();
-            prepar.close();
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -396,6 +390,7 @@ public class SupplieDao {
      * @return 返回总页数
      */
     public static Integer getPageCount() {
+        Connection conn = Conn.conn();
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
         try {
@@ -406,9 +401,6 @@ public class SupplieDao {
             while (resu.next()) {
                 total = resu.getInt(1);
             }
-            resu.close();
-            prepar.close();
-//          conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -428,6 +420,7 @@ public class SupplieDao {
      * 2017年12月15日  下午2:36:38
      */
     public static int exsisId(String id){
+        Connection conn = Conn.conn();
         String sId= "select count(*) from supplier where id = ?";
         try {
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sId);
@@ -441,7 +434,6 @@ public class SupplieDao {
             }else{
                 int iid = 1;
             }
-            rs.close();
             return count;
         } catch (Exception e) {
             e.printStackTrace();
