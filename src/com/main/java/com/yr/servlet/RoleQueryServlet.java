@@ -24,7 +24,7 @@ public class RoleQueryServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+	
 	}
 	/* 作者：唐子壕
 	 * @时间：2017年12月15日下午8:29:40

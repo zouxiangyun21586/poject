@@ -37,7 +37,7 @@ public class RoleSearchServlet extends HttpServlet{
 			roleName = new String(roleName.getBytes("ISO-8859-1"),"UTF-8");
 			String sql="select count(id) FROM role where roleName like ?";
 			PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1,"%"+roleName+"%");
+			ps.setString(1,"%\\"+roleName+"%");
 			ps.executeQuery();
 			ResultSet rs = ps.getResultSet();
 			rs.next();
@@ -70,7 +70,7 @@ public class RoleSearchServlet extends HttpServlet{
 			}else{
 				String sql="select id,roleName FROM role where roleName like ?";
 				PreparedStatement ps=(PreparedStatement)conn.prepareStatement(sql);
-				ps.setString(1,"%"+roleName+"%");
+				ps.setString(1,"%\\"+roleName+"%");
 				ps.executeQuery();
 				ResultSet rs = ps.getResultSet();
 				List<RoleTzh> list = new ArrayList<>();
