@@ -77,7 +77,6 @@ public class SupplieServlet extends HttpServlet {
                     String jsonObjectStr = JSONObject.fromObject(map).toString();
                     out.write(jsonObjectStr);
                     out.flush();
-                    out.close();
                 }
             }else if ("2".equals(sup)) { // ÃÌº”…Ã∆∑
                 try {
