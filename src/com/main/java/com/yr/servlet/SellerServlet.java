@@ -150,6 +150,15 @@ public class SellerServlet extends HttpServlet {
                 response.getWriter().write("0");
             } else if ("3".equals(i)) { // 撤销正在审核的商品
                 int id = Integer.valueOf(request.getParameter("id"));
+                int account_id = Integer.valueOf(request.getParameter("seller_id"));
+                int wares_id = Integer.valueOf(request.getParameter("wares_id"));
+                String sql1 = "delete from audit where release_id=? and account_id=? and merchandise_id=?";
+                PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
+                ps1.setInt(NUB_1, id);
+                ps1.setInt(NUB_2, account_id);
+                ps1.setInt(NUB_3, wares_id);
+                ps1.executeUpdate();
+                ps1.close();
                 String sql = "update release_seller set audits = ? where id = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, NUB_0);
@@ -322,13 +331,23 @@ public class SellerServlet extends HttpServlet {
                 ps4.close();
                 response.sendRedirect("seller/user.jsp");
             } else if ("7".equals(i)) {//卖家上架,正在审核
-                int id = Integer.valueOf(request.getParameter("id"));
+                int id = Integer.valueOf(request.getParameter("id"));// 卖家发布ID
+                int account_id = Integer.valueOf(request.getParameter("seller_id"));
+                int wares_id = Integer.valueOf(request.getParameter("wares_id"));
+                String sql2 = "insert into audit(release_id,account_id,merchandise_id) values(?,?,?);";
+                PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
+                ps2.setInt(NUB_1, id);
+                ps2.setInt(NUB_2, account_id);
+                ps2.setInt(NUB_3, wares_id);
+                ps2.executeUpdate();
+                ps2.close();
                 String sql = "update release_seller set audits = ? where id = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, NUB_1);
                 ps.setInt(NUB_2, id);
                 ps.executeUpdate();
                 ps.close();
+                response.getWriter().write("0");
             } else if ("8".equals(i)) {//卖家上架,审核成功
                 int id = Integer.valueOf(request.getParameter("id"));
                 System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
@@ -346,7 +365,6 @@ public class SellerServlet extends HttpServlet {
             } else {
                 response.sendRedirect("seller/user.jsp");
             }
-            conn.close();
         } catch (Exception e) {
             response.getWriter().write("1");
             e.printStackTrace();

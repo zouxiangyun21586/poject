@@ -61,7 +61,7 @@ $(document).ready(function(){
     });
 });
 function Data(){
-	layui.use([ 'layer', 'form' ], function() {
+    layui.use([ 'layer', 'form' ], function() {
         var form = layui.form;
         form.render('select');
         $.ajax({
@@ -77,57 +77,57 @@ function Data(){
                  $("#t_body").empty();
                  for(var i in list){
                      if("0"==list[i].auditStatus){
-                         html += "<tr><td style='display:none;'>"+list[i].id+"</td>"+
-                         "<td style='display:none;'>"+list[i].seller_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].wares_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].speciID+"</td>"+
-                         "<td>"+list[i].nameType+"</td>"+
-                         "<td><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td>"+list[i].describe+"</td>"+
-                         "<td>"+list[i].money+"</td>"+
-                         "<td>"+list[i].number+"</td>"+
-                         "<td>"+list[i].upFrameTime+"</td>"+
-                         "<td>"+list[i].time+"</td>"+
-                         "<td>"+list[i].downtime+"</td>"+
-                         "<td align='center'><a href='#'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' onclick='update("+list[i].id+")'>修改</a></td></tr>";
+                         html += "<tr><td align='center' style='display:none;' id='id"+list[i].id+"'>"+list[i].id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].nameType+"</td>"+
+                         "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
+                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center'>"+list[i].money+"</td>"+
+                         "<td align='center'>"+list[i].number+"</td>"+
+                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center'>"+list[i].time+"</td>"+
+                         "<td align='center'>"+list[i].downtime+"</td>"+
+                         "<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update' onclick='update("+list[i].id+")'>修改</a></td></tr>";
                      }else if("1"==list[i].auditStatus){
-                         html += "<tr><td style='display:none;'>"+list[i].id+"</td>"+
-                         "<td style='display:none;'>"+list[i].seller_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].wares_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].speciID+"</td>"+
-                         "<td>"+list[i].nameType+"</td>"+
-                         "<td><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td>"+list[i].describe+"</td>"+
-                         "<td>"+list[i].money+"</td>"+
-                         "<td>"+list[i].number+"</td>"+
-                         "<td>"+list[i].upFrameTime+"</td>"+
-                         "<td>"+list[i].time+"</td>"+
-                         "<td>"+list[i].downtime+"</td>"+
+                         html += "<tr><td align='center' style='display:none;'>"+list[i].id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].nameType+"</td>"+
+                         "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
+                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center'>"+list[i].money+"</td>"+
+                         "<td align='center'>"+list[i].number+"</td>"+
+                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center'>"+list[i].time+"</td>"+
+                         "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td></tr>";
                      }else if("2"==list[i].auditStatus){
-                         html += "<tr><td style='display:none;'>"+list[i].id+"</td>"+
-                         "<td style='display:none;'>"+list[i].seller_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].wares_id+"</td>"+
-                         "<td style='display:none;'>"+list[i].speciID+"</td>"+
-                         "<td>"+list[i].nameType+"</td>"+
-                         "<td><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td>"+list[i].describe+"</td>"+
-                         "<td>"+list[i].money+"</td>"+
-                         "<td>"+list[i].number+"</td>"+
-                         "<td>"+list[i].upFrameTime+"</td>"+
-                         "<td>"+list[i].time+"</td>"+
-                         "<td>"+list[i].downtime+"</td>"+
+                         html += "<tr><td align='center' style='display:none;'>"+list[i].id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].nameType+"</td>"+
+                         "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
+                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center'>"+list[i].money+"</td>"+
+                         "<td align='center'>"+list[i].number+"</td>"+
+                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center'>"+list[i].time+"</td>"+
+                         "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='underCarriage(this)'>下架</a></td></tr>";
                      }
                  }
                  $("#t_body").append(html);
              } 
           });
-	});
+    });
 }
 //修改商品保存信息
 function update(d){
-	layer.open({
+    layer.open({
         title : '修改商品',
         type : 2,
         anim : 2,
@@ -142,7 +142,7 @@ function update(d){
 }
 //商品详细信息查询
 function query(obj){
-	layer.open({
+    layer.open({
         title : '详细信息',
         type : 2,
         anim : 2,
@@ -157,21 +157,21 @@ function query(obj){
 }
 //删除操作
 function del(a){
-	if(confirm("是否进入删除操作?")){
-		var tr = $(a).parent().parent();
+    if(confirm("是否进入删除操作?")){
+        var tr = $(a).parent().parent();
         var id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
         var seller_id = tr.find("td").eq(1).text();
         var wares_id = tr.find("td").eq(2).text();
         var time = tr.find("td").eq(10).text();
         var downtime = tr.find("td").eq(11).text();
-		$.ajax({
-	        url:"../sellerServlet",
-	        type:"get",
-	        cache:false,//取消缓存
+        $.ajax({
+            url:"../sellerServlet",
+            type:"get",
+            cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"id":id,"seller_id":seller_id,"wares_id":wares_id,"time":time,"downtime":downtime,"i":2},//传递参数
             success:function(result){
-            	if(result == "0")
+                if(result == "0")
                 {
                     tr.remove();
                 }
@@ -184,14 +184,47 @@ function del(a){
             {
                 alert("发生错误!!");
             }
-	    });
-	}
+        });
+    }
+}
+//上架操作
+function shelves(e){
+    var tr = $(e).parent().parent();
+    var Id = tr.find("td").eq(0).text();
+    var Seller_id = tr.find("td").eq(1).text();
+    var Wares_id = tr.find("td").eq(2).text();
+    var SpeciID = tr.find("td").eq(3).text();
+    var NameType = tr.find("td").eq(4).text();
+    var Name = tr.find("td").eq(5).text();
+    var Describe = tr.find("td").eq(6).text();
+    var Money = tr.find("td").eq(7).text();
+    var Number = tr.find("td").eq(8).text();
+    var UpFrameTime = tr.find("td").eq(9).text();
+    var Time = tr.find("td").eq(10).text();
+    var Downtime = tr.find("td").eq(11).text();
+    $.ajax({
+        url:"../sellerServlet",
+        type:"get",
+        cache:false,//取消缓存
+        async:true,//是否异步请求,修改false就表示同步,true表示异步
+        data:{"id":Id,"seller_id":Seller_id,"wares_id":Wares_id,"i":7},
+        success:function(result){
+            tr.html("");
+            if(result=="0"){
+                tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td align='center'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td>");
+            }
+        },
+        error:function(XMLHttpRequest, textStatus, errorThrown)
+        {
+            alert("发生错误!!");
+        }
+    });
 }
 //撤销操作
 function cancel(b){
-	if(confirm("是否撤销上架?")){
-		var tr = $(b).parent().parent();
-		var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
+    if(confirm("是否撤销上架?")){
+        var tr = $(b).parent().parent();
+        var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
         var Seller_id = tr.find("td").eq(1).text();
         var Wares_id = tr.find("td").eq(2).text();
         var SpeciID = tr.find("td").eq(3).text();
@@ -204,15 +237,15 @@ function cancel(b){
         var Time = tr.find("td").eq(10).text();
         var Downtime = tr.find("td").eq(11).text();
         $.ajax({
-        	url:"../sellerServlet",
-        	type:"get",
-        	cache:false,//取消缓存
+            url:"../sellerServlet",
+            type:"get",
+            cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"id":Id,"i":3},
+            data:{"id":Id,"i":3,"seller_id":Seller_id,"wares_id":Wares_id},
             success:function(result){
-            	if(result == "0")
+                if(result == "0")
                 {
-                    tr.html("<td style='display:none;'>"+Id+"</td><td style='display:none;'>"+Seller_id+"</td><td style='display:none;'>"+Wares_id+"</td><td style='display:none;'>"+SpeciID+"</td><td>"+NameType+"</td><td><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td>"+Describe+"</td><td>"+Money+"</td><td>"+Number+"</td><td>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"</td><td align='center'><a href='#'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' onclick='update("+Id+")'>修改</a></td>");
+                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td align='center'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
                 }
                 else
                 {
@@ -224,13 +257,13 @@ function cancel(b){
                 alert("发生错误!!");
             }
         });
-	}
+    }
 }
 //下架操作
 function underCarriage(c){
-	if(confirm("是否下架商品?")){
-		var tr = $(c).parent().parent();
-		var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
+    if(confirm("是否下架商品?")){
+        var tr = $(c).parent().parent();
+        var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
         var Seller_id = tr.find("td").eq(1).text();
         var Wares_id = tr.find("td").eq(2).text();
         var SpeciID = tr.find("td").eq(3).text();
@@ -242,24 +275,24 @@ function underCarriage(c){
         var UpFrameTime = tr.find("td").eq(9).text();
         var Time = tr.find("td").eq(10).text();
         $.ajax({
-        	url:"../sellerServlet",
-        	type:"get",
-        	cache:false,//取消缓存
+            url:"../sellerServlet",
+            type:"get",
+            cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"id":Id,"i":4},
             dataType:"json",
             success:function(result){
-               	$.each(result,function(index,item){
-               	    var Downtime = item.downtime;
-               		tr.html("<td style='display:none;'>"+Id+"</td><td style='display:none;'>"+Seller_id+"</td><td style='display:none;'>"+Wares_id+"</td><td style='display:none;'>"+SpeciID+"</td><td>"+NameType+"</td><td><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td>"+Describe+"</td><td>"+Money+"</td><td>"+Number+"</td><td>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"<td align='center'><a href='#'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' onclick='update("+Id+")'>修改</a></td>");
-               	});
+                $.each(result,function(index,item){
+                    var Downtime = item.downtime;
+                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
+                });
             },//请求成功,进入该方法
             error:function(XMLHttpRequest, textStatus, errorThrown)
             {
                 alert("发生错误!!");
             }
         });
-	}
+    }
 }
     layui.use([ 'layer', 'laypage', 'element' ], function() {
         $('#addgoods').click(function() {
