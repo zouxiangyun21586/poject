@@ -37,7 +37,7 @@ public class RoleSearchServlet extends HttpServlet{
 			roleName = new String(roleName.getBytes("ISO-8859-1"),"UTF-8");
 			String sql="select count(id) FROM role where roleName like ?";
 			PreparedStatement ps=conn.prepareStatement(sql);
-			ps.setString(1,"%"+roleName+"%");
+			ps.setString(1,"%\\"+roleName+"%");
 			ps.executeQuery();
 			ResultSet rs = ps.getResultSet();
 			rs.next();
@@ -49,8 +49,10 @@ public class RoleSearchServlet extends HttpServlet{
 				System.out.println("查询如下");
 				resp.getWriter().write("1");
 			}
+			rs.close();
+			ps.close();
 		}catch(Exception e){
-			
+			e.printStackTrace();
 		}
 	}
 	/* 作者：唐子壕
@@ -68,7 +70,7 @@ public class RoleSearchServlet extends HttpServlet{
 			}else{
 				String sql="select id,roleName FROM role where roleName like ?";
 				PreparedStatement ps=(PreparedStatement)conn.prepareStatement(sql);
-				ps.setString(1,"%"+roleName+"%");
+				ps.setString(1,"%\\"+roleName+"%");
 				ps.executeQuery();
 				ResultSet rs = ps.getResultSet();
 				List<RoleTzh> list = new ArrayList<>();
@@ -80,6 +82,8 @@ public class RoleSearchServlet extends HttpServlet{
 				}
 				String strjson = JsonUtils.beanListToJson(list);
 				resp.getWriter().write(strjson);
+				rs.close();
+				ps.close();
 			}
 		}catch(Exception e){
 			e.printStackTrace();

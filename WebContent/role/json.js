@@ -5,8 +5,9 @@ var json = [
             { title: "节点1.2", value: "jd1.2", data: [] },
             { title: "节点1.3", value: "jd1.3", data: [] },
             { title: "节点1.4", value: "jd1.4", data: [] }
-            ]}, {title: "节点2", value: "jd2", data: [
-                { title: "节点2.1", value: "jd2.1", data: [] },
+            ]},
+         {title: "节点2", value: "jd2", data: [
+            { title: "节点2.1", value: "jd2.1", data: [] },
                 {title: "节点2.2", value: "jd2.2", data: [
                     { title: "节点2.2.1", value: "jd2.2.1", data: [] },
                     { title: "节点2.2.2", value: "jd2.2.2", data: [] },

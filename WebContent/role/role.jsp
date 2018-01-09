@@ -34,7 +34,7 @@
 					<tbody id="table"></tbody>
 				</table>
 			</div>
-				<div class="layui-form" id="layui-xtree-demo1" style="float:left;width:250px; border:1px solid #009688;"></div>
+			 <div class="layui-form" style="display:none;" id="layui-xtree-demo1" style="float:left;width:250px; border:0px solid #009688;"></div>
 		</div>
 	</div>
 </body>
@@ -91,7 +91,9 @@ $(document).ready(function(){
        }
    });
 });
-
+function empowerment(a){
+	$("#layui-xtree-demo1").toggle();
+}
 
 function search(){
     var zhi=$("#zhi").val();
@@ -168,34 +170,36 @@ function search(){
         } 
     })
 }
+   
 		function del(a)
 		{
-		    var tr = $(a).parent().parent();
-		    var id = tr.find("td").eq(0).text();
-		    alert(id);
-		    //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
-		    $.ajax({
-		        url:'<%=request.getContextPath()%>/delete',
-		        type:'post',
-		        async:false,
-		        data:{"id":id},
-		        dataType:'json',
-		        success:function(strjson){
-		        	if(strjson == "0"){
-			        	tr.remove();
-			        	alert("删除成功！");
-		        	}else{
-		        		alert("删除失败！");
-		        	}
-		        },
-		        error:function(XMLHttpRequest, textStatus, errorThrown)
-		        {
-		        	alert(XMLHttpRequest.status);  
-	                alert(XMLHttpRequest.readyState);  
-	                alert(textStatus); 
-		            alert("后台发生错误!!");
-		        }
-		    });
+			if(confirm("你确定删除这个角色？")){
+			    var tr = $(a).parent().parent();
+			    var id = tr.find("td").eq(0).text();
+			    //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
+			    $.ajax({
+			        url:'<%=request.getContextPath()%>/delete',
+			        type:'post',
+			        async:false,
+			        data:{"id":id},
+			        dataType:'json',
+			        success:function(strjson){
+			        	if(strjson == "0"){
+				        	tr.remove();
+				        	alert("删除成功！");
+			        	}else{
+			        		alert("删除失败！");
+			        	}
+			        },
+			        error:function(XMLHttpRequest, textStatus, errorThrown)
+			        {
+			        	alert(XMLHttpRequest.status);  
+		                alert(XMLHttpRequest.readyState);  
+		                alert(textStatus); 
+			            alert("后台发生错误!!");
+			        }
+			    });
+			}
 		}
 		
 		/* 修改 */
@@ -203,7 +207,6 @@ function search(){
 			var tr = $(upd).parent().parent();
 	        var id = tr.find("td").eq(0).text();
 	        var roleName = tr.find("td").eq(1).text();
-	        
 	        tr.html("<td>"+id+"</td>"+"<td><input type='text' id='roleName' value="+roleName+"></td><td><button class='layui-btn layui-btn-xs layui-btn-danger' onclick=\"cancel(this,'"+id+"','"+roleName+"');\"><i class='layui-icon'>&#xe640;</i> 取消</button><button onclick='updPreservation(this);' class='layui-btn layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 保存</button></td>");
 		}
 		/* 修改取消 */
