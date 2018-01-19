@@ -14,14 +14,15 @@
 			<div class="layui-col-md8"  style="width: 100%;">
 			<input type="hidden" value="0" id="id">
 			<div class="layui-form" style="width:425px;">
-				<form id="for">
+				<%--<form id="for">--%>
 					<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
 					<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
-				</form>
+				<%--</form>--%>
 			</div>
 			</div>
 		</div>
 	</div>
+	<a href="<%=request.getContextPath()%>/powerServlet?i=2">xxxx</a>
 </body>
 <script src="plugins/layui/layui.js"></script>
 <script src="src/js/jquery-2.2.4.min.js"></script>
@@ -33,10 +34,21 @@ $(document).ready(function(){
 	      d[this.name] = this.value;
 	    });
 	    alert(JSON.stringify(d)); */
-	    $.ajax({     
+        var params = $("#for").serialize();
+        var yn = $("dd").find("#yname").text();
+        alert(yn);
+        var zz = $(".layui-input-inline").find("#yurl").val();
+        alert(zz);
+        var yi = $(".layui-input-inline").find("#yid").val();
+        alert(yi);
+        var ys = $("dd").find("#ysta").text();
+        alert(ys);
+        // alert(params);
+        $.ajax({
 	        type: "GET",//请求方式,默认GET
-	        url: "<%=request.getContextPath() %>/powerServlet?i=2",   
-	        data:{"yname":$("#yname").text(),"yid":$("#yid").val(),"yurl":$("#yurl").val(),"ysta":$("#ysta").text()},
+	        url: "<%=request.getContextPath()%>/powerServlet?i=2",
+	        //data:{"yname":$("#yname").text(),"yid":$("#yid").val(),"yurl":$("#yurl").val(),"ysta":$("#ysta").text()},
+			data:params,
 	        dataType: "text",
 	        success: function(data) {
 	        	

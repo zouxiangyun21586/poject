@@ -27,6 +27,7 @@ public class PowerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("11111");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("utf-8");
         String i = req.getParameter("i");
@@ -36,6 +37,7 @@ public class PowerServlet extends HttpServlet {
 	        String json = JsonUtils.beanListToJson(PowerDao.jilian(Integer.valueOf(id), sql));
 	        resp.getWriter().write(json);
         }else if("2".equals(i)){
+
         	/*String yname = req.getParameter("yname");
         	yname=new String(yname.getBytes("ISO-8859-1"),"UTF-8");
         	String yid = req.getParameter("yid");
@@ -44,9 +46,9 @@ public class PowerServlet extends HttpServlet {
         	yurl=new String(yurl.getBytes("ISO-8859-1"),"UTF-8");
         	String ysta = req.getParameter("ysta");
         	ysta=new String(ysta.getBytes("ISO-8859-1"),"UTF-8");*/
-        	String yfor = req.getParameter("for");
+        	String yfor = req.getParameter("params");
         	yfor=new String(yfor.getBytes("ISO-8859-1"),"UTF-8");
-        	System.out.println(yfor);
+        	System.out.println("============================================== "+yfor);
         	PrintWriter out = resp.getWriter();
 //        	System.out.println(yname+", "+yid+", "+yurl+", "+ysta);
 			out.write("a");
