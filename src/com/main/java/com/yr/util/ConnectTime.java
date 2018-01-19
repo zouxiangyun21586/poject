@@ -9,25 +9,25 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * @作者 林水桥 2017年12月28日下午5:36:40
+ * @浣滆�� 鏋楁按妗� 2017骞�12鏈�28鏃ヤ笅鍗�5:36:40
  */
 public class ConnectTime {
     /**
-     * 获取指定网站的日期时间
+     * 鑾峰彇鎸囧畾缃戠珯鐨勬棩鏈熸椂闂�
      * 
      * @param webUrl
      * @return
      * @author SHANHY
-     * @date 2015年11月27日
+     * @date 2015骞�11鏈�27鏃�
      */
-    public static String getWebsiteDatetime(String webUrl) {
+    public static String getWebsiteDatetime() {
         try {
-            URL url = new URL(webUrl);// 取得资源对象
-            URLConnection uc = url.openConnection();// 生成连接对象
-            uc.connect();// 发出连接
-            long ld = uc.getDate();// 读取网站日期时间
-            Date date = new Date(ld);// 转换为标准时间对象
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);// 输出网络时间
+            URL url = new URL("http://www.ntsc.ac.cn");// 鍙栧緱璧勬簮瀵硅薄
+            URLConnection uc = url.openConnection();// 鐢熸垚杩炴帴瀵硅薄
+            uc.connect();// 鍙戝嚭杩炴帴
+            long ld = uc.getDate();// 璇诲彇缃戠珯鏃ユ湡鏃堕棿
+            Date date = new Date(ld);// 杞崲涓烘爣鍑嗘椂闂村璞�
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);// 杈撳嚭缃戠粶鏃堕棿
             return sdf.format(date);
         } catch (MalformedURLException e) {
             e.printStackTrace();

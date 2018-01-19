@@ -32,7 +32,6 @@ import net.sf.json.JSONObject;
 @WebServlet(urlPatterns = "/sellerServlet")
 public class SellerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
     private static final int NUB_0 = 0;
     private static final int NUB_1 = 1;
     private static final int NUB_2 = 2;
@@ -123,8 +122,8 @@ public class SellerServlet extends HttpServlet {
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 String time = String.valueOf(request.getParameter("time"));
                 String downtime = String.valueOf(request.getParameter("downtime"));
-                System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                System.out.println(ConnectTime.getWebsiteDatetime());
+                String date = (String)ConnectTime.getWebsiteDatetime();
                 String sql = "insert into recovery_seller(rs_id,seller_id,wares_id,audits,`time`,downtime,deleteTime) values(?,?,?,?,?,?,?);";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, id);
@@ -168,8 +167,8 @@ public class SellerServlet extends HttpServlet {
                 response.getWriter().write("0");
             } else if ("4".equals(i)) { // 下架已审核的商品
                 int id = Integer.valueOf(request.getParameter("id"));
-                System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                System.out.println(ConnectTime.getWebsiteDatetime());
+                String date = (String)ConnectTime.getWebsiteDatetime();
                 String sql = "update release_seller set downtime=?,audits=? where id=?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setString(NUB_1, date);
@@ -271,8 +270,8 @@ public class SellerServlet extends HttpServlet {
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 int number = Integer.valueOf(request.getParameter("number"));
                 // 获取网络时间
-                System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                String date = ConnectTime.getWebsiteDatetime(webUrl4);
+                System.out.println(ConnectTime.getWebsiteDatetime());
+                String date = ConnectTime.getWebsiteDatetime();
                 /** 添加规格表数据 */
                 String sql = "insert into specification_table(origin,netContent,packingMethod,brand,qGP,storageMethod) values(?,?,?,?,?,?);";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
@@ -350,8 +349,8 @@ public class SellerServlet extends HttpServlet {
                 response.getWriter().write("0");
             } else if ("8".equals(i)) {//卖家上架,审核成功
                 int id = Integer.valueOf(request.getParameter("id"));
-                System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                String date = ConnectTime.getWebsiteDatetime(webUrl4);
+                System.out.println(ConnectTime.getWebsiteDatetime());
+                String date = ConnectTime.getWebsiteDatetime();
                 String sql = "update release_seller set time=?,audits=? where id =?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setString(NUB_1, date);

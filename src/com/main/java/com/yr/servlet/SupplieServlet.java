@@ -30,46 +30,46 @@ import net.sf.json.JSONObject;
  * 2017
  * @author zxy
  * Administrator
- * 2017Äê12ÔÂ28ÈÕ ÏÂÎç8:34:54
+ * 2017ï¿½ï¿½12ï¿½ï¿½28ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½8:34:54
  */
 public class SupplieServlet extends HttpServlet {
     /**
-     * »ñÈ¡ÍøÂçÊ±¼ä.
+     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½.
      */
-    public static final String webUrl4 = "http://www.ntsc.ac.cn"; // ÖÐ¹ú¿ÆÑ§Ôº¹ú¼ÒÊÚÊ±ÖÐÐÄ
+   
     
     /**
-     * ¹©Ó¦ÉÌ ÔöÉ¾¸Ä²é.
+     * ï¿½ï¿½Ó¦ï¿½ï¿½ ï¿½ï¿½É¾ï¿½Ä²ï¿½.
      *
      * @author zxy
      * @param req
      * @param resp
      * @throws ServletException
      * @throws IOException
-     * 2017Äê12ÔÂ13ÈÕ ÏÂÎç9:02:08
+     * 2017ï¿½ï¿½12ï¿½ï¿½13ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½9:02:08
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
-        String sup = req.getParameter("sup"); // Ò³Ãæ´«¹ýÀ´µÄÖµ(ÓÃÀ´ÅÐ¶ÏÖ´ÐÐÄÄÒ»²½)
-        String state = req.getParameter("state"); // ¹©Ó¦ÉÌÕËºÅÊ¹ÓÃ×´Ì¬
-        if("0".equals(state)){ // Èç¹ûÊ¹ÓÃ×´Ì¬Îª 0 ´ú±íÕËºÅÎ´×¢Ïú¿ÉÒÔ½øÈëÔöÉ¾¸Ä²é
+        String sup = req.getParameter("sup"); // Ò³ï¿½æ´«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ(ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½)
+        String state = req.getParameter("state"); // ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ëºï¿½Ê¹ï¿½ï¿½×´Ì¬
+        if("0".equals(state)){ // ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½×´Ì¬Îª 0 ï¿½ï¿½ï¿½ï¿½ï¿½Ëºï¿½Î´×¢ï¿½ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½Ä²ï¿½
             if("1".equals(sup)){
-                //Ò³ÃæÏÔÊ¾Öµ
+                //Ò³ï¿½ï¿½ï¿½ï¿½Ê¾Öµ
                 PrintWriter out = resp.getWriter();
                 String type= req.getParameter("type");
-                String select= req.getParameter("select");//ËÑË÷¹¦ÄÜÖÐÊäÈë¿òµÄÖµ(ÕËºÅ)
-                String interest= req.getParameter("interest");//ËÑË÷¹¦ÄÜÖÐÏÂÀ­¿òµÄÖµ(½ÇÉ«)
-                String pageNow = req.getParameter("pageNow");//»ñµÃÒ³Ãæ´«¹ýÀ´µÄµ±Ç°Ò³
+                String select= req.getParameter("select");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ(ï¿½Ëºï¿½)
+                String interest= req.getParameter("interest");//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ(ï¿½ï¿½É«)
+                String pageNow = req.getParameter("pageNow");//ï¿½ï¿½ï¿½Ò³ï¿½æ´«ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ç°Ò³
                 if (null != type && type.equals("list")) {
                     String sel = req.getParameter("select");
                     if (null == pageNow || "".equals(pageNow)) {
                         pageNow = "1";
                     }
                     List<Supplie> list = SupplieDao.selectemp(Integer.valueOf(pageNow));
-                    int pageCount=SupplieDao.getPageCount();//»ñµÃ×ÜÒ³Êý
+                    int pageCount=SupplieDao.getPageCount();//ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
                     String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
                     Map<String, Object> map = new HashMap<>();
                     map.put("list", list);
@@ -80,81 +80,81 @@ public class SupplieServlet extends HttpServlet {
                     out.write(jsonObjectStr);
                     out.flush();
                 }
-            }else if ("2".equals(sup)) { // Ìí¼ÓÉÌÆ·
+            }else if ("2".equals(sup)) { // ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
                 try {
                     req.setCharacterEncoding("UTF-8");
-                    String name = req.getParameter("commodity"); // ÉÌÆ·Ãû
-                    String nameType = req.getParameter("merType"); // ÉÌÆ·ÀàÐÍ
-                    String money = req.getParameter("money"); // ÉÌÆ·¼Û¸ñ
-                    String describe = req.getParameter("describe"); // ÉÌÆ·ÃèÊö   ------- Ã»ÓÃ
-                    String origin = req.getParameter("origin"); // ÉÌÆ·²úµØ
-                    String netContent = req.getParameter("netContent"); // ÉÌÆ·¾»º¬Á¿
-                    String packingMethod = req.getParameter("packingMethod"); // ÉÌÆ·°ü×°
-                    String brand = req.getParameter("brand"); // ÉÌÆ·Æ·ÅÆ
-                    String qGp = req.getParameter("qGp"); // ÉÌÆ·±£ÖÊÆÚ
-                    String storageMethod = req.getParameter("storageMethod"); // ÉÌÆ·´¢²Ø·½·¨
-                    String number = req.getParameter("number"); // ÉÌÆ·ÊýÁ¿
-                    String specificationID = req.getParameter("specificationID"); // ÉÌÆ·¹æ¸ñId
-                    String suptID = req.getParameter("suptID"); // ¹©Ó¦ÉÌ¹æ¸ñ×Ö¶ÎId
-                    String merId = req.getParameter("merId"); // ÉÌÆ·ID
+                    String name = req.getParameter("commodity"); // ï¿½ï¿½Æ·ï¿½ï¿½
+                    String nameType = req.getParameter("merType"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String money = req.getParameter("money"); // ï¿½ï¿½Æ·ï¿½Û¸ï¿½
+                    String describe = req.getParameter("describe"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½   ------- Ã»ï¿½ï¿½
+                    String origin = req.getParameter("origin"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String netContent = req.getParameter("netContent"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    String packingMethod = req.getParameter("packingMethod"); // ï¿½ï¿½Æ·ï¿½ï¿½×°
+                    String brand = req.getParameter("brand"); // ï¿½ï¿½Æ·Æ·ï¿½ï¿½
+                    String qGp = req.getParameter("qGp"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    String storageMethod = req.getParameter("storageMethod"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½
+                    String number = req.getParameter("number"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String specificationID = req.getParameter("specificationID"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Id
+                    String suptID = req.getParameter("suptID"); // ï¿½ï¿½Ó¦ï¿½Ì¹ï¿½ï¿½ï¿½Ö¶ï¿½Id
+                    String merId = req.getParameter("merId"); // ï¿½ï¿½Æ·ID
                     
                     /**
-                     * »ñÈ¡ÍøÂçÊ±¼ä
+                     * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
                      */
-                    System.out.println(SupplieDao.getWebsiteDatetime(webUrl4));
-                    String date = SupplieDao.getWebsiteDatetime(webUrl4);
+                    System.out.println(ConnectTime.getWebsiteDatetime());
+                    String date = ConnectTime.getWebsiteDatetime();
                     
-                    SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // ¸ø¹æ¸ñ×Ö¶ÎÌíÐÅÏ¢
-                    SupplieDao.merchandiseAdd(nameType, name, money, specificationID, number, date); // Ìí¼ÓÉÌÆ·ÐÅÏ¢
-                    SupplieDao.suppAdd(name,merId,merId); // Ìí¼Ó¹©Ó¦ÉÌÉÌÆ·ÐÅÏ¢
+                    SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
+                    SupplieDao.merchandiseAdd(nameType, name, money, specificationID, number, date); // ï¿½ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
+                    SupplieDao.suppAdd(name,merId,merId); // ï¿½ï¿½Ó¹ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if ("3".equals(sup)) { // ³·ÏúÉÌÆ·
+            } else if ("3".equals(sup)) { // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ·
                 try {
                     String id = req.getParameter("id");
-                    System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                    String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                    System.out.println(ConnectTime.getWebsiteDatetime());
+                    String date = (String)ConnectTime.getWebsiteDatetime();
                     SupplieDao.cencel(date, id);
                     resp.getWriter().write("0");
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-            } else if ("4".equals(sup)) { // ÐÞ¸Ä ÉÌÆ·ÐÅÏ¢
+            } else if ("4".equals(sup)) { // ï¿½Þ¸ï¿½ ï¿½ï¿½Æ·ï¿½ï¿½Ï¢
                 try {
-                    String id = req.getParameter("id"); // ¹©Ó¦ÉÌId
-                    String merId = req.getParameter("merId"); // ÉÌÆ·ID  
-                    String nameType = req.getParameter("merType"); //ÉÌÆ·ÀàÐÍ
-                    String name = req.getParameter("commodity"); // ÉÌÆ·Ãû/¹©Ó¦ÉÌÉÌÆ·Ãû
-                    String money = req.getParameter("money"); // ÉÌÆ·¼Û¸ñ
-                    String origin = req.getParameter("origin"); // ÉÌÆ·²úµØ
-                    String netContent = req.getParameter("netContent"); // ÉÌÆ·¾»º¬Á¿
-                    String packingMethod = req.getParameter("packingMethod"); // ÉÌÆ·°ü×°
-                    String brand = req.getParameter("brand"); // ÉÌÆ·Æ·ÅÆ
-                    String qGp = req.getParameter("qGp"); // ÉÌÆ·±£ÖÊÆÚ
-                    String storageMethod = req.getParameter("storageMethod"); // ÉÌÆ·´¢²Ø·½·¨
-                    String number = req.getParameter("number"); // ÉÌÆ·ÊýÁ¿
-                    String specificationID = req.getParameter("specificationID"); // ÉÌÆ·¹æ¸ñId
+                    String id = req.getParameter("id"); // ï¿½ï¿½Ó¦ï¿½ï¿½Id
+                    String merId = req.getParameter("merId"); // ï¿½ï¿½Æ·ID  
+                    String nameType = req.getParameter("merType"); //ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String name = req.getParameter("commodity"); // ï¿½ï¿½Æ·ï¿½ï¿½/ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·ï¿½ï¿½
+                    String money = req.getParameter("money"); // ï¿½ï¿½Æ·ï¿½Û¸ï¿½
+                    String origin = req.getParameter("origin"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String netContent = req.getParameter("netContent"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    String packingMethod = req.getParameter("packingMethod"); // ï¿½ï¿½Æ·ï¿½ï¿½×°
+                    String brand = req.getParameter("brand"); // ï¿½ï¿½Æ·Æ·ï¿½ï¿½
+                    String qGp = req.getParameter("qGp"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+                    String storageMethod = req.getParameter("storageMethod"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Ø·ï¿½ï¿½ï¿½
+                    String number = req.getParameter("number"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½ï¿½
+                    String specificationID = req.getParameter("specificationID"); // ï¿½ï¿½Æ·ï¿½ï¿½ï¿½Id
                     String spe = SupplieDao.speUpd(origin,netContent,packingMethod,brand,qGp,storageMethod,specificationID);
-                    String supp = SupplieDao.merchandiseUpd(name,money,number,nameType,specificationID,id); //ÉÌÆ·ÐÅÏ¢µÄÐÞ¸Ä
-                    SupplieDao.suppUpd(name,id); // ¹©Ó¦ÉÌID
+                    String supp = SupplieDao.merchandiseUpd(name,money,number,nameType,specificationID,id); //ï¿½ï¿½Æ·ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Þ¸ï¿½
+                    SupplieDao.suppUpd(name,id); // ï¿½ï¿½Ó¦ï¿½ï¿½ID
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                req.getRequestDispatcher("jump.jsp").forward(req, resp); //×ª·¢
-            } else if ("5".equals(sup)) { // ²éÑ¯¹©Ó¦ÉÌÉÌÆ·
+                req.getRequestDispatcher("jump.jsp").forward(req, resp); //×ªï¿½ï¿½
+            } else if ("5".equals(sup)) { // ï¿½ï¿½Ñ¯ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ·
                 resp.setCharacterEncoding("utf-8");
-                try { // state 0×´Ì¬ÔÚÊ¹ÓÃµÄÕËºÅ,1×´Ì¬ÊÇÒÑÍ£ÓÃÕËºÅ
-                    String strJson = SupplieDao.suppSel(); // ²éÑ¯
+                try { // state 0×´Ì¬ï¿½ï¿½Ê¹ï¿½Ãµï¿½ï¿½Ëºï¿½,1×´Ì¬ï¿½ï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½Ëºï¿½
+                    String strJson = SupplieDao.suppSel(); // ï¿½ï¿½Ñ¯
                     resp.getWriter().write(strJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if ("6".equals(sup)){ // ÏÂ¼ÜÉÌÆ·
+            } else if ("6".equals(sup)){ // ï¿½Â¼ï¿½ï¿½ï¿½Æ·
                 try {
                     String id = req.getParameter("id");
-                    System.out.println(ConnectTime.getWebsiteDatetime(webUrl4));
-                    String date = (String)ConnectTime.getWebsiteDatetime(webUrl4);
+                    System.out.println(ConnectTime.getWebsiteDatetime());
+                    String date = (String)ConnectTime.getWebsiteDatetime();
                     String so = SupplieDao.xiajia(date,id);
                     resp.setContentType("application/json; charset=utf-8");
                     resp.getWriter().write(so);
@@ -166,21 +166,21 @@ public class SupplieServlet extends HttpServlet {
     }
     
     /**
-     * ÅÐ¶ÏIdÊÇ·ñÖØ¸´
+     * ï¿½Ð¶ï¿½Idï¿½Ç·ï¿½ï¿½Ø¸ï¿½
      * 
      * @author zxy
      * @param req
      * @param resp
      * @throws ServletException
      * @throws IOException
-     * 2017Äê12ÔÂ13ÈÕ ÏÂÎç10:35:08
+     * 2017ï¿½ï¿½12ï¿½ï¿½13ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½10:35:08
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
-        String strId = req.getParameter("id"); // »ñÈ¡Ò³Ãæ´«À´µÄÖµ
+        String strId = req.getParameter("id"); // ï¿½ï¿½È¡Ò³ï¿½æ´«ï¿½ï¿½ï¿½ï¿½Öµ
         int id = SupplieDao.exsisId(strId);
         resp.getWriter().write(id);
     }
