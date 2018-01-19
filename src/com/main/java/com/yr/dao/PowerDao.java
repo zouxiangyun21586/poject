@@ -37,7 +37,7 @@ public class PowerDao {
             pre.setInt(2, 0);
             pre.executeUpdate();
             pre.close();
-            conn.close();
+            //conn.close();
             return "good";
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class PowerDao {
             pre.setInt(2, id);
             pre.executeUpdate();
             pre.close();
-            conn.close();
+            //conn.close();
             return "good";
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +90,7 @@ public class PowerDao {
             pre.setInt(1, id);
             pre.executeUpdate();
             pre.close();
-            conn.close();
+            //conn.close();
             // 将java对象List集合转换成json字符串
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +112,7 @@ public class PowerDao {
             pre.setInt(1, id);
             pre.executeUpdate();
             pre.close();
-            conn.close();
+            //conn.close();
             // 将java对象List集合转换成json字符串
         } catch (Exception e) {
             e.printStackTrace();
@@ -134,7 +134,7 @@ public class PowerDao {
             pre.setInt(1, id);
             pre.executeUpdate();
             pre.close();
-            conn.close();
+            //conn.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -267,7 +267,7 @@ public class PowerDao {
             }
             rs.close();
             pre.close();
-            conn.close();
+            //conn.close();
             // String jsonObjectStr = JSONObject.fromObject(map).toString();
             // jsonObjectStr = new
             // String(jsonObjectStr.getBytes("utf-8"),"utf-8");
