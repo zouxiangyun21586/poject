@@ -14,10 +14,14 @@
 			<div class="layui-col-md8"  style="width: 100%;">
 			<input type="hidden" value="0" id="id">
 			<div class="layui-form" style="width:425px;">
-				<%--<form id="for">--%>
+				<!-- <form id="for"> 
+				可以看到，我在 button 标签添加了 id="submin"属性 前台框架会给你提交，这样做会产生新的一次表单点击提交，
+				本来form 默认点击 button 时会产生一次提交 ， 
+				button  id="submin"(这里是前台框架的功能) 时又会产生新第一次提交，导致 ajax 未执行完毕表单事件发生了改变。
+				-->
 					<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
-					<button class="layui-btn layui-btn-sm" id="submit"><i class="layui-icon">&#xe618;</i> 确定修改</button>
-				<%--</form>--%>
+					<button class="layui-btn layui-btn-sm" onclick="xiu()"><i class="layui-icon">&#xe618;</i> 确定修改</button>
+				<!-- </form> -->
 			</div>
 			</div>
 		</div>
@@ -27,43 +31,75 @@
 <script src="plugins/layui/layui.js"></script>
 <script src="src/js/jquery-2.2.4.min.js"></script>
 <script>
+function xiu(){
+	var veidoo=new Array();
+	var zhi="";
+    var arrUl = jQuery(".layui-input-inline");
+    jQuery.each(arrUl, function(){
+        //alert(jQuery(this).find("img").attr("src"));
+        //alert(jQuery(this).find("li").attr("class"));
+        var zz = jQuery(this).find("#yurl").val();
+        //var zz = $(".layui-input-inline").find("#yurl").val();
+        var yi = jQuery(this).find("#yid").attr("value");
+        //jQuery(this).find("#yid").attr("value");
+        var zhi =zz+" "+yi;
+        veidoo.push(zhi);
+    });
+    
+   var vediooStr = veidoo.toString();
+   //alert(vediooStr);
+   
+    $.ajax({
+        type: "POST",//请求方式,默认GET
+        url: "<%=request.getContextPath()%>/powerServlet",
+        cache: false,//异步请求
+		data:{"zhi":vediooStr,"i":2},
+        dataType: "text",
+        timeout : 50000, //超时时间：50秒
+        success: function(va) {
+        	//alert(va+"1");
+        },error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(XMLHttpRequest.status);//200客户端请求已成功
+           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+           alert(errorThrown);//parsererror
+        }
+     });
+}
 $(document).ready(function(){
-	var i=0;
-	$('#for').submit(function(){
-	   /*  $.each(t, function() {
-	      d[this.name] = this.value;
-	    });
-	    alert(JSON.stringify(d)); */
-        var params = $("#for").serialize();
-        var yn = $("dd").find("#yname").text();
-        alert(yn);
-        var zz = $(".layui-input-inline").find("#yurl").val();
-        alert(zz);
-        var yi = $(".layui-input-inline").find("#yid").val();
-        alert(yi);
-        var ys = $("dd").find("#ysta").text();
-        alert(ys);
-        // alert(params);
+	var i = 0;
+	//确认修改
+	<%-- $('#for').submit(function(){
+        var veidoo=[];
+        var arrUl = jQuery(".layui-input-inline");
+        jQuery.each(arrUl, function(){
+	        //alert(jQuery(this).find("img").attr("src"));
+	        //alert(jQuery(this).find("li").attr("class"));
+	        var zz = jQuery(this).find("#yurl").attr("value");
+	        var yi = jQuery(this).find("#yid").attr("value");
+	        //jQuery(this).find("#yid").attr("value");
+	        var zhi =zz+" "+yi;
+	        veidoo.push(zhi);
+        });
         $.ajax({
-	        type: "GET",//请求方式,默认GET
+	        type: "POST",//请求方式,默认GET
 	        url: "<%=request.getContextPath()%>/powerServlet?i=2",
 	        //data:{"yname":$("#yname").text(),"yid":$("#yid").val(),"yurl":$("#yurl").val(),"ysta":$("#ysta").text()},
-			data:params,
+			data:{"zhi":veidoo},
 	        dataType: "text",
-	        success: function(data) {
-	        	
+	        success: function(va) {
+	        	alert(va);
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
 	           alert(XMLHttpRequest.status);//200客户端请求已成功
 	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
 	           alert(textStatus);//parsererror
 	        }
 	     });
-	});
+	}); --%>
 	layui.use(['tree','element','form','layer'], function(){
 		var element = layui.element;
 		$.ajax({     
 	        type: "POST",//请求方式,默认GET
-	        url: "powerServlet?id="+$('#id').val(),     
+	        url: "powerServlet?id="+$('#id').val()+"&i=1",     
 	        dataType: "json",
 	        success: function(data) {
 	        	var dataObj=data;
@@ -87,7 +123,7 @@ $(document).ready(function(){
 		function zi(id,i){
 			$.ajax({     
 		        type: "POST",//请求方式,默认GET
-		        url: "powerServlet?id="+id,     
+		        url: "powerServlet?id="+id+"&i=1",     
 		        dataType: "json",
 		        success: function(data) {
 		        	var dataObj=data;
