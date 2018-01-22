@@ -25,6 +25,7 @@
             var origin = $("#merorigin").val();
             var netContent = $("#mernetc").val();
             var packingMethod = $("#merpack  option:selected").val();  // 下拉框值的value
+            alert($("#merbrand").val);
             layui.use(['layer', 'form', 'element'], function(){
                 $.ajax({
                     type: "get",  // 请求方式(post或get)
@@ -35,6 +36,7 @@
                     dataType:"text",
                     data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
                     success:function(){
+                    	alert(55);
                     	layer.msg('保存成功',{icoin:1});
                     	setTimeout("parent.location.href=parent.location.href;","1000");
                     },

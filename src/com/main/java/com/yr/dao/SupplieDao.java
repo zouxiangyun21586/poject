@@ -27,6 +27,41 @@ public class SupplieDao {
     static List<Supplie> list = new ArrayList<>();
 
     /**
+     * 查询所有信息
+     * @author zxy
+     * @return
+     * 2018年1月19日  上午9:38:51
+     * @throws SQLException 
+     */
+    public static String queryAll() throws SQLException{
+        Connection conn = Conn.conn();
+        List<Supplie> list = new ArrayList<>();
+        String sql = "select DISTINCT su.id,su.commodity,mtype.type,mer.money,mer.number,spe.netContent,spe.origin,spe.packingMethod,spe.brand,mer.`describe`,mo.`month`,spe.storageMethod,mer.upFrameTime from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,specification_table sfta,month_table mo where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and sfta.qGP = mo.id;";
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
+        ps.executeQuery(); // 执行查询
+        ResultSet rs = ps.getResultSet();
+        while (rs.next()) {
+            Supplie supp = new Supplie();
+            supp.setId(rs.getInt(1));
+            supp.setCommo(rs.getString(2));
+            supp.setTypeName(rs.getString(3));
+            supp.setMoney(rs.getInt(4));
+            supp.setNumber(rs.getInt(5));
+            supp.setNetContent(rs.getString(6));
+            supp.setOrigin(rs.getString(7));
+            supp.setBrand(rs.getString(9));
+            supp.setDescribe(rs.getString(10));
+            supp.setMonth(rs.getString(11));
+            supp.setStorageMethod(rs.getString(12));
+            supp.setUpFrameTime(rs.getString(13));
+            list.add(supp);
+        }
+        String sst = JsonUtils.beanListToJson(list);
+        System.out.println(sst);
+        return sst;
+    }
+    
+    /**
      * 添加商品信息
      * @author zxy
      * @param nameType 商品类型
@@ -40,14 +75,14 @@ public class SupplieDao {
      * 2017年12月14日  下午5:35:56
      * @throws ParseException 
      */
-    public static void merchandiseAdd(String nameType,String name,String money,String specification,String number,String upFrametTime) throws SQLException, ParseException{
+    public static void merchandiseAdd(String nameTypeID,String name,String money,String specificationID,String number,String upFrametTime) throws SQLException, ParseException{
         Connection conn = Conn.conn();
         String str = "insert into merchandise(nameTypeID,`name`,money,specificationID,number,upFrameTime) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-        ps.setString(1, nameType);
+        ps.setString(1, nameTypeID);
         ps.setString(2, name);
         ps.setString(3, money);
-        ps.setString(4, specification);
+        ps.setString(4, specificationID);
         ps.setString(5, number);
         ps.setString(6, upFrametTime);
         ps.executeUpdate();// 执行修改
@@ -86,13 +121,12 @@ public class SupplieDao {
      * @throws Exception
      * 2017年12月14日  下午3:10:51
      */
-    public static void suppAdd(String name,String mercd_id,String sup_mer_id) throws Exception{
+    public static void suppAdd(String name,String mercd_id) throws Exception{
         Connection conn = Conn.conn();
-        String str = "insert into supplier(commodity,mercd_id,sup_mer_id) values(?,?,?);"; // id自增长
+        String str = "insert into supplier(commodity,mercd_id) values(?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setString(1, name); // 供应商id 
         ps.setString(2, mercd_id); // 商品id
-        ps.setString(3, sup_mer_id); // 供应商对应的商品id
         ps.executeUpdate();// 执行修改
         suppSel();
     }
@@ -211,7 +245,7 @@ public class SupplieDao {
         while(rs.next()){ // 循环结果集
             Supplie sup = new Supplie();
             sup.setCommo(rs.getString(1));
-            sup.setMoney(rs.getDouble(2));
+            sup.setMoney(rs.getInt(2));
             sup.setNumber(rs.getInt(3));
             sup.setNameTypeId(rs.getInt(4));
             sup.setSpecificationId(rs.getInt(5));
@@ -292,7 +326,7 @@ public class SupplieDao {
     public static String suppSel() throws Exception{
         Connection conn = Conn.conn();
         // 获取id
-        String str = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id";
+        String str = "select DISTINCT sup.id,sup.commodity,mer.money,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.mercd_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id and mer.`name` = sup.commodity";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.executeQuery();// 执行查询
         ResultSet rs = ps.getResultSet();// 获取查询结果
@@ -301,17 +335,17 @@ public class SupplieDao {
             Supplie sup = new Supplie();
             sup.setId(rs.getInt(1));
             sup.setCommo(rs.getString(2));
-            sup.setMoney(rs.getDouble(3));
-            sup.setSupMerName(rs.getString(4));
-            sup.setNumber(rs.getInt(5));
-            sup.setTypeName(rs.getString(6));
-            sup.setqGp(rs.getString(7));
-            sup.setBrand(rs.getString(8));
-            sup.setNetContent(rs.getString(9));
-            sup.setOrigin(rs.getString(10));
-            sup.setPackingMethod(rs.getString(11));
-            sup.setStorageMethod(rs.getString(12));
-            sup.setUpFrameTime(rs.getString(13));
+            sup.setMoney(rs.getInt(3));
+            sup.setNumber(rs.getInt(4));
+            sup.setTypeName(rs.getString(5));
+            sup.setqGp(rs.getString(6));
+            sup.setBrand(rs.getString(7));
+            sup.setNetContent(rs.getString(8));
+            sup.setOrigin(rs.getString(9));
+            sup.setPackingMethod(rs.getString(10));
+            sup.setStorageMethod(rs.getString(11));
+            sup.setUpFrameTime(rs.getString(12));
+            sup.setAuditStatus(rs.getInt(13));
             list.add(sup);
         }
         String strJson = JsonUtils.beanListToJson(list);
@@ -324,7 +358,7 @@ public class SupplieDao {
      * @param pageNow 当前页
      * @return 返回所查询的数据
      */
-    public static List<Supplie> selectemp(Integer pageNow) {
+    public static List<Supplie> selectemp(Integer pageNow, String sel) {
         Connection conn = Conn.conn();
         String sql = "";
         if (pageNow < 1) {
@@ -332,9 +366,10 @@ public class SupplieDao {
         }
         pageNow = (pageNow - 1) * 10;
         try {
+            if(null != sel && !"".equals(sel)){
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "select DISTINCT sup.id,sup.commodity,mer.money,mer.`name`,mer.number,merType.type,mota.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus from supplier sup, merchandise mer,merchandise_type merType,month_table mota,specification_table spe where sup.mercd_id=mer.id and mer.nameTypeID=merType.id and sup.sup_mer_id = mer.supplier_id and mota.id = spe.qGP and mer.specificationID= spe.id and mer.`name` = sup.commodity";
+            sql = "select su.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.`describe` from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id ";
             
             sql = sql + " limit ?,?";
             paramIndex.add(1);
@@ -349,7 +384,7 @@ public class SupplieDao {
             for (int i = 0; i < paramIndex.size(); i++) {
                 int mark = paramIndex.get(i);
                 if(mark == 0 ){
-                    prepar.setString( (i+1), (String)param.get(i) );
+                    prepar.setString( (i+1), "%" + "\\" + (String)param.get(i)  + "%");
                 }
                 else if(mark == 1)
                 {
@@ -360,25 +395,49 @@ public class SupplieDao {
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
             while (resu.next()) {
-                Supplie us = new Supplie();
-                us.setId(resu.getInt(1));
-                us.setCommo(resu.getString(2));
-                us.setMoney(resu.getDouble(3));
-                us.setSupMerName(resu.getString(4));
-                us.setNumber(resu.getInt(5));
-                us.setTypeName(resu.getString(6));
-                us.setqGp(resu.getString(7));
-                us.setBrand(resu.getString(8));
-                us.setNetContent(resu.getString(9));
-                us.setOrigin(resu.getString(10));
-                us.setPackingMethod(resu.getString(11));
-                us.setStorageMethod(resu.getString(12));
-                us.setUpFrameTime(resu.getString(13));
-                us.setAuditStatus(resu.getString(14));
-                list.add(us);
+                Supplie supp = new Supplie();
+                supp.setId(resu.getInt(1));
+                supp.setCommo(resu.getString(2));
+                supp.setMoney(resu.getInt(3));
+                supp.setNumber(resu.getInt(4));
+                supp.setqGp(resu.getString(5));
+                supp.setBrand(resu.getString(6));
+                supp.setOrigin(resu.getString(7));
+                supp.setPackingMethod(resu.getString(8));
+                supp.setStorageMethod(resu.getString(9));
+                supp.setDescribe(resu.getString(10));
+                list.add(supp);
             }
             return list;
-        } catch (Exception e) {
+        }else {
+            sql = "select su.id,su.commodity,mer.money,mer.number,mtype.type,mo.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus,mer.`describe` from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id ORDER BY su.id ASC;";
+            PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
+            pre.executeQuery();
+            ResultSet rs = pre.getResultSet();
+            while (rs.next()) {
+                Supplie supp = new Supplie();
+                supp.setId(rs.getInt(1));
+                supp.setCommo(rs.getString(2));
+                supp.setMoney(rs.getInt(3));
+                supp.setNumber(rs.getInt(4));
+                supp.setTypeName(rs.getString(5));
+                supp.setqGp(rs.getString(6));
+                supp.setBrand(rs.getString(7));
+                supp.setNetContent(rs.getString(8));
+                supp.setOrigin(rs.getString(9));
+                supp.setPackingMethod(rs.getString(10));
+                supp.setStorageMethod(rs.getString(11));
+                supp.setUpFrameTime(rs.getString(12));
+                supp.setAuditStatus(rs.getInt(13));
+                supp.setDescribe(rs.getString(14));
+                list.add(supp);
+            }
+            rs.close();
+            pre.close();
+            return list;
+        }
+        
+    } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
