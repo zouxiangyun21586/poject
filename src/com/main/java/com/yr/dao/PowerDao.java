@@ -76,6 +76,40 @@ public class PowerDao {
     }
 
     /**
+     * 
+     * @param idStr
+     * @param url
+     * @return
+     */
+    public static String update1(String arr) {
+        try {
+        	
+            Connection conn = Conn.conn();
+            String sql = "update permission set url=? where id=?;";
+            /*Integer id = Integer.valueOf(idStr);
+            if (url == null || "".equals(url)) {
+                return "0";
+            }*/
+            String zhi[] = arr.split(" ");
+            PreparedStatement pre = conn.prepareStatement(sql);
+        	//for (int i = 0; i < zhi.length; i++) {
+        		pre.setString(1, zhi[0]);
+        		Integer id = Integer.valueOf(zhi[1]);
+        		pre.setInt(2, id);
+			//}
+        	pre.executeUpdate();
+        	pre.close();
+            //conn.close();
+            return "good";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "-1";
+    }
+    
+    
+    
+    /**
      * 停用菜单
      * 
      * @param idStr
