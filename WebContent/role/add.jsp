@@ -35,8 +35,8 @@ function add(a){
 	var value=form.find("input").val();
 	alert(value);
 	  $.ajax({
-	       url:'<%=request.getContextPath()%>/add',
-	       type:'get',
+	       url:'<%=request.getContextPath()%>/roleServlet?role=8',
+	       type:'post',
 	       async:false,
 	       data:{'value':value},
 	       dataType:'json',
@@ -44,8 +44,8 @@ function add(a){
 	          if(data == "0"){
 			   	   alert("进行添加！");
 		               $.ajax({
-		                   url:'<%=request.getContextPath()%>/add',
-		                   type:'post',
+		                   url:'<%=request.getContextPath()%>/roleServlet?role=7',
+		                   type:'get',
 		                   async:false,
 		                   data:{'value':value},
 		                   dataType:'json',

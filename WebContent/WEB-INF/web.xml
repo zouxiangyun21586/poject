@@ -64,49 +64,14 @@
 	
 	 <!-- 角色管理 -->
 	 <servlet>
-        <servlet-name>roleQuery</servlet-name>
-        <servlet-class>com.yr.servlet.RoleQueryServlet</servlet-class>
+        <servlet-name>roleServlet</servlet-name>
+        <servlet-class>com.yr.servlet.RoleServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>roleQuery</servlet-name>
-        <url-pattern>/query</url-pattern>
+        <servlet-name>roleServlet</servlet-name>
+        <url-pattern>/roleServlet</url-pattern>
     </servlet-mapping>
     
-    <servlet>
-        <servlet-name>roleDelete</servlet-name>
-        <servlet-class>com.yr.servlet.RoleDeleteServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>roleDelete</servlet-name>
-        <url-pattern>/delete</url-pattern>
-    </servlet-mapping>
-	
-	<servlet>
-        <servlet-name>roleUpdate</servlet-name>
-        <servlet-class>com.yr.servlet.RoleUpdateServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>roleUpdate</servlet-name>
-        <url-pattern>/update</url-pattern>
-    </servlet-mapping>
-	
-	<servlet>
-        <servlet-name>roleAdd</servlet-name>
-        <servlet-class>com.yr.servlet.RoleAddServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>roleAdd</servlet-name>
-        <url-pattern>/add</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
-        <servlet-name>roleSearch</servlet-name>
-        <servlet-class>com.yr.servlet.RoleSearchServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>roleSearch</servlet-name>
-        <url-pattern>/search</url-pattern>
-    </servlet-mapping>
     
 	<!-- 过滤器 -->
 	<filter>

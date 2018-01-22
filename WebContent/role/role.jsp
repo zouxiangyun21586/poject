@@ -65,7 +65,7 @@ $(document).ready(function(){
 		var width = $(window).width();
 	});
     $.ajax({
-       url:'<%=request.getContextPath()%>/query',
+       url:'<%=request.getContextPath()%>/roleServlet?role=1',
        type:'get',
        dataType:'json',
        success:function(strjson){
@@ -98,8 +98,8 @@ function empowerment(a){
 function search(){
     var zhi=$("#zhi").val();
     $.ajax({
-        url:'<%=request.getContextPath()%>/search',
-        type:'get',
+        url:'<%=request.getContextPath()%>/roleServlet?role=2',
+        type:'post',
         async:false,
         data:{"roleName":zhi},
         dataType:'json',
@@ -109,8 +109,8 @@ function search(){
                 return;
             }else if(strjson=="1"){
                 $.ajax({
-                    url:'<%=request.getContextPath()%>/search',
-                    type:'post',
+                    url:'<%=request.getContextPath()%>/roleServlet?role=3',
+                    type:'get',
                     async:false,
                     data:{"roleName":zhi},
                     dataType:'json',
@@ -120,8 +120,8 @@ function search(){
                           return;
                        }else{
                            $.ajax({
-                               url:'<%=request.getContextPath()%>/search',
-                               type:'post',
+                               url:'<%=request.getContextPath()%>/roleServlet?role=4',
+                               type:'get',
                                async:false,
                                data:{"roleName":zhi},
                                dataType:'json',
@@ -178,8 +178,8 @@ function search(){
 			    var id = tr.find("td").eq(0).text();
 			    //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
 			    $.ajax({
-			        url:'<%=request.getContextPath()%>/delete',
-			        type:'post',
+			        url:'<%=request.getContextPath()%>/roleServlet?role=5',
+			        type:'get',
 			        async:false,
 			        data:{"id":id},
 			        dataType:'json',
@@ -230,7 +230,7 @@ function search(){
             $.ajax({
                 type: "post",  // 请求方式(post或get)
                 async:false,  //默认true(异步请求),设置为false(同步请求)
-                url:"<%=request.getContextPath()%>/update", // 发送请求的地址
+                url:"<%=request.getContextPath()%>/roleServlet?role=6", // 发送请求的地址
                 dataType:"text",
                 data:{"id":id,"roleName":roleName},   // 传参数
                 success:function(){
