@@ -158,21 +158,6 @@
 		} else {
 			window.close();
 		}
-		<%-- $.ajax({
- 	       type:"GET", //请求方式     对应form的  method请求
- 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=2", //请求路径  对应 form的action路径
- 	       cache: false,  //是否缓存，false代表拒绝缓存
- 	       data:{"id":code},  //传参 
- 	       //dataType: 'text',   //返回值类型 
- 	       success:function(data){
- 	    	   var tx = $(this).parent().parent().find("td").eq(3).text();
- 	    	   if(tx == "使用中"){
- 	    	   		$(this).parent().parent().find("td").eq(3).html("已停用");
- 	    	   }else if(tx == ""){
- 	    		   
- 	    	   }
- 	       } 
- 	    }); --%>
 	}
 	layui.use([ 'layer', 'element' ], function() {
 		var laypage = layui.laypage,
@@ -208,19 +193,6 @@
 				//content: ['update.jsp','no']
 			});	
 		}
-	//修改调用的回显
-	/* function updecho(obj){
-		layui.use([ 'layer', 'form' ], function() {
-			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的id
-			var a = $(obj).parent().parent().find("td").eq(1).text();//修改前的值
-			var acc = $(obj).parent().parent().find("td").eq(2).text();//修改前的值
-			var select="<div class='layui-form layui-form-pane' id='di'></div>";
-			var btn="<button class='layui-btn layui-btn-xs' onclick='baoup(\""+a+"\",\""+id+"\",\""+acc+"\",this)'><i class='layui-icon'>&#xe618;</i> 保存</button><a href='#' onclick='quxiao(this,\""+a+"\");' class='layui-btn layui-btn-danger layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 取消</a>";
-			$(obj).parent().parent().find("td").eq(1).html(select);
-			$(obj).parent().parent().find("td").eq(4).html(btn);
-			role();//修改下拉框显示值
-		});
-	} */
 	//修改保存    修改前的角色    修改的id  修改的账号
 	function baoup(oldrole,id,acc,th){
 		var id_array=new Array();  
@@ -303,33 +275,5 @@
 			});
 		});
 	}
-	//查询下拉框显示值
-	<%-- function qurole(){
-		layui.use([ 'layer', 'form' ], function() {
-			var form = layui.form;
-			$.ajax({     
-		        //要用post方式      
-		        type: "POST",//请求方式,默认GET
-		        cache: false,  //是否缓存，false代表拒绝缓存
-		        //方法所在页面和方法名      
-		        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
-		        contentType: "application/text; charset=utf-8",  
-		        dataType: "json",
-		        success: function(zh) {
-		        	$("#interest").append("<option value='quan'>全部</option>");
-		            for(var i in zh){
-		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
-		            }
-		            form.render('select');
-		        },     
-		        error: function(XMLHttpRequest, textStatus, errorThrown) {
-		     	   alert("失败");
-		           alert(XMLHttpRequest.status);//200客户端请求已成功
-		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
-		           alert(textStatus);//parsererror
-		   		}
-			});
-		});
-	} --%>
 	</script>
 </html>

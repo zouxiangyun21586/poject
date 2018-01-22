@@ -1,17 +1,12 @@
 package com.yr.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.PowerDao;
-import com.yr.pojo.Power;
 import com.yr.util.JsonUtils;
 
 public class PowerServlet extends HttpServlet {
@@ -30,21 +25,12 @@ public class PowerServlet extends HttpServlet {
         }else if("2".equals(i)){
         	//修改
         	System.out.println("测试");
-        	//a.jsp,b.jsp
-        	//spilt()
-        	//Object a = req.getParameter("zhi");
-        	
         	String yfor = req.getParameter("zhi");
         	String arr[] = yfor.split(",");
         	for (int j = 0; j < arr.length; j++) {
-        		PowerDao.update1(arr[j]);
+        		PowerDao.update(arr[j]);
 			}
         	resp.getWriter().write("1");
-//        	PrintWriter out = resp.getWriter();
-//        	System.out.println(yname+", "+yid+", "+yurl+", "+ysta);
-//			out.write("a");
-//			out.flush();
-//			out.close();
         }
     }
 

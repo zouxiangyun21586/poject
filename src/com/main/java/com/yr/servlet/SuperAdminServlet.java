@@ -57,21 +57,13 @@ public class SuperAdminServlet extends HttpServlet{
 			}
 		}else if("2".equals(i)){
 			//停用账号
-//			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.delete(id);
-//			out.write("good");
-//			out.flush();
-//			out.close();
 			response.sendRedirect("user/user.jsp");
 		}else if("3".equals(i)){
 			//启动账号
-//			PrintWriter out = response.getWriter();
 			String id = request.getParameter("id");
 			SuperAdminDao.revive(id);
-//			out.write("good");
-//			out.flush();
-//			out.close();
 			response.sendRedirect("user/user.jsp");
 		}else if("4".equals(i)){
 			//修改数据回显

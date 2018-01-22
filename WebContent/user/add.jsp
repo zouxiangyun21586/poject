@@ -29,13 +29,6 @@
 			<div class="layui-row layui-col-space15">
 				<div class="layui-col-md8" style="width: 100%;">
 					<div class="layui-form layui-form-pane" id="di">
-						<!-- <div class="layui-form-item">
-						    <label class="layui-form-label">TA是</label>
-						    <div class="layui-input-block" id="di">
-						    	<select id="interest" name="interest" lay-filter="aihao" lay-search>
-						        </select>
-						    </div>
-						</div> -->
 						<div class="layui-form-item">
 							<label class="layui-form-label">用户名</label>
 							<div class="layui-input-block">
@@ -114,7 +107,6 @@
 			        dataType: "text",
 			        success: function(zh) {
 			           if(zh == "good"){
-			        	   <%-- window.location.href="<%=request.getContextPath()%>/user/user.jsp"; --%>
 			        	   layui.use(['layer', 'laypage', 'element'], function(){
 							layer.msg('添加成功!', 
 							{icon: 1}

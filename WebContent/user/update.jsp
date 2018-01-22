@@ -9,14 +9,7 @@
 	</head>
 	<body>
 		<button type="submit" class="layui-btn" onclick="baoup()">完成</button>
-        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
         <form class="layui-form"><div id="di"></div></form>
-		<input type="text" id="zhi1" value="${id}"><!-- 账户表id -->
-		<input type="text" id="zhi2" value="${acc}"><!-- 账号 -->
-		<input type="text" id="zhi3" value="${roleId}"><!-- 角色id -->
-		<a>${id}</a>
-		<a>${acc}</a>
-		<a>${roleId}</a>
 	</body>
 	<script src="<%=request.getContextPath() %>/plugins/layui/layui.js"></script>
 	<script src="<%=request.getContextPath() %>/src/js/jquery-2.2.4.min.js"></script>
@@ -24,6 +17,7 @@
 		$(document).ready(function(){
 			layui.use([ 'layer', 'form' ], function() {
 				var form = layui.form;
+				//勾选
 				$.ajax({     
 			        //要用post方式      
 			        type: "POST",//请求方式,默认GET
@@ -81,9 +75,7 @@
 	 	    		   alert("新角色不能和旧角色相同");
 	 	    	  }else{
 						layer.msg('修改成功!', {icon: 1}); 
-						//setTimeout('window.opener.location.href=window.opener.location.href;','1000');
 						setTimeout('parent.location="user/user.jsp";',1000);
-						
 	 	    	  }
 	 	       },
 	 	       error: function(XMLHttpRequest, textStatus, errorThrown) {

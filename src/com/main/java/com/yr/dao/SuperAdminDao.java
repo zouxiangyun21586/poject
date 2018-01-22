@@ -1,13 +1,10 @@
 package com.yr.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.yr.pojo.Account_Role;
 import com.yr.pojo.Paging;
@@ -53,7 +50,6 @@ public class SuperAdminDao {
 //			conn.close();
 			Integer account_id = getAccountId(name,account);
 			String str[] = role.split(",");
-//			Integer[] role_id = Integer.valueOf(str);//强制转换类型
 			addAccount_role(account_id,str);
 			return "good";
 		}catch(Exception e){
@@ -190,22 +186,13 @@ public class SuperAdminDao {
 			}
 			String str[] = roleIdStr.split(",");
 			Integer id = Integer.valueOf(idStr);//修改的用户表id
-			//Integer accId = quAccId(acc);//修改的账号id
 			Connection conn = Conn.conn();
 			delAccRole(acc);//删除 角色用户表中对应账号的角色
-//			String sql = "update account_role set role_id=? where id=? and account_id=?;";
 			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			PreparedStatement pre = conn.prepareStatement(sql);
 			//循环修改后的角色数组
 			for (int i = 0; i < str.length; i++) {
 				String ids = str[i];
-				/*String roleName= quRoleName(ids);
-				if(null == roleName || "".equals(roleName)){//判断他是否选择了职位
-					return "1";//请选择职位
-				}*/
-				/*if(oldName.equals(roleName)){//判断他是否是选择了一样的
-					return "2";//不能修改一样的
-				}*/
 				Integer roleId = Integer.valueOf(ids);//修改后的 职位id 
 				pre.setInt(1, id);
 				pre.setInt(2, roleId);
@@ -213,8 +200,6 @@ public class SuperAdminDao {
 				pre.executeUpdate();
 			}
 			pre.close();
-//			conn.close();
-//			resp.sendRedirect(req.getContextPath()+"/test?i=1");
 			return "0";
 		}catch(Exception e){
 			e.printStackTrace();
@@ -240,36 +225,13 @@ public class SuperAdminDao {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 根据角色名字查出对应的id
-	 * @param roleName 角色名字
-	 * @return 查出来的id
-	 */
-	public static Integer quRoleId(String roleName){
-		try{
-			String sql = "select id from role where roleName=?";
-			Connection conn = Conn.conn();
-			PreparedStatement pre=  conn.prepareStatement(sql);
-			pre.setString(1, roleName);
-			ResultSet rs=pre.executeQuery();
-			Integer i = null;
-			while(rs.next()){
-				i = rs.getInt(1);
-			}
-			pre.close();
-//			conn.close();
-			return i;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 	/**
 	 * 根据角色id查出对应的角色名字
 	 * @param strId 角色id
 	 * @return 查出来的角色名字
 	 */
-	public static String quRoleName(String strId){
+	public static String quRoleNameId(String strId){
 		try{
 			Integer i = Integer.valueOf(strId);
 			String sql = "select roleName from role where id=?";
@@ -380,7 +342,7 @@ public class SuperAdminDao {
 	/**
 	 * 查询
 	 */
-	public static List<Account_Role> query(){
+	/*public static List<Account_Role> query(){
 		try {
 			String sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id;";
 			Connection conn = Conn.conn();
@@ -412,7 +374,7 @@ public class SuperAdminDao {
 			e.printStackTrace();
 		}
 		return null;
-	}
+	}*/
 	/**
 	 * 查询数据并用list封装起来
 	 * @param acc 账号
@@ -446,7 +408,7 @@ public class SuperAdminDao {
 				{
 					sql = sql + " and r.roleName=?";
 					paramIndex.add(0);
-					rolename=quRoleName(rolename);//根据角色id查出对应的角色名字
+					rolename=quRoleNameId(rolename);//根据角色id查出对应的角色名字
 					param.add(rolename);
 					pageCountSql = pageCountSql + "and r.roleName=?";
 				}
