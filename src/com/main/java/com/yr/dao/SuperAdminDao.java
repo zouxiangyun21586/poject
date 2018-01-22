@@ -175,35 +175,39 @@ public class SuperAdminDao {
 	//根据账号把账号角色表里面账号关联的角色全部删掉
 	/**
 	 * 修改职位
-	 * @param oldNameId 修改前的职位
+	 * @param oldNameId 修改前的职位id
 	 * @param roleIdStr 修改后的角色id
-	 * @param idStr 要修改的用户表id
-	 * @param acc 修改的账号
-	 * @return 1 没有这个角色
+	 * @param idStr 要修改的用户表账号id
+	 * @param acc 要修改的用户表账号
+	 * @return 0:没有问题   1:请选择职位   2:不能修改一样的
 	 */
 	public static String update(String oldNameId,String roleIdStr,String idStr,String acc){
-		
 		try{
+			if(null==roleIdStr || "".equals(roleIdStr)){
+				return "1";
+			}else if(oldNameId.equals(roleIdStr)){
+				return "2";//不能修改一样的
+			}
 			String str[] = roleIdStr.split(",");
-//			Integer id = Integer.valueOf(idStr);//修改的用户表id
-			Integer accId = quAccId(acc);//修改的账号id
+			Integer id = Integer.valueOf(idStr);//修改的用户表id
+			//Integer accId = quAccId(acc);//修改的账号id
 			Connection conn = Conn.conn();
-//			delAccRole(acc);/删除 角色用户表中对应账号的角色
+			delAccRole(acc);//删除 角色用户表中对应账号的角色
 //			String sql = "update account_role set role_id=? where id=? and account_id=?;";
 			String sql = "insert into account_role(account_id,role_id) values(?,?);";
 			PreparedStatement pre = conn.prepareStatement(sql);
-			
+			//循环修改后的角色数组
 			for (int i = 0; i < str.length; i++) {
 				String ids = str[i];
-				String roleName= quRoleName(ids);
+				/*String roleName= quRoleName(ids);
 				if(null == roleName || "".equals(roleName)){//判断他是否选择了职位
 					return "1";//请选择职位
-				}
+				}*/
 				/*if(oldName.equals(roleName)){//判断他是否是选择了一样的
 					return "2";//不能修改一样的
 				}*/
 				Integer roleId = Integer.valueOf(ids);//修改后的 职位id 
-				pre.setInt(1, accId);
+				pre.setInt(1, id);
 				pre.setInt(2, roleId);
 //				pre.setInt(2, id);
 				pre.executeUpdate();
@@ -211,6 +215,7 @@ public class SuperAdminDao {
 			pre.close();
 //			conn.close();
 //			resp.sendRedirect(req.getContextPath()+"/test?i=1");
+			return "0";
 		}catch(Exception e){
 			e.printStackTrace();
 		}

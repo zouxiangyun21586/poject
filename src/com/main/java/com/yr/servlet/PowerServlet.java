@@ -50,7 +50,6 @@ public class PowerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("11111");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("utf-8");
         String i = req.getParameter("i");

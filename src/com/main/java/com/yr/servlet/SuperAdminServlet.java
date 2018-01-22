@@ -78,9 +78,9 @@ public class SuperAdminServlet extends HttpServlet{
 			String id = request.getParameter("id");//修改的账号表id
 			id = new String(id.getBytes("ISO-8859-1"),"UTF-8");
 			String acc = request.getParameter("acc");//修改的账号
-			acc = new String(acc.getBytes("ISO-8859-1"),"UTF-8");
+			//acc = new String(acc.getBytes("ISO-8859-1"),"UTF-8");
 			String oldrole = request.getParameter("oldRole");//原先的角色
-			oldrole = new String(oldrole.getBytes("ISO-8859-1"),"UTF-8");
+			//oldrole = new String(oldrole.getBytes("ISO-8859-1"),"UTF-8");
 			String roleId = SuperAdminDao.updateEcho(oldrole);
 			request.setAttribute("id",id);
 			request.setAttribute("acc",acc);

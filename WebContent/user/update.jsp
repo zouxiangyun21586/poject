@@ -10,7 +10,7 @@
 	<body>
 		<button type="submit" class="layui-btn" onclick="baoup()">完成</button>
         <button id="reset" class="layui-btn layui-btn-primary">重置</button>
-        <div id="di"></div>
+        <form class="layui-form"><div id="di"></div></form>
 		<input type="text" id="zhi1" value="${id}"><!-- 账户表id -->
 		<input type="text" id="zhi2" value="${acc}"><!-- 账号 -->
 		<input type="text" id="zhi3" value="${roleId}"><!-- 角色id -->
@@ -24,7 +24,7 @@
 		$(document).ready(function(){
 			layui.use([ 'layer', 'form' ], function() {
 				var form = layui.form;
-				$.ajax({
+				$.ajax({     
 			        //要用post方式      
 			        type: "POST",//请求方式,默认GET
 			        cache: false,  //是否缓存，false代表拒绝缓存
@@ -33,40 +33,23 @@
 			        contentType: "application/text; charset=utf-8",  
 			        dataType: "json",
 			        success: function(zh) {
-			        	var id_array=new Array();  
-			        	id_array = $("#zhi3").val().split(',');
-			        	var dataObj=zh;
-			        	var a="";
-			        	$.each(dataObj, function(index, item){
-			        		for (var z = 0; z < id_array.length; z++) {
-		        				if(id_array[z]!=item.id){
-				        			a="<input id='interes' style='display:inline;' name='interes' type='checkbox' value='"+item.id+"' title='"+item.name+"'/>";
-				        		}else{
-					        		a="<input id='interes' style='display:inline;' name='interes' type='checkbox' value='"+item.id+"' title='"+item.name+"' checked='checked'/>";
-				        		}
-			        		}
-			        		$("#di").append(a);
-			        	}); 
-			        	/* var id_array=new Array();
-			        	var a="";
-			        	var b="";
-			        	id_array = $("#zhi3").val().split(',');
-			        	alert(id_array); 
+			        	var r = '${roleId}';
+				        var result = r.split(",");
 			            for(var i in zh){
-			            	for (var z = 0; z < id_array.length; z++) {
-				        		var ro = id_array[z];
-				            	if(ro == zh[i].id){
-				            		
-				            		a="<input id='interes' name='interes' type='checkbox' value='"+zh[i].id+"' title='"+zh[i].name+"' checked='checked'/>";
-				            		
-				            		 	}else{
-				            		a="<input id='interes' name='interes' type='checkbox' value='"+zh[i].id+"' title='"+zh[i].name+"'/>";
-				            			}
-			            	$("#di").append(a);
-				            			}
-			            } */
+			            	var x=1;
+			            	for(var j=0;j<result.length;j++){
+			            		if(result[j]==zh[i].id){
+			            			$("#di").append("<input id='interes"+i+"' name='interes' type='checkbox' value='"+zh[i].id+"' checked='checked'/>"+zh[i].name+" ");
+			            			x=0;
+			            			break;
+			            		}
+			            	}
+			            	if(x==1){
+			            		$("#di").append("<input id='interes"+i+"' name='interes' type='checkbox' value='"+zh[i].id+"' />"+zh[i].name+" ");
+			            	}
+			            }
 			            form.render('checkbox');
-			        },
+			        },     
 			        error: function(XMLHttpRequest, textStatus, errorThrown) {
 			     	   alert("失败");
 			           alert(XMLHttpRequest.status);//200客户端请求已成功
@@ -75,31 +58,32 @@
 			   		}
 				});
 			});
+				
 		});
 		//保存修改
 		function baoup(){
-			alert($("zhi2").val()+"  "+$("zhi1").val()+"  "+$("zhi3").val()+"  ");
 			var id_array=new Array();  
 			$('input[name="interes"]:checked').each(function(){  
 				id_array.push($(this).val());//向数组中添加元素  
 			});  
 			var idstr=id_array.join(',');//将数组元素连接起来以构建一个字符串  
+			var idstr=idstr+",";//给他加一个 逗号 方便以后的比较
 			$.ajax({
 	 	       type:"POST", //请求方式     对应form的  method请求
 	 	       url:"<%=request.getContextPath()%>/superAdminServlet?i=4", //请求路径  对应 form的action路径
 	 	       cache: false,  //是否缓存，false代表拒绝缓存
-	 	       data:{"oldroleId":$("zhi3").val(),"upRoleId":idstr,"id":$("zhi1").val(),"acc":$("zhi2").val()},  //传参 
+	 	       data:{"oldroleId":'${roleId}',"upRoleId":idstr,"id":'${id}',"acc":'${acc}'},  //传参 
 	 	       dataType: 'text',   //返回值类型 
 	 	       success:function(data){
-	 	    	  if(data == "1"){
+	 	    	  if("1" == data){
 	 	    		   alert("请选择职位");
+	 	    	  }else if("2" == data){
+	 	    		   alert("新角色不能和旧角色相同");
 	 	    	  }else{
-		 	    	  layui.use(['layer', 'laypage', 'element'], function(){
-						layer.msg('修改成功!', 
-						{icon: 1}
-						); 
-						setTimeout('parent.location.href=parent.location.href;','1000');
-					  });
+						layer.msg('修改成功!', {icon: 1}); 
+						//setTimeout('window.opener.location.href=window.opener.location.href;','1000');
+						setTimeout('parent.location="user/user.jsp";',1000);
+						
 	 	    	  }
 	 	       },
 	 	       error: function(XMLHttpRequest, textStatus, errorThrown) {

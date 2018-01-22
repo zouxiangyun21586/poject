@@ -8,6 +8,13 @@
 		<link rel="stylesheet" href="../plugins/layui/css/global.css" media="all">
 		<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	</head>
+	<style>
+	.wrap {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+	</style>
 	<body background="../images/jjs.jpg">
 	<br/>
 		<div class="layui-container" width="100%" height="100%" align="center">
@@ -126,7 +133,7 @@
       	          		}
       	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
       	        	 		"<td>"+list[i].userName+"</td>"+
-      	        	 		"<td>"+list[i].roleName+"</td>"+
+      	        	 		"<td><div class='wrap' style='width:200px;' title='"+list[i].roleName+"'>"+list[i].roleName+"</div></td>"+
       	        	 		"<td>"+list[i].stateStr+"</td>"+
       	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
       	        	 		
@@ -196,7 +203,9 @@
 				maxmin:false,//最大化,最小化
 				shade: [0.3,'#000'],
 				area: ['570px', '360px'],//窗口宽高
-				content: ['/projectYr/superAdminServlet?i=4&id='+id+'&oldRole='+oldRole+'&acc='+acc,'no']
+				//content: ['/projectYr/superAdminServlet?i=4&id='+id+'&oldRole='+oldRole+'&acc='+acc,'no']
+				content: '/projectYr/superAdminServlet?i=4&id='+id+'&oldRole='+oldRole+'&acc='+acc
+				//content: ['update.jsp','no']
 			});	
 		}
 	//修改调用的回显

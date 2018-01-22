@@ -17,40 +17,40 @@ import com.yr.dao.LinkMysql;
 import com.yr.pojo.User;
 
 /**
- * 登录
+ * 鐧诲綍
  * 
- * @作者 千毅
+ * @浣滆�� 鍗冩瘏
  *
- * @时间 2017年12月13日 下午9:36:39
+ * @鏃堕棿 2017骞�12鏈�13鏃� 涓嬪崍9:36:39
  */
 public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String username = req.getParameter("username");// 得到用户名
-        String password = req.getParameter("password");// 得到密码
-        String ck = req.getParameter("ck");// 得到密码
-        String hiddenCode = req.getParameter("hiddenCode");// 第一次进来hiddenCode等于空(标志是否为第一次登陆)
+        String username = req.getParameter("username");// 寰楀埌鐢ㄦ埛鍚�
+        String password = req.getParameter("password");// 寰楀埌瀵嗙爜
+        String ck = req.getParameter("ck");// 寰楀埌瀵嗙爜
+        String hiddenCode = req.getParameter("hiddenCode");// 绗竴娆¤繘鏉iddenCode绛変簬绌�(鏍囧織鏄惁涓虹涓�娆＄櫥闄�)
         if (hiddenCode == null || "".equals(hiddenCode)) {
             if (login(req, resp, username, password, ck)) {
                 if ("0".equals(questate(req, resp, username))) {
                     session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
                 } else {
                     req.setAttribute("state", 3);
-                    req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                    req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
                 }
             } else {
                 req.setAttribute("hiddenCode", 1);
                 req.setAttribute("state", 1);
-                req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
             }
         } else {
-            String random = req.getParameter("randomCode");// 得到界面输入的验证码
+            String random = req.getParameter("randomCode");// 寰楀埌鐣岄潰杈撳叆鐨勯獙璇佺爜
             String randomCode = random.toUpperCase();
-            String yzm = (String) req.getSession().getAttribute("rand");// 得到我们生成的正确的验证码
+            String yzm = (String) req.getSession().getAttribute("rand");// 寰楀埌鎴戜滑鐢熸垚鐨勬纭殑楠岃瘉鐮�
             if (randomCode.equals("")) {
-                req.setAttribute("hiddenCode", 1);// 向hiddencode里设置一个值
-                req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                req.setAttribute("hiddenCode", 1);// 鍚慼iddencode閲岃缃竴涓��
+                req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
             } else {
                 if (randomCode.equals(yzm)) {
                     if (login(req, resp, username, password, ck)) {
@@ -58,24 +58,24 @@ public class LoginServlet extends HttpServlet {
                             session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
                         } else {
                             req.setAttribute("state", 3);
-                            req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                            req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
                         }
                     } else {
                         req.setAttribute("hiddenCode", 1);
                         req.setAttribute("state", 1);
-                        req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                        req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
                     }
                 } else {
                     req.setAttribute("state", 2);
-                    req.setAttribute("hiddenCode", 1);// 向hiddencode里设置一个值
-                    req.getRequestDispatcher("login.jsp").forward(req, resp);// 跳到欢迎页面
+                    req.setAttribute("hiddenCode", 1);// 鍚慼iddencode閲岃缃竴涓��
+                    req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
                 }
             }
         }
     }
 
     /**
-     * 验证账号密码是否正确
+     * 楠岃瘉璐﹀彿瀵嗙爜鏄惁姝ｇ‘
      * 
      * @param req
      * @param resp
@@ -86,7 +86,6 @@ public class LoginServlet extends HttpServlet {
      */
     public static boolean login(HttpServletRequest req, HttpServletResponse resp, String username, String password,
             String ck) {
-        System.out.println("页面的值" + username + "---" + password + "---" + ck);
         try {
             Connection con = LinkMysql.getCon();
             User user = new User();
@@ -98,9 +97,7 @@ public class LoginServlet extends HttpServlet {
             ResultSet rs = ps.getResultSet();
             while (rs.next()) {
                 if (rs.getString(1).equals(user.getUsername()) && rs.getString(2).equals(user.getPassword())) {
-                    System.out.println("数据库的值" + rs.getString(1) + "---" + rs.getString(2));
                     if ("true".equals(ck)) {
-                        System.out.println("ck状态:" + ck);
                         Cookie c = new Cookie("users", username + "-" + password);
                         c.setMaxAge(10 * 60);
                         resp.addCookie(c);
@@ -117,7 +114,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * 根据账号查询用户名
+     * 鏍规嵁璐﹀彿鏌ヨ鐢ㄦ埛鍚�
      * 
      * @param req
      * @param resp
@@ -145,7 +142,7 @@ public class LoginServlet extends HttpServlet {
     }
     
     /**
-     * 根据账号查询用户ID
+     * 鏍规嵁璐﹀彿鏌ヨ鐢ㄦ埛ID
      * 
      * @param req
      * @param resp
@@ -173,7 +170,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * 查询用户状态
+     * 鏌ヨ鐢ㄦ埛鐘舵��
      * 
      * @param req
      * @param resp
@@ -201,7 +198,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * 根据账号查询角色
+     * 鏍规嵁璐﹀彿鏌ヨ瑙掕壊
      * 
      * @param req
      * @param resp
@@ -229,7 +226,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * 获取数据库已用内存
+     * 鑾峰彇鏁版嵁搴撳凡鐢ㄥ唴瀛�
      * 
      * @param req
      * @param resp
@@ -255,7 +252,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     /**
-     * 将用户名,角色存于session
+     * 灏嗙敤鎴峰悕,瑙掕壊瀛樹簬session
      * 
      * @param req
      * @param resp
@@ -275,7 +272,7 @@ public class LoginServlet extends HttpServlet {
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             }
-            req.getRequestDispatcher("index.jsp").forward(req, resp);// 跳到欢迎页面
+            req.getRequestDispatcher("index.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
         } catch (Exception e) {
             e.printStackTrace();
         }
