@@ -14,7 +14,7 @@ import com.yr.util.JsonUtils;
 
 /**
  * 
- * @作者 林水桥 2018年1月2日上午9:36:37
+ * @浣滆�� 鏋楁按妗� 2018骞�1鏈�2鏃ヤ笂鍗�9:36:37
  */
 public class SellerDao {
     private static final int NUB_1 = 1;
@@ -32,7 +32,7 @@ public class SellerDao {
     private static final int NUB_13 = 13;
 
     /**
-     * 查询卖家发布表里的所有信息
+     * 鏌ヨ鍗栧鍙戝竷琛ㄩ噷鐨勬墍鏈変俊鎭�
      */
     public static String queryGoods() {
         Connection conn = LinkMysql.getCon();
@@ -41,7 +41,7 @@ public class SellerDao {
             String sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from release_seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id;";// ,account
                                                                                                                                                                                                                                                                                                                                            // acc
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.executeQuery(); // 执行查询
+            ps.executeQuery(); // 鎵ц鏌ヨ
             ResultSet rs = ps.getResultSet();
             while (rs.next()) {
                 Seller goods = new Seller();
@@ -72,17 +72,15 @@ public class SellerDao {
     }
 
     /**
-     * 查询数据并用list封装起来
+     * 鏌ヨ鏁版嵁骞剁敤list灏佽璧锋潵
      * 
      * @param abc
-     *            账号
-     * @param rolename
-     *            角色名
+     *            璐﹀彿
      * @param pageNow
-     *            当前页
+     *            褰撳墠椤�
      * @param sel
-     *            判断是否用了查询功能
-     * @return 返回所查询的数据
+     *            鍒ゆ柇鏄惁鐢ㄤ簡鏌ヨ鍔熻兘
+     * @return 杩斿洖鎵�鏌ヨ鐨勬暟鎹�
      */
     public static List<Seller> selectGoods(String abc, Integer pageNow, String sel) {
         String sql = "";
@@ -141,7 +139,7 @@ public class SellerDao {
                 rs.close();
                 pre.close();
                 return list;
-            } else {// 查询所有数据
+            } else {// 鏌ヨ鎵�鏈夋暟鎹�
                 sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from release_seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(NUB_1, pageNow);
@@ -176,13 +174,13 @@ public class SellerDao {
     }
 
     /**
-     * 获得总页数
+     * 鑾峰緱鎬婚〉鏁�
      * 
-     * @return 返回总页数
+     * @return 杩斿洖鎬婚〉鏁�
      */
     public static Integer getPageCount() {
-        int total = 0;// 总共多少条记录
-        int pageCount = 0;// 总页数
+        int total = 0;// 鎬诲叡澶氬皯鏉¤褰�
+        int pageCount = 0;// 鎬婚〉鏁�
         Connection conn = LinkMysql.getCon();
         try {
             String sql = "select count(*) from release_seller";
