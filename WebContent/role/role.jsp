@@ -116,8 +116,33 @@ function search(){
                     dataType:'json',
                     success:function(strjson){
                        if(strjson=="0"){
-                          alert("你输入的值为空,"); 
-                          return;
+                    	   $.ajax({
+                    	       url:'<%=request.getContextPath()%>/roleServlet?role=1',
+                    	       type:'get',
+                    	       dataType:'json',
+                    	       success:function(strjson){
+                    	           var b="";
+                    	           $.each(strjson,function(i){
+                    	        	   if(strjson[i].roleName =="超级管理员"){
+                    	                   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+                    	               }
+                    	               else{
+                    	                   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+                    	               }
+                    	        	   b+="<tr><td>"+strjson[i].id
+                                       +"</td><td>"+strjson[i].roleName+"</td><td>"
+                                       +rolebtn+"</td></tr>";
+                    	           })
+                    	           $("#table").html(b);
+                    	       },
+                    	       error:function(XMLHttpRequest, textStatus, errorThrown)
+                    	       {
+                    	           alert(XMLHttpRequest.status);  
+                    	           alert(XMLHttpRequest.readyState);  
+                    	           alert(textStatus); 
+                    	           alert("后台发生错误!!");
+                    	       }
+                    	   });
                        }else{
                            $.ajax({
                                url:'<%=request.getContextPath()%>/roleServlet?role=4',

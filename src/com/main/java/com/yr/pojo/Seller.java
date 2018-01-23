@@ -4,27 +4,102 @@ package com.yr.pojo;
  * 2017年12月28日下午6:02:53
  */
 public class Seller {
-    private int wares_id; // 商品ID
-    private String name;  // 商品名称
-    private String money; // 商品价格
-    private String describe;  // 商品描述
-    private int speciID;  // 商品规格ID
-    private int number;   // 商品数量
-    private String upFrameTime;   // 商品信息保存时间
-    private int id;       // 卖家发布ID
-    private String origin; // 美食产地 
-    private String netContent; // 美食净含量
-    private String packingMethod; // 包装方式
-    private String brand; // 商品品牌
-    private int qGP; // 商品保质期ID
-    private String storageMethod; // 商品储藏方式
-    private int seller_id; // 卖家ID
-    private String nameType; // 商品类型
-    private int auditStatus; // 卖家商品状态 0是保存 1是正在审核 2是审核成功
-    private String time; // 卖家商品上架时间
-    private String downtime; // 卖家商品下架时间
-    private int nameTypeID; // 商品类型ID
-    private String month; // 美食保质期
+    /**
+     * 商品ID
+     */
+    private int wares_id;
+    /**
+     * 商品名称
+     */
+    private String name; 
+    /**
+     * 商品价格
+     */
+    private String money; 
+    /**
+     * 商品描述
+     */
+    private String describe;
+    /**
+     * 商品规格ID
+     */
+    private int speciID;
+    /**
+     * 商品数量
+     */
+    private int number; 
+    /**
+     * 商品信息保存时间
+     */
+    private String upFrameTime;
+    /**
+     * 卖家发布ID
+     */
+    private int id;  
+    /**
+     * 卖家审核表ID
+     */
+    private int auditID;
+    /**
+     * 审核用户名称
+     */
+    private String auditName; 
+    /**
+     * 申请审核时间
+     */
+    private String addTime;
+    /**
+     * 美食产地 
+     */
+    private String origin;
+    /**
+     * 美食净含量
+     */
+    private String netContent;
+    /**
+     * 包装方式
+     */
+    private String packingMethod;
+    /**
+     * 商品品牌
+     */
+    private String brand; 
+    /**
+     * 商品保质期ID
+     */
+    private int qGP;
+    /**
+     * 商品储藏方式
+     */
+    private String storageMethod;
+    /**
+     * 卖家ID
+     */
+    private int seller_id;
+    /**
+     * 商品类型
+     */
+    private String nameType;
+    /**
+     * 卖家商品状态 0是保存 1是正在审核 2是审核成功
+     */
+    private int auditStatus; 
+    /**
+     * 卖家商品上架时间
+     */
+    private String time;
+    /**
+     * 卖家商品下架时间
+     */
+    private String downtime;
+    /**
+     * 商品类型ID
+     */
+    private int nameTypeID;
+    /**
+     * 美食保质期
+     */
+    private String month;
     public String getMonth() {
         return month;
     }
@@ -38,6 +113,24 @@ public class Seller {
     }
     public Seller(){
         
+    }
+    public int getAuditID() {
+        return auditID;
+    }
+    public void setAuditID(int auditID) {
+        this.auditID = auditID;
+    }
+    public String getAuditName() {
+        return auditName;
+    }
+    public void setAuditName(String auditName) {
+        this.auditName = auditName;
+    }
+    public String getAddTime() {
+        return addTime;
+    }
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
     }
     public int getNameTypeID() {
         return nameTypeID;

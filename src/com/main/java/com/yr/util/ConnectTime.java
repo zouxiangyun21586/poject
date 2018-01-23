@@ -39,5 +39,18 @@ public class ConnectTime {
 	    }
 	    return null;
 	}
+	
+	/**
+     * 转义特殊字符
+     * @param content
+     * @return
+     */
+    public static String decodeSpecialCharsWhenLikeUseSlash(String content) {
+        String afterDecode = content.replaceAll("'", "''");
+        afterDecode = afterDecode.replaceAll("\\\\", "\\\\\\\\");
+        afterDecode = afterDecode.replaceAll("%", "\\\\%");
+        afterDecode = afterDecode.replaceAll("_", "\\\\_");
+        return afterDecode;
+    }
 
 }
