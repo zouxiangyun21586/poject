@@ -16,13 +16,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.yr.dao.LinkMysql;
 import com.yr.dao.SellerDao;
 import com.yr.pojo.Seller;
 import com.yr.util.ConnectTime;
-import com.yr.dao.LinkMysql;
-import com.yr.util.SellerPage;
-
 import com.yr.util.JsonUtils;
+import com.yr.util.PageService;
+
 import net.sf.json.JSONObject;
 
 /**
@@ -79,7 +79,7 @@ public class SellerServlet extends HttpServlet {
         try {
             if ("1".equals(i)) { // 查看或修改商品详细信息
                 int id = Integer.valueOf(request.getParameter("id"));
-                String sql = "select mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,mth.`month`,spt.qGP,spt.storageMethod,m.money,m.number,m.upFrameTime,rs.time,rs.downtime,rs.id,m.id,spt.id,m.nameTypeID from release_seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and rs.id=?;";
+                String sql = "select mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,mth.`month`,spt.qGP,spt.storageMethod,m.money,m.number,m.upFrameTime,rs.time,rs.downtime,rs.id,m.id,spt.id,m.nameTypeID from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and rs.id=?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, id);
                 ps.executeQuery();
@@ -122,7 +122,6 @@ public class SellerServlet extends HttpServlet {
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 String time = String.valueOf(request.getParameter("time"));
                 String downtime = String.valueOf(request.getParameter("downtime"));
-                System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = (String)ConnectTime.getWebsiteDatetime();
                 String sql = "insert into recovery_seller(rs_id,seller_id,wares_id,audits,`time`,downtime,deleteTime) values(?,?,?,?,?,?,?);";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
@@ -140,7 +139,7 @@ public class SellerServlet extends HttpServlet {
                 ps.setString(NUB_7, date);
                 ps.executeUpdate();
                 ps.close();
-                String sql1 = "delete from release_seller where id = ? and wares_id =?;";
+                String sql1 = "delete from seller where id = ? and wares_id =?;";
                 PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
                 ps1.setInt(NUB_1, id);
                 ps1.setInt(NUB_2, wares_id);
@@ -151,14 +150,14 @@ public class SellerServlet extends HttpServlet {
                 int id = Integer.valueOf(request.getParameter("id"));
                 int account_id = Integer.valueOf(request.getParameter("seller_id"));
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
-                String sql1 = "delete from audit where release_id=? and account_id=? and merchandise_id=?";
+                String sql1 = "delete from auditSeller where release_id=? and account_id=? and merchandise_id=?";
                 PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
                 ps1.setInt(NUB_1, id);
                 ps1.setInt(NUB_2, account_id);
                 ps1.setInt(NUB_3, wares_id);
                 ps1.executeUpdate();
                 ps1.close();
-                String sql = "update release_seller set audits = ? where id = ?;";
+                String sql = "update seller set audits = ? where id = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, NUB_0);
                 ps.setInt(NUB_2, id);
@@ -167,16 +166,22 @@ public class SellerServlet extends HttpServlet {
                 response.getWriter().write("0");
             } else if ("4".equals(i)) { // 下架已审核的商品
                 int id = Integer.valueOf(request.getParameter("id"));
-                System.out.println(ConnectTime.getWebsiteDatetime());
+                int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 String date = (String)ConnectTime.getWebsiteDatetime();
-                String sql = "update release_seller set downtime=?,audits=? where id=?;";
+                String sql = "update seller set downtime=?,audits=? where id=?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setString(NUB_1, date);
                 ps.setInt(NUB_2, NUB_0);
                 ps.setInt(NUB_3, id);
                 ps.executeUpdate();
                 ps.close();
-                String sql1 = "select downtime from release_seller where id=?;";
+                String sql2 = "delete from `release` where account_id = ? and wares_id = ?;";
+                PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
+                ps2.setInt(NUB_1, seller_id);
+                ps2.setInt(NUB_2, wares_id);
+                ps2.executeUpdate();
+                ps2.close();
+                String sql1 = "select downtime from seller where id=?;";
                 PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
                 ps1.setInt(NUB_1, id);
                 ps1.executeQuery();
@@ -251,26 +256,25 @@ public class SellerServlet extends HttpServlet {
                 response.getWriter().write("1");
             } else if ("6".equals(i)) { // 添加商品
                 int select = Integer.valueOf(request.getParameter("interest")); // 商品类型
-                String name = request.getParameter("name");
+                String name = request.getParameter("name");// 商品名称
                 name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String money = request.getParameter("money");
+                String money = request.getParameter("money");// 商品价格
                 money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String desc = request.getParameter("desc");
+                String desc = request.getParameter("desc");// 商品描述
                 desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String origin = request.getParameter("origin");
+                String origin = request.getParameter("origin");// 商品产地
                 origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String netContent = request.getParameter("netContent");
+                String netContent = request.getParameter("netContent");// 商品净含量
                 netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String packingMethod = request.getParameter("packingMethod");
+                String packingMethod = request.getParameter("packingMethod");// 包装方式
                 packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String brand = request.getParameter("brand");
+                String brand = request.getParameter("brand");// 品牌
                 brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                int qGP = Integer.valueOf(request.getParameter("qGP"));
+                int qGP = Integer.valueOf(request.getParameter("qGP"));// 保质期
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 int number = Integer.valueOf(request.getParameter("number"));
                 // 获取网络时间
-                System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = ConnectTime.getWebsiteDatetime();
                 /** 添加规格表数据 */
                 String sql = "insert into specification_table(origin,netContent,packingMethod,brand,qGP,storageMethod) values(?,?,?,?,?,?);";
@@ -295,7 +299,7 @@ public class SellerServlet extends HttpServlet {
                 rs1.close();
                 ps1.close();
                 /** 添加商品表数据 */
-                String sql2 = "insert into merchandise(nameTypeID,`name`,money,`describe`,specificationID,number,upFrameTime) values(?,?,?,?,?,?,?);";
+                String sql2 = "insert into merchandise(nameTypeID,`name`,money,`describe`,specificationID,number,upFrameTime,account_id) values(?,?,?,?,?,?,?,?);";
                 PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
                 ps2.setInt(NUB_1, select);
                 ps2.setString(NUB_2, name);
@@ -304,6 +308,7 @@ public class SellerServlet extends HttpServlet {
                 ps2.setInt(NUB_5, s_tb);
                 ps2.setInt(NUB_6, number);
                 ps2.setString(NUB_7, date);
+                ps2.setInt(NUB_8, seller_id);
                 ps2.executeUpdate();
                 ps2.close();
                 /** 查询商品ID */
@@ -319,7 +324,7 @@ public class SellerServlet extends HttpServlet {
                 rs3.close();
                 ps3.close();
                 /** 添加发布表数据 */
-                String sql4 = "insert into release_seller(seller_id,wares_id,time,downtime,audits) values(?,?,?,?,?);";
+                String sql4 = "insert into seller(seller_id,wares_id,time,downtime,audits) values(?,?,?,?,?);";
                 PreparedStatement ps4 = (PreparedStatement) conn.prepareStatement(sql4);
                 ps4.setInt(NUB_1, seller_id);
                 ps4.setInt(NUB_2, m_id);
@@ -333,19 +338,21 @@ public class SellerServlet extends HttpServlet {
                 int id = Integer.valueOf(request.getParameter("id"));// 卖家发布ID
                 int account_id = Integer.valueOf(request.getParameter("seller_id"));
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
-                String sql2 = "insert into audit(release_id,account_id,merchandise_id) values(?,?,?);";
-                PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-                ps2.setInt(NUB_1, id);
-                ps2.setInt(NUB_2, account_id);
-                ps2.setInt(NUB_3, wares_id);
-                ps2.executeUpdate();
-                ps2.close();
-                String sql = "update release_seller set audits = ? where id = ?;";
+                String date = (String)ConnectTime.getWebsiteDatetime();
+                String sql = "update seller set audits = ? where id = ?;";
                 PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
                 ps.setInt(NUB_1, NUB_1);
                 ps.setInt(NUB_2, id);
                 ps.executeUpdate();
                 ps.close();
+                String sql2 = "insert into auditSeller(release_id,account_id,merchandise_id,addTime) values(?,?,?,?);";
+                PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
+                ps2.setInt(NUB_1, id);
+                ps2.setInt(NUB_2, account_id);
+                ps2.setInt(NUB_3, wares_id);
+                ps2.setString(NUB_4,date);
+                ps2.executeUpdate();
+                ps2.close();
                 response.getWriter().write("0");
             } else if ("8".equals(i)) {//卖家上架,审核成功
                 int id = Integer.valueOf(request.getParameter("id"));
@@ -394,7 +401,7 @@ public class SellerServlet extends HttpServlet {
          // 获得总页数
             int pageCount=SellerDao.getPageCount();
          // 显示当前页
-            String pageCode = new SellerPage().getPageCode(Integer.parseInt(pageNow), pageCount);
+            String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
             Map<String, Object> map = new HashMap<>();
             map.put("list", list);
             map.put("pageCount", pageCount + "");
