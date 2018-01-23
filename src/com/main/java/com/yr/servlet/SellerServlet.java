@@ -175,10 +175,9 @@ public class SellerServlet extends HttpServlet {
                 ps.setInt(NUB_3, id);
                 ps.executeUpdate();
                 ps.close();
-                String sql2 = "delete from `release` where account_id = ? and wares_id = ?;";
+                String sql2 = "delete from `release` where wares_id = ?;";
                 PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-                ps2.setInt(NUB_1, seller_id);
-                ps2.setInt(NUB_2, wares_id);
+                ps2.setInt(NUB_1, wares_id);
                 ps2.executeUpdate();
                 ps2.close();
                 String sql1 = "select downtime from seller where id=?;";
