@@ -1,0 +1,72 @@
+*{margin: 0;padding-top: 0;}
+body{background-color: #F5F5F5;font-family: "微软雅黑"}
+a{text-decoration: none;color: black;}
+ul{overflow: hidden;list-style-type: none;}
+/*头部*/
+body {min-width: 1200px;background-color: #f5f5f5}
+.header {position:relative;height:189px;}
+.header .page-top{width: 100%;min-width: 1200px;height: 30px;line-height: 30px;background-color: #dddddd;color: #484848;font-size: 14px;}
+.header .page-top ul li{float: left;}
+.header .page-top ul li>a{margin-left: 20px;color: #484848;}
+.header .page-top ul li>a:hover{color:red;}
+.header .page-top .welcome{float: left}
+.header .page-top .data{float:right;margin-right: 50px}
+.header .page-top .data li{margin-left: 10px}
+.header .page-top li ul{display: none;position: absolute;border-top: 2px solid red;z-index: 2}
+.header .page-top li ul img{margin-left: -50px}
+.header .page-top li ul li{clear: both;}
+.header .page-top li ul li:last-of-type{border-bottom:none}
+.header .page-top li:hover ul{display: block;}
+.header .page-top .data .info{font-size: 9px;width: 100px;margin-left:-20px;background-color: #ffffff}
+.header .page-top .data .info .touxiang img{margin-top:10px}
+.header .page-top .data .info .touxiang p{margin-top: -50px}
+.header .page-top .data .info li a{color: #484848;}
+.header .page-top .data .info li a:hover{color:red;}
+.header .page-top .data .info .from {margin-left: -10px;}
+.header .navigtion{min-width: 1200px;}
+.header .navigtion .logo{float: left;margin-top:-20px}
+.header .navigtion .search{float: left;margin-top:20px;margin-left:200px}
+.header .navigtion .search .sear{width: 480px;height:30px;border: 2px solid #BE1E2D;margin-right:-85px}
+.header .navigtion .search .search-jzx{width:80px;height:35px;background-color: #BE1E2D;color: #ffffff;font-size: 14px;font-weight: 600;border:0}
+.header .navigtion .search .sousuo a{font-size: 7px;color: #828282;}
+.header .navigtion .search .sousuo a:hover{color:#000000;}
+.header .navigtion .sopping-jzx{float: right;margin-right:150px;margin-top:50px;text-align: center}
+.header .navigtion .sopping-jzx a{color: #828282;border: 1px solid #828282;display: block;padding: 5px}
+.header .navigtion .sopping-jzx a:hover{color:#000000}
+/*导航栏*/
+.zxr_nav {z-index:1;width: 100%;height: 40px;background-color: #ffffff;border-bottom: 2px solid #BE1E2D;position: relative;}
+.nav_ten {width: 1200px;height: 40px;position: relative;margin: 0 auto}
+.zxr_nav .nav_ten .quanbu_zxr {position: relative}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav {position: absolute;width: 540px;height: 300px;z-index: 1000;display: none}
+.zxr_nav .nav_ten .quanbu_zxr .quanbu_zxr1 {text-align:center;line-height: 40px;font-size:15px;color:#ffffff;width: 180px;height: 40px;background-color: #be202e;position: relative;float: left}
+.zxr_nav .nav_ten .quanbu_zxr>ul {list-style-type: none}
+.zxr_nav .nav_ten .quanbu_zxr>ul li {float: left;margin-left: 20px;height: 40px;line-height: 40px;}
+.zxr_nav .nav_ten .quanbu_zxr ul .last-mean {margin-left: 200px;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_l {position:relative;float: left;width: 180px;background-color: #F5F5F5}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 {position: absolute;left: 180px;top:0px;background-color: #ffffff;width:350px;height:250px; font-size: 15px;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_l>ul {margin-left: -40px;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_l>ul li {width: 180px;height: 30px;line-height: 30px;font-size: 12px;border-bottom: 1px dashed gainsboro;text-align: center}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_l>ul li a{color:  #000000;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_l>ul li a:hover{color:#BE1E2D;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 div ul li a{color:  #000000;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 div ul li a:hover{color:#BE1E2D;}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2>div ul li {height: 30px;line-height: 30px;color: #000000}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 .main3 {position:absolute;top:0;float: right;right: 10px}
+.zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 .main3 img {border: 1px solid gainsboro;width: 150px;height: 40px;}
+.clear {clear:both}
+/*尾部*/
+.footer{width: 100%;background-color: #000000;color: #ffffff;}
+.footer a{color: #ffffff}
+.footer a:hover{color: #BE1E2D}
+.footer .promise ul{width:1103px;margin: 0 auto;border-bottom:1px solid #828282;padding: 10px;position: relative}
+.footer .promise>ul>li:not(:nth-child(4)){text-align: center;float: left;margin-left:30px;font-size: 20px;padding: 10px;border-right: 1px solid #828282;}
+.footer .promise>ul>li>span{color:#BE1E2D;font-size: 26px;padding: 2px }
+.footer .promise .number{float: left;font-size: 20px;padding: 10px;margin-left:30px; }
+.footer .items {overflow:hidden;float: left;margin-left:70px;margin-top: 30px}
+.footer .items h4{margin-left:40px}
+.footer .item-service{float: left;overflow:hidden;margin-left: 70px;margin-top: 30px}
+.footer .item-service h4{margin-bottom: 10px}
+.footer .item-twodcode{float: left;overflow:hidden;margin-left: 70px;margin-top: 30px}
+.footer .item-twodcode h4{margin-bottom: 10px}
+.footer .container{clear: both;text-align: center;padding:50px}
+/*头部尾部样式写完之后再扔里 ，其他的样式不要往里添*/
