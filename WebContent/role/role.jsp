@@ -151,7 +151,6 @@ function cancel(updc,id,rome){
       	var tr = $(updp).parent().parent();
           var id = tr.find("td").eq(0).text();
           var roleName = tr.find("td").eq(1).find("input").val();
-          alert(roleName,id);
           $.ajax({
               type: "get",  // 请求方式(post或get)
               async:false,  //默认true(异步请求),设置为false(同步请求)
@@ -185,7 +184,6 @@ function cancel(updc,id,rome){
 /* 搜索 */
 function search(){
     var zhi=$("#zhi").val();
-    alert(zhi);
     $.ajax({
     	url:'<%=request.getContextPath()%>/roleServlet?role=6',
     	type:'post',
@@ -224,7 +222,6 @@ function search(){
     		}else if(strjson=="1"){
     			alert("你输入的职位不存在");
     		}else if(strjson=="2"){
-    			alert(1324);
     			$.ajax({
                     url:'<%=request.getContextPath()%>/roleServlet?role=5',
                      type:'get',
@@ -232,7 +229,6 @@ function search(){
                      data:{"roleName":zhi},
                      dataType:'json',
                      success:function(strjson){
-                    	 alert(6666);
                          var b="";
                         for (var i = 0; i< strjson.length; i++){
                             var a=strjson[i];
