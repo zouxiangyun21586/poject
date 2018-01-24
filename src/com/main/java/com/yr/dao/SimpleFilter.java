@@ -34,7 +34,7 @@ public class SimpleFilter implements Filter {
         }
         // 设置不需要过滤的页面
         if (url.endsWith("login.jsp") || url.endsWith("/loginservlet") || url.endsWith(".css") || url.endsWith(".js")
-                || url.endsWith(".ttf") || url.endsWith(".woff") || url.endsWith(".icon")
+                || url.endsWith(".ttf") || url.endsWith(".woff") || url.endsWith(".icon") || url.endsWith("websocket")
                 || url.endsWith("/authservlet") || url.endsWith("demo-1-bg.jpg")) {
             filterChain.doFilter(request, response);
         } else {
