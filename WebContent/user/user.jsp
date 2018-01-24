@@ -10,13 +10,30 @@
 	</head>
 	<style>
 	.wrap {
-	white-space: nowrap;
-	text-overflow: ellipsis;
-	overflow: hidden;
-}
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+	}
+	video#bgvid {
+		position: fixed;
+		right: 0;
+		bottom: 0;
+		min-width: 50%;
+		min-height: 100%;
+		width: auto;
+		height: auto;
+		z-index: -100;
+		background: url(polina.jpg) no-repeat;
+		background-size: cover;
+	}
 	</style>
-	<body background="../images/jjs.jpg">
-	<br/>
+	<!-- <body background="../images/jjs.jpg"> -->
+	<body>
+		<video height="500" id="bgvid" autoplay loop>
+			<source src="../images/big-v17.webm" type="video/webm"/>
+			<source src="../images/big-v17.webm" type="video/mp4" />
+		</video>
+		<br/>
 		<div class="layui-container" width="100%" height="100%" align="center">
 	    	<div class="layui-row layui-col-space15">
 				<div class="layui-col-md8"  style="width: 100%;">
@@ -159,6 +176,7 @@
 			window.close();
 		}
 	}
+	//添加账号
 	layui.use([ 'layer', 'element' ], function() {
 		var laypage = layui.laypage,
 		layer = layui.layer;
@@ -175,6 +193,7 @@
 			});
 		});
 	});
+	//修改职位
 		function updecho(obj){
 			var id = $(obj).parent().parent().find("td").eq(0).text();//修改的用户表id
 			var acc = $(obj).parent().parent().find("td").eq(1).text();//修改的账号
