@@ -65,7 +65,7 @@
 	 <!-- 角色管理 -->
 	 <servlet>
         <servlet-name>roleServlet</servlet-name>
-        <servlet-class>com.yr.servlet.RoleServlet</servlet-class>
+        <servlet-class>com.yr.servlet.RoleManagementServletLayer</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>roleServlet</servlet-name>
