@@ -60,6 +60,9 @@ layui.use('form', function(){
       });
 });
 
+/*
+    页面加载完成后进入这里执行查询
+*/
 $(document).ready(function(){
 	$(window).resize(function() {
 		var width = $(window).width();
@@ -91,90 +94,124 @@ $(document).ready(function(){
        }
    });
 });
-function empowerment(a){
-	$("#layui-xtree-demo1").toggle();
+
+/* 删除 */
+function del(a)
+{
+	if(confirm("你确定删除这个角色？")){
+	    var tr = $(a).parent().parent();
+	    var id = tr.find("td").eq(0).text();
+	    //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
+	    $.ajax({
+	        url:'<%=request.getContextPath()%>/roleServlet?role=2',
+	        type:'get',
+	        async:false,
+	        data:{"id":id},
+	        success:function(strjson){
+	        	tr.remove();
+                layer.msg('删除成功!', 
+                {icon: 1}
+                ); 
+	        },
+	        error:function(XMLHttpRequest, textStatus, errorThrown)
+	        {
+	        	alert(XMLHttpRequest.status);  
+                alert(XMLHttpRequest.readyState);  
+                alert(textStatus); 
+                layer.msg('删除失败!', 
+                {icon: 1}
+                ); 
+	        }
+	    });
+	}
 }
 
+
+
+/* 修改 */
+function update(upd){
+	var tr = $(upd).parent().parent();
+       var id = tr.find("td").eq(0).text();
+       var roleName = tr.find("td").eq(1).text();
+       tr.html("<td>"+id+"</td>"+"<td><input type='text' id='roleName' value="+roleName+"></td><td><button class='layui-btn layui-btn-xs layui-btn-danger' onclick=\"cancel(this,'"+id+"','"+roleName+"');\"><i class='layui-icon'>&#xe640;</i> 取消</button><button onclick='updPreservation(this);' class='layui-btn layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 保存</button></td>");
+}
+/* 修改取消 */
+function cancel(updc,id,rome){
+	if(rome == "超级管理员"){
+              rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+          }
+          else{
+              rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+          }
+	var tr = $(updc).parent().parent();
+	tr.html("<td>"+id+"</td><td>"+rome+"</td><td>"+rolebtn+"</td>");
+}
+/* 修改保存 */
+      function updPreservation(updp){
+      	var tr = $(updp).parent().parent();
+          var id = tr.find("td").eq(0).text();
+          var roleName = tr.find("td").eq(1).find("input").val();
+          alert(roleName,id);
+          $.ajax({
+              type: "get",  // 请求方式(post或get)
+              async:false,  //默认true(异步请求),设置为false(同步请求)
+              url:"<%=request.getContextPath()%>/roleServlet?role=4", // 发送请求的地址
+              dataType:"text",
+              data:{"id":id,"roleName":roleName},   // 传参数
+              success:function(){
+					if(roleName == "超级管理员"){
+					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+					}
+					else{
+					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+					}
+					tr.html("<td>"+id+"</td><td>"+roleName+"</td><td>"+rolebtn+"</td>");
+					//alert("修改成功^o^");
+					layer.msg('修改成功^o^', 
+			                {icon: 1}
+			                );
+              },
+              error:function(XMLHttpRequest, textStatus, errorThrown)
+              {
+              	alert(XMLHttpRequest.status);  
+                  alert(XMLHttpRequest.readyState);  
+                  alert(textStatus); 
+                  alert("后台发生错误!!");
+              }
+          });
+}
+
+
+/* 搜索 */
 function search(){
     var zhi=$("#zhi").val();
+    alert(zhi);
     $.ajax({
-        url:'<%=request.getContextPath()%>/roleServlet?role=2',
-        type:'post',
-        async:false,
-        data:{"roleName":zhi},
-        dataType:'json',
-        success:function(strjson){
-            if(strjson=="0"){
-                alert("你输入的职位不存在");
-                return;
-            }else if(strjson=="1"){
-                $.ajax({
-                    url:'<%=request.getContextPath()%>/roleServlet?role=3',
+    	url:'<%=request.getContextPath()%>/roleServlet?role=6',
+    	type:'post',
+    	async:false,
+    	data:{'roleName':zhi},
+    	dataType:'json',
+    	success:function(strjson){
+    		if(strjson=="0"){
+    			$.ajax({
+                    url:'<%=request.getContextPath()%>/roleServlet?role=1',
                     type:'get',
-                    async:false,
-                    data:{"roleName":zhi},
                     dataType:'json',
                     success:function(strjson){
-                       if(strjson=="0"){
-                    	   $.ajax({
-                    	       url:'<%=request.getContextPath()%>/roleServlet?role=1',
-                    	       type:'get',
-                    	       dataType:'json',
-                    	       success:function(strjson){
-                    	           var b="";
-                    	           $.each(strjson,function(i){
-                    	        	   if(strjson[i].roleName =="超级管理员"){
-                    	                   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
-                    	               }
-                    	               else{
-                    	                   rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
-                    	               }
-                    	        	   b+="<tr><td>"+strjson[i].id
-                                       +"</td><td>"+strjson[i].roleName+"</td><td>"
-                                       +rolebtn+"</td></tr>";
-                    	           })
-                    	           $("#table").html(b);
-                    	       },
-                    	       error:function(XMLHttpRequest, textStatus, errorThrown)
-                    	       {
-                    	           alert(XMLHttpRequest.status);  
-                    	           alert(XMLHttpRequest.readyState);  
-                    	           alert(textStatus); 
-                    	           alert("后台发生错误!!");
-                    	       }
-                    	   });
-                       }else{
-                           $.ajax({
-                               url:'<%=request.getContextPath()%>/roleServlet?role=4',
-                               type:'get',
-                               async:false,
-                               data:{"roleName":zhi},
-                               dataType:'json',
-                               success:function(strjson){
-                                   var b="";
-                                  for (var i = 0; i< strjson.length; i++){
-                                      var a=strjson[i];
-                                      if(a.roleName =="超级管理员"){
-                                          rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
-                                      }
-                                      else{
-                                          rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
-                                      }
-                                      b+="<tr><td>"+a.id
-                                              +"</td><td>"+a.roleName+"</td><td>"
-                                              +rolebtn+"</td></tr>";
-                                  }
-                                  $("#table").html(b);
-                               },
-                               error:function(XMLHttpRequest, textStatus, errorThrown)
-                               {
-                                   alert(XMLHttpRequest.status);  
-                                   alert(XMLHttpRequest.readyState);  
-                                   alert(textStatus); 
-                                   alert("后台发生错误!!");
-                               }
-                           });
-                       }
+                        var b="";
+                        $.each(strjson,function(i){
+                            if(strjson[i].roleName =="超级管理员"){
+                                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+                            }
+                            else{
+                                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+                            }
+                            b+="<tr><td>"+strjson[i].id
+                            +"</td><td>"+strjson[i].roleName+"</td><td>"
+                            +rolebtn+"</td></tr>";
+                        })
+                        $("#table").html(b);
                     },
                     error:function(XMLHttpRequest, textStatus, errorThrown)
                     {
@@ -184,113 +221,65 @@ function search(){
                         alert("后台发生错误!!");
                     }
                 });
-            }
-        },
-        error:function(XMLHttpRequest, textStatus, errorThrown)
-        {
-            alert(XMLHttpRequest.status);  
-            alert(XMLHttpRequest.readyState);  
-            alert(textStatus); 
-            alert("后台发生错误!!");
-        } 
+    		}else if(strjson=="1"){
+    			alert("你输入的职位不存在");
+    		}else if(strjson=="2"){
+    			alert(1324);
+    			$.ajax({
+                    url:'<%=request.getContextPath()%>/roleServlet?role=5',
+                     type:'get',
+                     async:false,
+                     data:{"roleName":zhi},
+                     dataType:'json',
+                     success:function(strjson){
+                    	 alert(6666);
+                         var b="";
+                        for (var i = 0; i< strjson.length; i++){
+                            var a=strjson[i];
+                            if(a.roleName =="超级管理员"){
+                                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
+                            }
+                            else{
+                                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
+                            }
+                            b+="<tr><td>"+a.id
+                                    +"</td><td>"+a.roleName+"</td><td>"
+                                    +rolebtn+"</td></tr>";
+                        }
+                        $("#table").html(b);
+                     },
+                     error:function(XMLHttpRequest, textStatus, errorThrown)
+                     {
+                         alert(XMLHttpRequest.status);  
+                         alert(XMLHttpRequest.readyState);  
+                         alert(textStatus); 
+                         alert("后台发生错误!!");
+                     }
+                 });
+    		}
+    	}
+    	
     })
 }
-   
-		function del(a)
-		{
-			if(confirm("你确定删除这个角色？")){
-			    var tr = $(a).parent().parent();
-			    var id = tr.find("td").eq(0).text();
-			    //调用ajax把数据进行保存到数据库,添加到数据时,判断ID是否存在,如果存在不添加
-			    $.ajax({
-			        url:'<%=request.getContextPath()%>/roleServlet?role=5',
-			        type:'get',
-			        async:false,
-			        data:{"id":id},
-			        dataType:'json',
-			        success:function(strjson){
-			        	if(strjson == "0"){
-				        	tr.remove();
-				        	alert("删除成功！");
-			        	}else{
-			        		alert("删除失败！");
-			        	}
-			        },
-			        error:function(XMLHttpRequest, textStatus, errorThrown)
-			        {
-			        	alert(XMLHttpRequest.status);  
-		                alert(XMLHttpRequest.readyState);  
-		                alert(textStatus); 
-			            alert("后台发生错误!!");
-			        }
-			    });
-			}
-		}
-		
-		/* 修改 */
-		function update(upd){
-			var tr = $(upd).parent().parent();
-	        var id = tr.find("td").eq(0).text();
-	        var roleName = tr.find("td").eq(1).text();
-	        tr.html("<td>"+id+"</td>"+"<td><input type='text' id='roleName' value="+roleName+"></td><td><button class='layui-btn layui-btn-xs layui-btn-danger' onclick=\"cancel(this,'"+id+"','"+roleName+"');\"><i class='layui-icon'>&#xe640;</i> 取消</button><button onclick='updPreservation(this);' class='layui-btn layui-btn-xs'><i class='layui-icon'>&#xe640;</i> 保存</button></td>");
-		}
-		/* 修改取消 */
-		function cancel(updc,id,rome){
-			if(rome == "超级管理员"){
-                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
-            }
-            else{
-                rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
-            }
-			var tr = $(updc).parent().parent();
-			tr.html("<td>"+id+"</td><td>"+rome+"</td><td>"+rolebtn+"</td>");
-		}
-		
-		/* 修改保存 */
-        function updPreservation(updp){
-        	var tr = $(updp).parent().parent();
-            var id = tr.find("td").eq(0).text();
-            var roleName = tr.find("td").eq(1).find("input").val();
-            
-            $.ajax({
-                type: "post",  // 请求方式(post或get)
-                async:false,  //默认true(异步请求),设置为false(同步请求)
-                url:"<%=request.getContextPath()%>/roleServlet?role=6", // 发送请求的地址
-                dataType:"text",
-                data:{"id":id,"roleName":roleName},   // 传参数
-                success:function(){
-					if(roleName == "超级管理员"){
-					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='update(this)' id='update'><i class='layui-icon'>&#xe640;</i>修改</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-disabled' disabled=disabled onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>";
-					}
-					else{
-					    rolebtn="<button class='layui-btn layui-btn-xs layui-btn-normal' onclick='update(this)'><i class='layui-icon'>&#xe642;</i> 修改</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='del(this)' id='del'><i class='layui-icon'>&#xe640;</i> 删除</button><button class='layui-btn layui-btn-xs layui-btn-danger' onclick='empowerment(this)' id='empowerment'><i class='layui-icon'>&#xe640;</i>赋权</button>"; 
-					}
-					tr.html("<td>"+id+"</td><td>"+roleName+"</td><td>"+rolebtn+"</td>");
-					alert("修改成功^o^");
-                },
-                error:function(XMLHttpRequest, textStatus, errorThrown)
-                {
-                	alert(XMLHttpRequest.status);  
-                    alert(XMLHttpRequest.readyState);  
-                    alert(textStatus); 
-                    alert("后台发生错误!!");
-                }
-            });
-		}
+/* 赋权 */
+function empowerment(a){
+    $("#layui-xtree-demo1").toggle();
+}
 
-    layui.use([ 'layer', 'laypage', 'element' ], function() {
-        $('#addrole').click(function() {
-            layer.open({
-                anim : 2,
-                title : '添加角色',
-                type : 2,//窗口类型
-                resize : false,//禁止拉伸
-                maxmin : false,//最大化,最小化
-                shade : [ 0.3, '#000' ],
-                area : [ '300px', '165px' ],//窗口宽高
-                content : [ 'add.jsp', 'no' ]
-            });
+
+layui.use([ 'layer', 'laypage', 'element' ], function() {
+    $('#addrole').click(function() {
+        layer.open({
+            anim : 2,
+            title : '添加角色',
+            type : 2,//窗口类型
+            resize : false,//禁止拉伸
+            maxmin : false,//最大化,最小化
+            shade : [ 0.3, '#000' ],
+            area : [ '300px', '165px' ],//窗口宽高
+            content : [ 'add.jsp', 'no' ]
         });
     });
+});
 </script>
 </html>
