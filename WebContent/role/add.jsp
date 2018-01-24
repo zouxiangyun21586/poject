@@ -33,47 +33,31 @@
 function add(a){
 	var form=$(a).parent().parent();
 	var value=form.find("input").val();
-	alert(value);
-	  $.ajax({
-	       url:'<%=request.getContextPath()%>/roleServlet?role=8',
-	       type:'post',
-	       async:false,
-	       data:{'value':value},
-	       dataType:'json',
-	       success:function(data){
-	          if(data == "0"){
-			   	   alert("进行添加！");
-		               $.ajax({
-		                   url:'<%=request.getContextPath()%>/roleServlet?role=7',
-		                   type:'get',
-		                   async:false,
-		                   data:{'value':value},
-		                   dataType:'json',
-		                   success:function(json){
-		                       if(json ==  "0"){
-		                           alert("添加成功！");
-		                       }else{
-		                           alert("添加失败");
-		                       }
-		                   },error:function(XMLHttpRequest, textStatus, errorThrown)
-		                   {
-		                       alert("后台发生错误!!");
-		                   }
-		               });
-	          }else{
-	        	  alert("职位已存在！！！");
-	          }
-	          window.location.reload();
-	       },
-	       error:function(XMLHttpRequest, textStatus, errorThrown)
-	       {
-	           alert("后台发生错误!!");
-	       }
-	   });
+	$.ajax({
+		url:'<%=request.getContextPath()%>/roleServlet?role=3',
+		type:'get',
+		async:false,
+		data:{'value':value},
+		success:function(date){
+			if(date=="good"){
+				alert('添加成功！');
+			}else if(date=="0"){
+				alert('你输入的值为空!');
+			}else if(date=="1"){
+				alert('你输入的值已存在!');
+			}else{
+				alert('数据库出错!');
+			}
+		},
+		 error: function(XMLHttpRequest, textStatus, errorThrown) {
+             alert("失败");
+             alert(XMLHttpRequest.status);//200客户端请求已成功
+             alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+             alert(textStatus);//parsererror
+          }
+		
+	})
 }
-
-
-
 layui.use([ 'layer', 'form' ], function() {});
 </script>
 </html>
