@@ -57,7 +57,7 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.println("来自客户端的消息:" + message);
+        // System.out.println("来自客户端的消息:" + message);
         // 群发消息
         for (WebSocket item : webSocketSet) {
             try {

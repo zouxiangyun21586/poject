@@ -137,12 +137,13 @@
 			title:'SOCKETR',
 			type : 2,
 			anim : 2,
+			closeBtn :0,
+			maxmin:true,
 			shade : false,
-			maxmin : false,
 			resize : false,
 			scrollbar : false,
 			content : ['news/index.jsp','no'],
-			area : [ '500px', '400px' ],
+			area : [ '600px', '400px' ],
 			shadeClose : true,
 			success : function(layero, index) {
 				$('#news').fadeOut();
