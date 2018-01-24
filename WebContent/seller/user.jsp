@@ -279,7 +279,7 @@ function underCarriage(c){
             type:"get",
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"id":Id,"i":4},
+            data:{"id":Id,"i":4,"wares_id":Wares_id},
             dataType:"json",
             success:function(result){
                 $.each(result,function(index,item){
