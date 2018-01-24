@@ -41,8 +41,21 @@ public class AuditSellerDao {
 
     /**
      * 修改审核商品信息
+     * @param wares_id      商品ID
+     * @param spec_id       规格ID
+     * @param nameType      商品类型
+     * @param name          商品名称
+     * @param money         商品价格
+     * @param desc          商品描述
+     * @param number        商品数量
+     * @param origin        商品产地
+     * @param netContent    商品净含量
+     * @param packingMethod 包装方式
+     * @param brand         品牌
+     * @param qGP           保质期ID
+     * @param storageMethod 保质期月份
      * void
-     * 2018年1月24日下午3:12:38
+     * 2018年1月24日下午8:10:16
      */
     public static void updateAudit(Integer wares_id,Integer spec_id,String nameType,String name,String money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
@@ -91,8 +104,10 @@ public class AuditSellerDao {
     
     /**
      * 查询卖家审核商品
+     * @param auditID 审核表ID
+     * @return        审核数据
      * List<Seller>
-     * 2018年1月24日下午3:06:35
+     * 2018年1月24日下午8:15:24
      */
     public static List<Seller> queryAudit(Integer auditID){
         Connection conn = LinkMysql.getCon();
@@ -136,8 +151,10 @@ public class AuditSellerDao {
     
     /**
      * 禁止上架
+     * @param id        卖家商品表ID
+     * @param auditID   审核表ID
      * void
-     * 2018年1月24日下午3:02:12
+     * 2018年1月24日下午8:16:42
      */
     public static void NoneAudit(Integer id,Integer auditID){
         Connection conn = LinkMysql.getCon();
@@ -161,8 +178,13 @@ public class AuditSellerDao {
     
     /**
      * 允许上架
+     * @param id            卖家商品表ID
+     * @param auditID       审核表ID
+     * @param seller_id     对应账户ID
+     * @param wares_id      商品ID
+     * @param date          上架时间
      * void
-     * 2018年1月24日下午2:12:29
+     * 2018年1月24日下午8:18:00
      */
     public static void passAudit(Integer id,Integer auditID,Integer seller_id,Integer wares_id,String date){
         Connection conn = LinkMysql.getCon();
