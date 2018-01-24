@@ -21,22 +21,20 @@
             var merType = $("#mertype  option:selected").val();
             var qGp = $("#merqGp  option:selected").val(); // 需获取下拉框值的value 传值过去
             var brand = $("#merbrand").val();
-            var storageMethod = $("#merstm option:selected").val();  // 下拉框值的value
+            var storageMethod = $("#merstm option:selected").text();  // 下拉框值的value
             var origin = $("#merorigin").val();
             var netContent = $("#mernetc").val();
-            var packingMethod = $("#merpack  option:selected").val();  // 下拉框值的value
-            alert($("#merbrand").val);
+            var packingMethod = $("#merpack  option:selected").text();  // 下拉框值的value
+            var merDes = $("#merDes").val();
             layui.use(['layer', 'form', 'element'], function(){
                 $.ajax({
                     type: "get",  // 请求方式(post或get)
                     async:false,  //默认true(异步请求),设置为false(同步请求)
                     url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
-                    /* contentType: "application/text; charset=utf-8", */
                     scriptCharset: 'utf-8',
                     dataType:"text",
-                    data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"state":0},   // 传参数
+                    data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"describe":merDes,"state":0},   // 传参数
                     success:function(){
-                    	alert(55);
                     	layer.msg('保存成功',{icoin:1});
                     	setTimeout("parent.location.href=parent.location.href;","1000");
                     },
@@ -90,7 +88,7 @@
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品保质期</label>
-                        <div class="layui-input-block" id="merbrand">
+                        <div class="layui-input-block" id="merqGp">
                             <select value='selMot' id="merqGp" name="merqGp" lay-filter="aihao" lay-search>
 	                            <option value="">请选择商品保质期</option>
 	                            <option value='1'>一个月</option>
@@ -154,6 +152,13 @@
                                 <option value='4'>罐藏</option>
                                 <option value='5'>瓶装</option>
                              </select>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">商品描述</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="merDes" name="merDes" autocomplete="off"
+                                placeholder="请描述商品" class="layui-input">
                         </div>
                     </div>
                     <button type="submit" class="layui-btn" id="sb">立即提交</button>

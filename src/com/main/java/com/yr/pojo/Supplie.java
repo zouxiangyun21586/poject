@@ -30,6 +30,28 @@ public class Supplie {
     private String typeName; // 商品类型名
     private String storageMethod; // 储藏方式
     private int auditStatus; // 供应商状态
+    private int speId; // 规格表id
+    private int merId; // 商品表id
+    private int account_id; //账户id
+    
+    public int getAccount_id() {
+		return account_id;
+	}
+	public void setAccount_id(int account_id) {
+		this.account_id = account_id;
+	}
+	public int getSpeId() {
+        return speId;
+    }
+    public void setSpeId(int speId) {
+        this.speId = speId;
+    }
+    public int getMerId() {
+        return merId;
+    }
+    public void setMerId(int merId) {
+        this.merId = merId;
+    }
     public int getId() {
         return id;
     }
