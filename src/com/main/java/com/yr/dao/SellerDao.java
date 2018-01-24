@@ -41,8 +41,10 @@ public class SellerDao {
     
     /**
      * 查询卖家保存商品的所有信息
+     * @param id        卖家商品表ID
+     * @return          卖家商品信息
      * List<Seller>
-     * 2018年1月24日上午11:05:22
+     * 2018年1月24日下午8:21:50
      */
     public static List<Seller> queryGoods(Integer id) {
         Connection conn = LinkMysql.getCon();
@@ -87,8 +89,14 @@ public class SellerDao {
     
     /**
      * 删除保存的商品信息
+     * @param id            卖家商品表ID
+     * @param sellers_id    对应账户ID
+     * @param wares_id      商品ID
+     * @param time          上架时间
+     * @param downtime      下架时间
+     * @param date          删除时间
      * void
-     * 2018年1月24日上午11:14:30
+     * 2018年1月24日下午8:23:44
      */
     public static void delGoods(Integer id,Integer sellers_id,Integer wares_id,String time,String downtime,String date){
         Connection conn = LinkMysql.getCon();
@@ -122,8 +130,11 @@ public class SellerDao {
     
     /**
      * 撤销正在审核的商品
+     * @param id            卖家商品表ID
+     * @param account_id    对应账户ID
+     * @param wares_id      商品ID
      * void
-     * 2018年1月24日上午11:19:29
+     * 2018年1月24日下午8:26:38
      */
     public static void cancelAudit(Integer id,Integer account_id,Integer wares_id){
         Connection conn = LinkMysql.getCon();
@@ -148,8 +159,13 @@ public class SellerDao {
     
     /**
      * 下架发布商品
+     * @param id            卖家商品表ID
+     * @param seller_id     对应账户ID
+     * @param wares_id      商品ID
+     * @param date          下架时间
+     * @return
      * List<Seller>
-     * 2018年1月24日上午11:28:33
+     * 2018年1月24日下午8:40:27
      */
     public static List<Seller> underGoods(Integer id,Integer seller_id,Integer wares_id,String date){
         Connection conn = LinkMysql.getCon();
@@ -187,8 +203,12 @@ public class SellerDao {
     
     /**
      * 卖家申请上架商品
+     * @param id            卖家商品表ID
+     * @param account_id    对应账户ID
+     * @param wares_id      商品ID
+     * @param date          申请时间
      * void
-     * 2018年1月24日上午11:32:51
+     * 2018年1月24日下午8:42:44
      */
     public static void upGoods(Integer id,Integer account_id,Integer wares_id,String date){
         Connection conn = LinkMysql.getCon();
@@ -214,8 +234,21 @@ public class SellerDao {
     
     /**
      * 修改商品信息
+     * @param wares_id          商品ID
+     * @param spec_id           规格ID
+     * @param nameType          商品类型
+     * @param name              商品名称
+     * @param money             商品价格
+     * @param desc              商品描述
+     * @param number            商品数量
+     * @param origin            商品产地
+     * @param netContent        商品净含量
+     * @param packingMethod     包装方式
+     * @param brand             品牌
+     * @param qGP               保质期ID
+     * @param storageMethod     保质期---时间
      * void
-     * 2018年1月24日上午11:47:51
+     * 2018年1月24日下午8:31:32
      */
     public static void updateGoods(Integer wares_id,Integer spec_id,String nameType,String name,String money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
@@ -263,8 +296,21 @@ public class SellerDao {
     
     /**
      * 卖家添加商品
+     * @param select            商品类型ID
+     * @param name              商品名称
+     * @param money             商品价格
+     * @param desc              商品描述
+     * @param origin            商品产地
+     * @param netContent        商品净含量
+     * @param packingMethod     包装方式
+     * @param brand             品牌
+     * @param qGP               保质期ID
+     * @param storageMethod     储存方法
+     * @param number            商品数量
+     * @param date              添加时间
+     * @param seller_id         账户ID
      * void
-     * 2018年1月24日上午11:59:58
+     * 2018年1月24日下午8:34:31
      */
     public static void addGoods(Integer select,String name,String money,String desc,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod,Integer number,String date,Integer seller_id){
         Connection conn = LinkMysql.getCon();
@@ -336,8 +382,6 @@ public class SellerDao {
      * 
      * @param abc
      *            账号
-     * @param rolename
-     *            角色名
      * @param pageNow
      *            当前页
      * @param sel
