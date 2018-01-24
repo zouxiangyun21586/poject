@@ -59,7 +59,8 @@
 				<div class="kit-side-fold">
 					<i class="fa fa-navicon" aria-hidden="true" style="line-height:35px;"></i>
 				</div>
-				<ul class="layui-nav layui-nav-tree" lay-filter="test" id="nvaul" style="width:100%;"></ul>
+				<div class="layui-nav layui-nav-tree"  lay-filter="test" id="nvaul" kit-navbar></div>
+				<!-- <ul class="layui-nav layui-nav-tree" id="nvaul" style="width:100%;" kit-navbar></ul> -->
 			</div>
 		</div>
 		<div class="layui-body" id="container">
@@ -98,12 +99,11 @@
    	            	i++;
 	        	});
 	        	$('#nvaul').append(fu);
-	        	
+	        	element.render();
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
 	        	layer.msg('父节点取值失败!',{icon: 2});
 	        }
 	     });	
-	     
 	});
 	function zi(id,i){
 		$.ajax({     
@@ -120,7 +120,6 @@
         			
 	        	});
 	        	$('#fu'+id).append(zi);
-	        	element.render('nav');
 	        },error: function(XMLHttpRequest, textStatus, errorThrown) {
 	        	layer.msg('子节点取值失败!',{icon: 2});
 	        }
@@ -135,16 +134,15 @@
 	}
 	function TIM(){
 		layer.open({
-			title : 'TIM',
+			title:'SOCKETR',
 			type : 2,
 			anim : 2,
 			shade : false,
 			maxmin : false,
 			resize : false,
 			scrollbar : false,
-			content : 'xiaoxi.jsp',
-			area : [ '300px', '400px' ],
-			offset : 'rb',
+			content : ['news/index.jsp','no'],
+			area : [ '500px', '400px' ],
 			shadeClose : true,
 			success : function(layero, index) {
 				$('#news').fadeOut();
