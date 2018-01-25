@@ -34,7 +34,7 @@ public class Supplie {
     private int merId; // 商品表id
     private int account_id; //账户id
     private String account; // 账户名
-    private String releaseTime;
+    private String releaseTime; // 发表时间
     
     public String getAccount() {
 		return account;
