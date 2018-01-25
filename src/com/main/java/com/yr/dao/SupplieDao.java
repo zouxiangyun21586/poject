@@ -143,9 +143,9 @@ public class SupplieDao {
      * @throws SQLException
      * 2017年12月28日  下午10:21:47
      */
-    public static Integer speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
+    public static Integer speciAdd(Integer account_id,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
         Connection conn = Conn.conn();
-        String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
+        String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod,account_id) values(?,?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str,Statement.RETURN_GENERATED_KEYS);// 发送SQL到数据库  获取刚插入的自增长id 
         ps.setString(1, origin);
         ps.setString(2, netContent);
@@ -153,6 +153,7 @@ public class SupplieDao {
         ps.setString(4, brand);
         ps.setString(5, qGp);
         ps.setString(6, storageMethod);
+        ps.setInt(7, account_id);
         ps.executeUpdate();// 执行修改
         int autoInckey = -1;
         ResultSet res = ps.getGeneratedKeys();
@@ -329,6 +330,7 @@ public class SupplieDao {
     /**
      * 查询数据并用list封装起来
      * @param pageNow 当前页
+     * @param sel 判断是否用了查询功能
      * @return 返回所查询的数据
      */
     public static List<Supplie> selectemp(Integer pageNow, String sel) {
@@ -383,8 +385,10 @@ public class SupplieDao {
             }
             return list;
         }else {
-            sql = "select su.id,su.commodity,mer.money,mer.number,mtype.type,mo.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus,mer.`describe`,mer.account_id,aud.release_id from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.account_id = mer.account_id and aud.merchandise_id = mer.supplier_id and aud.release_id = su.mercd_id ORDER BY su.id ASC;";
+            sql = "select su.id,su.commodity,mer.money,mer.number,mtype.type,mo.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus,mer.`describe`,mer.account_id,aud.release_id from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.account_id = mer.account_id and aud.merchandise_id = mer.supplier_id and aud.release_id = su.mercd_id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
+            pre.setInt(1, pageNow);
+            pre.setInt(2, Paging.getPageNumber());
             pre.executeQuery();
             ResultSet rs = pre.getResultSet();
             while (rs.next()) {

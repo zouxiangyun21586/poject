@@ -75,7 +75,7 @@ public class SupplieServlet extends HttpServlet {
                     out.write(jsonObjectStr);
                     out.flush();
                 }
-            }else if ("2".equals(sup)) { // 锟斤拷锟斤拷锟狡�
+            }else if ("2".equals(sup)) { // 添加
                 try {
                     req.setCharacterEncoding("UTF-8");
                     String nameType = req.getParameter("merType"); // 商品类型
@@ -98,6 +98,7 @@ public class SupplieServlet extends HttpServlet {
                     String describe = req.getParameter("describe"); // 商品描述
                     describe = new String(describe.getBytes("ISO-8859-1"),"UTF-8");
                     String auditStatus = req.getParameter("state"); // 商品状态
+                    int account_id = (int)req.getSession().getAttribute("userID"); // 获取                    
                     
                     /**
                      * 获取网络时间
@@ -105,7 +106,7 @@ public class SupplieServlet extends HttpServlet {
                     System.out.println(ConnectTime.getWebsiteDatetime());
                     String date = ConnectTime.getWebsiteDatetime();
                     
-                    Integer auKey  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
+                    Integer auKey  = SupplieDao.speciAdd(account_id,origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
                     SupplieDao.suppAdd(name,auKey); // 添加供应商商品信息
                     SupplieDao.merchandiseAdd(nameType, name, money, auKey, number,describe,auditStatus,auKey,date); // 添加商品信息
                 } catch (Exception e) {
@@ -114,7 +115,7 @@ public class SupplieServlet extends HttpServlet {
             } else if ("3".equals(sup)) { // 撤销审核中的商品
                 try {
                     String release_supplierId = req.getParameter("release_supplierId");
-                    String account_id = req.getParameter("account_id");
+                    int account_id = (int)req.getSession().getAttribute("userID"); // 获取
                     String id = req.getParameter("id");
                     System.out.println(ConnectTime.getWebsiteDatetime());
                     String date = (String)ConnectTime.getWebsiteDatetime();
@@ -126,7 +127,7 @@ public class SupplieServlet extends HttpServlet {
             } else if ("4".equals(sup)) { // 修改
                 try {
                     String speId = req.getParameter("speId"); // 规格id
-                    String merId = req.getParameter("merId"); // 商品id  
+                    String merId = req.getParameter("merId"); // 商品id
                     String money = req.getParameter("money"); // 价格
                     String number = req.getParameter("number"); // 数量
                     String netContent = req.getParameter("netContent"); // 净含量

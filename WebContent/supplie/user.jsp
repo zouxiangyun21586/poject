@@ -13,6 +13,9 @@
 <script type="text/javascript">
 /* 页面加载完出现 */
     $(document).ready(function(){
+    	$(window).resize(function(){
+    		var width = $(window).width();
+    	})
     	getAd(); // bug 页面刷新一次就加载(加值)一次
         $("#sel").click(function (){
         	getAd();
