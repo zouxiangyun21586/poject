@@ -16,19 +16,19 @@ websocket.onerror = function() {
 	});
 };
 
-		// 断线重连
+// 断线重连
 websocket.onclose = function() {
-     // 重试10次，每次之间间隔10秒
-     if (tryTime < 10) {
-         setTimeout(function() {
-             webSocket = null;
-             tryTime++;
-             initSocket();
-         }, 500);
-     } else {
-         tryTime = 0;
-     }
- };
+	// 重试10次，每次之间间隔10秒
+	if (tryTime < 10) {
+		setTimeout(function() {
+			webSocket = null;
+			tryTime++;
+			initSocket();
+		}, 500);
+	} else {
+		tryTime = 0;
+	}
+};
 // 连接成功建立的回调方法
 websocket.onopen = function() {
 	layui.use('layer', function() {
@@ -36,7 +36,7 @@ websocket.onopen = function() {
 			icon : 1
 		});
 	});
-	$('#btn').css('display','block');
+	$('#btn').css('display', 'block');
 }
 
 // 接收到消息的回调方法
@@ -78,10 +78,9 @@ function closeWebSocket() {
 
 // 发送消息
 function send() {
-	layui.use('layedit', function() {
-		var layedit = layui.layedit;
+	layui.use([ 'layedit', 'layer' ], function() {
+		var layedit = layui.layedit, layer = layui.layer;
 		var message = layedit.getContent(index);
 		websocket.send(message);
-		$(window.frames["LAY_layedit_1"].document).find('body').html('');
 	});
 }
