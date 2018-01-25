@@ -72,12 +72,12 @@ public class AuditSupplieDao {
                 List<Object> param = new ArrayList<>();
                 sql = "select sup.id,asp.id,act.id,m.id,act.`name`,mt.type,m.`name`,m.auditStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
                 sql = sql + " and m.`name` like ?";
-                paramIndex.add(0);
+                paramIndex.add(NUB_0);
                 param.add(sel);
                 
                 sql = sql + " limit ?,?";
-                paramIndex.add(1);
-                paramIndex.add(1);
+                paramIndex.add(NUB_1);
+                paramIndex.add(NUB_1);
                 
                 param.add(pageNow);
                 param.add(Paging.getPageNumber());

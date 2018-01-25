@@ -16,83 +16,47 @@
     	$(window).resize(function(){
     		var width = $(window).width();
     	})
-    	getAd(); // bug 页面刷新一次就加载(加值)一次
-        $("#sel").click(function (){
-        	getAd();
+    	Data();
+        $("#sel").click(function(){
+            Data();
         });
     });
     
-    function getAd(){
-    	layui.use([ 'layer', 'form' ], function() {
+    function Data(){
+        layui.use([ 'layer', 'form' ], function() {
             var form = layui.form;
             form.render('select');
             $.ajax({
-                type: "get",  // 请求方式(post或get)
-                async:false,  //默认true(异步请求),设置为false(同步请求)
-                url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
-                scriptCharset: 'utf-8',
-                dataType:"json",
-                data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
-                success:function(res){
-                    var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
-                    var list =  res.list;
-                    var tobody_limt = "";
-                    for(var i in list){
-                        if("0"==list[i].auditStatus){ // 未提交
-                             tobody_limt += "<tr id='zui'><td>"+list[i].id+
-                                            "</td><td>"+list[i].commo+
-                                            "</td><td>"+list[i].money+
-                                            "</td><td>"+list[i].number+
-                                            "</td><td>"+list[i].typeName+
-                                            "</td><td>"+list[i].qGp+
-                                            "</td><td>"+list[i].brand+
-                                            "</td><td>"+list[i].storageMethod+
-                                            "</td><td>"+list[i].origin+
-                                            "</td><td>"+list[i].netContent+
-                                            "</td><td>"+list[i].packingMethod+
-                                            "</td><td>"+list[i].upFrameTime+
-                                            "</td><td style='display:none;'>"+list[i].account_id+
-                                            "</td><td style='display:none;'>"+list[i].release_supplierId+
-                                            "</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg' onclick='upd("+list[i].id+")'>修改商品</button></td></tr>";
-                        }else if("1"==list[i].auditStatus){ // 未审核
-                            tobody_limt +=  "<tr id='zui'><td>"+list[i].id+
-                                            "</td><td>"+list[i].commo+
-                                            "</td><td>"+list[i].money+
-                                            "</td><td>"+list[i].number+
-                                            "</td><td>"+list[i].typeName+
-                                            "</td><td>"+list[i].qGp+
-                                            "</td><td>"+list[i].brand+
-                                            "</td><td>"+list[i].storageMethod+
-                                            "</td><td>"+list[i].origin+
-                                            "</td><td>"+list[i].netContent+
-                                            "</td><td>"+list[i].packingMethod+
-                                            "</td><td>"+list[i].upFrameTim+
-                                            "</td><td style='display:none;'>"+list[i].account_id+
-                                            "</td><td style='display:none;'>"+list[i].release_supplierId+
-                                            "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
-                        }else if("2"==list[i].auditStatus){ // 已审核            
-                             tobody_limt +=  "<tr id='zui'><td>"+list[i].id+
-                                             "</td><td>"+list[i].commo+
-                                             "</td><td>"+list[i].money+
-                                             "</td><td>"+list[i].number+
-                                             "</td><td>"+list[i].typeName+
-                                             "</td><td>"+list[i].qGp+
-                                             "</td><td>"+list[i].brand+
-                                             "</td><td>"+list[i].storageMethod+
-                                             "</td><td>"+list[i].origin+
-                                             "</td><td>"+list[i].netContent+
-                                             "</td><td>"+list[i].packingMethod+
-                                             "</td><td>"+list[i].upFrameTime+
-                                             "</td><td style='display:none;'>"+list[i].account_id+
-                                             "</td><td style='display:none;'>"+list[i].release_supplierId+
-                                             "</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
-                        }
-                    }
-                    $("#tobody_limt").append(tobody_limt);
-               }
-           });
-       });
-   };
+                type:"get", //请求方式     对应form的  method请求
+                url:"../auditSupplieServlet", //请求路径  对应 form的action路径
+                cache: false,  //是否缓存，false代表拒绝缓存
+                data:{"i":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参
+                dataType: "json",   //返回值类型 
+                success:function(data){
+                     var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
+                     var list =  data.list;
+                     var html = "";
+                     $("#t_body").empty();
+                     for(var i in list){
+                         if("1"==list[i].auditStatus){
+                             list[i].auditStatus = "等待审核";
+                             html += "<tr><td align='center' style='display:none;'>"+list[i].suptId+"</td>"+
+                             "<td align='center' style='display:none;' id='id"+list[i].auditId+"'>"+list[i].auditID+"</td>"+
+                             "<td align='center' style='display:none;'>"+list[i].account_id+"</td>"+
+                             "<td align='center' style='display:none;'>"+list[i].merId+"</td>"+
+                             "<td align='center'>"+list[i].account+"</td>"+
+                             "<td align='center'>"+list[i].typeName+"</td>"+
+                             "<td align='center'><a href='#' onclick='query("+list[i].auditId+")'>"+list[i].commo+"</a></td>"+
+                             "<td align='center'>"+list[i].auditStatus+"</td>"+
+                             "<td align='center'>"+list[i].auditTime+"</td>"+
+                             "<td align='center'><a href='#' onclick='pass(this)'>允许</a>| <a href='#' onclick='del(this)'>禁止</a>| <a href='#' id='update' onclick='update("+list[i].auditID+")'>修改</a></td></tr>";
+                         }
+                     }
+                     $("#t_body").append(html);
+                 } 
+              });
+        });
+    }
     
    
     //撤销
@@ -228,43 +192,37 @@
         
 </script>
 <body background="../images/tp.jpg">
-<br/>
+    <br />
     <div class="layui-container" width="100%" height="100%" align="center">
-		<div class="layui-row layui-col-space15">
-		    <div class="layui-col-md8"  style="width: 100%;">
-				<button class="layui-btn layui-btn-sm" style="float:left;" id="zui">
-				    <i class="layui-icon">&#xe654;</i> 添加商品
-				</button>
-				<button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
-				    <i class="layui-icon">&#xe615;</i> 搜索
-				</button>
-				<input type="text" class="layui-input" placeholder="请输入要查询的商品" style="float:right;width:250px;" id = "select" name="select"/>
-				<div class='layui-form layui-form-pane' style="float:right;">
-					<table id="table" class="layui-table" style="background-color:#ffffff6b;">
-						<thead>
-						  <tr>
-							<th>编号</th>
-							<th>名称</th>
-							<th>价格</th>
-							<th>数量</th>
-							<th>类型</th>
-							<th>保质期</th>
-							<th>品牌</th>
-							<th>储藏方法</th>
-							<th>出产地</th>
-							<th>净含量</th>
-							<th>包装</th>
-							<th>上架时间</th>
-							<th>操作</th>
-						  </tr>
-						</thead>
-					  <tbody id="tobody_limt">
-					     </tbody>
-					</table>    
-					<div id="page" class="page"></div>
-				</div>
-		    </div>
-		</div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8" style="width: 100%;">
+                <button class="layui-btn layui-btn-sm layui-btn-normal"
+                    style="float: right; margin-left: 0px;" id="sel">
+                    <i class="layui-icon">&#xe615;</i> 查询
+                </button>
+                <input type="text" class="layui-input" placeholder="请输入要查询的商品名称"
+                    style="float: right; width: 250px; height: 30px;" id="select" name="select"/>
+                <table class="layui-table">
+                    <thead>
+                        <tr>
+                            <td style="display: none;">保存商品ID</td>
+                            <td style="display: none;">表ID</td>
+                            <td style="display: none;">账户ID</td>
+                            <td style="display: none;">商品ID</td>
+                            <td align="center" style="width:150px;"> 用户名称</td>
+                            <td align="center" style="width:150px;"> 商品类型</td>
+                            <td align="center" style="width:150px;"> 商品名称</td>
+                            <td align="center" style="width:150px;"> 审核状态</td>
+                            <td align="center" style="width:280px;"> 添加时间</td>
+                            <td align="center" style="width:280px;"> 基本操作</td>
+                        </tr>
+                    </thead>
+                    <tbody id="t_body">
+                    </tbody>
+                </table>
+                <div id="page" class="page"></div>
+            </div>
+        </div>
     </div>
 </body>
 </html>
