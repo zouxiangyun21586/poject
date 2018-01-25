@@ -33,8 +33,18 @@ public class Supplie {
     private int speId; // 规格表id
     private int merId; // 商品表id
     private int account_id; //账户id
-    private String account;
+    private String account; // 账户名
+    private String releaseTime; // 发表时间
     
+    public String getAccount() {
+		return account;
+	}
+	public String getReleaseTime() {
+		return releaseTime;
+	}
+	public void setReleaseTime(String releaseTime) {
+		this.releaseTime = releaseTime;
+	}
     public String getAuditTime() {
         return auditTime;
     }
@@ -47,9 +57,6 @@ public class Supplie {
     public void setAuditId(int auditId) {
         this.auditId = auditId;
     }
-    public String getAccount() {
-		return account;
-	}
 	public void setAccount(String account) {
 		this.account = account;
 	}
