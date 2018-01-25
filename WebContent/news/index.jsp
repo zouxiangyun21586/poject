@@ -11,10 +11,16 @@
 .layui-unselect layui-layedit-tool{
 float:right;
 }
+.layui-layedit{
+border-color:#009688;
+}
+.layui-layedit-tool .layui-icon{
+color:#009688;
+}
 </style>
 <body style="background-color: #f2f2f2;">
 	<br />
-	<input type="hidden" value="${ip}" id="ip">
+	<input type="hidden" value="${zip}" id="ip">
 	<div class="layui-container" style=" height:100%;width:100%;">
 		<div class="layui-row layui-col-space15">
 			<div class="layui-col-md8" style="width: 100%;background-color: #fff;">
@@ -23,7 +29,7 @@ float:right;
 					<div class="layui-form-item" style="text-align: right;">
 						<textarea id="text" style="display: none;"></textarea>
 						<ul class="layui-fixbar" style="display:none;" id="btn">
-							<li class="layui-icon" style="background-color: rgba(255, 87, 34, 0.42);" onclick="send();">&#xe609;</li>
+							<li class="layui-icon" style="background-color: rgba(255, 87, 34, 0.42);" onclick="a();">&#xe609;</li>
 						</ul>
 					</div>
 				</div>
@@ -40,8 +46,16 @@ var index;
 		var layedit = layui.layedit;
 		index=layedit.build('text', {
 			height : 50,
-			tool : [ 'left', 'center', 'right', 'face' ]
+			tool : [ 'left', 'center','strong','italic','link' ,'unlink','face' ]
 		});
 	});
+	function a(){
+		$('#btn').css('display', 'none');
+		send();
+		$(window.frames["LAY_layedit_1"].document).find('body').html('');
+		setTimeout(function() {
+			$('#btn').css('display', 'block');
+		}, '3000');
+	}
 </script>
 </html>

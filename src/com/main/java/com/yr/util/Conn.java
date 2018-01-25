@@ -6,29 +6,34 @@ import java.sql.DriverManager;
 import com.yr.dao.SimpleFilter;
 
 /**
- * @author ÖÜÒµºÃ
- * 2017Äê12ÔÂ28ÈÕ ÏÂÎç9:41:06
+ * @author ï¿½ï¿½Òµï¿½ï¿½ 2017ï¿½ï¿½12ï¿½ï¿½28ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½9:41:06
  */
-public class Conn extends SimpleFilter{
-	private static Connection conn; 
-	public static void main(String[] args) {
-//		PropertiesUtils
-		conn();
-	}
-	/**
-	 * Á´½ÓÊý¾Ý¿â
-	 * @return
-	 */
-	public static Connection conn(){
-		try {
-			if(null == conn){
-				Class.forName(PropertiesUtils.getString("driver"));
-				conn = DriverManager.getConnection("jdbc:mysql://" + PropertiesUtils.getString("ip") + "/" + PropertiesUtils.getString("data") + "?useUnicode=true&characterEncoding=UTF-8", PropertiesUtils.getString("username"), PropertiesUtils.getString("password"));
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return conn;
-	}
+public class Conn extends SimpleFilter {
+    private static Connection conn;
+
+    public static void main(String[] args) {
+        // PropertiesUtils
+        conn();
+    }
+
+    /**
+     * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½
+     * 
+     * @return
+     */
+    public static Connection conn() {
+        try {
+            if (null == conn) {
+                Class.forName(PropertiesUtils.getString("driver"));
+                conn = DriverManager.getConnection(
+                        "jdbc:mysql://" + PropertiesUtils.getString("ip") + "/" + PropertiesUtils.getString("data")
+                                + "?useUnicode=true&characterEncoding=UTF-8",
+                        PropertiesUtils.getString("username"), PropertiesUtils.getString("password"));
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return conn;
+    }
 }
