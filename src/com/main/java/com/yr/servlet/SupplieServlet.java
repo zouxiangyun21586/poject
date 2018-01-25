@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.SupplieDao;
 import com.yr.pojo.Supplie;
 import com.yr.util.ConnectTime;
-import com.yr.util.PageService;
+import com.yr.util.SuppliePage;
 
 import net.sf.json.JSONObject;
 
@@ -49,9 +49,9 @@ public class SupplieServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         String sup = req.getParameter("sup"); // 页锟芥传锟斤拷锟斤拷锟斤拷值(锟斤拷锟斤拷锟叫讹拷执锟斤拷锟斤拷一锟斤拷)
         String state = req.getParameter("state"); // 锟斤拷应锟斤拷锟剿猴拷使锟斤拷状态
-        if("0".equals(state)){ // 锟斤拷锟绞癸拷锟阶刺� 0 锟斤拷锟斤拷锟剿猴拷未注锟斤拷锟斤拷锟皆斤拷锟斤拷锟斤拷删锟侥诧拷
+        if("0".equals(state)){ // 商品状态  0 为未提交 , 1为 未审核 , 2 为 已审核
             if("1".equals(sup)){
-                //页锟斤拷锟斤拷示值
+                //查询
                 PrintWriter out = resp.getWriter();
                 String type= req.getParameter("type");
                 String select= req.getParameter("select");//搜索功能中输入框的值(账号)
@@ -65,7 +65,7 @@ public class SupplieServlet extends HttpServlet {
                     }
                     List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select);
                     int pageCount=SupplieDao.getPageCount();//获得总页数
-                    String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
+                    String pageCode = new SuppliePage().getPageCode(Integer.parseInt(pageNow), pageCount);
                     Map<String, Object> map = new HashMap<>();
                     map.put("list", list);
                     map.put("pageCount", pageCount + "");
@@ -106,9 +106,11 @@ public class SupplieServlet extends HttpServlet {
                     System.out.println(ConnectTime.getWebsiteDatetime());
                     String date = ConnectTime.getWebsiteDatetime();
                     
-                    Integer auKey  = SupplieDao.speciAdd(account_id,origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息
-                    SupplieDao.suppAdd(name,auKey); // 添加供应商商品信息
-                    SupplieDao.merchandiseAdd(nameType, name, money, auKey, number,describe,auditStatus,auKey,date); // 添加商品信息
+                    Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
+                    System.out.println("规格表id " + speId);
+                    Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,describe,auditStatus,date); // 添加商品信息
+                    System.out.println("商品表id " + merId);
+                    SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -142,7 +144,7 @@ public class SupplieServlet extends HttpServlet {
                 }
             } else if ("5".equals(sup)) { // 查询所有(在修改中使用到)
                 req.setCharacterEncoding("utf-8");
-                try { // state 0状态为未提交,1状态未审核审核
+                try {
                     int id = Integer.valueOf(req.getParameter("id"));
                     List<Supplie> list = SupplieDao.queryAll(id); // 锟斤拷询
                     req.setAttribute("list", list);
@@ -161,6 +163,15 @@ public class SupplieServlet extends HttpServlet {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }else if ("7".equals(sup)){ // 审核
+                try {
+					List<Supplie> list = SupplieDao.selc();
+					req.setAttribute("list", list);
+					req.getRequestDispatcher("auditSupplie/detail.jsp").forward(req,resp);;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         }
     }
