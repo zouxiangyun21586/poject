@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.yr.dao.LinkMysql;
 import com.yr.pojo.User;
+import com.yr.util.Conn;
 
 /**
  * 鐧诲綍
@@ -34,7 +34,8 @@ public class LoginServlet extends HttpServlet {
         if (hiddenCode == null || "".equals(hiddenCode)) {
             if (login(req, resp, username, password, ck)) {
                 if ("0".equals(questate(req, resp, username))) {
-                    session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
+                    session(req, resp, queaccount(req, resp, username), queID(req, resp, username),
+                            querole(req, resp, username));
                 } else {
                     req.setAttribute("state", 3);
                     req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
@@ -55,7 +56,8 @@ public class LoginServlet extends HttpServlet {
                 if (randomCode.equals(yzm)) {
                     if (login(req, resp, username, password, ck)) {
                         if ("0".equals(questate(req, resp, username))) {
-                            session(req, resp, queaccount(req, resp, username), queID(req, resp, username), querole(req, resp, username));
+                            session(req, resp, queaccount(req, resp, username), queID(req, resp, username),
+                                    querole(req, resp, username));
                         } else {
                             req.setAttribute("state", 3);
                             req.getRequestDispatcher("login.jsp").forward(req, resp);// 璺冲埌娆㈣繋椤甸潰
@@ -87,7 +89,7 @@ public class LoginServlet extends HttpServlet {
     public static boolean login(HttpServletRequest req, HttpServletResponse resp, String username, String password,
             String ck) {
         try {
-            Connection con = LinkMysql.getCon();
+            Connection con = Conn.conn();
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
@@ -124,7 +126,7 @@ public class LoginServlet extends HttpServlet {
     public static String queaccount(HttpServletRequest req, HttpServletResponse resp, String username) {
         String name = null;
         try {
-            Connection con = LinkMysql.getCon();
+            Connection con = Conn.conn();
             String sql = "select name from account where account=?;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
@@ -140,7 +142,7 @@ public class LoginServlet extends HttpServlet {
         }
         return name;
     }
-    
+
     /**
      * 鏍规嵁璐﹀彿鏌ヨ鐢ㄦ埛ID
      * 
@@ -152,7 +154,7 @@ public class LoginServlet extends HttpServlet {
     public static int queID(HttpServletRequest req, HttpServletResponse resp, String username) {
         int id = 0;
         try {
-            Connection con = LinkMysql.getCon();
+            Connection con = Conn.conn();
             String sql = "select id from account where account=?;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
@@ -180,7 +182,7 @@ public class LoginServlet extends HttpServlet {
     public static String questate(HttpServletRequest req, HttpServletResponse resp, String username) {
         String name = null;
         try {
-            Connection con = LinkMysql.getCon();
+            Connection con = Conn.conn();
             String sql = "select state from account where account=?;";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
@@ -208,7 +210,7 @@ public class LoginServlet extends HttpServlet {
     public static String querole(HttpServletRequest req, HttpServletResponse resp, String username) {
         String name = null;
         try {
-            Connection con = LinkMysql.getCon();
+            Connection con = Conn.conn();
             String sql = "select r.roleName from role r,account a, account_role ar where (r.id = ar.role_id and a.id = ar.account_id) and a.account=?";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, username);
@@ -235,8 +237,8 @@ public class LoginServlet extends HttpServlet {
     public static String quemysqlsize(HttpServletRequest req, HttpServletResponse resp) {
         String name = null;
         try {
-            Connection con = LinkMysql.getCon();
-            String sql = "select concat(round((sum(data_length)+sum(index_length))/1024/1024,2),'MB') from information_schema.tables where table_schema='cyh8zkz';";
+            Connection con = Conn.conn();
+            String sql = "select concat(round((sum(data_length)+sum(index_length))/1024/1024,2),'MB') from information_schema.tables where table_schema='test';";
             PreparedStatement ps = con.prepareStatement(sql);
             ps.executeQuery();
             ResultSet rs = ps.getResultSet();
@@ -265,6 +267,7 @@ public class LoginServlet extends HttpServlet {
                 req.getSession().setAttribute("username", username);
                 req.getSession().setAttribute("userID", userID);
                 req.getSession().setAttribute("role", role);
+                req.getSession().setAttribute("zip", getIpAddress());
                 req.getSession().setAttribute("ip", InetAddress.getLocalHost());
                 req.getSession().setAttribute("mysqlsize", quemysqlsize(req, resp));
                 req.getSession().setAttribute("jdk", System.getProperty("java.version"));
@@ -276,5 +279,11 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static String getIpAddress() throws UnknownHostException {
+        InetAddress address = InetAddress.getLocalHost();
+
+        return address.getHostAddress();
     }
 }
