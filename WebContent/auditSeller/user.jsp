@@ -179,20 +179,5 @@ function pass(b){
     });
 }
 
-    layui.use([ 'layer', 'laypage', 'element' ], function() {
-        $('#addgoods').click(function() {
-            layer.open({
-                anim : 2,
-                title : '添加商品',
-                type : 2, //窗口类型
-                resize : false,//false禁止拉伸
-                scrollbar: true,//出现滚动条
-                maxmin : false,//最大化,最小化
-                shade : [ 0.3, '#000' ],
-                area : [ '400px', '505px' ],//窗口宽高
-                content : [ 'add.jsp', 'yes' ]
-            });
-        });
-    });
 </script>
 </html>

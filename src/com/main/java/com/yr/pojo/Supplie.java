@@ -33,8 +33,15 @@ public class Supplie {
     private int speId; // 规格表id
     private int merId; // 商品表id
     private int account_id; //账户id
+    private String account;
     
-    public int getAccount_id() {
+    public String getAccount() {
+		return account;
+	}
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	public int getAccount_id() {
 		return account_id;
 	}
 	public void setAccount_id(int account_id) {

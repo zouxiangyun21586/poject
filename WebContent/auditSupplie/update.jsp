@@ -158,8 +158,8 @@
                 async : true,
                 data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"nameType":NameType,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
                 success:function(result){
-                    layer.msg('修改成功',{icon: 1});
-                    setTimeout('parent.location="auditSeller/user.jsp";',1000);
+                    layer.msg('修改成功，请点击边侧空白处，再点击相应的名称查看效果!',{icon: 1});
+                    setTimeout("parent.location.href=parent.location.href;","2000");
                 },error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
                     layer.msg('后台发生错误!',{icon: 2});
