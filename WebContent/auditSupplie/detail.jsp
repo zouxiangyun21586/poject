@@ -17,21 +17,21 @@
                     <label class="layui-form-label">用户名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="auditName" autocomplete="off"
-                               class="layui-input" value="${u.auditName}" readonly="readonly">
+                               class="layui-input" value="${u.commo}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品类型</label>
                     <div class="layui-input-block">
                         <input type="text" name="nameType" autocomplete="off"
-                               class="layui-input" value="${u.nameType}" readonly="readonly">
+                               class="layui-input" value="${u.typeName}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">商品名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="name" autocomplete="off"
-                               class="layui-input" value="${u.name}" readonly="readonly">
+                               class="layui-input" value="${u.commo}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -63,17 +63,17 @@
                     </div>
                 </div>
                 <div class="layui-form-item">
+                    <label class="layui-form-label">商品包装</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="origin" autocomplete="off"
+                               class="layui-input" value="${u.packingMethod}" readonly="readonly">
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label">净含量</label>
                     <div class="layui-input-block">
                         <input type="text" name="netContent" autocomplete="off"
                                class="layui-input" value="${u.netContent}" readonly="readonly">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">包装方式</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="packingMethod" autocomplete="off"
-                               class="layui-input" value="${u.packingMethod}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -87,7 +87,7 @@
                     <label class="layui-form-label">保质期</label>
                     <div class="layui-input-block">
                         <input type="text" name="month" autocomplete="off"
-                               class="layui-input" value="${u.month}" readonly="readonly">
+                               class="layui-input" value="${u.Month}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -101,7 +101,7 @@
                     <label class="layui-form-label">申请时间</label>
                     <div class="layui-input-block">
                         <input type="text" name="addTime" autocomplete="off"
-                               class="layui-input" value="${u.addTime}" readonly="readonly">
+                               class="layui-input" value="${u.upFrameTime}" readonly="readonly">
                     </div>
                 </div>
             </c:forEach>
