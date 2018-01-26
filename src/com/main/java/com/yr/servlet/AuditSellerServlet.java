@@ -96,7 +96,7 @@ public class AuditSellerServlet extends HttpServlet {
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 AuditSellerDao.updateAudit(wares_id, spec_id, nameType, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
-                response.getWriter().write("1");
+                response.getWriter().write("0");
             }
         }catch(Exception e){
             response.getWriter().write("1");
