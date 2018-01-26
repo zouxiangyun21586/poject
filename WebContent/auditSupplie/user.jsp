@@ -5,7 +5,7 @@
 <head>
 	<script src="/projectYr/js/jquery-3.2.1.js"></script>
 	<script src="../plugins/layui/layui.js"></script>
-	<script src="<%=request.getContextPath() %>/js/fenye.js"></script>
+	<script src="../js/fenye.js"></script>
 	<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Insert title here</title>
@@ -59,121 +59,36 @@
     }
     
    
-    //撤销
-   function cancel(cencel){
-       if(confirm("确定撤销商品?")){
-           var tr = $(cencel).parent().parent();
-           var id = tr.find("td").eq(0).text();
-           var commo = tr.find("td").eq(1).text();
-           var money = tr.find("td").eq(2).text();
-           var number = tr.find("td").eq(3).text();
-           var merType = tr.find("td").eq(4).text();
-           var qGp = tr.find("td").eq(5).text();
-           var brand = tr.find("td").eq(6).text();
-           var storageMethod = tr.find("td").eq(7).text();
-           var origin = tr.find("td").eq(8).text();
-           var netContent = tr.find("td").eq(9).text();
-           var packingMethod = tr.find("td").eq(10).text();
-           var account_id = tr.find("td").eq(11).text();
-           var release_supplierId = tr.find("td").eq(12).text();
-           
-           $.ajax({
-               url:"<%=request.getContextPath()%>/supSer?sup=3",
-               scriptCharset: 'utf-8',
-               type:"get",
-               cache:false,
-               async:true,
-               data:{"id":id,"state":0,"account_id":account_id,"release_supplierId":release_supplierId},
-               success:function(result){
-                   tr.html("<td style='display:none;'>"+id+"</td>"+
-                   "<td>"+commo+"</td>"+
-                   "<td>"+money+"</td>"+
-                   "<td>"+number+"</td>"+
-                   "<td>"+merType+"</td>"+
-                   "<td>"+qGp+"</td>"+
-                   "<td>"+brand+"</td>"+
-                   "<td>"+storageMethod+"</td>"+
-                   "<td>"+origin+"</td>"+
-                   "<td>"+netContent+"</td>"+
-                   "<td>"+packingMethod+"</td>"+
-                   "<td style='display:none;'>"+account_id+"</td>"+
-                   "<td style='display:none;'>"+mer_id+"</td>"+
-                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+list[i].id+")'>修改商品</button></td>");
-               },
-               error:function(XMLHttpRequest, textStatus, errorThrown)
-               {
-                   alert("后台出现错误");
-               }
-           });
-       }
-   }
-   
-    //下架
-    function xiajia(xj){
-        if(confirm("确定下架商品?")){
-            var tr = $(xj).parent().parent();
-            var id = tr.find("td").eq(0).text();
-            var commo = tr.find("td").eq(1).text();
-            var money = tr.find("td").eq(2).text();
-            var number = tr.find("td").eq(3).text();
-            var merType = tr.find("td").eq(4).text();
-            var qGp = tr.find("td").eq(5).text();
-            var brand = tr.find("td").eq(6).text();
-            var storageMethod = tr.find("td").eq(7).text();
-            var origin = tr.find("td").eq(8).text();
-            var netContent = tr.find("td").eq(9).text();
-            var packingMethod = tr.find("td").eq(10).text();
-            var upFrameTime = tr.find("td").qu(11).text(); // 需获取网络时间
-            $.ajax({
-                url:"<%=request.getContextPath()%>/supSer?sup=6",
-                scriptCharset: 'utf-8',
-                type:"get",
-                cache:false,
-                async:true,
-                data:{"id":id,"state":0},
-                dataType:"json",
-                success:function(result){
-                    $.each(result,function(index,item){
-                        var Downtime = item.upFrameTime;
-                        tr.html("<td style='display:none;'>"+id+"</td>"+
-                                "<td>"+commo+"</td>"+
-                                "<td>"+money+"</td>"+
-                                "<td>"+number+"</td>"+
-                                "<td>"+merType+"</td>"+
-                                "<td>"+qGp+"</td>"+
-                                "<td>"+brand+"</td>"+
-                                "<td>"+storageMethod+"</td>"+
-                                "<td>"+origin+"</td>"+
-                                "<td>"+netContent+"</td>"+
-                                "<td>"+packingMethod+"</td>"+
-                                "<td>"+Downtime+"</td>"+
-                                "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+list[i].id+")'>修改商品</button></td>");
-                    });
-                },
-                error:function(XMLHttpRequest, textStatus, errorThrown)
-                {
-                	alert("后台出现错误");
-                }
-            });
-        }
-    }
-    
-    layui.use([ 'layer', 'element' ], function() {
-    	var laypage = layui.laypage,
-        layer = layui.layer;
-        $('#zui').click(function(){
-            layer.open({
-                anim: 2,
-                title : '添加商品',
-                type: 2, //窗口类型
-                resize:false,//禁止拉伸
-                maxmin:false,//最大化,最小化
-                shade: [0.3,'#000'],
-                area: ['570px', '750px'],//窗口宽高
-                content: ['jump.jsp','no']
-            });
+  //修改商品保存信息
+    function update(d){
+        layer.open({
+            title : '修改商品',
+            type : 2,
+            anim : 2,
+            maxmin : false,
+            resize : false,
+            scrollbar : true,
+            //页面路径
+            content : '../auditSupplieServlet?i=1&&o=1&&auditID='+d,
+            area : [ '400px', '505px' ],//宽高
+            shadeClose : true
         });
-    });
+    }
+    //商品详细信息查询
+    function query(obj){
+        layer.open({
+            title : '详细信息',
+            type : 2,
+            anim : 2,
+            maxmin : false,
+            resize : true,
+            scrollbar : true,
+            //页面路径
+            content : '../auditSellerServlet?i=1&&o=2&&auditID='+obj,
+            area : [ '400px', '505px' ],//宽高
+            shadeClose : true
+        });
+    }
     
     function upd(uu){
     	layer.open({

@@ -58,9 +58,9 @@ public class AuditSellerServlet extends HttpServlet {
                 AuditSellerDao.passAudit(id, auditID, seller_id, wares_id, date);
                 response.getWriter().write("0");
             }else if("2".equalsIgnoreCase(i)){// 禁止上架
-                int id = Integer.valueOf(request.getParameter("id"));
+                int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 int auditID = Integer.valueOf(request.getParameter("auditID"));
-                AuditSellerDao.NoneAudit(id, auditID);
+                AuditSellerDao.NoneAudit(wares_id, auditID);
                 response.getWriter().write("0");
             }else if("3".equalsIgnoreCase(i)){// 修改查看 和 查看详细信息
                 String o = request.getParameter("o");
@@ -96,7 +96,7 @@ public class AuditSellerServlet extends HttpServlet {
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 AuditSellerDao.updateAudit(wares_id, spec_id, nameType, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
-                response.getWriter().write("1");
+                response.getWriter().write("0");
             }
         }catch(Exception e){
             response.getWriter().write("1");

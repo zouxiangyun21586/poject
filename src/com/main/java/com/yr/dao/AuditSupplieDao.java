@@ -7,14 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yr.pojo.Paging;
+import com.yr.pojo.Seller;
 import com.yr.pojo.Supplie;
 import com.yr.util.Conn;
 import com.yr.util.ConnectTime;
 
 /**
  * 
- * @浣滆�� 鏋楁按妗�
- * 2018骞�1鏈�25鏃ヤ笂鍗�11:12:56
+ * @娴ｆ粏锟斤拷 閺嬫鎸夊锟�
+ * 2018楠烇拷1閺堬拷25閺冦儰绗傞崡锟�11:12:56
  */
 public class AuditSupplieDao {
     private static final int NUB_0 = 0;
@@ -43,12 +44,59 @@ public class AuditSupplieDao {
     
     
     /**
-     * 鏌ヨ鏁版嵁骞剁敤list灏佽璧锋潵
-     * @param pageNow       褰撳墠椤�
-     * @param sel           鍒ゆ柇鏄惁鐢ㄤ簡鏌ヨ鍔熻兘
-     * @return              杩斿洖鎵�鏌ヨ鐨勬暟鎹�
+     * 查询供应商审核商品
+     * @param auditID 审核表ID
+     * @return        审核数据
+     * List<Seller>
+     * 2018年1月24日下午8:15:24
+     */
+    public static List<Supplie> queryAudit(Integer auditID){
+        Connection conn = Conn.conn();
+        List<Supplie> list = new ArrayList<>();
+        try{
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.`name`,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setInt(NUB_1,auditID);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                Supplie goods = new Supplie();
+                goods.setAuditId(rs.getInt(NUB_1));
+                goods.setSuptId(rs.getInt(NUB_2));
+                goods.setMerId(rs.getInt(NUB_3));
+                goods.setAccount_id(rs.getInt(NUB_4));
+                goods.setSpeId(rs.getInt(NUB_5));
+                goods.setAccount(rs.getString(NUB_6));
+                goods.setTypeName(rs.getString(NUB_7));
+                goods.setCommo(rs.getString(NUB_8));
+                goods.setDescribe(rs.getString(NUB_9));
+                goods.setOrigin(rs.getString(NUB_10));
+                goods.setNetContent(rs.getString(NUB_11));
+                goods.setPackingMethod(rs.getString(NUB_12));
+                goods.setBrand(rs.getString(NUB_13));
+                goods.setMonth_tableId(rs.getInt(NUB_14));
+                goods.setMonth(rs.getString(NUB_15));
+                goods.setStorageMethod(rs.getString(NUB_16));
+                goods.setMoney(Integer.valueOf(rs.getString(NUB_17)));
+                goods.setNumber(rs.getInt(NUB_18));
+                goods.setReleaseTime(rs.getString(NUB_19));
+                list.add(goods);
+            }
+            rs.close();
+            ps.close();
+            return list;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 閺屻儴顕楅弫鐗堝祦楠炲墎鏁ist鐏忎浇顥婄挧閿嬫降
+     * @param pageNow       瑜版挸澧犳い锟�
+     * @param sel           閸掋倖鏌囬弰顖氭儊閻€劋绨￠弻銉嚄閸旂喕鍏�
+     * @return              鏉╂柨娲栭幍锟介弻銉嚄閻ㄥ嫭鏆熼幑锟�
      * List<Supplie>
-     * 2018骞�1鏈�25鏃ヤ笂鍗�11:20:02
+     * 2018楠烇拷1閺堬拷25閺冦儰绗傞崡锟�11:20:02
      */
     public static List<Supplie> selectemp(Integer pageNow, String sel) {
         Connection conn = Conn.conn();
@@ -144,13 +192,13 @@ public class AuditSupplieDao {
     }
     
     /**
-     * 鑾峰緱鎬婚〉鏁�
+     * 閼惧嘲绶遍幀濠氥�夐弫锟�
      *
-     * @return 杩斿洖鎬婚〉鏁�
+     * @return 鏉╂柨娲栭幀濠氥�夐弫锟�
      */
     public static Integer getPageCount() {
-        int total = 0;// 鎬诲叡澶氬皯鏉¤褰�
-        int pageCount = 0;// 鎬婚〉鏁�
+        int total = 0;// 閹鍙℃径姘毌閺壜ゎ唶瑜帮拷
+        int pageCount = 0;// 閹銆夐弫锟�
         if(null == num) {
             Connection conn = Conn.conn();
             try {

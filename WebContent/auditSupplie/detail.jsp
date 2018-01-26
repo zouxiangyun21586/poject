@@ -17,7 +17,7 @@
                     <label class="layui-form-label">用户名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="auditName" autocomplete="off"
-                               class="layui-input" value="${u.commo}" readonly="readonly">
+                               class="layui-input" value="${u.account}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">
@@ -101,7 +101,7 @@
                     <label class="layui-form-label">申请时间</label>
                     <div class="layui-input-block">
                         <input type="text" name="addTime" autocomplete="off"
-                               class="layui-input" value="${u.upFrameTime}" readonly="readonly">
+                               class="layui-input" value="${u.releaseTime}" readonly="readonly">
                     </div>
                 </div>
             </c:forEach>
