@@ -74,7 +74,7 @@ public class AuditSupplieDao {
                 goods.setPackingMethod(rs.getString(NUB_12));
                 goods.setBrand(rs.getString(NUB_13));
                 goods.setMonth_tableId(rs.getInt(NUB_14));
-                goods.setMonth(rs.getString(NUB_15));
+                goods.setMonths(rs.getString(NUB_15));
                 goods.setStorageMethod(rs.getString(NUB_16));
                 goods.setMoney(Integer.valueOf(rs.getString(NUB_17)));
                 goods.setNumber(rs.getInt(NUB_18));
