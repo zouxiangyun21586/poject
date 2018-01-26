@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
-  <!-- 欢迎页面配置 -->
- <!--  
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
- -->
- <!-- 超级管理员增删改查servlet -->
   <servlet>
     <servlet-name>superAdminServlet</servlet-name>
-    <servlet-class>com.yr.servlet.SuperAdminServlet</servlet-class> <!-- 类的路径 -->
+    <servlet-class>com.yr.servlet.SuperAdminServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>superAdminServlet</servlet-name>
-    <url-pattern>/superAdminServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
+    <url-pattern>/superAdminServlet</url-pattern>
   </servlet-mapping>
   
   <!-- 超级管理员增删改查servlet -->
@@ -29,90 +22,74 @@
   <!-- 权限管理servlet -->
   <servlet>
     <servlet-name>powerServlet</servlet-name>
-    <servlet-class>com.yr.servlet.PowerServlet</servlet-class> <!-- 类的路径 -->
+    <servlet-class>com.yr.servlet.PowerServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>powerServlet</servlet-name>
-    <url-pattern>/powerServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
+    <url-pattern>/powerServlet</url-pattern>
   </servlet-mapping>
-  
-  <!-- 登录 -->
   <servlet>
-        <servlet-name>loginservlet</servlet-name>
-        <servlet-class>com.yr.servlet.LoginServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>loginservlet</servlet-name>
-        <url-pattern>/loginservlet</url-pattern>
-    </servlet-mapping>
-    <!-- 供应商 -->
-    <servlet>
-        <servlet-name>supSer</servlet-name>
-        <servlet-class>com.yr.servlet.SupplieServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>supSer</servlet-name>
-        <url-pattern>/supSer</url-pattern>
-    </servlet-mapping>
-    <!-- 注册 -->
-	<servlet>
-		<servlet-name>outservlet</servlet-name>
-		<servlet-class>com.yr.servlet.OutServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>outservlet</servlet-name>
-		<url-pattern>/outservlet</url-pattern>
-	</servlet-mapping>
-	<!-- 验证码 -->
-	<servlet>
-		<servlet-name>authservlet</servlet-name>
-		<servlet-class>com.yr.dao.AuthImageServlet</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>authservlet</servlet-name>
-		<url-pattern>/authservlet</url-pattern>
-	</servlet-mapping>
-	
-	 <!-- 角色管理 -->
-	 <servlet>
-        <servlet-name>roleServlet</servlet-name>
-        <servlet-class>com.yr.servlet.RoleManagementServletLayer</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>roleServlet</servlet-name>
-        <url-pattern>/roleServlet</url-pattern>
-    </servlet-mapping>
-    
-    
-	<!-- 过滤器 -->
-	<filter>
-		<filter-name>Filter</filter-name>
-		<filter-class>com.yr.dao.SimpleFilter</filter-class>
-		<init-param>
-			<param-name>login</param-name><!-- 对登录页面不进行过滤 -->
-			<param-value>login.jsp;</param-value>
-		</init-param>
-		<init-param>
-			<param-name>redirect</param-name><!-- 未通过跳转到登录界面 -->
-			<param-value>login.jsp</param-value>
-		</init-param>
-	</filter>
-	<!--映射过滤器 -->
-	<filter-mapping>
-		<filter-name>Filter</filter-name>
-		<url-pattern>/*</url-pattern>
-	</filter-mapping>
-	
-	<!-- log4j -->
-	<context-param>
-        <!-- 日志配置文件路径 -->
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>classpath:log4j.properties</param-value>
-    </context-param>
-    <context-param>
-        <!-- 日志页面的刷新间隔 -->
-        <param-name>log4jRefreshInterval</param-name>
-        <param-value>6000</param-value>
-    </context-param>
-
+    <servlet-name>loginservlet</servlet-name>
+    <servlet-class>com.yr.servlet.LoginServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>loginservlet</servlet-name>
+    <url-pattern>/loginservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>supSer</servlet-name>
+    <servlet-class>com.yr.servlet.SupplieServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>supSer</servlet-name>
+    <url-pattern>/supSer</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>outservlet</servlet-name>
+    <servlet-class>com.yr.servlet.OutServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>outservlet</servlet-name>
+    <url-pattern>/outservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>authservlet</servlet-name>
+    <servlet-class>com.yr.dao.AuthImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>authservlet</servlet-name>
+    <url-pattern>/authservlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>roleServlet</servlet-name>
+    <servlet-class>com.yr.servlet.RoleManagementServletLayer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>roleServlet</servlet-name>
+    <url-pattern>/roleServlet</url-pattern>
+  </servlet-mapping>
+  <filter>
+    <filter-name>Filter</filter-name>
+    <filter-class>com.yr.dao.SimpleFilter</filter-class>
+    <init-param>
+      <param-name>login</param-name>
+      <param-value>login.jsp;</param-value>
+    </init-param>
+    <init-param>
+      <param-name>redirect</param-name>
+      <param-value>login.jsp</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>Filter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <context-param>
+    <param-name>log4jConfigLocation</param-name>
+    <param-value>classpath:log4j.properties</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>6000</param-value>
+  </context-param>
 </web-app>

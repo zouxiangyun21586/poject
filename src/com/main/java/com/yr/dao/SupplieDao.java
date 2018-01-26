@@ -27,7 +27,7 @@ public class SupplieDao {
     static List<Supplie> list = new ArrayList<>();
 
     /**
-     * 查询
+     * 修改查询
      * @author zxy
      * @return
      * 2017年12月14日  下午3:11:13
@@ -66,16 +66,16 @@ public class SupplieDao {
     }
     
     /**
-     * 查询
+     * 查询所有
      * @author zxy
      * @return
      * 2017年12月14日  下午3:11:13
      * @throws SQLException 
      */
-    public static String selc() throws SQLException{
-        Connection conn = Conn.conn();
+    public static List<Supplie> selc() throws SQLException{
+    	Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select DISTINCT su.id,su.commodity,mtype.type,mer.money,mer.number,spe.netContent,spe.origin,spe.packingMethod,spe.brand,mer.`describe`,mo.`month`,spe.storageMethod,mer.upFrameTime from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,specification_table sfta,month_table mo where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and sfta.qGP = mo.id ;";
+        String sql = "select sup.id ,asp.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.auditStatus ,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.executeQuery(); // 执行查询
         ResultSet rs = ps.getResultSet();// 获取查询结果
@@ -83,21 +83,27 @@ public class SupplieDao {
         while (rs.next()) { // 取结果集中的下一个。
             Supplie supp = new Supplie();
             supp.setId(rs.getInt(1));
-            supp.setCommo(rs.getString(2));
-            supp.setTypeName(rs.getString(3));
-            supp.setMoney(rs.getInt(4));
-            supp.setNumber(rs.getInt(5));
-            supp.setNetContent(rs.getString(6));
-            supp.setOrigin(rs.getString(7));
-            supp.setBrand(rs.getString(9));
-            supp.setDescribe(rs.getString(10));
-            supp.setMonth(rs.getString(11));
-            supp.setStorageMethod(rs.getString(12));
-            supp.setUpFrameTime(rs.getString(13));
+            supp.setRelease_supplierId(rs.getInt(2));
+            supp.setAccount_id(rs.getInt(3));
+            supp.setMerId(rs.getInt(4));
+            supp.setAccount(rs.getString(5));
+            supp.setTypeName(rs.getString(6));
+            supp.setCommo(rs.getString(7));
+            supp.setMoney(rs.getInt(8));
+            supp.setNumber(rs.getInt(9));
+            supp.setNetContent(rs.getString(10));
+            supp.setOrigin(rs.getString(11));
+            supp.setPackingMethod(rs.getString(12));
+            supp.setBrand(rs.getString(13));
+            supp.setMonth(rs.getString(14));
+            supp.setStorageMethod(rs.getString(15));
+            supp.setDescribe(rs.getString(16));
+            supp.setUpFrameTime(rs.getString(17));
+            supp.setAuditStatus(rs.getInt(18));
+            supp.setReleaseTime(rs.getString(19));
             list.add(supp);
         }
-        String sst = JsonUtils.beanListToJson(list);
-        return sst;
+		return list;
     }
     
     /**
@@ -117,20 +123,26 @@ public class SupplieDao {
      * 2017年12月14日  下午5:35:56
      * @throws ParseException 
      */
-    public static void merchandiseAdd(String nameTypeID,String name,String money,Integer specificationID,String number,String describe,String auditStatus,Integer supplie_id,String upFrametTime) throws SQLException, ParseException{
+    public static Integer merchandiseAdd(Integer acc_id,String nameTypeID,String name,String money,Integer specificationID,String number,String describe,String auditStatus,String upFrametTime) throws SQLException, ParseException{
         Connection conn = Conn.conn();
-        String str = "insert into merchandise(nameTypeID,`name`,money,specificationID,number,`describe`,auditStatus,supplier_id,upFrameTime) values(?,?,?,?,?,?,?,?,?);"; // id自增长
+        String str = "insert into merchandise(account_id,nameTypeID,`name`,money,specificationID,number,`describe`,auditStatus,upFrameTime) values(?,?,?,?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-        ps.setString(1, nameTypeID);
-        ps.setString(2, name);
-        ps.setString(3, money);
-        ps.setInt(4, specificationID);
-        ps.setString(5, number);
-        ps.setString(6, describe);
-        ps.setString(7, auditStatus);
-        ps.setInt(8, supplie_id);
+        ps.setInt(1, acc_id);
+        ps.setString(2, nameTypeID);
+        ps.setString(3, name);
+        ps.setString(4, money);
+        ps.setInt(5, specificationID);
+        ps.setString(6, number);
+        ps.setString(7, describe);
+        ps.setString(8, auditStatus);
         ps.setString(9, upFrametTime);
         ps.executeUpdate();// 执行修改
+        int autoInckey = -1;
+        ResultSet res = ps.getGeneratedKeys();
+        if(res.next()){
+            autoInckey = res.getInt(1);
+        }
+        return autoInckey; // 返回获取的id
     }
     
     /**
@@ -145,9 +157,9 @@ public class SupplieDao {
      * @throws SQLException
      * 2017年12月28日  下午10:21:47
      */
-    public static Integer speciAdd(Integer account_id,String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
+    public static Integer speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
         Connection conn = Conn.conn();
-        String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod,account_id) values(?,?,?,?,?,?,?);"; // id自增长
+        String str = "insert into specification_table(origin,netContent,packingMethod,brand,qGp,storageMethod) values(?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str,Statement.RETURN_GENERATED_KEYS);// 发送SQL到数据库  获取刚插入的自增长id 
         ps.setString(1, origin);
         ps.setString(2, netContent);
@@ -155,7 +167,6 @@ public class SupplieDao {
         ps.setString(4, brand);
         ps.setString(5, qGp);
         ps.setString(6, storageMethod);
-        ps.setInt(7, account_id);
         ps.executeUpdate();// 执行修改
         int autoInckey = -1;
         ResultSet res = ps.getGeneratedKeys();
@@ -180,7 +191,6 @@ public class SupplieDao {
         ps.setString(1, name); // 供应商id 
         ps.setInt(2, mercd_id); // 商品id
         ps.executeUpdate();// 执行修改
-        selc();
     }
     
     /**
@@ -343,10 +353,10 @@ public class SupplieDao {
         }
         pageNow = (pageNow - 1) * 10;
         try {
-            if(null != sel && !"".equals(sel)){
+            if(null != sel && !"".equals(sel)){ // 搜索
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "select su.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.`describe` from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.release_id = su.mercd_id";
+            sql = "select su.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.release_id = su.mercd_id ORDER BY su.id ASC";
             
             sql = sql + " limit ?,?";
             paramIndex.add(1);
@@ -377,17 +387,17 @@ public class SupplieDao {
                 supp.setCommo(resu.getString(2));
                 supp.setMoney(resu.getInt(3));
                 supp.setNumber(resu.getInt(4));
-                supp.setqGp(resu.getString(5));
+                supp.setMonth(resu.getString(5));
                 supp.setBrand(resu.getString(6));
                 supp.setOrigin(resu.getString(7));
                 supp.setPackingMethod(resu.getString(8));
                 supp.setStorageMethod(resu.getString(9));
-                supp.setDescribe(resu.getString(10));
+                supp.setUpFrameTime(resu.getString(10));
                 list.add(supp);
             }
             return list;
-        }else {
-            sql = "select su.id,su.commodity,mer.money,mer.number,mtype.type,mo.`month`,spe.brand,spe.netContent,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.auditStatus,mer.`describe`,mer.account_id,aud.release_id from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud where su.mercd_id = mer.supplier_id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.account_id = mer.account_id and aud.merchandise_id = mer.supplier_id and aud.release_id = su.mercd_id ORDER BY su.id ASC limit ?,?;";
+        }else { // 页面加载时查询 出现
+            sql = "select su.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.upFrameTime from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
             pre.setInt(1, pageNow);
             pre.setInt(2, Paging.getPageNumber());
@@ -400,7 +410,7 @@ public class SupplieDao {
                 supp.setMoney(rs.getInt(3));
                 supp.setNumber(rs.getInt(4));
                 supp.setTypeName(rs.getString(5));
-                supp.setqGp(rs.getString(6));
+                supp.setMonth(rs.getString(6));
                 supp.setBrand(rs.getString(7));
                 supp.setNetContent(rs.getString(8));
                 supp.setOrigin(rs.getString(9));
