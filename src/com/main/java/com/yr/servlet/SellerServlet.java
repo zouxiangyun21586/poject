@@ -169,6 +169,9 @@ public class SellerServlet extends HttpServlet {
             if (null == pageNow || "".equals(pageNow)) {
                 pageNow = "1";
             }
+            if(null != select && !"".equals(select)){
+                pageNow = "1";
+            }
          // 查询并分页
             List<Seller> list = SellerDao.selectGoods(select,Integer.valueOf(pageNow),sel);
          // 获得总页数
