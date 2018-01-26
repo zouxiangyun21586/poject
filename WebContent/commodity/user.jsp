@@ -54,7 +54,6 @@
                             <td align="center" style="width:150px;">描述</td>
                             <td align="center" style="width:110px;">价格</td>
                             <td align="center" style="width:110px;">数量</td>
-                            <td align="center" style="width:80px;">上架</td>
                             <td align="center" style="width:280px;">操作</td>
                         </tr>
                     </thead>
@@ -91,17 +90,16 @@ function Data(){
                  var html = "";
                  $("#t_body").empty();
                  for(var i in list){
-                     if("0"==list[i].auditStatus){
-                         html += "<tr><td align='center' style='display:none;' id='id"+list[i].id+"'>"+list[i].id+"</td>"+
-                         "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
+                     if("2"==list[i].auditStatus){
+                         html += "<tr><td align='center' style='display:none;' id='id"+list[i].fbid+"'>"+list[i].fbid+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].accountId+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
-                         "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
+                         "<td align='center'><a href='#' onclick='query("+list[i].wares_id+")'>"+list[i].name+"</a></td>"+
                          "<td align='center'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center'>"+list[i].number+"</td>"+
-                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
                          "<td align='center'><a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='gou(this)'><i class='layui-icon'>&#xe640;</i> 购买</a></td></tr>";
                      }
                  }

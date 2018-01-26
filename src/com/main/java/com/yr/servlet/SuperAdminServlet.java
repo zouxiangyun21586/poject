@@ -41,6 +41,9 @@ public class SuperAdminServlet extends HttpServlet{
 				if (null == pageNow || "".equals(pageNow)) {
 					pageNow = "1";
 				}
+				if(null != select && !"".equals(select) && !"".equals(interest) || null != interest && !"quan".equals(interest)){
+					pageNow = "1";
+				}
 //				List<Account_Role> list = SuperAdminDao.query();
 				List<Account_Role> list = SuperAdminDao.selectemp(select,interest,Integer.valueOf(pageNow),sel);
 				int pageCount=SuperAdminDao.getPageCount();//获得总页数

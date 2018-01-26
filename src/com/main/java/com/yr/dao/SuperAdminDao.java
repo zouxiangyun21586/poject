@@ -378,9 +378,9 @@ public class SuperAdminDao {
 	/**
 	 * 查询数据并用list封装起来
 	 * @param acc 账号
-	 * @param rolename 角色名
+	 * @param rolename 角色名   (同时也是判断他是不是使用了下拉框)
 	 * @param pageNow 当前页
-	 * @param sel 判断是否用了查询功能
+	 * @param sel 判断是否用了查询功能 
 	 * @return 返回所查询的数据
 	 */
 	public static List<Account_Role> selectemp(String acc,String rolename,Integer pageNow, String sel) {
@@ -389,10 +389,11 @@ public class SuperAdminDao {
 		if (pageNow < 1) {
 			pageNow = 1;
 		}
-		pageNow = (pageNow - 1) * 10;
+		
 		try {
 			Connection conn = Conn.conn();
 			if (null != sel && !"".equals(sel) && !"".equals(rolename) || null != rolename && !"quan".equals(rolename)) {//使用搜索功能进入这个if判断
+				pageNow=0;
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
 				pageCountSql = "create VIEW shitu1 as  SELECT DISTINCT a.id FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
@@ -470,6 +471,7 @@ public class SuperAdminDao {
 //				conn.close();
 				return list;
 			} else {
+				pageNow = (pageNow - 1) * 10;
 				sql = "SELECT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
 				pageCountSql = "create VIEW shitu1 as select * from account";
 				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";

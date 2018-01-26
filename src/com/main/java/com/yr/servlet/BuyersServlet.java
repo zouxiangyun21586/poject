@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yr.dao.BuyersDao;
 import com.yr.dao.LinkMysql;
 import com.yr.dao.SellerDao;
+import com.yr.pojo.Buyers;
 import com.yr.pojo.Seller;
 import com.yr.util.ConnectTime;
 import com.yr.util.JsonUtils;
@@ -56,13 +57,10 @@ public class BuyersServlet extends HttpServlet{
         try {
             if ("1".equals(i)) { // 查看或修改商品详细信息
             	int id = Integer.valueOf(request.getParameter("id"));
-                List<Seller> list = BuyersDao.queryGoods(id);
+                List<Buyers> list = BuyersDao.queryGoods(id);
                 if ("1".equals(o)) { // 进入查看页面
                     request.setAttribute("list", list);
-                    request.getRequestDispatcher("seller/detail.jsp").forward(request, response);
-                } else if ("2".equals(o)) { // 进入修改页面
-                    request.setAttribute("list", list);
-                    request.getRequestDispatcher("seller/update.jsp").forward(request, response);
+                    request.getRequestDispatcher("commodity/user.jsp").forward(request, response);
                 }
             }else if("2".equals(i)){
             	
@@ -93,9 +91,9 @@ public class BuyersServlet extends HttpServlet{
                 pageNow = "1";
             }
          // 查询并分页
-            List<Seller> list = SellerDao.selectGoods(select,Integer.valueOf(pageNow),sel);
+            List<Buyers> list = BuyersDao.selectGoods(select,Integer.valueOf(pageNow),sel);
          // 获得总页数
-            int pageCount=SellerDao.getPageCount();
+            int pageCount=BuyersDao.getPageCount();
          // 显示当前页
             String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
             Map<String, Object> map = new HashMap<>();
