@@ -1,41 +1,26 @@
-
 eclipse.preferences.version=1
 encoding//WebContent/css/base.css=UTF-8
 encoding//WebContent/main.jsp=UTF-8
-<<<<<<< HEAD
-=======
 encoding//src/com/main/java/com/yr/dao/AuditSellerDao.java=UTF-8
->>>>>>> branch 'master' of https://github.com/zouxiangyun21586/poject.git
 encoding//src/com/main/java/com/yr/dao/AuthImageServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/LinkMysql.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/PowerDao.java=UTF-8
-<<<<<<< HEAD
-encoding//src/com/main/java/com/yr/dao/SellerDao.java=UTF-8
-=======
 encoding//src/com/main/java/com/yr/dao/RoleManagementDaoLayer.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/SellerDao.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/SimpleFilter.java=UTF-8
->>>>>>> branch 'master' of https://github.com/zouxiangyun21586/poject.git
 encoding//src/com/main/java/com/yr/dao/SuperAdminDao.java=UTF-8
 encoding//src/com/main/java/com/yr/pojo/Account_Role.java=UTF-8
 encoding//src/com/main/java/com/yr/pojo/Power.java=UTF-8
 encoding//src/com/main/java/com/yr/pojo/Role.java=UTF-8
-<<<<<<< HEAD
-encoding//src/com/main/java/com/yr/pojo/Seller.java=UTF-8
-encoding//src/com/main/java/com/yr/servlet/LoginServlet.java=UTF-8
-=======
 encoding//src/com/main/java/com/yr/pojo/RoleTzh.java=UTF-8
 encoding//src/com/main/java/com/yr/pojo/Seller.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/AuditSellerServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/AuditSupplieServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/JcropImg.java=UTF-8
->>>>>>> branch 'master' of https://github.com/zouxiangyun21586/poject.git
+encoding//src/com/main/java/com/yr/servlet/LoginServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/PowerServlet.java=UTF-8
-<<<<<<< HEAD
-=======
 encoding//src/com/main/java/com/yr/servlet/RoleManagementServletLayer.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/RoleServlet.java=UTF-8
->>>>>>> branch 'master' of https://github.com/zouxiangyun21586/poject.git
 encoding//src/com/main/java/com/yr/servlet/SellerServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/SuperAdminServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/servlet/SupplieServlet.java=UTF-8
