@@ -12,8 +12,9 @@ import com.yr.util.ConnectTime;
 import com.yr.dao.LinkMysql;
 
 /**
+ * 
  * @作者 林水桥
- * 2018年1月23日上午10:29:43
+ * 2018年1月24日下午10:07:39
  */
 public class AuditSellerDao {
     private static final int NUB_0 = 0;
