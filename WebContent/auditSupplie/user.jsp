@@ -89,21 +89,6 @@
             shadeClose : true
         });
     }
-    
-    function upd(uu){
-    	layer.open({
-            title : '修改商品',
-            type : 2,
-            anim : 2,
-            maxmin : false,
-            resize : false,
-            scrollbar : true,
-            //页面路径
-            content : '../supSer?sup=5&&state=0&&id='+uu,
-            area : [ '500px', '490px' ],//宽高
-            shadeClose : true
-        });
-    };
         
 </script>
 <body background="../images/tp.jpg">

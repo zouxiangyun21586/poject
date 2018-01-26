@@ -125,6 +125,9 @@ public class AuditSellerServlet extends HttpServlet {
             if (null == pageNow || "".equals(pageNow)) {
                 pageNow = "1";
             }
+            if(null != select && !"".equals(select)){
+                pageNow = "1";
+            }
             // 查询并分页
             List<Seller> list = AuditSellerDao.selectGoods(select,Integer.valueOf(pageNow),sel);
             // 获得总页数
