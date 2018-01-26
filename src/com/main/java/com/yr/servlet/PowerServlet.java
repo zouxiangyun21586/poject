@@ -24,7 +24,6 @@ public class PowerServlet extends HttpServlet {
 	        resp.getWriter().write(json);
         }else if("2".equals(i)){
         	//修改
-        	System.out.println("测试");
         	String yfor = req.getParameter("zhi");
         	String arr[] = yfor.split(",");
         	for (int j = 0; j < arr.length; j++) {

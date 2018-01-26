@@ -68,6 +68,9 @@ public class AuditSupplieServlet extends HttpServlet {
                 out.flush();
                 out.close();
             }
+        }else if("1".equalsIgnoreCase(i)){
+            String o = request.getParameter("o");
+            int auditID = Integer.valueOf(request.getParameter("auditID"));
         }
 
 	}

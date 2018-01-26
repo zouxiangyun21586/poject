@@ -8,6 +8,18 @@
     <servlet-name>superAdminServlet</servlet-name>
     <url-pattern>/superAdminServlet</url-pattern>
   </servlet-mapping>
+  
+  <!-- 超级管理员增删改查servlet -->
+  <servlet>
+    <servlet-name>buyersServlet</servlet-name>
+    <servlet-class>com.yr.servlet.BuyersServlet</servlet-class> <!-- 类的路径 -->
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>buyersServlet</servlet-name>
+    <url-pattern>/buyersServlet</url-pattern> <!-- form里面的属性这样写 action="/login" -->
+  </servlet-mapping>
+  
+  <!-- 权限管理servlet -->
   <servlet>
     <servlet-name>powerServlet</servlet-name>
     <servlet-class>com.yr.servlet.PowerServlet</servlet-class>

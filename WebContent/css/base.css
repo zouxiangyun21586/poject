@@ -1,10 +1,10 @@
 *{margin: 0;padding-top: 0;}
-body{background-color: #F5F5F5;font-family: "微软雅黑"}
+body{background-color: #F5F5F5;font-family: "寰蒋闆呴粦"}
 a{text-decoration: none;color: black;}
 ul{overflow: hidden;list-style-type: none;}
-/*头部*/
+/*澶撮儴*/
 body {min-width: 1200px;background-color: #f5f5f5}
-.header {position:relative;height:189px;}
+.header {position:relative;height:120px;}
 .header .page-top{width: 100%;min-width: 1200px;height: 30px;line-height: 30px;background-color: #dddddd;color: #484848;font-size: 14px;}
 .header .page-top ul li{float: left;}
 .header .page-top ul li>a{margin-left: 20px;color: #484848;}
@@ -33,7 +33,7 @@ body {min-width: 1200px;background-color: #f5f5f5}
 .header .navigtion .sopping-jzx{float: right;margin-right:150px;margin-top:50px;text-align: center}
 .header .navigtion .sopping-jzx a{color: #828282;border: 1px solid #828282;display: block;padding: 5px}
 .header .navigtion .sopping-jzx a:hover{color:#000000}
-/*导航栏*/
+/*瀵艰埅鏍�*/
 .zxr_nav {z-index:1;width: 100%;height: 40px;background-color: #ffffff;border-bottom: 2px solid #BE1E2D;position: relative;}
 .nav_ten {width: 1200px;height: 40px;position: relative;margin: 0 auto}
 .zxr_nav .nav_ten .quanbu_zxr {position: relative}
@@ -54,7 +54,7 @@ body {min-width: 1200px;background-color: #f5f5f5}
 .zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 .main3 {position:absolute;top:0;float: right;right: 10px}
 .zxr_nav .nav_ten .quanbu_zxr .ab_nav .ab_nav_2 .main3 img {border: 1px solid gainsboro;width: 150px;height: 40px;}
 .clear {clear:both}
-/*尾部*/
+/*灏鹃儴*/
 .footer{width: 100%;background-color: #000000;color: #ffffff;}
 .footer a{color: #ffffff}
 .footer a:hover{color: #BE1E2D}
@@ -69,4 +69,4 @@ body {min-width: 1200px;background-color: #f5f5f5}
 .footer .item-twodcode{float: left;overflow:hidden;margin-left: 70px;margin-top: 30px}
 .footer .item-twodcode h4{margin-bottom: 10px}
 .footer .container{clear: both;text-align: center;padding:50px}
-/*头部尾部样式写完之后再扔里 ，其他的样式不要往里添*/
+/*澶撮儴灏鹃儴鏍峰紡鍐欏畬涔嬪悗鍐嶆墧閲� 锛屽叾浠栫殑鏍峰紡涓嶈寰�閲屾坊*/

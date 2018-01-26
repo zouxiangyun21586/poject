@@ -109,29 +109,6 @@
 	function getData(){
 		layui.use([ 'layer', 'form' ], function() {
 			var form = layui.form;
-			<%-- $.ajax({     
-		        //要用post方式      
-		        type: "POST",//请求方式,默认GET
-		        cache: false,  //是否缓存，false代表拒绝缓存
-		        //方法所在页面和方法名      
-		        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
-		        contentType: "application/text; charset=utf-8",  
-		        dataType: "json",
-		        success: function(zh) {
-		        	$("#interest").append("<option value='quan'>全部</option>");
-		            for(var i in zh){
-		            	$("#interest").append("<option value='"+zh[i].id+"'>"+zh[i].name+"</option>");
-		            }
-		            form.render('select');
-		            
-		        },     
-		        error: function(XMLHttpRequest, textStatus, errorThrown) {
-		     	   alert("失败");
-		           alert(XMLHttpRequest.status);//200客户端请求已成功
-		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
-		           alert(textStatus);//parsererror
-		   		}
-			}); --%>
 			$.ajax({
       	       type:"GET", //请求方式     对应form的  method请求
       	       url:"<%=request.getContextPath()%>/superAdminServlet?i=1", //请求路径  对应 form的action路径
