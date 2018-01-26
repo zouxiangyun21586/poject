@@ -34,7 +34,10 @@ public class AuditSupplieServlet extends HttpServlet {
         super();
     }
 
-	/**
+	/** 供应商审核表
+	 *  i=0为         搜索查看与最初查看
+     *  i=1 o=1为        修改查看
+     *  i=1 0=2为        查看商品详细信息
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -71,6 +74,13 @@ public class AuditSupplieServlet extends HttpServlet {
         }else if("1".equalsIgnoreCase(i)){
             String o = request.getParameter("o");
             int auditID = Integer.valueOf(request.getParameter("auditID"));
+            List<Supplie> list = AuditSupplieDao.queryAudit(auditID);
+            request.setAttribute("list",list);
+            if("1".equalsIgnoreCase(o)){// 修改查看
+                request.getRequestDispatcher("auditSupplie/update.jsp").forward(request,response);
+            }else if("2".equalsIgnoreCase(o)){// 查看详细信息
+                request.getRequestDispatcher("auditSupplie/detail.jsp").forward(request,response);
+            }
         }
 
 	}
