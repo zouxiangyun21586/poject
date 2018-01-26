@@ -87,7 +87,7 @@
                     <label class="layui-form-label">保质期</label>
                     <div class="layui-input-block">
                         <input type="text" name="month" autocomplete="off"
-                               class="layui-input" value="${u.Month}" readonly="readonly">
+                               class="layui-input" value="${u.qGp}" readonly="readonly">
                     </div>
                 </div>
                 <div class="layui-form-item">

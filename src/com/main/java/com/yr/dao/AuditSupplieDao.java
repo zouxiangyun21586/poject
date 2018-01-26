@@ -74,7 +74,7 @@ public class AuditSupplieDao {
                 goods.setPackingMethod(rs.getString(NUB_12));
                 goods.setBrand(rs.getString(NUB_13));
                 goods.setMonth_tableId(rs.getInt(NUB_14));
-                goods.setMonth(rs.getString(NUB_15));
+                goods.setqGp(rs.getString(NUB_15));
                 goods.setStorageMethod(rs.getString(NUB_16));
                 goods.setMoney(Integer.valueOf(rs.getString(NUB_17)));
                 goods.setNumber(rs.getInt(NUB_18));
@@ -120,10 +120,11 @@ public class AuditSupplieDao {
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
                 sql = "select sup.id,asp.id,act.id,m.id,act.`name`,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
-                sql = sql + " and m.`name` like ?";
-                paramIndex.add(NUB_0);
-                param.add(sel);
-                
+                if (null != sel && !"".equals(sel)) {
+                    sql = sql + " and m.`name` like ?";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
+                }
                 sql = sql + " limit ?,?";
                 paramIndex.add(NUB_1);
                 paramIndex.add(NUB_1);
