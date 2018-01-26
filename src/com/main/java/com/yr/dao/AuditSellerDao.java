@@ -235,10 +235,10 @@ public class AuditSellerDao {
         if (pageNow < NUB_1) {
             pageNow = NUB_1;
         }
-        pageNow = (pageNow - 1) * 10;
         try {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
+                pageNow=NUB_0;
                 String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and m.`name` like ?";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
@@ -292,6 +292,7 @@ public class AuditSellerDao {
                 pre.close();
                 return list;
             } else {// 查询所有数据
+                pageNow = (pageNow - 1) * 10;
                 number = null;
                 sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.`name`,mt.type,m.`name`,m.merStatus,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ORDER BY ads.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
