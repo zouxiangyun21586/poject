@@ -21,6 +21,19 @@
                             <label class="layui-form-label">商品信息</label>
                             <div class="layui-input-block"></div>
 	                    </div>
+	                    
+	                    <input type="text" name="i" id="i" autocomplete="off"
+                                class="layui-input" value="5" style="display:none;"/>
+                        <input type="text" name="suptId" id="suptId" autocomplete="off"
+                                class="layui-input" value="${su.suptId}" style="display:none;"/>
+                        <input type="text" name="release_supplierId" id="release_supplierId" autocomplete="off"
+                                class="layui-input" value="${su.release_supplierId}" style="display:none;"/>
+                        <input type="text" name="account_id" id="account_id" autocomplete="off"
+                                class="layui-input" value="${su.account_id}" style="display:none;"/>
+                        <input type="text" name="merId" id="merId" autocomplete="off"
+                                class="layui-input" value="${su.merId}" style="display:none;"/>
+                        <input type="text" name="account" id="account" autocomplete="off"
+                                class="layui-input" value="${su.account}" style="display:none;"/>
 	                    <div class="layui-form-item">
 	                        <label class="layui-form-label">商品价格</label>
 	                        <div class="layui-input-block">
@@ -30,7 +43,7 @@
 	                    </div>
 	                    <div class="layui-form-item">
 	                        <label class="layui-form-label">商品数量</label>
-	                        <div class="layui-input-block" id="${su.speId}">
+	                        <div class="layui-input-block">
 	                            <input type="text" id="mernumber" name="mernumber" autocomplete="off"
 	                                value="${su.number}" class="layui-input">
 	                        </div>
@@ -58,7 +71,7 @@
 	                    </div>
 	                    <div class="layui-form-item" >
 	                        <label class="layui-form-label">商品净含量</label>
-	                        <div class="layui-input-block" id="${su.merId}">
+	                        <div class="layui-input-block">
 	                            <input type="text" id="mernetc" name="mernetc" autocomplete="off"
 	                                value="${su.netContent}" class="layui-input">
 	                        </div>
@@ -94,8 +107,8 @@
 <script type="text/javascript">
     /* 修改保存 */
     $("#sb").click(function tjbc(obj){
-        var speId = $("#mernumber").parent().attr("id");
-        var merId = $("#mernetc").parent().attr("id");
+        var speId = $("#suptId").val();
+        var merId = $("#merId").val();
         var money = $("#mermoney").val();
         var number = $("#mernumber").val();
         var qGp = $("#merqGp option:selected").val();

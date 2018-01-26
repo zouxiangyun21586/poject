@@ -39,52 +39,61 @@
                     var tobody_limt = "";
                     for(var i in list){
                         if("0"==list[i].auditStatus){ // 未提交
-                             tobody_limt += "<tr id='zui'><td>"+list[i].id+
+                             tobody_limt += "<tr id='zui'><td>"+list[i].suptId+
+                             				"</td><td style='display:none;'>"+list[i].release_supplierId+
                                             "</td><td style='display:none;'>"+list[i].account_id+
-                                            "</td><td style='display:none;'>"+list[i].release_supplierId+
+                                            "</td><td style='display:none;'>"+list[i].merId+
+                                            "</td><td style='display:none;'>"+list[i].account+
                                             "</td><td>"+list[i].commo+
                                             "</td><td>"+list[i].money+
                                             "</td><td>"+list[i].number+
-                                            "</td><td>"+list[i].typeName+
-                                            "</td><td>"+list[i].qGp+
-                                            "</td><td>"+list[i].brand+
-                                            "</td><td>"+list[i].storageMethod+
-                                            "</td><td>"+list[i].origin+
                                             "</td><td>"+list[i].netContent+
+                                            "</td><td>"+list[i].month+
+                                            "</td><td>"+list[i].brand+
+                                            "</td><td>"+list[i].origin+
+                                            "</td><td>"+list[i].typeName+
+                                            "</td><td>"+list[i].storageMethod+
                                             "</td><td>"+list[i].packingMethod+
+                                            "</td><td style='display:none;'>"+list[i].describe+
                                             "</td><td>"+list[i].upFrameTime+
                                             "</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg' onclick='upd("+list[i].id+")'>修改商品</button></td></tr>";
                         }else if("1"==list[i].auditStatus){ // 未审核
-                            tobody_limt +=  "<tr id='zui'><td>"+list[i].id+
-                                            "</td><td style='display:none;'>"+list[i].account_id+
-                                            "</td><td style='display:none;'>"+list[i].release_supplierId+
-                                            "</td><td>"+list[i].commo+
-                                            "</td><td>"+list[i].money+
-                                            "</td><td>"+list[i].number+
-                                            "</td><td>"+list[i].typeName+
-                                            "</td><td>"+list[i].qGp+
-                                            "</td><td>"+list[i].brand+
-                                            "</td><td>"+list[i].storageMethod+
-                                            "</td><td>"+list[i].origin+
-                                            "</td><td>"+list[i].netContent+
-                                            "</td><td>"+list[i].packingMethod+
-                                            "</td><td>"+list[i].upFrameTim+
+                            tobody_limt +=  "<tr id='zui'><td>"+list[i].suptId+
+				             				"</td><td style='display:none;'>"+list[i].release_supplierId+
+				                            "</td><td style='display:none;'>"+list[i].account_id+
+				                            "</td><td style='display:none;'>"+list[i].merId+
+				                            "</td><td style='display:none;'>"+list[i].account+
+				                            "</td><td>"+list[i].commo+
+				                            "</td><td>"+list[i].money+
+				                            "</td><td>"+list[i].number+
+				                            "</td><td>"+list[i].netContent+
+				                            "</td><td>"+list[i].month+
+				                            "</td><td>"+list[i].brand+
+				                            "</td><td>"+list[i].origin+
+				                            "</td><td>"+list[i].typeName+
+				                            "</td><td>"+list[i].storageMethod+
+				                            "</td><td>"+list[i].packingMethod+
+				                            "</td><td style='display:none;'>"+list[i].describe+
+				                            "</td><td>"+list[i].upFrameTime+
                                             "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
                         }else if("2"==list[i].auditStatus){ // 已审核            
-                             tobody_limt +=  "<tr id='zui'><td>"+list[i].id+
-                                             "</td><td style='display:none;'>"+list[i].account_id+
-                                             "</td><td style='display:none;'>"+list[i].release_supplierId+
-                                             "</td><td>"+list[i].commo+
-                                             "</td><td>"+list[i].money+
-                                             "</td><td>"+list[i].number+
-                                             "</td><td>"+list[i].typeName+
-                                             "</td><td>"+list[i].qGp+
-                                             "</td><td>"+list[i].brand+
-                                             "</td><td>"+list[i].storageMethod+
-                                             "</td><td>"+list[i].origin+
-                                             "</td><td>"+list[i].netContent+
-                                             "</td><td>"+list[i].packingMethod+
-                                             "</td><td>"+list[i].upFrameTime+
+                             tobody_limt += "<tr id='zui'><td>"+list[i].suptId+
+				              				"</td><td style='display:none;'>"+list[i].release_supplierId+
+				                            "</td><td style='display:none;'>"+list[i].account_id+
+				                            "</td><td style='display:none;'>"+list[i].merId+
+				                            "</td><td style='display:none;'>"+list[i].account+
+				                            "</td><td>"+list[i].commo+
+				                            "</td><td>"+list[i].money+
+				                            "</td><td>"+list[i].number+
+				                            "</td><td>"+list[i].netContent+
+				                            "</td><td>"+list[i].month+
+				                            "</td><td>"+list[i].brand+
+				                            "</td><td>"+list[i].origin+
+				                            "</td><td>"+list[i].typeName+
+				                            "</td><td>"+list[i].storageMethod+
+				                            "</td><td>"+list[i].packingMethod+
+				                            "</td><td style='display:none;'>"+list[i].describe+
+				                            "</td><td>"+list[i].upFrameTime+
                                              "</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
                         }
                     }
@@ -99,19 +108,22 @@
    function cancel(cencel){
        if(confirm("确定撤销商品?")){
            var tr = $(cencel).parent().parent();
-           var id = tr.find("td").eq(0).text();
-           var account_id = tr.find("td").eq(1).text();
-           var release_id = tr.find("td").eq(2).text();
-           var commo = tr.find("td").eq(3).text();
-           var money = tr.find("td").eq(4).text();
-           var number = tr.find("td").eq(5).text();
-           var merType = tr.find("td").eq(6).text();
-           var qGp = tr.find("td").eq(7).text();
-           var brand = tr.find("td").eq(8).text();
-           var storageMethod = tr.find("td").eq(9).text();
-           var origin = tr.find("td").eq(10).text();
-           var netContent = tr.find("td").eq(11).text();
-           var packingMethod = tr.find("td").eq(12).text();
+           var suptId = tr.find("td").eq(0).text();
+           var release_id = tr.find("td").eq(1).text();
+           var account_id = tr.find("td").eq(2).text();
+           var mer_id = tr.find("td").eq(3).text();
+           var account = tr.find("td").eq(4).text();
+           var commo = tr.find("td").eq(5).text();
+           var money = tr.find("td").eq(6).text();
+           var number = tr.find("td").eq(7).text();
+           var netContent = tr.find("td").eq(8).text();
+           var qGp = tr.find("td").eq(9).text();
+           var brand = tr.find("td").eq(10).text();
+           var origin = tr.find("td").eq(11).text();
+           var merType = tr.find("td").eq(12).text();
+           var storageMethod = tr.find("td").eq(13).text();
+           var packingMethod = tr.find("td").eq(14).text();
+           var describe = tr.find("td").eq(15).text();
            
            $.ajax({
                url:"<%=request.getContextPath()%>/supSer?sup=3",
@@ -119,21 +131,25 @@
                type:"get",
                cache:false,
                async:true,
-               data:{"id":id,"state":0,"account_id":account_id,"release_supplierId":release_supplierId},
+               data:{"id":mer_id,"state":0,"account_id":account_id,"release_supplierId":release_supplierId},
                success:function(result){
-                   tr.html("<td style='display:none;'>"+id+"</td>"+
-                		   "<td style='display:none;'>"+account_id+"</td>"+
-                		   "<td style='display:none;'>"+release_id+"</td>"+
-		                   "<td>"+commo+"</td>"+
-		                   "<td>"+money+"</td>"+
-		                   "<td>"+number+"</td>"+
-		                   "<td>"+merType+"</td>"+
-		                   "<td>"+qGp+"</td>"+
-		                   "<td>"+brand+"</td>"+
-		                   "<td>"+storageMethod+"</td>"+
-		                   "<td>"+origin+"</td>"+
-		                   "<td>"+netContent+"</td>"+
-		                   "<td>"+packingMethod+"</td>"+
+                   tr.html("<tr id='zui'><td>"+list[i].suptId+
+             				"</td><td style='display:none;'>"+list[i].release_supplierId+
+                            "</td><td style='display:none;'>"+list[i].account_id+
+                            "</td><td style='display:none;'>"+list[i].merId+
+                            "</td><td style='display:none;'>"+list[i].account+
+                            "</td><td>"+list[i].commo+
+                            "</td><td>"+list[i].money+
+                            "</td><td>"+list[i].number+
+                            "</td><td>"+list[i].netContent+
+                            "</td><td>"+list[i].Month+
+                            "</td><td>"+list[i].brand+
+                            "</td><td>"+list[i].origin+
+                            "</td><td>"+list[i].typeName+
+                            "</td><td>"+list[i].storageMethod+
+                            "</td><td>"+list[i].packingMethod+
+                            "</td><td style='display:none;'>"+list[i].describe+
+                            "</td><td>"+list[i].upFrameTime+
 		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+list[i].id+")'>修改商品</button></td>");
                },
                error:function(XMLHttpRequest, textStatus, errorThrown)
@@ -148,19 +164,22 @@
     function xiajia(xj){
         if(confirm("确定下架商品?")){
         	var tr = $(xj).parent().parent();
-            var id = tr.find("td").eq(0).text();
-            var account_id = tr.find("td").eq(1).text();
-            var release_id = tr.find("td").eq(2).text();
-            var commo = tr.find("td").eq(3).text();
-            var money = tr.find("td").eq(4).text();
-            var number = tr.find("td").eq(5).text();
-            var merType = tr.find("td").eq(6).text();
-            var qGp = tr.find("td").eq(7).text();
-            var brand = tr.find("td").eq(8).text();
-            var storageMethod = tr.find("td").eq(9).text();
-            var origin = tr.find("td").eq(10).text();
-            var netContent = tr.find("td").eq(11).text();
-            var packingMethod = tr.find("td").eq(12).text();
+            var suptId = tr.find("td").eq(0).text();
+            var release_id = tr.find("td").eq(1).text();
+            var account_id = tr.find("td").eq(2).text();
+            var mer_id = tr.find("td").eq(3).text();
+            var account = tr.find("td").eq(4).text();
+            var commo = tr.find("td").eq(5).text();
+            var money = tr.find("td").eq(6).text();
+            var number = tr.find("td").eq(7).text();
+            var netContent = tr.find("td").eq(8).text();
+            var qGp = tr.find("td").eq(9).text();
+            var brand = tr.find("td").eq(10).text();
+            var origin = tr.find("td").eq(11).text();
+            var merType = tr.find("td").eq(12).text();
+            var storageMethod = tr.find("td").eq(13).text();
+            var packingMethod = tr.find("td").eq(14).text();
+            var describe = tr.find("td").eq(15).text();
             
             $.ajax({
                 url:"<%=request.getContextPath()%>/supSer?sup=6",
@@ -168,25 +187,28 @@
                 type:"get",
                 cache:false,
                 async:true,
-                data:{"id":id,"state":0,"id":id,"account_id":account_id,"release_supplierId":release_supplierId},
+                data:{"release_id":release_id,"state":0,},
                 dataType:"json",
                 success:function(result){
                     $.each(result,function(index,item){
                         var Downtime = item.upFrameTime;
-                        tr.html("<td style='display:none;'>"+id+"</td>"+
-                     		   "<td style='display:none;'>"+account_id+"</td>"+
-                    		   "<td style='display:none;'>"+release_id+"</td>"+
-    		                   "<td>"+commo+"</td>"+
-    		                   "<td>"+money+"</td>"+
-    		                   "<td>"+number+"</td>"+
-    		                   "<td>"+merType+"</td>"+
-    		                   "<td>"+qGp+"</td>"+
-    		                   "<td>"+brand+"</td>"+
-    		                   "<td>"+storageMethod+"</td>"+
-    		                   "<td>"+origin+"</td>"+
-    		                   "<td>"+netContent+"</td>"+
-    		                   "<td>"+packingMethod+"</td>"+
-                                "<td>"+Downtime+"</td>"+
+                        tr.html("<tr id='zui'><td>"+list[i].suptId+
+                 				"</td><td style='display:none;'>"+list[i].release_supplierId+
+                                "</td><td style='display:none;'>"+list[i].account_id+
+                                "</td><td style='display:none;'>"+list[i].merId+
+                                "</td><td style='display:none;'>"+list[i].account+
+                                "</td><td>"+list[i].commo+
+                                "</td><td>"+list[i].money+
+                                "</td><td>"+list[i].number+
+                                "</td><td>"+list[i].netContent+
+                                "</td><td>"+list[i].Month+
+                                "</td><td>"+list[i].brand+
+                                "</td><td>"+list[i].origin+
+                                "</td><td>"+list[i].typeName+
+                                "</td><td>"+list[i].storageMethod+
+                                "</td><td>"+list[i].packingMethod+
+                                "</td><td style='display:none;'>"+list[i].describe+
+                                "</td><td>"+list[i].upFrameTime+
                                 "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+list[i].id+")'>修改商品</button></td>");
                     });
                 },
@@ -196,6 +218,59 @@
                 }
             });
         }
+    }
+    
+    //上架
+    function sjia(sj){
+    	var tr = $(sj).parent().parent();
+        var suptId = tr.find("td").eq(0).text();
+        var release_id = tr.find("td").eq(1).text();
+        var account_id = tr.find("td").eq(2).text();
+        var mer_id = tr.find("td").eq(3).text();
+        var account = tr.find("td").eq(4).text();
+        var commo = tr.find("td").eq(5).text();
+        var money = tr.find("td").eq(6).text();
+        var number = tr.find("td").eq(7).text();
+        var netContent = tr.find("td").eq(8).text();
+        var qGp = tr.find("td").eq(9).text();
+        var brand = tr.find("td").eq(10).text();
+        var origin = tr.find("td").eq(11).text();
+        var merType = tr.find("td").eq(12).text();
+        var storageMethod = tr.find("td").eq(13).text();
+        var packingMethod = tr.find("td").eq(14).text();
+        var describe = tr.find("td").eq(15).text();
+        
+        $.ajax({
+            url:"<%=request.getContextPath()%>/supSer?sup=8",
+            type:"get",
+            cache:false,//取消缓存
+            async:true,//是否异步请求,修改false就表示同步,true表示异步
+            data:{"sup_id":suptId,"state":0,"acc_id":account_id,"reles_id":mer_id},
+            success:function(result){
+            	tobody_limt +=  "<tr id='zui'><td>"+list[i].suptId+
+				 				"</td><td style='display:none;'>"+list[i].release_supplierId+
+				                "</td><td style='display:none;'>"+list[i].account_id+
+				                "</td><td style='display:none;'>"+list[i].merId+
+				                "</td><td style='display:none;'>"+list[i].account+
+				                "</td><td>"+list[i].commo+
+				                "</td><td>"+list[i].money+
+				                "</td><td>"+list[i].number+
+				                "</td><td>"+list[i].netContent+
+				                "</td><td>"+list[i].Month+
+				                "</td><td>"+list[i].brand+
+				                "</td><td>"+list[i].origin+
+				                "</td><td>"+list[i].typeName+
+				                "</td><td>"+list[i].storageMethod+
+				                "</td><td>"+list[i].packingMethod+
+				                "</td><td style='display:none;'>"+list[i].describe+
+				                "</td><td>"+list[i].upFrameTime+
+                "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown)
+            {
+                alert("发生错误!!");
+            }
+        });
     }
     
     layui.use([ 'layer', 'element' ], function() {
@@ -248,18 +323,21 @@
 						<thead>
 						  <tr>
 							<th>编号</th>
+							<td style="display: none;">发布ID</td>
 							<td style="display: none;">账户ID</td>
-							<td style="display: none;">发布表ID</td>
-							<th>名称</th>
+							<td style="display: none;">商品ID</td>
+							<td style="display: none;">账户名</td>
+							<th>商品名称</th>
 							<th>价格</th>
 							<th>数量</th>
-							<th>类型</th>
+							<th>净含量</th>
 							<th>保质期</th>
 							<th>品牌</th>
-							<th>储藏方法</th>
 							<th>出产地</th>
-							<th>净含量</th>
+							<th>类型</th>
+							<th>储藏方法</th>
 							<th>包装</th>
+							<td style="display: none;">商品描述</td>
 							<th>上架时间</th>
 							<th>操作</th>
 						  </tr>
