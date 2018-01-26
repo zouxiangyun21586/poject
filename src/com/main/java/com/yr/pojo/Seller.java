@@ -15,7 +15,7 @@ public class Seller {
     /**
      * 商品价格
      */
-    private String money; 
+    private Integer money; 
     /**
      * 商品描述
      */
@@ -150,10 +150,10 @@ public class Seller {
     public void setName(String name) {
         this.name = name;
     }
-    public String getMoney() {
+    public Integer getMoney() {
         return money;
     }
-    public void setMoney(String money) {
+    public void setMoney(Integer money) {
         this.money = money;
     }
     public String getDescribe() {
