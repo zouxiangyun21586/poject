@@ -8,17 +8,19 @@ package com.yr.pojo;
  * 2017年12月28日 下午8:23:41
  */
 public class Supplie {
-    private int id; // 商品id
     private int suptId; // 供应商id
     private int auditId; // 审核供应商ID
     private int nameTypeId; // 类型id
     private int specificationId; // 规格id
     private int month_tableId; // 保质期id
     private int release_supplierId; //供应商发布id
+    private int speId; // 规格表id
+    private int merId; // 商品表id
+    private int account_id; //账户id
     private int number; // 数量
     private String commo; // 商品名
     private int money; // 价格
-    private String Month;
+    private String Month; // 保质期
     private String describe; // 描述
     private String auditTime; // 申请上架时间
     private String upFrameTime; // 上架时间
@@ -26,13 +28,9 @@ public class Supplie {
     private String netContent; // 净含量 
     private String packingMethod; // 包装
     private String brand; // 品牌
-    private String qGp; // 日期
     private String typeName; // 商品类型名
     private String storageMethod; // 储藏方式
     private int auditStatus; // 供应商状态
-    private int speId; // 规格表id
-    private int merId; // 商品表id
-    private int account_id; //账户id
     private String account; // 账户名
     private String releaseTime; // 发表时间
     
@@ -77,12 +75,6 @@ public class Supplie {
     }
     public void setMerId(int merId) {
         this.merId = merId;
-    }
-    public int getId() {
-        return id;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     public int getSuptId() {
         return suptId;
@@ -173,12 +165,6 @@ public class Supplie {
     }
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-    public String getqGp() {
-        return qGp;
-    }
-    public void setqGp(String qGp) {
-        this.qGp = qGp;
     }
     public String getTypeName() {
         return typeName;

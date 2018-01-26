@@ -14,8 +14,8 @@ import com.yr.util.ConnectTime;
 
 /**
  * 
- * @娴ｆ粏锟斤拷 閺嬫鎸夊锟�
- * 2018楠烇拷1閺堬拷25閺冦儰绗傞崡锟�11:12:56
+ * @author zxy
+ *
  */
 public class AuditSupplieDao {
     private static final int NUB_0 = 0;
@@ -91,12 +91,10 @@ public class AuditSupplieDao {
     }
     
     /**
-     * 閺屻儴顕楅弫鐗堝祦楠炲墎鏁ist鐏忎浇顥婄挧閿嬫降
-     * @param pageNow       瑜版挸澧犳い锟�
-     * @param sel           閸掋倖鏌囬弰顖氭儊閻€劋绨￠弻銉嚄閸旂喕鍏�
-     * @return              鏉╂柨娲栭幍锟介弻銉嚄閻ㄥ嫭鏆熼幑锟�
-     * List<Supplie>
-     * 2018楠烇拷1閺堬拷25閺冦儰绗傞崡锟�11:20:02
+     * 查询数据并用list封装起来
+     * @param pageNow 当前页
+     * @param sel 判断是否用了查询功能
+     * @return 返回所查询的数据
      */
     public static List<Supplie> selectemp(Integer pageNow, String sel) {
         Connection conn = Conn.conn();
@@ -193,13 +191,13 @@ public class AuditSupplieDao {
     }
     
     /**
-     * 閼惧嘲绶遍幀濠氥�夐弫锟�
+     * 获得总页数
      *
-     * @return 鏉╂柨娲栭幀濠氥�夐弫锟�
+     * @return 返回总页数
      */
     public static Integer getPageCount() {
-        int total = 0;// 閹鍙℃径姘毌閺壜ゎ唶瑜帮拷
-        int pageCount = 0;// 閹銆夐弫锟�
+        int total = 0;// 总共多少条记录
+        int pageCount = 0;// 总页数
         if(null == num) {
             Connection conn = Conn.conn();
             try {

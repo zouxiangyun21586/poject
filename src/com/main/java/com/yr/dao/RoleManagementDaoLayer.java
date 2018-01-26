@@ -10,7 +10,10 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.yr.pojo.RoleTzh;
+import com.yr.pojo.Account_Role;
+import com.yr.pojo.Paging;
+import com.yr.pojo.Role;
+import com.yr.pojo.Role;
 import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
@@ -19,31 +22,6 @@ import com.yr.util.JsonUtils;
  *
  */
 public class RoleManagementDaoLayer {
-	
-	/*查询角色*/
-	public static String query(){
-		try{
-			String sql = "select * from role;";
-			Connection conn = Conn.conn();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			List<RoleTzh> list = new ArrayList<>();
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				RoleTzh us = new RoleTzh();
-				us.setId(rs.getInt(1));
-				us.setRoleName(rs.getString(2));
-				list.add(us);
-			}
-			rs.close();
-			ps.close();
-			//将java对象List集合转换成json字符串
-			String strjson = JsonUtils.beanListToJson(list);
-			return strjson;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-	}
 	
 	/*删除角色*/
 	public static void delete(String roleId){
@@ -97,96 +75,6 @@ public class RoleManagementDaoLayer {
 		
 	
 	}
-	
-	/*搜索角色*/
-	public static String search(String roleName){
-		try{
-			String sql="select id,roleName from role where roleName like ?";
-			Connection conn = Conn.conn();
-			PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1,"%"+roleName+"%");
-            List<RoleTzh> list = new ArrayList<>();
-            ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				RoleTzh us = new RoleTzh();
-				us.setId(rs.getInt(1));
-				us.setRoleName(rs.getString(2));
-				list.add(us);
-			}
-			rs.close();
-			ps.close();
-			//将java对象List集合转换成json字符串
-			String strjson = JsonUtils.beanListToJson(list);
-			return strjson;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return null;
-		
-	}
-	
-	
-	/*
-	 * 判断模糊搜索角色是否存在或输入的值是否为空
-	 * */
-	public static String fuzzySearch(String roleName){
-		try{
-			if(roleName == null || "".equals(roleName)){
-				return "0";
-			}
-			boolean bol = judge(roleName);//判断要添加的角色是否存在
-			if(bol){//代表角色存在
-				return "2";
-			}else{
-				//代表角色不存在
-				return "1";
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return "-1";
-		
-	}
-	
-	
-	
-	
-	
-	
-	
-	/*
-	 * 判断模糊搜索角色是否存在
-	 *  true 重复, false 不重复
-	 * */
-	public static boolean judge(String roleName){
-		try{
-			Connection conn=LinkMysql.getCon();
-			String sql="select count(id) from role where roleName like ?";
-			PreparedStatement ps=(PreparedStatement)conn.prepareStatement(sql);
-			ps.setString(1,"%"+roleName+"%");
-			ps.executeQuery();
-			ResultSet rs = ps.getResultSet();
-			rs.next();
-			int count=rs.getInt(1);
-			if(count == 0){
-				return false;
-			}
-			rs.close();
-			ps.close();
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		return true;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 判断添加的角色是否重复
 	 * @param name 要判断的角色
@@ -212,8 +100,112 @@ public class RoleManagementDaoLayer {
 		return false;
 	}
 	
+	/**
+	 * 查询数据并用list封装起来
+	 * @param pageNow 当前页
+	 * @param sel 判断是否用了查询功能
+	 * @return 返回所查询的数据
+	 */
+	public static List<Role> selectemp(Integer pageNow, String sel) {
+ 		String sql = "";
+		List<Role> list = new ArrayList<>();
+		if (pageNow < 1) {
+			pageNow = 1;
+		}
+		pageNow = (pageNow - 1) * 10;
+		try {
+			Connection conn = Conn.conn();
+			if (null != sel && !"".equals(sel)) {//使用搜索功能进入这个if判断
+				sql = "SELECT id,roleName from role where roleName like ? limit ?,?";
+				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+				prepar.setString(1,"%"+sel+"%");
+				prepar.setInt(2, pageNow);
+				prepar.setInt(3, Paging.getPageNumber());
+				ResultSet resu = prepar.executeQuery();
+				while (resu.next()) {
+					Role us = new Role();
+					us.setId(resu.getInt(1));
+					us.setName(resu.getString(2));
+					list.add(us);
+				}
+				resu.close();
+				prepar.close();
+				return list;
+			} else {
+				sql = "SELECT * from role  limit ?,?";
+				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
+				prepar.setInt(1, pageNow);
+				prepar.setInt(2, Paging.getPageNumber());
+				ResultSet resu = prepar.executeQuery();
+				while (resu.next()) {
+					Role us = new Role();
+					us.setId(resu.getInt(1));
+					us.setName(resu.getString(2));
+					list.add(us);
+				}
+				resu.close();
+				prepar.close();
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 获得总页数
+	 * 
+	 * @return 返回总页数
+	 */
+	public static Integer getPageCount() {
+		int total = 0;// 总共多少条记录
+		int pageCount = 0;// 总页数
+		try {
+			Connection conn = Conn.conn();
+			String sql = "select count(*) from role";
+			PreparedStatement prepar = conn.prepareStatement(sql);
+			prepar.executeQuery();
+			ResultSet resu = prepar.getResultSet();
+			while (resu.next()) {
+				total = resu.getInt(1);
+			}
+			resu.close();
+			prepar.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (total % Paging.getPageNumber() == 0) {
+			pageCount = total / Paging.getPageNumber();
+		} else {
+			pageCount = total / Paging.getPageNumber() + 1;
+		}
+		return pageCount;
+	}
 	
-	
-	
+	/**
+	 * 根据角色id查出对应的角色名字
+	 * @param strId 角色id
+	 * @return 查出来的角色名字
+	 */
+	public static String quRoleNameId(String strId){
+		try{
+			Integer i = Integer.valueOf(strId);
+			String sql = "select roleName from role where id=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre=  conn.prepareStatement(sql);
+			pre.setInt(1, i);
+			ResultSet rs=pre.executeQuery();
+			String name = null;
+			while(rs.next()){
+				name = rs.getString(1);
+				System.out.println(name);
+			}
+			pre.close();
+			return name;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }
