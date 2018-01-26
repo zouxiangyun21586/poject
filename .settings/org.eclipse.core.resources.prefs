@@ -1,7 +1,7 @@
-
 eclipse.preferences.version=1
 encoding//WebContent/main.jsp=UTF-8
 encoding//src/com/main/java/com/yr/dao/AuditSellerDao.java=UTF-8
+encoding//src/com/main/java/com/yr/dao/AuditSupplieDao.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/AuthImageServlet.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/LinkMysql.java=UTF-8
 encoding//src/com/main/java/com/yr/dao/PowerDao.java=UTF-8
