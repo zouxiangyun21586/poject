@@ -90,7 +90,6 @@ public class SellerDao {
     /**
      * 删除保存的商品信息
      * @param id            卖家商品表ID
-     * @param sellers_id    对应账户ID
      * @param wares_id      商品ID
      * @param time          上架时间
      * @param downtime      下架时间
@@ -98,23 +97,21 @@ public class SellerDao {
      * void
      * 2018年1月24日下午8:23:44
      */
-    public static void delGoods(Integer id,Integer sellers_id,Integer wares_id,String time,String downtime,String date){
+    public static void delGoods(Integer id,Integer wares_id,String time,String downtime,String date){
         Connection conn = LinkMysql.getCon();
         try {
-            String sql = "insert into recovery_seller(rs_id,seller_id,wares_id,audits,`time`,downtime,deleteTime) values(?,?,?,?,?,?,?);";
+            String sql = "insert into recovery_seller(rs_id,wares_id,`time`,downtime,deleteTime) values(?,?,?,?,?);";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1, id);
-            ps.setInt(NUB_2, sellers_id);
-            ps.setInt(NUB_3, wares_id);
-            ps.setInt(NUB_4, NUB_0);
+            ps.setInt(NUB_2, wares_id);
             if("".equals(time)){
-                ps.setString(NUB_5, null);
-                ps.setString(NUB_6, null);
+                ps.setString(NUB_3, null);
+                ps.setString(NUB_4, null);
             }else {
-                ps.setString(NUB_5, time);
-                ps.setString(NUB_6, downtime);
+                ps.setString(NUB_3, time);
+                ps.setString(NUB_4, downtime);
             }
-            ps.setString(NUB_7, date);
+            ps.setString(NUB_5, date);
             ps.executeUpdate();
             ps.close();
             String sql1 = "delete from seller where id = ? and wares_id =?;";
@@ -146,10 +143,10 @@ public class SellerDao {
             ps1.setInt(NUB_3, wares_id);
             ps1.executeUpdate();
             ps1.close();
-            String sql = "update seller set audits = ? where id = ?;";
+            String sql = "update mechandise set merStatus = ? where id = ?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1, NUB_0);
-            ps.setInt(NUB_2, id);
+            ps.setInt(NUB_2, wares_id);
             ps.executeUpdate();
             ps.close();
         }catch(Exception e){
@@ -171,13 +168,18 @@ public class SellerDao {
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try {
-            String sql = "update seller set downtime=?,audits=? where id=?;";
+            String sql = "update seller set downtime=? where id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setString(NUB_1, date);
-            ps.setInt(NUB_2, NUB_0);
-            ps.setInt(NUB_3, id);
+            ps.setInt(NUB_2, id);
             ps.executeUpdate();
             ps.close();
+            String sql3 = "update merchandise set merStatus = ? where id = ?;";
+            PreparedStatement ps3 = (PreparedStatement) conn.prepareStatement(sql3);
+            ps3.setInt(NUB_1, NUB_0);
+            ps3.setInt(NUB_2, wares_id);
+            ps3.executeUpdate();
+            ps3.close();
             String sql2 = "delete from `release` where account_id = ? and wares_id = ?;";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
             ps2.setInt(NUB_1, seller_id);
@@ -213,10 +215,10 @@ public class SellerDao {
     public static void upGoods(Integer id,Integer account_id,Integer wares_id,String date){
         Connection conn = LinkMysql.getCon();
         try{
-            String sql = "update seller set audits = ? where id = ?;";
+            String sql = "update merchandise set merStatus = ? where id = ?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1, NUB_1);
-            ps.setInt(NUB_2, id);
+            ps.setInt(NUB_2, wares_id);
             ps.executeUpdate();
             ps.close();
             String sql2 = "insert into auditSeller(release_id,account_id,merchandise_id,addTime) values(?,?,?,?);";
@@ -338,7 +340,7 @@ public class SellerDao {
             rs1.close();
             ps1.close();
             /** 添加商品表数据 */
-            String sql2 = "insert into merchandise(nameTypeID,`name`,money,`describe`,specificationID,number,upFrameTime,account_id) values(?,?,?,?,?,?,?,?);";
+            String sql2 = "insert into merchandise(nameTypeID,`name`,money,`describe`,specificationID,number,upFrameTime,account_id,merStatus) values(?,?,?,?,?,?,?,?,?);";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
             ps2.setInt(NUB_1, select);
             ps2.setString(NUB_2, name);
@@ -348,6 +350,7 @@ public class SellerDao {
             ps2.setInt(NUB_6, number);
             ps2.setString(NUB_7, date);
             ps2.setInt(NUB_8, seller_id);
+            ps2.setInt(NUB_9, NUB_0);
             ps2.executeUpdate();
             ps2.close();
             /** 查询商品ID */
@@ -363,13 +366,11 @@ public class SellerDao {
             rs3.close();
             ps3.close();
             /** 添加发布表数据 */
-            String sql4 = "insert into seller(seller_id,wares_id,time,downtime,audits) values(?,?,?,?,?);";
+            String sql4 = "insert into seller(wares_id,time,downtime) values(?,?,?);";
             PreparedStatement ps4 = (PreparedStatement) conn.prepareStatement(sql4);
-            ps4.setInt(NUB_1, seller_id);
-            ps4.setInt(NUB_2, m_id);
+            ps4.setInt(NUB_1, m_id);
+            ps4.setString(NUB_2, null);
             ps4.setString(NUB_3, null);
-            ps4.setString(NUB_4, null);
-            ps4.setInt(NUB_5, NUB_0);
             ps4.executeUpdate();
             ps4.close();
         }catch(Exception e){
@@ -408,7 +409,7 @@ public class SellerDao {
                 
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
-                sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ";
+                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ";
                 if (null != abc && !"".equals(abc)) {
                     sql = sql + " and m.`name` like ?";
                     paramIndex.add(0);
@@ -455,7 +456,7 @@ public class SellerDao {
                 return list;
             } else {// 查询所有数据
                 number = null;
-                sql = "select rs.id,rs.seller_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,rs.audits from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
+                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(NUB_1, pageNow);
                 pre.setInt(NUB_2, Paging.getPageNumber());

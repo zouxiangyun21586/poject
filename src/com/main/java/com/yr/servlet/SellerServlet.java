@@ -27,26 +27,6 @@ import net.sf.json.JSONObject;
 @WebServlet(urlPatterns = "/sellerServlet")
 public class SellerServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-//    private static final int NUB_1 = 1;
-//    private static final int NUB_2 = 2;
-//    private static final int NUB_3 = 3;
-//    private static final int NUB_4 = 4;
-//    private static final int NUB_5 = 5;
-//    private static final int NUB_6 = 6;
-//    private static final int NUB_7 = 7;
-//    private static final int NUB_8 = 8;
-//    private static final int NUB_9 = 9;
-//    private static final int NUB_10 = 10;
-//    private static final int NUB_11 = 11;
-//    private static final int NUB_12 = 12;
-//    private static final int NUB_13 = 13;
-//    private static final int NUB_14 = 14;
-//    private static final int NUB_15 = 15;
-//    private static final int NUB_16 = 16;
-//    private static final int NUB_17 = 17;
-//    private static final int NUB_18 = 18;
-//    private static final int NUB_19 = 19;
-
 
     /**
      * 卖家表
@@ -68,7 +48,6 @@ public class SellerServlet extends HttpServlet {
         int seller_id = (int)request.getSession().getAttribute("userID");
         String o = request.getParameter("o");
         String i = request.getParameter("i");
-//        Connection conn = LinkMysql.getCon();
         try {
             if ("1".equals(i)) { // 查看或修改商品详细信息
                 int id = Integer.valueOf(request.getParameter("id"));
@@ -82,12 +61,11 @@ public class SellerServlet extends HttpServlet {
                 }
             } else if ("2".equals(i)) { // 删除保存的商品信息
                 int id = Integer.valueOf(request.getParameter("id"));
-                int sellers_id = Integer.valueOf(request.getParameter("seller_id"));
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 String time = String.valueOf(request.getParameter("time"));
                 String downtime = String.valueOf(request.getParameter("downtime"));
                 String date = (String)ConnectTime.getWebsiteDatetime();
-                SellerDao.delGoods(id, sellers_id, wares_id, time, downtime, date);
+                SellerDao.delGoods(id, wares_id, time, downtime, date);
                 response.getWriter().write("0");
             } else if ("3".equals(i)) { // 撤销正在审核的商品
                 int id = Integer.valueOf(request.getParameter("id"));
@@ -160,17 +138,7 @@ public class SellerServlet extends HttpServlet {
                 SellerDao.upGoods(id, account_id, wares_id, date);
                 response.getWriter().write("0");
             } else if ("8".equals(i)) {//卖家上架,审核成功
-//                int id = Integer.valueOf(request.getParameter("id"));
-//                System.out.println(ConnectTime.getWebsiteDatetime());
-//                String date = ConnectTime.getWebsiteDatetime();
-//                String sql = "update release_seller set time=?,audits=? where id =?;";
-//                PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-//                ps.setString(NUB_1, date);
-//                ps.setInt(NUB_2, NUB_2);
-//                ps.setInt(NUB_3, id);
-//                ps.executeUpdate();
-//                ps.close();
-//                response.getWriter().write("0");
+                
             } else if ("9".equals(i)) {
                 
             } else {

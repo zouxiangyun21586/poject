@@ -113,7 +113,7 @@ public class AuditSellerDao {
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try{
-            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.`name`,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditseller ads,account a where a.id=ads.account_id and a.id=rs.seller_id and ads.release_id=rs.id and ads.merchandise_id=rs.wares_id and ads.account_id=rs.seller_id and rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ads.id=?;";
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.`name`,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditseller ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.wares_id and ads.account_id=m.account_id and rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ads.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,auditID);
             ResultSet rs = ps.executeQuery();
@@ -151,18 +151,18 @@ public class AuditSellerDao {
     
     /**
      * 禁止上架
-     * @param id        卖家商品表ID
+     * @param wares_id        商品ID
      * @param auditID   审核表ID
      * void
      * 2018年1月24日下午8:16:42
      */
-    public static void NoneAudit(Integer id,Integer auditID){
+    public static void NoneAudit(Integer wares_id,Integer auditID){
         Connection conn = LinkMysql.getCon();
         try{
-            String sql = "update seller rs set rs.audits=? where id=?;";
+            String sql = "update merchandise m set m.merStatus = ? where id = ?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,NUB_0);
-            ps.setInt(NUB_2,id);
+            ps.setInt(NUB_2,wares_id);
             ps.executeUpdate();
             ps.close();
             String sql1 = "delete from auditSeller where id = ?;";
@@ -196,13 +196,18 @@ public class AuditSellerDao {
             ps2.setString(NUB_3, date);
             ps2.executeUpdate();
             ps2.close();
-            String sql = "update seller rs set rs.audits=?,rs.time=? where id=?;";
+            String sql = "update seller rs set rs.time=? where id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.setInt(NUB_1,NUB_2);
-            ps.setString(NUB_2,date);
-            ps.setInt(NUB_3,id);
+            ps.setString(NUB_1,date);
+            ps.setInt(NUB_2,id);
             ps.executeUpdate();
             ps.close();
+            String sql3 = "update merchandise set merStatus = ? where id = ?;";
+            PreparedStatement ps3 = (PreparedStatement) conn.prepareStatement(sql3);
+            ps3.setInt(NUB_1, NUB_2);
+            ps3.setInt(NUB_2, wares_id);
+            ps3.executeUpdate();
+            ps3.close();
             String sql1 = "delete from auditSeller where id = ?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
             ps1.setInt(NUB_1,auditID);
@@ -234,7 +239,7 @@ public class AuditSellerDao {
         try {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
-                String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and rs.seller_id=ads.account_id and rs.seller_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and m.`name` like ?";
+                String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and m.`name` like ?";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 ResultSet rs1 = pre1.executeQuery();
@@ -245,7 +250,7 @@ public class AuditSellerDao {
                 pre1.close();
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
-                sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.name,mt.type,m.name,rs.audits,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and rs.seller_id=ads.account_id and rs.seller_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ";
+                sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.`name`,mt.type,m.`name`,m.merStatus,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ";
                 if (null != abc && !"".equals(abc)) {
                     sql = sql + " and m.`name` like ?";
                     paramIndex.add(0);
@@ -288,7 +293,7 @@ public class AuditSellerDao {
                 return list;
             } else {// 查询所有数据
                 number = null;
-                sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.name,mt.type,m.name,rs.audits,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and rs.seller_id=ads.account_id and rs.seller_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ORDER BY ads.id asc limit ?,?;";
+                sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.`name`,mt.type,m.`name`,m.merStatus,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ORDER BY ads.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(NUB_1, pageNow);
                 pre.setInt(NUB_2, Paging.getPageNumber());
