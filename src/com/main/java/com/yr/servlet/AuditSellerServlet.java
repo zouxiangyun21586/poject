@@ -79,8 +79,7 @@ public class AuditSellerServlet extends HttpServlet {
                 nameType = new String(nameType.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 String name = request.getParameter("name");
                 name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String money = request.getParameter("money");
-                money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+                Integer money = Integer.valueOf(request.getParameter("money"));
                 String desc = request.getParameter("desc");
                 desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 int number = Integer.valueOf(request.getParameter("number"));
