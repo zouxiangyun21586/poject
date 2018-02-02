@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.RoleManagementDaoLayer;
-import com.yr.dao.SuperAdminDao;
-import com.yr.pojo.Account_Role;
 import com.yr.pojo.Role;
 import com.yr.util.PageService;
 
@@ -50,7 +48,7 @@ public class RoleManagementServletLayer extends HttpServlet{
 				}
 				List<Role> list = RoleManagementDaoLayer.selectemp(Integer.valueOf(pageNow),select);
 				//获得总页数
-				int pageCount=RoleManagementDaoLayer.getPageCount();
+				int pageCount=RoleManagementDaoLayer.getPageCount(select);
 				String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
 				Map<String, Object> map = new HashMap<>();
 				map.put("list", list);

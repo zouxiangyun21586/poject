@@ -42,9 +42,9 @@ function add(a){
 			if(date=="good"){
 				alert('添加成功！');
 			}else if(date=="0"){
-				alert('你输入的值为空!');
+				alert('你输入的职位为空!');
 			}else if(date=="1"){
-				alert('你输入的值已存在!');
+				alert('你输入的职位已存在!');
 			}else{
 				alert('数据库出错!');
 			}
