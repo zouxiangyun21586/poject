@@ -4,9 +4,16 @@ public class Account_Role {
 	private Integer id;//用户表id
 	private String userName;//用户名字
 	private String roleName;//用户角色
+	private String youxiang;//邮箱
 	private Integer state;//状态  改变前
 	private String stateStr;//状态  改变后
 	
+	public String getYouxiang() {
+		return youxiang;
+	}
+	public void setYouxiang(String youxiang) {
+		this.youxiang = youxiang;
+	}
 	public Integer getState() {
 		return state;
 	}
