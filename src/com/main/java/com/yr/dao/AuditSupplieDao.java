@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yr.pojo.Paging;
-import com.yr.pojo.Seller;
 import com.yr.pojo.Supplie;
 import com.yr.util.Conn;
 import com.yr.util.ConnectTime;
@@ -41,7 +40,67 @@ public class AuditSupplieDao {
 
     private static Integer num = null;
     
-    
+    /**
+     * 审核供应商修改
+     * @param merId             商品ID
+     * @param speId             规格ID
+     * @param typeName          商品类型
+     * @param commo             商品名称
+     * @param money             商品价格
+     * @param describe          商品描述
+     * @param number            商品数量
+     * @param origin            商品产地
+     * @param netContent        商品净含量    
+     * @param packingMethod     包装方式
+     * @param brand             品牌
+     * @param month_tableId     保质期ID
+     * @param storageMethod     储存方法
+     * void
+     * 2018年1月26日下午7:27:04
+     */
+    public static void updateAudit(Integer merId,Integer speId,String typeName,String commo,Integer money,String describe,Integer number,String origin,String netContent,String packingMethod,String brand,Integer month_tableId,String storageMethod){
+        Connection conn = Conn.conn();
+        try{
+         // 获取修改后的 商品类型ID
+            String sql = "select id from merchandise_type where type=?;";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setString(NUB_1, typeName);
+            ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
+            int newNTID = 0;
+            while (rs.next()) {
+                newNTID = rs.getInt(NUB_1);
+            }
+            rs.close();
+            ps.close();
+            // 根据规格ID修改 规格数据
+            String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
+            PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
+            ps1.setString(NUB_1, origin);
+            ps1.setString(NUB_2, netContent);
+            ps1.setString(NUB_3, packingMethod);
+            ps1.setString(NUB_4, brand);
+            ps1.setInt(NUB_5, month_tableId);
+            ps1.setString(NUB_6, storageMethod);
+            ps1.setInt(NUB_7, speId);
+            ps1.executeUpdate();
+            ps1.close();
+            // 根据商品ID修改 商品数据
+            String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
+            PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
+            ps2.setInt(NUB_1, newNTID);
+            ps2.setString(NUB_2, commo);
+            ps2.setInt(NUB_3, money);
+            ps2.setString(NUB_4, describe);
+            ps2.setInt(NUB_5, speId);
+            ps2.setInt(NUB_6, number);
+            ps2.setInt(NUB_7, merId);
+            ps2.executeUpdate();
+            ps2.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
     
     /**
      * 查询供应商审核商品
@@ -74,7 +133,7 @@ public class AuditSupplieDao {
                 goods.setPackingMethod(rs.getString(NUB_12));
                 goods.setBrand(rs.getString(NUB_13));
                 goods.setMonth_tableId(rs.getInt(NUB_14));
-                goods.setMonth(rs.getString(NUB_15));
+                goods.setMonths(rs.getString(NUB_15));
                 goods.setStorageMethod(rs.getString(NUB_16));
                 goods.setMoney(Integer.valueOf(rs.getString(NUB_17)));
                 goods.setNumber(rs.getInt(NUB_18));
@@ -118,11 +177,12 @@ public class AuditSupplieDao {
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
                 sql = "select sup.id,asp.id,act.id,m.id,act.`name`,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
-                sql = sql + " and m.`name` like ?";
-                paramIndex.add(NUB_0);
-                param.add(sel);
-                
-                sql = sql + " limit ?,?";
+                if (null != sel && !"".equals(sel)) {
+                    sql = sql + " and m.`name` like ?";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
+                }
+                sql = sql + " order by asp.id limit ?,?";
                 paramIndex.add(NUB_1);
                 paramIndex.add(NUB_1);
                 

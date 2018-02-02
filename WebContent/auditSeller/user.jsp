@@ -31,7 +31,7 @@
                             <td align="center" style="width:150px;"> 商品类型</td>
                             <td align="center" style="width:150px;"> 商品名称</td>
                             <td align="center" style="width:150px;"> 审核状态</td>
-                            <td align="center" style="width:280px;"> 添加时间</td>
+                            <td align="center" style="width:280px;"> 申请时间</td>
                             <td align="center" style="width:280px;"> 基本操作</td>
                         </tr>
                     </thead>

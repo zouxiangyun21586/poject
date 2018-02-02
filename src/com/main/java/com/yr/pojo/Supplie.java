@@ -21,6 +21,7 @@ public class Supplie {
     private String commo; // 商品名
     private int money; // 价格
     private String Month; // 保质期
+    private String months; // 保质期
     private String describe; // 描述
     private String auditTime; // 申请上架时间
     private String upFrameTime; // 上架时间
@@ -34,6 +35,12 @@ public class Supplie {
     private String account; // 账户名
     private String releaseTime; // 发表时间
     
+    public String getMonths() {
+        return months;
+    }
+    public void setMonths(String months) {
+        this.months = months;
+    }
     public String getAccount() {
 		return account;
 	}

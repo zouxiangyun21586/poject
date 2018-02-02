@@ -36,6 +36,7 @@ public class RoleManagementServletLayer extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=utf-8");
 		String roleNum=req.getParameter("role");
+		System.out.println(11111);
 		if("1".equals(roleNum)){//查询所有角色和搜索角色
 			//页面显示值
 			PrintWriter out = resp.getWriter();
