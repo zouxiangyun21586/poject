@@ -54,15 +54,18 @@ public class SupplieServlet extends HttpServlet {
             String type= req.getParameter("type");
             String select= req.getParameter("select");//搜索功能中输入框的值(账号)
             select = new String(select.getBytes("ISO-8859-1"),"UTF-8"); // 转码
-            String interest= req.getParameter("interest");//搜索功能中下拉框的值(角色)
             String pageNow = req.getParameter("pageNow");//获得页面传过来的当前页
             if (null != type && type.equals("list")) {
                 String sel = req.getParameter("select");
                 if (null == pageNow || "".equals(pageNow)) {
                     pageNow = "1";
                 }
-                List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select);
-                int pageCount=SupplieDao.getPageCount();//获得总页数
+                if (null != select && !"".equals(select)){
+                	pageNow = "1";
+                	
+                }
+                List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select,sel);
+                int pageCount = SupplieDao.getPageCount();//获得总页数
                 String pageCode = new SuppliePage().getPageCode(Integer.parseInt(pageNow), pageCount);
                 Map<String, Object> map = new HashMap<>();
                 map.put("list", list);
@@ -119,7 +122,6 @@ public class SupplieServlet extends HttpServlet {
                 String release_supplierId = req.getParameter("release_supplierId");
                 String merId = req.getParameter("merId");
                 int account_id = (int)req.getSession().getAttribute("userID"); // 获取
-                System.out.println(merId+"   ---  "+account_id);
                 SupplieDao.cencel(Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(merId));
                 SupplieDao.selc();
             } catch (SQLException e) {
@@ -175,7 +177,6 @@ public class SupplieServlet extends HttpServlet {
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
             	int reles_id = Integer.valueOf(req.getParameter("reles_id"));
             	int account_id = (int)req.getSession().getAttribute("userID");
-            	System.out.println(sup_id+"   ----- "+reles_id+" -=-=-=-= "+account_id+"   ====");
             	/**
             	 * 获取网络时间
             	 */

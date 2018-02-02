@@ -77,8 +77,8 @@ public class AuditSupplieServlet extends HttpServlet {
             }
         }else if("1".equalsIgnoreCase(i)){
             String o = request.getParameter("o");
-            int auditID = Integer.valueOf(request.getParameter("auditID"));
-            List<Supplie> list = AuditSupplieDao.queryAudit(auditID);
+            int auditId = Integer.valueOf(request.getParameter("auditId"));
+            List<Supplie> list = AuditSupplieDao.queryAudit(auditId);
             request.setAttribute("list",list);
             if("1".equalsIgnoreCase(o)){// 修改查看
                 request.getRequestDispatcher("auditSupplie/update.jsp").forward(request,response);
@@ -114,6 +114,7 @@ public class AuditSupplieServlet extends HttpServlet {
             AuditSupplieDao.NoneAudit(merId, auditId);
             response.getWriter().write("0");
         }else if("3".equalsIgnoreCase(i)){// 修改商品信息
+            System.out.println("进入后台");
             int merId = Integer.valueOf(request.getParameter("merId"));
             int speId = Integer.valueOf(request.getParameter("speId"));
             String typeName = request.getParameter("typeName");
