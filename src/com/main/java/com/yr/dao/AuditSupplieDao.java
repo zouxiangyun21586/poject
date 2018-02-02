@@ -41,6 +41,67 @@ public class AuditSupplieDao {
     private static Integer num = null;
     
     /**
+     * 允许上架
+     * @param suptId        供应商表ID
+     * @param auditId       审核表ID
+     * @param account_id    账户ID
+     * @param merId         商品ID
+     * void
+     * 2018年2月2日上午9:07:07
+     */
+    public static void passAudit(Integer suptId, Integer auditId, Integer account_id, Integer merId, String date){
+        Connection conn = Conn.conn();
+        try{
+            String sql2 = "insert into `release`(account_id,wares_id,time) values(?,?,?);";
+            PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
+            ps2.setInt(NUB_1, account_id);
+            ps2.setInt(NUB_2, merId);
+            ps2.setString(NUB_3, date);
+            ps2.executeUpdate();
+            ps2.close();
+            String sql3 = "update merchandise set merStatus = ? where id = ?;";
+            PreparedStatement ps3 = (PreparedStatement) conn.prepareStatement(sql3);
+            ps3.setInt(NUB_1, NUB_2);
+            ps3.setInt(NUB_2, merId);
+            ps3.executeUpdate();
+            ps3.close();
+            String sql1 = "delete from auditsupplier where id = ?;";
+            PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
+            ps1.setInt(NUB_1,auditId);
+            ps1.executeUpdate();
+            ps1.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    /**
+     * 禁止上架
+     * @param merId             商品ID
+     * @param auditId           供应商审核表ID
+     * void
+     * 2018年2月2日上午8:58:37
+     */
+    public static void NoneAudit(Integer merId, Integer auditId){
+        Connection conn = Conn.conn();
+        try{
+            String sql = "update merchandise m set m.merStatus = ? where id = ?;";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setInt(NUB_1,NUB_0);
+            ps.setInt(NUB_2,merId);
+            ps.executeUpdate();
+            ps.close();
+            String sql1 = "delete from auditsupplier where id = ?;";
+            PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
+            ps1.setInt(NUB_1,auditId);
+            ps1.executeUpdate();
+            ps1.close();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    /**
      * 审核供应商修改
      * @param merId             商品ID
      * @param speId             规格ID

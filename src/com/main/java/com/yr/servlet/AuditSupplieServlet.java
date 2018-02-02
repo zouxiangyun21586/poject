@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.AuditSupplieDao;
 import com.yr.pojo.Supplie;
+import com.yr.util.ConnectTime;
 import com.yr.util.PageService;
 
 import net.sf.json.JSONObject;
@@ -89,10 +90,54 @@ public class AuditSupplieServlet extends HttpServlet {
 	}
 
 	/**
+	 * i=1 为允许上架
+	 * i=2 为禁止上架
+	 * i=3为修改数据
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	    response.setContentType("text/json");
+        response.setCharacterEncoding("utf-8");
+        
+        String i = request.getParameter("i");
+        if("1".equalsIgnoreCase(i)){// 允许上架
+            int suptId = Integer.valueOf(request.getParameter("suptId"));
+            int auditId = Integer.valueOf(request.getParameter("auditId"));
+            int account_id = Integer.valueOf(request.getParameter("account_id"));
+            int merId = Integer.valueOf(request.getParameter("merId"));
+            String date = ConnectTime.getWebsiteDatetime();
+            AuditSupplieDao.passAudit(suptId, auditId, account_id, merId, date);
+            response.getWriter().write("0");
+        }else if("2".equalsIgnoreCase(i)){// 禁止上架
+            int merId = Integer.valueOf(request.getParameter("merId"));
+            int auditId = Integer.valueOf(request.getParameter("auditId"));
+            AuditSupplieDao.NoneAudit(merId, auditId);
+            response.getWriter().write("0");
+        }else if("3".equalsIgnoreCase(i)){// 修改商品信息
+            int merId = Integer.valueOf(request.getParameter("merId"));
+            int speId = Integer.valueOf(request.getParameter("speId"));
+            String typeName = request.getParameter("typeName");
+            typeName = new String(typeName.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            String commo = request.getParameter("commo");
+            commo = new String(commo.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            Integer money = Integer.valueOf(request.getParameter("money"));
+            String desc = request.getParameter("desc");
+            desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            int number = Integer.valueOf(request.getParameter("number"));
+            String origin = request.getParameter("origin");
+            origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            String netContent = request.getParameter("netContent");
+            netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            String packingMethod = request.getParameter("packingMethod");
+            packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            String brand = request.getParameter("brand");
+            brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            int mt_id = Integer.valueOf(request.getParameter("mt_id"));
+            String storageMethod = request.getParameter("storageMethod");
+            storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            AuditSupplieDao.updateAudit(merId, speId, typeName, commo, money, desc, number, origin, netContent, packingMethod, brand, mt_id, storageMethod);
+            response.getWriter().write("0");
+        }
 	}
 
 }
