@@ -65,7 +65,7 @@ public class SupplieServlet extends HttpServlet {
                 	
                 }
                 List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select,sel);
-                int pageCount = SupplieDao.getPageCount();//获得总页数
+                int pageCount = SupplieDao.getPageCount(select);//获得总页数
                 String pageCode = new SuppliePage().getPageCode(Integer.parseInt(pageNow), pageCount);
                 Map<String, Object> map = new HashMap<>();
                 map.put("list", list);
@@ -157,7 +157,6 @@ public class SupplieServlet extends HttpServlet {
             try {
             	resp.setContentType("application/json; charset=utf-8");
                 String release_id = req.getParameter("release_id");
-                System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = (String)ConnectTime.getWebsiteDatetime();
                 String so = SupplieDao.xiajia(date,release_id);
             } catch (SQLException e) {

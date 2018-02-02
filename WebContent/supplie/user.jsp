@@ -41,7 +41,7 @@
                              				"</td><td style='display:none;'>"+list[i].release_supplierId+
                                             "</td><td style='display:none;'>"+list[i].account_id+
                                             "</td><td style='display:none;'>"+list[i].merId+
-                                            "</td><td style='display:none;'>"+list[i].account+
+                                            "</td><td>"+list[i].account+
                                             "</td><td>"+list[i].commo+
                                             "</td><td>"+list[i].money+
                                             "</td><td>"+list[i].number+
@@ -61,7 +61,7 @@
 				             				"</td><td style='display:none;'>"+list[i].release_supplierId+
 				                            "</td><td style='display:none;'>"+list[i].account_id+
 				                            "</td><td style='display:none;'>"+list[i].merId+
-				                            "</td><td style='display:none;'>"+list[i].account+
+				                            "</td><td>"+list[i].account+
 				                            "</td><td>"+list[i].commo+
 				                            "</td><td>"+list[i].money+
 				                            "</td><td>"+list[i].number+
@@ -81,7 +81,7 @@
 				              				"</td><td style='display:none;'>"+list[i].release_supplierId+
 				                            "</td><td style='display:none;'>"+list[i].account_id+
 				                            "</td><td style='display:none;'>"+list[i].merId+
-				                            "</td><td style='display:none;'>"+list[i].account+
+				                            "</td><td>"+list[i].account+
 				                            "</td><td>"+list[i].commo+
 				                            "</td><td>"+list[i].money+
 				                            "</td><td>"+list[i].number+
@@ -134,13 +134,14 @@
                type:"get",
                cache:false,
                async:true,
+               dataType:"text",
                data:{"merId":mer_id,"account_id":account_id,"release_supplierId":release_id},
                success:function(result){
                    tr.html("<tr id='zui'><td>"+suptId+
              				"</td><td style='display:none;'>"+release_id+
                             "</td><td style='display:none;'>"+account_id+
                             "</td><td style='display:none;'>"+mer_id+
-                            "</td><td style='display:none;'>"+account+
+                            "</td><td>"+account+
                             "</td><td>"+commo+
                             "</td><td>"+money+
                             "</td><td>"+number+
@@ -180,7 +181,7 @@
             var money = tr.find("td").eq(6).text();
             var number = tr.find("td").eq(7).text();
             var netContent = tr.find("td").eq(8).text();
-            var qGp = tr.find("td").eq(9).text();
+            var Month = tr.find("td").eq(9).text();
             var brand = tr.find("td").eq(10).text();
             var origin = tr.find("td").eq(11).text();
             var merType = tr.find("td").eq(12).text();
@@ -197,7 +198,7 @@
                 cache:false,
                 async:true,
                 data:{"release_id":release_id},
-                dataType:"json",
+                dataType:"text",
                 success:function(result){
                     $.each(result,function(index,item){
                         var Downtime = item.upFrameTime;
@@ -205,7 +206,7 @@
          				"</td><td style='display:none;'>"+release_id+
                         "</td><td style='display:none;'>"+account_id+
                         "</td><td style='display:none;'>"+mer_id+
-                        "</td><td style='display:none;'>"+account+
+                        "</td><td>"+account+
                         "</td><td>"+commo+
                         "</td><td>"+money+
                         "</td><td>"+number+
@@ -245,7 +246,7 @@
         var money = tr.find("td").eq(6).text();
         var number = tr.find("td").eq(7).text();
         var netContent = tr.find("td").eq(8).text();
-        var qGp = tr.find("td").eq(9).text();
+        var Month = tr.find("td").eq(9).text();
         var brand = tr.find("td").eq(10).text();
         var origin = tr.find("td").eq(11).text();
         var merType = tr.find("td").eq(12).text();
@@ -261,13 +262,13 @@
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"sup_id":suptId,"acc_id":account_id,"reles_id":mer_id},
-            dataType:"json",
+            dataType:"text",
             success:function(result){
             	tobody_limt +=  "<tr id='zui'><td>"+suptId+
  				"</td><td style='display:none;'>"+release_id+
                 "</td><td style='display:none;'>"+account_id+
                 "</td><td style='display:none;'>"+mer_id+
-                "</td><td style='display:none;'>"+account+
+                "</td><td>"+account+
                 "</td><td>"+commo+
                 "</td><td>"+money+
                 "</td><td>"+number+
@@ -338,7 +339,7 @@
 				<button class="layui-btn layui-btn-normal" style="float:right;margin-left:0px;" id="sel">
 				    <i class="layui-icon">&#xe615;</i> 搜索
 				</button>
-				<input type="text" class="layui-input" placeholder="请输入要查询的商品" style="float:right;width:250px;" id = "select" name="select"/>
+				<input type="text" class="layui-input" placeholder="请输入要查询的供应商账号" style="float:right;width:250px;" id = "select" name="select"/>
 				<div class='layui-form layui-form-pane' style="float:right;">
 					<table id="table" class="layui-table" style="background-color:#ffffff6b;">
 						<thead>
@@ -347,7 +348,7 @@
 							<td style="display: none;">发布ID</td>
 							<td style="display: none;">账户ID</td>
 							<td style="display: none;">商品ID</td>
-							<td style="display: none;">账户名</td>
+							<td>账户名</td>
 							<th>商品名称</th>
 							<th>价格</th>
 							<th>数量</th>
