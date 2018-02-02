@@ -14,7 +14,7 @@
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
-	video#bgvid {
+	/* video#bgvid {
 		position: fixed;
 		right: 0;
 		bottom: 0;
@@ -25,14 +25,14 @@
 		z-index: -100;
 		background: url(polina.jpg) no-repeat;
 		background-size: cover;
-	}
+	} */
 	</style>
-	<!-- <body background="../images/jjs.jpg"> -->
-	<body>
-		<video height="500" id="bgvid" autoplay loop>
+	<body background="../images/jjs.jpg">
+	<!-- <body> -->
+		<!-- <video height="500" id="bgvid" autoplay loop>
 			<source src="../images/big-v17.webm" type="video/webm"/>
 			<source src="../images/big-v17.webm" type="video/mp4" />
-		</video>
+		</video> -->
 		<br/>
 		<div class="layui-container" width="100%" height="100%" align="center">
 	    	<div class="layui-row layui-col-space15">
@@ -106,6 +106,7 @@
 		});
 	});
 	var state="";
+	//页面显示值
 	function getData(){
 		layui.use([ 'layer', 'form' ], function() {
 			var form = layui.form;
