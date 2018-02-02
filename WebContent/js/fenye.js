@@ -55,9 +55,11 @@ function urls() { //拆分取url中?后面的参数各和值,组成对象返回
 			}
 			if (null != pageCode && "" != pageCode) {
 				var pageCodeArr = pageCode.split(",");
-				for (var i in pageCodeArr) {
-					if (pageCodeArr[i] !== "") {
-						pageContent +=  "<a href='user.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'><span class='layui-badge-rim' style='height:27px;width:20px;line-height:28px;background-color:#fff;color:#000;' id='ye"+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</span></a>" ;
+				if(pageCodeArr.length > 2){
+					for (var i in pageCodeArr) {
+						if (pageCodeArr[i] !== "") {
+							pageContent +=  "<a href='user.jsp?"+seachData+"&pageNow="+pageCodeArr[i]+"'><span class='layui-badge-rim' style='height:27px;width:20px;line-height:28px;background-color:#fff;color:#000;' id='ye"+pageCodeArr[i]+"'>"+pageCodeArr[i]+"</span></a>" ;
+						}
 					}
 				}
 			}
