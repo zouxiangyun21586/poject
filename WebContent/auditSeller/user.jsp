@@ -23,11 +23,11 @@
                 <table class="layui-table">
                     <thead>
                         <tr>
-                            <td style="display: none;">保存商品ID</td>
-                            <td style="display: none;">表ID</td>
-                            <td style="display: none;">账户ID</td>
-                            <td style="display: none;">商品ID</td>
-                            <td align="center" style="width:150px;"> 用户名称</td>
+                            <td align="center" style="display: none;">保存商品ID</td>
+                            <td align="center" style="display: none;">表ID</td>
+                            <td align="center" style="display: none;">账户ID</td>
+                            <td align="center" style="width:150px;"> 商品编号</td>
+                            <td align="center" style="width:150px;"> 账户名称</td>
                             <td align="center" style="width:150px;"> 商品类型</td>
                             <td align="center" style="width:150px;"> 商品名称</td>
                             <td align="center" style="width:150px;"> 审核状态</td>
@@ -72,7 +72,7 @@ function Data(){
                      if("1"==list[i].auditStatus){
                          list[i].auditStatus = "等待审核";
                          html += "<tr><td align='center' style='display:none;'>"+list[i].id+"</td>"+
-                         "<td align='center' style='display:none;' id='id"+list[i].auditID+"'>"+list[i].auditID+"</td>"+
+                         "<td align='center' id='id"+list[i].auditID+"'>"+list[i].auditID+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
                          "<td align='center'>"+list[i].auditName+"</td>"+

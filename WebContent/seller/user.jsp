@@ -27,13 +27,13 @@
                 <table class="layui-table">
                     <thead>
                         <tr>
-                            <td style="display: none;">发布ID</td>
-                            <td style="display: none;">卖家ID</td>
-                            <td style="display: none;">商品ID</td>
-                            <td style="display: none;">规格ID</td>
+                            <td align="center" style="width:150px;">编号</td>
+                            <td align="center" style="display: none;">卖家ID</td>
+                            <td align="center" style="display: none;">商品ID</td>
+                            <td align="center" style="display: none;">规格ID</td>
                             <td align="center" style="width:150px;">类型</td>
                             <td align="center" style="width:150px;">名称</td>
-                            <td align="center" style="width:150px;">描述</td>
+                            <td align="center" style="display: none;">描述</td>
                             <td align="center" style="width:110px;">价格</td>
                             <td align="center" style="width:110px;">数量</td>
                             <td align="center" style="width:80px;">添加</td>
@@ -77,13 +77,13 @@ function Data(){
                  $("#t_body").empty();
                  for(var i in list){
                      if("0"==list[i].auditStatus){
-                         html += "<tr><td align='center' style='display:none;' id='id"+list[i].id+"'>"+list[i].id+"</td>"+
+                         html += "<tr><td align='center' id='id"+list[i].id+"'>"+list[i].id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center'>"+list[i].number+"</td>"+
                          "<td align='center'>"+list[i].upFrameTime+"</td>"+
@@ -91,13 +91,13 @@ function Data(){
                          "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update' onclick='update("+list[i].id+")'>修改</a></td></tr>";
                      }else if("1"==list[i].auditStatus){
-                         html += "<tr><td align='center' style='display:none;'>"+list[i].id+"</td>"+
+                         html += "<tr><td align='center'>"+list[i].id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center'>"+list[i].number+"</td>"+
                          "<td align='center'>"+list[i].upFrameTime+"</td>"+
@@ -105,13 +105,13 @@ function Data(){
                          "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td></tr>";
                      }else if("2"==list[i].auditStatus){
-                         html += "<tr><td align='center' style='display:none;'>"+list[i].id+"</td>"+
+                         html += "<tr><td align='center'>"+list[i].id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
-                         "<td align='center'>"+list[i].describe+"</td>"+
+                         "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center'>"+list[i].number+"</td>"+
                          "<td align='center'>"+list[i].upFrameTime+"</td>"+

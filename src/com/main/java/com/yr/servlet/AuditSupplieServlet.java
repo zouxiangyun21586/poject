@@ -24,7 +24,7 @@ import net.sf.json.JSONObject;
  * @作者 林水桥
  * 2018年1月24日下午10:07:39
  */
-@WebServlet("/auditSupplieServlet")
+@WebServlet(urlPatterns = "/auditSupplieServlet")
 public class AuditSupplieServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -98,9 +98,8 @@ public class AuditSupplieServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("text/json");
         response.setCharacterEncoding("utf-8");
-        
         String i = request.getParameter("i");
-        if("1".equalsIgnoreCase(i)){// 允许上架
+        if("1".equals(i)){// 允许上架
             int suptId = Integer.valueOf(request.getParameter("suptId"));
             int auditId = Integer.valueOf(request.getParameter("auditId"));
             int account_id = Integer.valueOf(request.getParameter("account_id"));
@@ -108,13 +107,12 @@ public class AuditSupplieServlet extends HttpServlet {
             String date = ConnectTime.getWebsiteDatetime();
             AuditSupplieDao.passAudit(suptId, auditId, account_id, merId, date);
             response.getWriter().write("0");
-        }else if("2".equalsIgnoreCase(i)){// 禁止上架
+        }else if("2".equals(i)){// 禁止上架
             int merId = Integer.valueOf(request.getParameter("merId"));
             int auditId = Integer.valueOf(request.getParameter("auditId"));
             AuditSupplieDao.NoneAudit(merId, auditId);
             response.getWriter().write("0");
-        }else if("3".equalsIgnoreCase(i)){// 修改商品信息
-            System.out.println("进入后台");
+        }else if("3".equals(i)){// 修改商品信息
             int merId = Integer.valueOf(request.getParameter("merId"));
             int speId = Integer.valueOf(request.getParameter("speId"));
             String typeName = request.getParameter("typeName");
