@@ -17,11 +17,15 @@ import com.yr.pojo.Role;
 import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
+import net.sf.json.JSONObject;
+
 /**
  * @author Administrator
  *
  */
 public class RoleManagementDaoLayer {
+	
+	private static String roleName=null;
 	
 	/*删除角色*/
 	public static void delete(String roleId){
@@ -65,6 +69,7 @@ public class RoleManagementDaoLayer {
             Connection conn = (Connection) LinkMysql.getCon();
             String sql = "update role set roleName = ? where id = ?";
             PreparedStatement ps =conn.prepareStatement(sql);
+            roleName = new String(roleName.getBytes("ISO-8859-1"),"UTF-8");
             ps.setString(1,roleName);
             ps.setString(2,id);
             ps.executeUpdate();
@@ -112,15 +117,16 @@ public class RoleManagementDaoLayer {
 		if (pageNow < 1) {
 			pageNow = 1;
 		}
-		pageNow = (pageNow - 1) * 10;
 		try {
 			Connection conn = Conn.conn();
 			if (null != sel && !"".equals(sel)) {//使用搜索功能进入这个if判断
-				sql = "SELECT id,roleName from role where roleName like ? limit ?,?";
+				pageNow=0;
+				sql = "select * from role where roleName like ? limit ?,?";
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
-				prepar.setString(1,"%"+sel+"%");
-				prepar.setInt(2, pageNow);
-				prepar.setInt(3, Paging.getPageNumber());
+				String roleName=decodeSpecialCharsWhenLikeUseSlash(sel);
+				prepar.setString(1,"%"+roleName+"%");
+				prepar.setInt(2,pageNow);
+				prepar.setInt(3,Paging.getPageNumber());
 				ResultSet resu = prepar.executeQuery();
 				while (resu.next()) {
 					Role us = new Role();
@@ -132,7 +138,8 @@ public class RoleManagementDaoLayer {
 				prepar.close();
 				return list;
 			} else {
-				sql = "SELECT * from role  limit ?,?";
+				pageNow = (pageNow - 1) * 10;
+				sql = "select * from  role  limit ?,?";
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 				prepar.setInt(1, pageNow);
 				prepar.setInt(2, Paging.getPageNumber());
@@ -145,7 +152,7 @@ public class RoleManagementDaoLayer {
 				}
 				resu.close();
 				prepar.close();
-				return list;
+				return list; 
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -157,7 +164,7 @@ public class RoleManagementDaoLayer {
 	 * 
 	 * @return 返回总页数
 	 */
-	public static Integer getPageCount() {
+	public static Integer getPageCount(String roleName) {
 		int total = 0;// 总共多少条记录
 		int pageCount = 0;// 总页数
 		try {
@@ -168,6 +175,16 @@ public class RoleManagementDaoLayer {
 			ResultSet resu = prepar.getResultSet();
 			while (resu.next()) {
 				total = resu.getInt(1);
+			}
+			if(roleName != null && !roleName.equals("")){
+				sql = "select count(*) from role where roleName = ?";
+				PreparedStatement pre = conn.prepareStatement(sql);
+				pre.setString(1, roleName);
+				pre.executeQuery();
+				ResultSet re = pre.getResultSet();
+				while (re.next()) {
+					total = re.getInt(1);
+				}
 			}
 			resu.close();
 			prepar.close();
@@ -207,5 +224,15 @@ public class RoleManagementDaoLayer {
 		}
 		return null;
 	}
+	
+	
+	
+	public static String decodeSpecialCharsWhenLikeUseSlash(String content) {
+        String afterDecode = content.replaceAll("'", "''");
+        afterDecode = afterDecode.replaceAll("\\\\", "\\\\\\\\");
+        afterDecode = afterDecode.replaceAll("%", "\\\\%");
+        afterDecode = afterDecode.replaceAll("_", "\\\\_");
+        return afterDecode;
+    }
 
 }
