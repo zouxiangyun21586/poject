@@ -49,7 +49,7 @@
                              "<td align='center'><a href='#' onclick='query("+list[i].auditId+")'>"+list[i].commo+"</a></td>"+
                              "<td align='center'>"+list[i].auditStatus+"</td>"+
                              "<td align='center'>"+list[i].auditTime+"</td>"+
-                             "<td align='center'><a href='#' onclick='pass(this)'>允许</a>| <a href='#' onclick='del(this)'>禁止</a>| <a href='#' id='update' onclick='update("+list[i].auditID+")'>修改</a></td></tr>";
+                             "<td align='center'><a href='#' onclick='pass(this)'>允许</a>| <a href='#' onclick='del(this)'>禁止</a>| <a href='#' id='update' onclick='update("+list[i].auditId+")'>修改</a></td></tr>";
                          }
                      }
                      $("#t_body").append(html);
@@ -69,7 +69,7 @@
             resize : false,
             scrollbar : true,
             //页面路径
-            content : '../auditSupplieServlet?i=1&&o=1&&auditID='+d,
+            content : '../auditSupplieServlet?i=1&&o=1&&auditId='+d,
             area : [ '400px', '505px' ],//宽高
             shadeClose : true
         });
@@ -84,7 +84,7 @@
             resize : true,
             scrollbar : true,
             //页面路径
-            content : '../auditSupplieServlet?i=1&&o=2&&auditID='+obj,
+            content : '../auditSupplieServlet?i=1&&o=2&&auditId='+obj,
             area : [ '400px', '505px' ],//宽高
             shadeClose : true
         });
