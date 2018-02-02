@@ -8,7 +8,7 @@
 	<script src="../js/fenye.js"></script>
 	<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Insert title here</title>
+	<title>供应商审核</title>
 </head>
 <script type="text/javascript">
 /* 页面加载完出现 */
