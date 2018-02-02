@@ -121,6 +121,7 @@ public class SupplieServlet extends HttpServlet {
                 int account_id = (int)req.getSession().getAttribute("userID"); // 获取
                 System.out.println(merId+"   ---  "+account_id);
                 SupplieDao.cencel(Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(merId));
+                SupplieDao.selc();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -157,7 +158,6 @@ public class SupplieServlet extends HttpServlet {
                 System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = (String)ConnectTime.getWebsiteDatetime();
                 String so = SupplieDao.xiajia(date,release_id);
-                resp.getWriter().write(so);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

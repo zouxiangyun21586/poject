@@ -13,10 +13,7 @@
 <script type="text/javascript">
 /* 页面加载完出现 */
     $(document).ready(function(){
-    	$(window).resize(function(){
-    		var width = $(window).width();
-    	})
-    	getAd(); // bug 页面刷新一次就加载(加值)一次
+    	getAd();
         $("#sel").click(function (){
         	getAd();
         });
@@ -37,6 +34,7 @@
                     var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
                     var list =  res.list;
                     var tobody_limt = "";
+                    $("#tobody_limt").empty();
                     for(var i in list){
                         if("0"==list[i].auditStatus){ // 未提交
                              tobody_limt += "<tr id='zui'><td>"+list[i].suptId+
@@ -118,6 +116,7 @@
            var account_id = tr.find("td").eq(2).text();
            alert(" 账号"+account_id);
            var mer_id = tr.find("td").eq(3).text();
+           alert(" 商品"+mer_id);
            var account = tr.find("td").eq(4).text();
            var commo = tr.find("td").eq(5).text();
            var money = tr.find("td").eq(6).text();
