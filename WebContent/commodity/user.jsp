@@ -85,25 +85,25 @@ function Data(){
             data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参
             dataType: "json",   //返回值类型 
             success:function(data){
-                 var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
-                 var list =  data.list;
-                 var html = "";
-                 $("#t_body").empty();
-                 for(var i in list){
-                     if("2"==list[i].auditStatus){
-                         html += "<tr><td align='center' style='display:none;' id='id"+list[i].fbid+"'>"+list[i].fbid+"</td>"+
-                         "<td align='center' style='display:none;'>"+list[i].accountId+"</td>"+
-                         "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
-                         "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
-                         "<td align='center'>"+list[i].nameType+"</td>"+
-                         "<td align='center'><a href='#' onclick='query("+list[i].wares_id+")'>"+list[i].name+"</a></td>"+
-                         "<td align='center'>"+list[i].describe+"</td>"+
-                         "<td align='center'>"+list[i].money+"</td>"+
-                         "<td align='center'>"+list[i].number+"</td>"+
-                         "<td align='center'><a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='gou(this)'><i class='layui-icon'>&#xe640;</i> 购买</a></td></tr>";
-                     }
-                 }
-                 $("#t_body").append(html);
+				var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
+				var list =  data.list;
+				var html = "";
+				$("#t_body").empty();
+				for(var i in list){
+				    if("2"==list[i].auditStatus){
+				        html += "<tr><td align='center' style='display:none;' id='id"+list[i].fbId+"'>"+list[i].fbId+"</td>"+
+				        "<td align='center' style='display:none;'>"+list[i].accountId+"</td>"+
+				        "<td align='center' style='display:none;'>"+list[i].wares_id+"</td>"+
+				        "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+				        "<td align='center'>"+list[i].nameType+"</td>"+
+				        "<td align='center'><a href='#' onclick='query("+list[i].wares_id+")'>"+list[i].name+"</a></td>"+
+				        "<td align='center'>"+list[i].describe+"</td>"+
+				        "<td align='center'>"+list[i].money+"</td>"+
+				        "<td align='center'>"+list[i].number+"</td>"+
+				        "<td align='center'><a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='gou(this)'><i class='layui-icon'>&#xe640;</i> 购买</a></td></tr>";
+				    }
+				}
+				$("#t_body").append(html);
              } 
           });
     });
@@ -111,8 +111,8 @@ function Data(){
 //购买
 function gou(a){
 	var id=$(a).parent().parent().find("td").eq(0).text();//自己的发布表id
-	var seller_id=$(a).parent().parent().find("td").eq(1).text();
-	var wares_id=$(a).parent().parent().find("td").eq(2).text();
+	var accountId=$(a).parent().parent().find("td").eq(1).text();//账号id
+	var wares_id=$(a).parent().parent().find("td").eq(2).text();//商品id
 	var speciID=$(a).parent().parent().find("td").eq(3).text();
 	var nameType=$(a).parent().parent().find("td").eq(4).text();//类型
 	var name=$(a).parent().parent().find("td").eq(5).text();//名称
@@ -123,7 +123,19 @@ function gou(a){
 	alert(id+" "+seller_id+" "+wares_id+" "+speciID+" "+nameType+" "+describe+" "+money+" "+number+" "+upFrameTime);
 	layui.use([ 'layer', 'form' ], function() {
 		var form = layui.form;
-		$.ajax({
+		layer.open({
+	        title : '修改商品',
+	        type : 2,
+	        anim : 2,
+	        maxmin : false,
+	        resize : false,
+	        scrollbar : true,
+	        //页面路径
+	        content : 'add.jsp?id='+id+'&acccountId='+acccountId+'&wares='+wares_id,
+	        area : [ '400px', '505px' ],//宽高
+	        shadeClose : true
+	    });
+		<%-- $.ajax({
   	       type:"GET", //请求方式     对应form的  method请求
   	       url:"<%=request.getContextPath()%>/buyersServlet?i=2", //请求路径  对应 form的action路径
   	       cache: false,  //是否缓存，false代表拒绝缓存
@@ -142,7 +154,7 @@ function gou(a){
 	           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
 	           alert(textStatus);//parsererror
 	   		}
-  	     });
+  	     }); --%>
 	});
 	
 }
