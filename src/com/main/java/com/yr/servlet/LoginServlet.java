@@ -30,7 +30,6 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String username = req.getParameter("username");// 寰楀埌鐢ㄦ埛鍚�
         String password = Encrypt.encodeByMD5(req.getParameter("password"));// 寰楀埌瀵嗙爜
-        System.out.println(password);
         String ck = req.getParameter("ck");// 寰楀埌瀵嗙爜
         String hiddenCode = req.getParameter("hiddenCode");// 绗竴娆¤繘鏉iddenCode绛変簬绌�(鏍囧織鏄惁涓虹涓�娆＄櫥闄�)
         if (hiddenCode == null || "".equals(hiddenCode)) {
