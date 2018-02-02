@@ -88,8 +88,7 @@ public class SellerServlet extends HttpServlet {
                 nameType = new String(nameType.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 String name = request.getParameter("name");
                 name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String money = request.getParameter("money");
-                money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+                Integer money = Integer.valueOf(request.getParameter("money"));
                 String desc = request.getParameter("desc");
                 desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 int number = Integer.valueOf(request.getParameter("number"));
@@ -110,8 +109,7 @@ public class SellerServlet extends HttpServlet {
                 int select = Integer.valueOf(request.getParameter("interest")); // 商品类型
                 String name = request.getParameter("name");// 商品名称
                 name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                String money = request.getParameter("money");// 商品价格
-                money = new String(money.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+                Integer money = Integer.valueOf(request.getParameter("money"));// 商品价格
                 String desc = request.getParameter("desc");// 商品描述
                 desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 String origin = request.getParameter("origin");// 商品产地
@@ -167,6 +165,9 @@ public class SellerServlet extends HttpServlet {
         if (null != type && type.equals("list")) {
             String sel = request.getParameter("select");
             if (null == pageNow || "".equals(pageNow)) {
+                pageNow = "1";
+            }
+            if(null != select && !"".equals(select)){
                 pageNow = "1";
             }
          // 查询并分页

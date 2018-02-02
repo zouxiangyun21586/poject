@@ -67,7 +67,7 @@ public class SellerDao {
                 goods.setMonth(rs.getString(NUB_8));
                 goods.setqGP(rs.getInt(NUB_9));
                 goods.setStorageMethod(rs.getString(NUB_10));
-                goods.setMoney(rs.getString(NUB_11));
+                goods.setMoney(rs.getInt(NUB_11));
                 goods.setNumber(rs.getInt(NUB_12));
                 goods.setUpFrameTime(rs.getString(NUB_13));
                 goods.setTime(rs.getString(NUB_14));
@@ -252,7 +252,7 @@ public class SellerDao {
      * void
      * 2018年1月24日下午8:31:32
      */
-    public static void updateGoods(Integer wares_id,Integer spec_id,String nameType,String name,String money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
+    public static void updateGoods(Integer wares_id,Integer spec_id,String nameType,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
         try {
          // 获取修改后的 商品类型ID
@@ -284,7 +284,7 @@ public class SellerDao {
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
             ps2.setInt(NUB_1, newNTID);
             ps2.setString(NUB_2, name);
-            ps2.setString(NUB_3, money);
+            ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);
             ps2.setInt(NUB_5, spec_id);
             ps2.setInt(NUB_6, number);
@@ -314,7 +314,7 @@ public class SellerDao {
      * void
      * 2018年1月24日下午8:34:31
      */
-    public static void addGoods(Integer select,String name,String money,String desc,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod,Integer number,String date,Integer seller_id){
+    public static void addGoods(Integer select,String name,Integer money,String desc,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod,Integer number,String date,Integer seller_id){
         Connection conn = LinkMysql.getCon();
         try {
             /** 添加规格表数据 */
@@ -344,7 +344,7 @@ public class SellerDao {
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
             ps2.setInt(NUB_1, select);
             ps2.setString(NUB_2, name);
-            ps2.setString(NUB_3, money);
+            ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);
             ps2.setInt(NUB_5, s_tb);
             ps2.setInt(NUB_6, number);
@@ -395,10 +395,10 @@ public class SellerDao {
         if (pageNow < NUB_1) {
             pageNow = NUB_1;
         }
-        pageNow = (pageNow - 1) * 10;
         try {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
+                pageNow=NUB_0;
                 String sql1 = "select count(*) from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and m.`name` like ?";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
@@ -442,7 +442,7 @@ public class SellerDao {
                     goods.setSpeciID(rs.getInt(NUB_4));
                     goods.setNameType(rs.getString(NUB_5));
                     goods.setName(rs.getString(NUB_6));
-                    goods.setMoney(rs.getString(NUB_7));
+                    goods.setMoney(rs.getInt(NUB_7));
                     goods.setDescribe(rs.getString(NUB_8));
                     goods.setNumber(rs.getInt(NUB_9));
                     goods.setUpFrameTime(rs.getString(NUB_10));
@@ -455,6 +455,7 @@ public class SellerDao {
                 pre.close();
                 return list;
             } else {// 查询所有数据
+                pageNow = (pageNow - 1) * 10;
                 number = null;
                 sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
@@ -470,7 +471,7 @@ public class SellerDao {
                     goods.setSpeciID(rs.getInt(NUB_4));
                     goods.setNameType(rs.getString(NUB_5));
                     goods.setName(rs.getString(NUB_6));
-                    goods.setMoney(rs.getString(NUB_7));
+                    goods.setMoney(rs.getInt(NUB_7));
                     goods.setDescribe(rs.getString(NUB_8));
                     goods.setNumber(rs.getInt(NUB_9));
                     goods.setUpFrameTime(rs.getString(NUB_10));

@@ -12,8 +12,9 @@ import com.yr.util.ConnectTime;
 import com.yr.dao.LinkMysql;
 
 /**
+ * 
  * @作者 林水桥
- * 2018年1月23日上午10:29:43
+ * 2018年1月24日下午10:07:39
  */
 public class AuditSellerDao {
     private static final int NUB_0 = 0;
@@ -53,11 +54,11 @@ public class AuditSellerDao {
      * @param packingMethod 包装方式
      * @param brand         品牌
      * @param qGP           保质期ID
-     * @param storageMethod 保质期月份
+     * @param storageMethod 储存方法
      * void
      * 2018年1月24日下午8:10:16
      */
-    public static void updateAudit(Integer wares_id,Integer spec_id,String nameType,String name,String money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
+    public static void updateAudit(Integer wares_id,Integer spec_id,String nameType,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
         try{
          // 获取修改后的 商品类型ID
@@ -89,7 +90,7 @@ public class AuditSellerDao {
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
             ps2.setInt(NUB_1, newNTID);
             ps2.setString(NUB_2, name);
-            ps2.setString(NUB_3, money);
+            ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);
             ps2.setInt(NUB_5, spec_id);
             ps2.setInt(NUB_6, number);
@@ -135,7 +136,7 @@ public class AuditSellerDao {
                 goods.setqGP(rs.getInt(NUB_14));
                 goods.setMonth(rs.getString(NUB_15));
                 goods.setStorageMethod(rs.getString(NUB_16));
-                goods.setMoney(rs.getString(NUB_17));
+                goods.setMoney(rs.getInt(NUB_17));
                 goods.setNumber(rs.getInt(NUB_18));
                 goods.setAddTime(rs.getString(NUB_19));
                 list.add(goods);
@@ -235,10 +236,10 @@ public class AuditSellerDao {
         if (pageNow < NUB_1) {
             pageNow = NUB_1;
         }
-        pageNow = (pageNow - 1) * 10;
         try {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
+                pageNow=NUB_0;
                 String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and m.`name` like ?";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
@@ -292,6 +293,7 @@ public class AuditSellerDao {
                 pre.close();
                 return list;
             } else {// 查询所有数据
+                pageNow = (pageNow - 1) * 10;
                 number = null;
                 sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.`name`,mt.type,m.`name`,m.merStatus,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ORDER BY ads.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);

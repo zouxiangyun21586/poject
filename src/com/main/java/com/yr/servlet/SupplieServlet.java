@@ -97,8 +97,8 @@ public class SupplieServlet extends HttpServlet {
                     storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8");
                     String describe = req.getParameter("describe"); // 商品描述
                     describe = new String(describe.getBytes("ISO-8859-1"),"UTF-8");
-                    String auditStatus = req.getParameter("state"); // 商品状态
-                    int account_id = (int)req.getSession().getAttribute("userID"); // 获取                    
+                    int auditStatus = Integer.valueOf(req.getParameter("state")); // 商品状态
+                    int account_id = (int)req.getSession().getAttribute("userID"); // 获取当前登录账号                    
                     
                     /**
                      * 获取网络时间
@@ -108,21 +108,20 @@ public class SupplieServlet extends HttpServlet {
                     
                     Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
                     System.out.println("规格表id " + speId);
-                    Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,describe,auditStatus,date); // 添加商品信息
+                    Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,auditStatus,describe,date); // 添加商品信息
                     System.out.println("商品表id " + merId);
-                    SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
+                    Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
+                    System.out.println("供应商表id " + suppId);
+                    SupplieDao.auditsupplier(suppId,account_id,merId,date); // 添加供应商发布信息
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else if ("3".equals(sup)) { // 撤销审核中的商品
                 try {
                     String release_supplierId = req.getParameter("release_supplierId");
+                    String merId = req.getParameter("merId");
                     int account_id = (int)req.getSession().getAttribute("userID"); // 获取
-                    String id = req.getParameter("id");
-                    System.out.println(ConnectTime.getWebsiteDatetime());
-                    String date = (String)ConnectTime.getWebsiteDatetime();
-                    SupplieDao.cencel(date, Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(id));
-                    resp.getWriter().write("0");
+                    SupplieDao.cencel(Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(merId));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -145,7 +144,7 @@ public class SupplieServlet extends HttpServlet {
             } else if ("5".equals(sup)) { // 查询所有(在修改中使用到)
                 req.setCharacterEncoding("utf-8");
                 try {
-                    int id = Integer.valueOf(req.getParameter("id"));
+                    int id = Integer.valueOf(req.getParameter("merId"));
                     List<Supplie> list = SupplieDao.queryAll(id); // 锟斤拷询
                     req.setAttribute("list", list);
                     req.getRequestDispatcher("supplie/upd.jsp").forward(req, resp);
@@ -154,11 +153,11 @@ public class SupplieServlet extends HttpServlet {
                 }
             } else if ("6".equals(sup)){ // 下架
                 try {
-                    String id = req.getParameter("id");
+                	resp.setContentType("application/json; charset=utf-8");
+                    String release_id = req.getParameter("release_id");
                     System.out.println(ConnectTime.getWebsiteDatetime());
                     String date = (String)ConnectTime.getWebsiteDatetime();
-                    String so = SupplieDao.xiajia(date,id);
-                    resp.setContentType("application/json; charset=utf-8");
+                    String so = SupplieDao.xiajia(date,release_id);
                     resp.getWriter().write(so);
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -169,7 +168,21 @@ public class SupplieServlet extends HttpServlet {
 					req.setAttribute("list", list);
 					req.getRequestDispatcher("auditSupplie/detail.jsp").forward(req,resp);;
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+            }else if("8".equals(sup)){ // 上架审核中
+                try {
+                	resp.setContentType("application/json; charset=utf-8");
+                	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
+                	int reles_id = Integer.valueOf(req.getParameter("reles_id"));
+                	int account_id = (int)req.getSession().getAttribute("userID");
+                	/**
+                	 * 获取网络时间
+                	 */
+                	System.out.println(ConnectTime.getWebsiteDatetime());
+                	String upforamTime = ConnectTime.getWebsiteDatetime();
+					SupplieDao.shanjia(sup_id,reles_id,account_id,upforamTime);
+				} catch (SQLException e) {
 					e.printStackTrace();
 				}
             }

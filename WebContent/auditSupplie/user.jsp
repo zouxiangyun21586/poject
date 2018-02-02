@@ -84,26 +84,11 @@
             resize : true,
             scrollbar : true,
             //页面路径
-            content : '../auditSellerServlet?i=1&&o=2&&auditID='+obj,
+            content : '../auditSupplieServlet?i=1&&o=2&&auditID='+obj,
             area : [ '400px', '505px' ],//宽高
             shadeClose : true
         });
     }
-    
-    function upd(uu){
-    	layer.open({
-            title : '修改商品',
-            type : 2,
-            anim : 2,
-            maxmin : false,
-            resize : false,
-            scrollbar : true,
-            //页面路径
-            content : '../supSer?sup=5&&state=0&&id='+uu,
-            area : [ '500px', '490px' ],//宽高
-            shadeClose : true
-        });
-    };
         
 </script>
 <body background="../images/tp.jpg">
@@ -128,7 +113,7 @@
                             <td align="center" style="width:150px;"> 商品类型</td>
                             <td align="center" style="width:150px;"> 商品名称</td>
                             <td align="center" style="width:150px;"> 审核状态</td>
-                            <td align="center" style="width:280px;"> 添加时间</td>
+                            <td align="center" style="width:280px;"> 申请时间</td>
                             <td align="center" style="width:280px;"> 基本操作</td>
                         </tr>
                     </thead>
