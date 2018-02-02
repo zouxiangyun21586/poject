@@ -32,7 +32,7 @@
                 url:"<%=request.getContextPath()%>/supSer?sup=1", // 发送请求的地址
                 scriptCharset: 'utf-8',
                 dataType:"json",
-                data:{"state":0,"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
+                data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},
                 success:function(res){
                     var pageContent = page(res.pageCount,res.pageNow,res.pageCode);
                     var list =  res.list;
@@ -56,7 +56,8 @@
                                             "</td><td>"+list[i].packingMethod+
                                             "</td><td style='display:none;'>"+list[i].describe+
                                             "</td><td>"+list[i].upFrameTime+
-                                            "</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg' onclick='upd("+list[i].id+")'>修改商品</button></td></tr>";
+                                            "</td><td style='display:none;'>"+list[i].auditStatus+
+                                            "</td><td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg' onclick='upd("+list[i].merId+")'>修改商品</button></td></tr>";
                         }else if("1"==list[i].auditStatus){ // 未审核
                             tobody_limt +=  "<tr id='zui'><td>"+list[i].suptId+
 				             				"</td><td style='display:none;'>"+list[i].release_supplierId+
@@ -75,6 +76,7 @@
 				                            "</td><td>"+list[i].packingMethod+
 				                            "</td><td style='display:none;'>"+list[i].describe+
 				                            "</td><td>"+list[i].upFrameTime+
+				                            "</td><td style='display:none;'>"+list[i].auditStatus+
                                             "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
                         }else if("2"==list[i].auditStatus){ // 已审核            
                              tobody_limt += "<tr id='zui'><td>"+list[i].suptId+
@@ -94,6 +96,7 @@
 				                            "</td><td>"+list[i].packingMethod+
 				                            "</td><td style='display:none;'>"+list[i].describe+
 				                            "</td><td>"+list[i].upFrameTime+
+				                            "</td><td style='display:none;'>"+list[i].auditStatus+
                                              "</td><td><button class='layui-btn layui-btn-xs' name='xj' onclick='xiajia(this);'>下架商品</button></td></tr>";
                         }
                     }
@@ -109,8 +112,11 @@
        if(confirm("确定撤销商品?")){
            var tr = $(cencel).parent().parent();
            var suptId = tr.find("td").eq(0).text();
+           alert(" 供应商"+suptId);
            var release_id = tr.find("td").eq(1).text();
+           alert(" 发布"+release_id);
            var account_id = tr.find("td").eq(2).text();
+           alert(" 账号"+account_id);
            var mer_id = tr.find("td").eq(3).text();
            var account = tr.find("td").eq(4).text();
            var commo = tr.find("td").eq(5).text();
@@ -124,6 +130,7 @@
            var storageMethod = tr.find("td").eq(13).text();
            var packingMethod = tr.find("td").eq(14).text();
            var describe = tr.find("td").eq(15).text();
+           var auditStatus = tr.find("td").eq(17).text();
            
            $.ajax({
                url:"<%=request.getContextPath()%>/supSer?sup=3",
@@ -131,7 +138,7 @@
                type:"get",
                cache:false,
                async:true,
-               data:{"id":mer_id,"state":0,"account_id":account_id,"release_supplierId":release_supplierId},
+               data:{"merId":mer_id,"account_id":account_id,"release_supplierId":release_id},
                success:function(result){
                    tr.html("<tr id='zui'><td>"+list[i].suptId+
              				"</td><td style='display:none;'>"+list[i].release_supplierId+
@@ -150,11 +157,15 @@
                             "</td><td>"+list[i].packingMethod+
                             "</td><td style='display:none;'>"+list[i].describe+
                             "</td><td>"+list[i].upFrameTime+
-		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+list[i].id+")'>修改商品</button></td>");
+                            "</td><td style='display:none;'>"+list[i].auditStatus+
+		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+list[i].merId+")'>修改商品</button></td>");
                },
                error:function(XMLHttpRequest, textStatus, errorThrown)
                {
                    alert("撤销审核商品失败");
+                   alert(XMLHttpRequest.status);
+    	           alert(XMLHttpRequest.readyState);
+    	           alert(textStatus);
                }
            });
        }
@@ -180,6 +191,7 @@
             var storageMethod = tr.find("td").eq(13).text();
             var packingMethod = tr.find("td").eq(14).text();
             var describe = tr.find("td").eq(15).text();
+            var auditStatus = tr.find("td").eq(17).text();
             
             $.ajax({
                 url:"<%=request.getContextPath()%>/supSer?sup=6",
@@ -187,7 +199,7 @@
                 type:"get",
                 cache:false,
                 async:true,
-                data:{"release_id":release_id,"state":0,},
+                data:{"release_id":release_id},
                 dataType:"json",
                 success:function(result){
                     $.each(result,function(index,item){
@@ -209,12 +221,16 @@
                                 "</td><td>"+list[i].packingMethod+
                                 "</td><td style='display:none;'>"+list[i].describe+
                                 "</td><td>"+list[i].upFrameTime+
-                                "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+list[i].id+")'>修改商品</button></td>");
+                                "</td><td style='display:none;'>"+list[i].auditStatus+
+                                "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+list[i].merId+")'>修改商品</button></td>");
                     });
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
                 	alert("下架商品失败");
+                	alert(XMLHttpRequest.status);
+     	            alert(XMLHttpRequest.readyState);
+     	            alert(textStatus);
                 }
             });
         }
@@ -239,13 +255,15 @@
         var storageMethod = tr.find("td").eq(13).text();
         var packingMethod = tr.find("td").eq(14).text();
         var describe = tr.find("td").eq(15).text();
+        var auditStatus = tr.find("td").eq(17).text();
         
         $.ajax({
             url:"<%=request.getContextPath()%>/supSer?sup=8",
             type:"get",
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"sup_id":suptId,"state":0,"acc_id":account_id,"reles_id":mer_id},
+            data:{"sup_id":suptId,"acc_id":account_id,"reles_id":mer_id},
+            dataType:"json",
             success:function(result){
             	tobody_limt +=  "<tr id='zui'><td>"+list[i].suptId+
 				 				"</td><td style='display:none;'>"+list[i].release_supplierId+
@@ -264,11 +282,12 @@
 				                "</td><td>"+list[i].packingMethod+
 				                "</td><td style='display:none;'>"+list[i].describe+
 				                "</td><td>"+list[i].upFrameTime+
+				                "</td><td style='display:none;'>"+list[i].auditStatus+
                 "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
             },
             error:function(XMLHttpRequest, textStatus, errorThrown)
             {
-                alert("发生错误!!");
+                alert("上架异常!!");
             }
         });
     }
@@ -291,6 +310,7 @@
     });
     
     function upd(uu){
+    	alert(uu);
     	layer.open({
             title : '修改商品',
             type : 2,
@@ -299,14 +319,14 @@
             resize : false,
             scrollbar : true,
             //页面路径
-            content : '../supSer?sup=5&&state=0&&id='+uu,
+            content : '../supSer?sup=5&&state=0&&merId='+uu,
             area : [ '500px', '490px' ],//宽高
             shadeClose : true
         });
     };
         
 </script>
-<body background="../images/tp.jpg">
+<body>
 <br/>
     <div class="layui-container" width="100%" height="100%" align="center">
 		<div class="layui-row layui-col-space15">
@@ -339,6 +359,7 @@
 							<th>包装</th>
 							<td style="display: none;">商品描述</td>
 							<th>上架时间</th>
+							<th style="display: none;">供应状态</th>
 							<th>操作</th>
 						  </tr>
 						</thead>
