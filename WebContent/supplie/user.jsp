@@ -110,13 +110,9 @@
        if(confirm("确定撤销商品?")){
            var tr = $(cencel).parent().parent();
            var suptId = tr.find("td").eq(0).text();
-           alert(" 供应商"+suptId);
            var release_id = tr.find("td").eq(1).text();
-           alert(" 发布"+release_id);
            var account_id = tr.find("td").eq(2).text();
-           alert(" 账号"+account_id);
            var mer_id = tr.find("td").eq(3).text();
-           alert(" 商品"+mer_id);
            var account = tr.find("td").eq(4).text();
            var commo = tr.find("td").eq(5).text();
            var money = tr.find("td").eq(6).text();
@@ -162,9 +158,9 @@
                error:function(XMLHttpRequest, textStatus, errorThrown)
                {
                    alert("撤销审核商品失败");
-                   alert(XMLHttpRequest.status);
+                  /*  alert(XMLHttpRequest.status);
     	           alert(XMLHttpRequest.readyState);
-    	           alert(textStatus);
+    	           alert(textStatus); */
                }
            });
        }
@@ -227,9 +223,9 @@
                 error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
                 	alert("下架商品失败");
-                	alert(XMLHttpRequest.status);
+                	/* alert(XMLHttpRequest.status);
      	            alert(XMLHttpRequest.readyState);
-     	            alert(textStatus);
+     	            alert(textStatus); */
                 }
             });
         }
@@ -286,7 +282,10 @@
             },
             error:function(XMLHttpRequest, textStatus, errorThrown)
             {
-                alert("上架异常!!");
+                alert("上架失败!!");
+                /* alert(XMLHttpRequest.status);
+ 	            alert(XMLHttpRequest.readyState);
+ 	            alert(textStatus); */
             }
         });
     }

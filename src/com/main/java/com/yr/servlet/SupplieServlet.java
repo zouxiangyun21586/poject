@@ -119,7 +119,6 @@ public class SupplieServlet extends HttpServlet {
                 String release_supplierId = req.getParameter("release_supplierId");
                 String merId = req.getParameter("merId");
                 int account_id = (int)req.getSession().getAttribute("userID"); // 获取
-                System.out.println(merId+"   ---  "+account_id);
                 SupplieDao.cencel(Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(merId));
                 SupplieDao.selc();
             } catch (SQLException e) {
@@ -175,7 +174,6 @@ public class SupplieServlet extends HttpServlet {
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
             	int reles_id = Integer.valueOf(req.getParameter("reles_id"));
             	int account_id = (int)req.getSession().getAttribute("userID");
-            	System.out.println(sup_id+"   ----- "+reles_id+" -=-=-=-= "+account_id+"   ====");
             	/**
             	 * 获取网络时间
             	 */
