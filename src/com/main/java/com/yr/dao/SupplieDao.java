@@ -401,22 +401,30 @@ public class SupplieDao {
     /**
      * 查询数据并用list封装起来
      * @param pageNow 当前页
+     * @param account 账号名   (同时判断是不是使用了下拉框)
      * @param sel 判断是否用了查询功能
      * @return 返回所查询的数据
      */
-    public static List<Supplie> selectemp(Integer pageNow, String sel) {
+    public static List<Supplie> selectemp(Integer pageNow,String account, String sel) {
         Connection conn = Conn.conn();
         String sql = "";
+        List<Supplie> list = new ArrayList<>();
         if (pageNow < 1) {
             pageNow = 1;
         }
-        pageNow = (pageNow - 1) * 10;
+        
         try {
             if(null != sel && !"".equals(sel)){ // 搜索
+            pageNow = 0;
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "select su.id,aud.id,acc.id,mer.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.merStatus from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud,account acc where su.mercd_id = mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.release_id = su.mercd_id and mer.id = aud.merchandise_id and mer.account_id = aud.account_id and mer.account_id = acc.id ORDER BY su.id ASC";
+            sql = "select su.id,aud.id,acc.id,mer.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.merStatus from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud,account acc where su.mercd_id = mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.release_id = su.mercd_id and mer.id = aud.merchandise_id and mer.account_id = aud.account_id and mer.account_id = acc.id ";
             
+            if(account != null && !"".equals(account)){
+            	sql = sql + "and acc.account = ?";
+            	paramIndex.add(0);
+            	param.add(account);
+            }
             sql = sql + " limit ?,?";
             paramIndex.add(1);
             paramIndex.add(1);
@@ -460,6 +468,7 @@ public class SupplieDao {
             }
             return list;
         }else { // 页面加载时查询 出现
+        	pageNow = (pageNow - 1) * 10;
             sql = "select su.id,asp.id,acc.id,mer.id,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
             pre.setInt(1, pageNow);
