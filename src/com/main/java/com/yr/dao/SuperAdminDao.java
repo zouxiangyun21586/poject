@@ -10,6 +10,7 @@ import com.yr.pojo.Account_Role;
 import com.yr.pojo.Paging;
 import com.yr.pojo.Role;
 import com.yr.util.Conn;
+import com.yr.util.Encrypt;
 import com.yr.util.JsonUtils;
 
 /**
@@ -18,6 +19,7 @@ import com.yr.util.JsonUtils;
  */
 public class SuperAdminDao {
 	private static String pageCountSql=null;
+	private static Integer count= null;
 	/**
 	 * 添加
 	 * @param role 设置的角色id
@@ -26,10 +28,10 @@ public class SuperAdminDao {
 	 * @param pass 密码
 	 * @return "0"请选择角色,"1" 账号已存在 , "2"账号或者密码不能为空 
 	 */
-	public static String add(String role,String name,String account,String pass){
+	public static String add(String role,String name,String account,String pass,String youxiang){
 		try{
 			Connection conn = Conn.conn();
-			String sql = "insert into account(name,account,password,state) values(?,?,?,?);";
+			String sql = "insert into account(name,account,password,youxiang,state) values(?,?,?,?,?);";
 			if(role == null || "".equals(role)){
 				return "0";
 			}
@@ -43,8 +45,10 @@ public class SuperAdminDao {
 			PreparedStatement pre = conn.prepareStatement(sql);
 			pre.setString(1, name);
 			pre.setString(2, account);
-			pre.setString(3, pass);
-			pre.setInt(4, 0);
+			String newPass = Encrypt.encodeByMD5(pass);//md5加密
+			pre.setString(3, newPass);
+			pre.setString(4, youxiang);
+			pre.setInt(5, 0);
 			pre.executeUpdate();
 			pre.close();
 //			conn.close();
@@ -113,6 +117,36 @@ public class SuperAdminDao {
 	public static String quroleName(){
 		try{
 			String sql = "select * from role;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			List<Role> list = new ArrayList<>();
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				Role us = new Role();
+				us.setId(rs.getInt(1));
+				us.setName(rs.getString(2));
+				list.add(us);
+			}
+			rs.close();
+			pre.close();
+//			conn.close();
+			//将java对象List集合转换成json字符串
+			String jsonStr = JsonUtils.beanListToJson(list);
+			return jsonStr;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * 查询角色 除了超级管理员
+	 * @return 返回角色信息json
+	 */
+	public static String quroleNameNo(){
+		try{
+			String sql = "select * from role where id !=1;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			List<Role> list = new ArrayList<>();
@@ -397,8 +431,8 @@ public class SuperAdminDao {
 				pageNow=0;
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
-				pageCountSql = "create VIEW shitu1 as  SELECT DISTINCT a.id FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
-				sql = "SELECT DISTINCT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+				pageCountSql = "SELECT count(DISTINCT a.id) FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id ";
+				sql = "SELECT DISTINCT a.id,a.account,a.state,a.youxiang,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
@@ -447,13 +481,13 @@ public class SuperAdminDao {
 						prepar2.setInt( (i+1), (Integer)param.get(i) );
 					}
 				}
-				PreparedStatement prepar1 = (PreparedStatement) conn.prepareStatement("drop view if exists shitu1;");
 				
-				ResultSet resu = prepar.executeQuery();
+				ResultSet resu = prepar.executeQuery();//执行查询
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(4));
+					us.setYouxiang(resu.getNString(4));
+					us.setRoleName(resu.getString(5));
 					us.setState(resu.getInt(3));
 					us.setUserName(resu.getString(2));
 					if (us.getState() == 0) {
@@ -463,23 +497,26 @@ public class SuperAdminDao {
 					}
 					list.add(us);
 				}
-				prepar1.executeUpdate();
-				prepar2.executeUpdate();
+				ResultSet rs = prepar2.executeQuery();//获得总数
+				while(rs.next()){
+					count = rs.getInt(1);
+				}
 				resu.close();
-				prepar1.close();
 				prepar2.close();
 				prepar.close();
+				rs.close();
 //				conn.close();
 				return list;
 			} else {
 				pageNow = (pageNow - 1) * 10;
-				sql = "SELECT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
-				pageCountSql = "create VIEW shitu1 as select * from account";
+				sql = "SELECT a.id,a.account,a.state,a.youxiang,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
+				pageCountSql = "SELECT count(DISTINCT a.id) FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id";
 				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
-				PreparedStatement prepar1 = (PreparedStatement) conn.prepareStatement("drop view if exists shitu1;");
-				prepar1.executeUpdate();
 				PreparedStatement prepar2 = (PreparedStatement) conn.prepareStatement(pageCountSql);
-				prepar2.executeUpdate();
+				ResultSet rs = prepar2.executeQuery();
+				while(rs.next()){
+					count = rs.getInt(1);
+				}
 				PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 				prepar.setInt(1, pageNow);
 				prepar.setInt(2, Paging.getPageNumber());
@@ -487,7 +524,8 @@ public class SuperAdminDao {
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(4));
+					us.setYouxiang(resu.getNString(4));
+					us.setRoleName(resu.getString(5));
 					us.setUserName(resu.getString(2));
 					us.setState(resu.getInt(3));
 					if (us.getState() == 0) {
@@ -499,8 +537,8 @@ public class SuperAdminDao {
 				}
 				resu.close();
 				prepar.close();
+				rs.close();
 				prepar2.close();
-				prepar1.close();
 //				conn.close();
 				return list;
 			}
@@ -515,9 +553,9 @@ public class SuperAdminDao {
 	 * @return 返回总页数
 	 */
 	public static Integer getPageCount() {
-		int total = 0;// 总共多少条记录
+		int total = count;// 总共多少条记录
 		int pageCount = 0;// 总页数
-		try {
+		/*try {
 			Connection conn = Conn.conn();
 			String sql = "select count(*) from shitu1";
 			PreparedStatement prepar = conn.prepareStatement(sql);
@@ -531,7 +569,7 @@ public class SuperAdminDao {
 //			conn.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		if (total % Paging.getPageNumber() == 0) {
 			pageCount = total / Paging.getPageNumber();
 		} else {
