@@ -156,9 +156,10 @@ public class SuperAdminDao {
 				ResultSet rs=pre.executeQuery();
 				Integer j = null;
 				while(rs.next()){
-					j = rs.getInt(1);
+					///j = rs.getInt(1);
+					id = id+rs.getInt(1)+",";
 				}
-				id = id+j.toString()+",";
+				//id = id+j.toString()+",";
 			}
 			pre.close();
 			return id;

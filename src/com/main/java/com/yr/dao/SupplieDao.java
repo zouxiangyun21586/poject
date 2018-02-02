@@ -127,7 +127,7 @@ public class SupplieDao {
      */
     public static Integer merchandiseAdd(Integer acc_id,String nameTypeID,String name,String money,Integer specificationID,String number,Integer merStatus,String describe,String upFrametTime) throws SQLException, ParseException{
         Connection conn = Conn.conn();
-        String str = "insert into merchandise(account_id,nameTypeID,`name`,money,specificationID,number,`describe`,merStatus,upFrameTime) values(?,?,?,?,?,?,?,?,?,?);"; // id自增长
+        String str = "insert into merchandise(account_id,nameTypeID,`name`,money,specificationID,number,`describe`,merStatus,upFrameTime) values(?,?,?,?,?,?,?,?,?);"; // id自增长
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
         ps.setInt(1, acc_id);
         ps.setString(2, nameTypeID);
@@ -300,12 +300,16 @@ public class SupplieDao {
     */
     public static String xiajia(String date,String release_id) throws SQLException{
         Connection conn = Conn.conn();
-        String str = "update release_supplier set time= ? wares_id = ? where id=?;";
+        String str = "update release_supplier set time= ? where id=?;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
         ps.setString(1, date);
-        ps.setInt(2, 0);
-        ps.setString(3, release_id);
+        ps.setString(2, release_id);
+        String str2 = "update release_supplier set wares_id = ? where id=?;";
+        PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(str2);
+        ps1.setInt(1, 0);
+        ps1.setString(2, release_id);
         ps.executeUpdate();
+        ps1.executeUpdate();
         String sql = "select time from release_supplier where id=?;";
         PreparedStatement psp = (PreparedStatement) conn.prepareStatement(sql);
         psp.setString(1, release_id);
