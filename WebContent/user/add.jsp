@@ -50,9 +50,16 @@
 									placeholder="请输入密码" class="layui-input">
 							</div>
 						</div>
-				        <button type="submit" class="layui-btn" id="sb">立即提交</button>
-				        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
+						<div class="layui-form-item">
+							<label class="layui-form-label">邮箱</label>
+							<div class="layui-input-block">
+								<input type="text" id="youxiang" name="youxiang" autocomplete="off"
+									placeholder="请输入邮箱" class="layui-input">
+							</div>
+						</div>
 					</div>
+			        <button type="submit" class="layui-btn" id="sb">立即提交</button>
+			        <button id="reset" class="layui-btn layui-btn-primary">重置</button>
 				</div>
 			</div>
 		</div>
@@ -68,7 +75,8 @@
 	layui.use(['form','layer'], function() {
 		var form = layui.form;
 		$(document).ready(function(){
-			$.ajax({     
+			//页面显示角色值
+			<%-- $.ajax({     
 		        //要用post方式      
 		        type: "POST",//请求方式,默认GET
 		        cache: false,  //是否缓存，false代表拒绝缓存
@@ -89,7 +97,7 @@
 		           alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
 		           alert(textStatus);//parsererror
 		        }
-		     });
+		     }); --%>
 			//添加ajax
 			$("#sb").click(function(){
 				var id_array=new Array();  
@@ -103,7 +111,8 @@
 			        cache: false,  //是否缓存，false代表拒绝缓存
 			        //方法所在页面和方法名      
 			        url: "<%=request.getContextPath() %>/superAdminServlet?i=2",     
-			        data:{"interest":idstr,"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val()},  //传参 
+			        /* data:{"interest":idstr,"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val(),"youxiang":$("#youxiang").val()}, */  //传参
+			        data:{"username":$("#username").val(),"account":$("#account").val(),"password":$("#password").val(),"youxiang":$("#youxiang").val()},
 			        dataType: "text",
 			        success: function(zh) {
 			           if(zh == "good"){

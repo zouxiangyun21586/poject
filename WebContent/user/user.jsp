@@ -57,6 +57,7 @@
 								<th>编号</th>
 								<th>账号</th>
 								<th>角色</th>
+								<th>邮箱</th>
 								<th>状态</th>
 								<th>操作</th>
 							</tr>
@@ -121,7 +122,9 @@
       	    	 	var list =  data.list;
       	    	 	var tbodyContent = ""; 	
       	          	for(var i in list){
-      	          		if("使用中"==list[i].stateStr){
+      	          		if(list[i].roleName.indexOf("超级管理员") != -1){
+      	          			state="<a href='#'  class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe640;</i> 无法停用</a></td></tr>";
+      	          		}else if("使用中"==list[i].stateStr){
       	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
       	          		}else if("已停用"==list[i].stateStr){
       	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
@@ -129,8 +132,13 @@
       	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
       	        	 		"<td>"+list[i].userName+"</td>"+
       	        	 		"<td><div class='wrap' style='width:200px;' title='"+list[i].roleName+"'>"+list[i].roleName+"</div></td>"+
-      	        	 		"<td>"+list[i].stateStr+"</td>"+
-      	        	 		"<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
+      	        	 		"<td>"+list[i].youxiang+"</td>"+
+      	        	 		"<td>"+list[i].stateStr+"</td>";
+      	        	 		if(list[i].roleName.indexOf("超级管理员") != -1){
+      	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;"+state;
+      	        	 		}else{
+      	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
+      	        	 		}
       	       		}
       	          	$("#tbodyId").html(tbodyContent);
       	     	} 
