@@ -399,9 +399,10 @@ public class SellerDao {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
                 pageNow=NUB_0;
-                String sql1 = "select count(*) from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and m.`name` like ?";
+                String sql1 = "select count(*) from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and (m.`name` like ? or m.id like ?);";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
+                pre1.setString(NUB_2, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 ResultSet rs1 = pre1.executeQuery();
                 while(rs1.next()){
                     number = rs1.getInt(NUB_1);
@@ -411,13 +412,16 @@ public class SellerDao {
                 List<Object> param = new ArrayList<>();
                 sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ";
                 if (null != abc && !"".equals(abc)) {
-                    sql = sql + " and m.`name` like ?";
-                    paramIndex.add(0);
+                    sql = sql + " and (m.`name` like ?";
+                    paramIndex.add(NUB_0);
                     param.add(abc);
+                    sql = sql + " or m.id like ?)";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
                 }
                 sql = sql + " order by rs.id limit ?,?";
-                paramIndex.add(1);
-                paramIndex.add(1);
+                paramIndex.add(NUB_1);
+                paramIndex.add(NUB_1);
 
                 param.add(pageNow);
                 param.add(Paging.getPageNumber());
@@ -520,6 +524,9 @@ public class SellerDao {
             pageCount = total / Paging.getPageNumber();
         } else {
             pageCount = total / Paging.getPageNumber() + 1;
+        }
+        if(total < 11){
+            pageCount = 0;
         }
         return pageCount;
     }

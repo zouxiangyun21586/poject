@@ -18,7 +18,7 @@
                     style="float: right; margin-left: 0px;" id="sel">
                     <i class="layui-icon">&#xe615;</i> 查询
                 </button>
-                <input type="text" class="layui-input" placeholder="请输入要查询的商品名称"
+                <input type="text" class="layui-input" placeholder="请输入要查询的账户或商品名称"
                     style="float: right; width: 250px; height: 30px;" id="select" name="select"/>
                 <table class="layui-table">
                     <thead>
