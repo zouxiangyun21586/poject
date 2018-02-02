@@ -118,13 +118,14 @@
            var money = tr.find("td").eq(6).text();
            var number = tr.find("td").eq(7).text();
            var netContent = tr.find("td").eq(8).text();
-           var qGp = tr.find("td").eq(9).text();
+           var Month = tr.find("td").eq(9).text();
            var brand = tr.find("td").eq(10).text();
            var origin = tr.find("td").eq(11).text();
            var merType = tr.find("td").eq(12).text();
            var storageMethod = tr.find("td").eq(13).text();
            var packingMethod = tr.find("td").eq(14).text();
            var describe = tr.find("td").eq(15).text();
+           var upFrameTime = tr.find("td").eq(16).text();
            var auditStatus = tr.find("td").eq(17).text();
            
            $.ajax({
@@ -135,25 +136,25 @@
                async:true,
                data:{"merId":mer_id,"account_id":account_id,"release_supplierId":release_id},
                success:function(result){
-                   tr.html("<tr id='zui'><td>"+list[i].suptId+
-             				"</td><td style='display:none;'>"+list[i].release_supplierId+
-                            "</td><td style='display:none;'>"+list[i].account_id+
-                            "</td><td style='display:none;'>"+list[i].merId+
-                            "</td><td style='display:none;'>"+list[i].account+
-                            "</td><td>"+list[i].commo+
-                            "</td><td>"+list[i].money+
-                            "</td><td>"+list[i].number+
-                            "</td><td>"+list[i].netContent+
-                            "</td><td>"+list[i].Month+
-                            "</td><td>"+list[i].brand+
-                            "</td><td>"+list[i].origin+
-                            "</td><td>"+list[i].typeName+
-                            "</td><td>"+list[i].storageMethod+
-                            "</td><td>"+list[i].packingMethod+
-                            "</td><td style='display:none;'>"+list[i].describe+
-                            "</td><td>"+list[i].upFrameTime+
-                            "</td><td style='display:none;'>"+list[i].auditStatus+
-		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+list[i].merId+")'>修改商品</button></td>");
+                   tr.html("<tr id='zui'><td>"+suptId+
+             				"</td><td style='display:none;'>"+release_id+
+                            "</td><td style='display:none;'>"+account_id+
+                            "</td><td style='display:none;'>"+mer_id+
+                            "</td><td style='display:none;'>"+account+
+                            "</td><td>"+commo+
+                            "</td><td>"+money+
+                            "</td><td>"+number+
+                            "</td><td>"+netContent+
+                            "</td><td>"+Month+
+                            "</td><td>"+brand+
+                            "</td><td>"+origin+
+                            "</td><td>"+merType+
+                            "</td><td>"+storageMethod+
+                            "</td><td>"+packingMethod+
+                            "</td><td style='display:none;'>"+describe+
+                            "</td><td>"+upFrameTime+
+                            "</td><td style='display:none;'>"+auditStatus+
+		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+mer_id+")'>修改商品</button></td>");
                },
                error:function(XMLHttpRequest, textStatus, errorThrown)
                {
@@ -186,6 +187,7 @@
             var storageMethod = tr.find("td").eq(13).text();
             var packingMethod = tr.find("td").eq(14).text();
             var describe = tr.find("td").eq(15).text();
+            var upFrameTime = tr.find("td").eq(16).text();
             var auditStatus = tr.find("td").eq(17).text();
             
             $.ajax({
@@ -199,25 +201,25 @@
                 success:function(result){
                     $.each(result,function(index,item){
                         var Downtime = item.upFrameTime;
-                        tr.html("<tr id='zui'><td>"+list[i].suptId+
-                 				"</td><td style='display:none;'>"+list[i].release_supplierId+
-                                "</td><td style='display:none;'>"+list[i].account_id+
-                                "</td><td style='display:none;'>"+list[i].merId+
-                                "</td><td style='display:none;'>"+list[i].account+
-                                "</td><td>"+list[i].commo+
-                                "</td><td>"+list[i].money+
-                                "</td><td>"+list[i].number+
-                                "</td><td>"+list[i].netContent+
-                                "</td><td>"+list[i].Month+
-                                "</td><td>"+list[i].brand+
-                                "</td><td>"+list[i].origin+
-                                "</td><td>"+list[i].typeName+
-                                "</td><td>"+list[i].storageMethod+
-                                "</td><td>"+list[i].packingMethod+
-                                "</td><td style='display:none;'>"+list[i].describe+
-                                "</td><td>"+list[i].upFrameTime+
-                                "</td><td style='display:none;'>"+list[i].auditStatus+
-                                "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+list[i].merId+")'>修改商品</button></td>");
+                        tr.html("<tr id='zui'><td>"+suptId+
+         				"</td><td style='display:none;'>"+release_id+
+                        "</td><td style='display:none;'>"+account_id+
+                        "</td><td style='display:none;'>"+mer_id+
+                        "</td><td style='display:none;'>"+account+
+                        "</td><td>"+commo+
+                        "</td><td>"+money+
+                        "</td><td>"+number+
+                        "</td><td>"+netContent+
+                        "</td><td>"+Month+
+                        "</td><td>"+brand+
+                        "</td><td>"+origin+
+                        "</td><td>"+merType+
+                        "</td><td>"+storageMethod+
+                        "</td><td>"+packingMethod+
+                        "</td><td style='display:none;'>"+describe+
+                        "</td><td>"+upFrameTime+
+                        "</td><td style='display:none;'>"+auditStatus+
+                                "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+mer_id+")'>修改商品</button></td>");
                     });
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown)
@@ -250,6 +252,7 @@
         var storageMethod = tr.find("td").eq(13).text();
         var packingMethod = tr.find("td").eq(14).text();
         var describe = tr.find("td").eq(15).text();
+        var upFrameTime = tr.find("td").eq(16).text();
         var auditStatus = tr.find("td").eq(17).text();
         
         $.ajax({
@@ -260,24 +263,24 @@
             data:{"sup_id":suptId,"acc_id":account_id,"reles_id":mer_id},
             dataType:"json",
             success:function(result){
-            	tobody_limt +=  "<tr id='zui'><td>"+list[i].suptId+
-				 				"</td><td style='display:none;'>"+list[i].release_supplierId+
-				                "</td><td style='display:none;'>"+list[i].account_id+
-				                "</td><td style='display:none;'>"+list[i].merId+
-				                "</td><td style='display:none;'>"+list[i].account+
-				                "</td><td>"+list[i].commo+
-				                "</td><td>"+list[i].money+
-				                "</td><td>"+list[i].number+
-				                "</td><td>"+list[i].netContent+
-				                "</td><td>"+list[i].Month+
-				                "</td><td>"+list[i].brand+
-				                "</td><td>"+list[i].origin+
-				                "</td><td>"+list[i].typeName+
-				                "</td><td>"+list[i].storageMethod+
-				                "</td><td>"+list[i].packingMethod+
-				                "</td><td style='display:none;'>"+list[i].describe+
-				                "</td><td>"+list[i].upFrameTime+
-				                "</td><td style='display:none;'>"+list[i].auditStatus+
+            	tobody_limt +=  "<tr id='zui'><td>"+suptId+
+ 				"</td><td style='display:none;'>"+release_id+
+                "</td><td style='display:none;'>"+account_id+
+                "</td><td style='display:none;'>"+mer_id+
+                "</td><td style='display:none;'>"+account+
+                "</td><td>"+commo+
+                "</td><td>"+money+
+                "</td><td>"+number+
+                "</td><td>"+netContent+
+                "</td><td>"+Month+
+                "</td><td>"+brand+
+                "</td><td>"+origin+
+                "</td><td>"+merType+
+                "</td><td>"+storageMethod+
+                "</td><td>"+packingMethod+
+                "</td><td style='display:none;'>"+describe+
+                "</td><td>"+upFrameTime+
+                "</td><td style='display:none;'>"+auditStatus+
                 "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
             },
             error:function(XMLHttpRequest, textStatus, errorThrown)
