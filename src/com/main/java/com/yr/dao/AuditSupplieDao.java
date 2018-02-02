@@ -226,9 +226,10 @@ public class AuditSupplieDao {
         try {
             if(null != sel && !"".equals(sel)){
                 pageNow=NUB_0;
-                String sql1 = "select count(*) from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id and m.`name` like ?";
+                String sql1 = "select count(*) from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id and (m.`name` like ? or act.account like ?);";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
+                pre1.setString(NUB_2, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 ResultSet rs1 = pre1.executeQuery();
                 while(rs1.next()){
                     num = rs1.getInt(NUB_1);
@@ -239,7 +240,10 @@ public class AuditSupplieDao {
                 List<Object> param = new ArrayList<>();
                 sql = "select sup.id,asp.id,act.id,m.id,act.account,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
                 if (null != sel && !"".equals(sel)) {
-                    sql = sql + " and m.`name` like ?";
+                    sql = sql + " and (m.`name` like ?";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
+                    sql = sql + " or act.account like ?)";
                     paramIndex.add(NUB_0);
                     param.add(sel);
                 }
@@ -340,6 +344,9 @@ public class AuditSupplieDao {
             pageCount = total / Paging.getPageNumber();
         } else {
             pageCount = total / Paging.getPageNumber() + 1;
+        }
+        if(total < 11){
+            pageCount = 0;
         }
         return pageCount;
     }

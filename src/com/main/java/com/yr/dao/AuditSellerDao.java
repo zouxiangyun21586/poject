@@ -240,9 +240,10 @@ public class AuditSellerDao {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
                 pageNow=NUB_0;
-                String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and m.`name` like ?";
+                String sql1 = "select count(*) from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id and (m.`name` like ? or ac.account like ?);";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
+                pre1.setString(NUB_2, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 ResultSet rs1 = pre1.executeQuery();
                 while(rs1.next()){
                     number = rs1.getInt(NUB_1);
@@ -253,13 +254,16 @@ public class AuditSellerDao {
                 List<Object> param = new ArrayList<>();
                 sql = "select ads.release_id,ads.id,ads.account_id,ads.merchandise_id,ac.account,mt.type,m.`name`,m.merStatus,ads.addTime from auditseller ads,account ac,merchandise m,merchandise_type mt,seller rs where m.nameTypeID=mt.id and rs.id=ads.release_id and m.account_id=ads.account_id and m.account_id=ac.id AND m.id=rs.wares_id and m.id=ads.merchandise_id ";
                 if (null != abc && !"".equals(abc)) {
-                    sql = sql + " and m.`name` like ?";
-                    paramIndex.add(0);
+                    sql = sql + " and (m.`name` like ? ";
+                    paramIndex.add(NUB_0);
                     param.add(abc);
+                    sql = sql + " or ac.account like ?)";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
                 }
                 sql = sql + " order by ads.id limit ?,?";
-                paramIndex.add(1);
-                paramIndex.add(1);
+                paramIndex.add(NUB_1);
+                paramIndex.add(NUB_1);
 
                 param.add(pageNow);
                 param.add(Paging.getPageNumber());
@@ -355,6 +359,9 @@ public class AuditSellerDao {
             pageCount = total / Paging.getPageNumber();
         } else {
             pageCount = total / Paging.getPageNumber() + 1;
+        }
+        if(total < 11){
+            pageCount = 0;
         }
         return pageCount;
     }
