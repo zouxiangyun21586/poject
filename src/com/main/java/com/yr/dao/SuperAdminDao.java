@@ -26,10 +26,10 @@ public class SuperAdminDao {
 	 * @param pass 密码
 	 * @return "0"请选择角色,"1" 账号已存在 , "2"账号或者密码不能为空 
 	 */
-	public static String add(String role,String name,String account,String pass){
+	public static String add(String role,String name,String account,String pass,String youxiang){
 		try{
 			Connection conn = Conn.conn();
-			String sql = "insert into account(name,account,password,state) values(?,?,?,?);";
+			String sql = "insert into account(name,account,password,youxiang,state) values(?,?,?,?,?);";
 			if(role == null || "".equals(role)){
 				return "0";
 			}
@@ -44,7 +44,8 @@ public class SuperAdminDao {
 			pre.setString(1, name);
 			pre.setString(2, account);
 			pre.setString(3, pass);
-			pre.setInt(4, 0);
+			pre.setString(4, youxiang);
+			pre.setInt(5, 0);
 			pre.executeUpdate();
 			pre.close();
 //			conn.close();
@@ -113,6 +114,36 @@ public class SuperAdminDao {
 	public static String quroleName(){
 		try{
 			String sql = "select * from role;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			List<Role> list = new ArrayList<>();
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				Role us = new Role();
+				us.setId(rs.getInt(1));
+				us.setName(rs.getString(2));
+				list.add(us);
+			}
+			rs.close();
+			pre.close();
+//			conn.close();
+			//将java对象List集合转换成json字符串
+			String jsonStr = JsonUtils.beanListToJson(list);
+			return jsonStr;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
+	/**
+	 * 查询角色 除了超级管理员
+	 * @return 返回角色信息json
+	 */
+	public static String quroleNameNo(){
+		try{
+			String sql = "select * from role where id !=1;";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
 			List<Role> list = new ArrayList<>();
@@ -398,7 +429,7 @@ public class SuperAdminDao {
 				List<Integer> paramIndex = new ArrayList<>();
 				List<Object> param = new ArrayList<>();
 				pageCountSql = "create VIEW shitu1 as  SELECT DISTINCT a.id FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
-				sql = "SELECT DISTINCT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
+				sql = "SELECT DISTINCT a.id,a.account,a.state,a.youxiang,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
 				if(acc != null && !"".equals(acc))
 				{
 					sql = sql + " and a.account=?";
@@ -453,7 +484,8 @@ public class SuperAdminDao {
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(4));
+					us.setYouxiang(resu.getNString(4));
+					us.setRoleName(resu.getString(5));
 					us.setState(resu.getInt(3));
 					us.setUserName(resu.getString(2));
 					if (us.getState() == 0) {
@@ -473,7 +505,7 @@ public class SuperAdminDao {
 				return list;
 			} else {
 				pageNow = (pageNow - 1) * 10;
-				sql = "SELECT a.id,a.account,a.state,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
+				sql = "SELECT a.id,a.account,a.state,a.youxiang,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a  limit ?,?";
 				pageCountSql = "create VIEW shitu1 as select * from account";
 				//sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id ORDER BY ar.id asc limit ?,?";
 				PreparedStatement prepar1 = (PreparedStatement) conn.prepareStatement("drop view if exists shitu1;");
@@ -487,7 +519,8 @@ public class SuperAdminDao {
 				while (resu.next()) {
 					Account_Role us = new Account_Role();
 					us.setId(resu.getInt(1));
-					us.setRoleName(resu.getString(4));
+					us.setYouxiang(resu.getNString(4));
+					us.setRoleName(resu.getString(5));
 					us.setUserName(resu.getString(2));
 					us.setState(resu.getInt(3));
 					if (us.getState() == 0) {

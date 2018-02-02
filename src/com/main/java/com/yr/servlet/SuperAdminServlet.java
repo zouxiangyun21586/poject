@@ -91,11 +91,12 @@ public class SuperAdminServlet extends HttpServlet{
 		if("2".equals(i)){
 			//添加
 			PrintWriter out = response.getWriter();
-			String role = request.getParameter("interest");//角色的id
+			//String role = request.getParameter("interest");//角色的id
 			String name = request.getParameter("username");//用户名
 			String account = request.getParameter("account");//账号
 			String pass = request.getParameter("password");//密码
-			String bol = SuperAdminDao.add(role,name,account,pass);
+			String youxiang=request.getParameter("youxiang");//邮箱
+			String bol = SuperAdminDao.add("8",name,account,pass,youxiang);
 			out.write(bol);
 			out.flush();
 			out.close();
