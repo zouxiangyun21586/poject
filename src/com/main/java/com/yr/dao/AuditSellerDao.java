@@ -166,7 +166,7 @@ public class AuditSellerDao {
             ps.setInt(NUB_2,wares_id);
             ps.executeUpdate();
             ps.close();
-            String sql1 = "delete from auditSeller where id = ?;";
+            String sql1 = "delete from auditseller where id = ?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
             ps1.setInt(NUB_1,auditID);
             ps1.executeUpdate();
@@ -209,7 +209,7 @@ public class AuditSellerDao {
             ps3.setInt(NUB_2, wares_id);
             ps3.executeUpdate();
             ps3.close();
-            String sql1 = "delete from auditSeller where id = ?;";
+            String sql1 = "delete from auditseller where id = ?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
             ps1.setInt(NUB_1,auditID);
             ps1.executeUpdate();
@@ -336,7 +336,7 @@ public class AuditSellerDao {
         if(null == number) {
             Connection conn = LinkMysql.getCon();
             try {
-                String sql = "select count(*) from auditSeller;";
+                String sql = "select count(*) from auditseller;";
                 PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
                 prepar.executeQuery();
                 ResultSet resu = prepar.getResultSet();

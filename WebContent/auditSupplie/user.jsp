@@ -8,7 +8,7 @@
 	<script src="../js/fenye.js"></script>
 	<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>Insert title here</title>
+	<title>供应商审核</title>
 </head>
 <script type="text/javascript">
 /* 页面加载完出现 */
@@ -88,6 +88,58 @@
             area : [ '400px', '505px' ],//宽高
             shadeClose : true
         });
+    }
+    // 允许上架
+    function pass(a){
+    	var tr = $(a).parent().parent();
+    	var suptId = tr.find("td").eq(0).text();
+    	var auditId = tr.find("td").eq(1).text();
+    	var account_id = tr.find("td").eq(2).text();
+    	var merId = tr.find("td").eq(3).text();
+    	$.ajax({
+    		url:"../auditSupplieServlet",
+            type:"post",
+            cache:false,//取消缓存
+            async:true,//是否异步请求,修改false就表示同步,true表示异步
+            data:{"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId,"i":1},
+            success:function(result){
+                if(result == "0")
+                {
+                    tr.remove();
+                }
+                else
+                {
+                   alert("操作失败");
+                }
+            }
+    	});
+    }
+    // 禁止上架
+    function del(b){
+    	if(confirm("是否禁止该商品上架?")){
+    		var tr = $(b).parent().parent();
+            var suptId = tr.find("td").eq(0).text();
+            var auditId = tr.find("td").eq(1).text();
+            var account_id = tr.find("td").eq(2).text();
+            var merId = tr.find("td").eq(3).text();
+            $.ajax({
+                url:"../auditSupplieServlet",
+                type:"post",
+                cache:false,//取消缓存
+                async:true,//是否异步请求,修改false就表示同步,true表示异步
+                data:{"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId,"i":2},
+                success:function(result){
+                    if(result == "0")
+                    {
+                        tr.remove();
+                    }
+                    else
+                    {
+                       alert("操作失败");
+                    }
+                }
+            });
+    	}
     }
         
 </script>

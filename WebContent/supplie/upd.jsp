@@ -53,7 +53,7 @@
 	                        <div class="layui-input-block" id="merqGp">
 	                            <select value='selMot' id="merqGp" name="merqGp" lay-search>
 	                                <option value="">请选择商品保质期</option>
-	                                <option value="${su.qGp}"></option>
+	                                <option value="${su.month}"></option>
 	                                <option value='1'>一个月</option>
 	                                <option value='2'>两个月</option>
 	                                <option value='3'>三个月</option>

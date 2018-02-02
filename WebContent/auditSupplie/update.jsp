@@ -15,36 +15,36 @@
             <div class="layui-form layui-form-pane">
                 <c:forEach var="u" items="${list}">
                     <input type="text" name="i" id="i" autocomplete="off"
-                           class="layui-input" value="4" style="display:none;"/>
-                    <input type="text" name="auditID" id="auditID" autocomplete="off"
-                           class="layui-input" value="${u.auditID}" style="display:none;"/>
-                    <input type="text" name="id" id="id" autocomplete="off"
-                           class="layui-input" value="${u.id}" style="display:none;"/>
-                    <input type="text" name="wares_id" id="wares_id" autocomplete="off"
-                           class="layui-input" value="${u.wares_id}" style="display:none;"/>
-                    <input type="text" name="speciID" id="speciID" autocomplete="off"
-                           class="layui-input" value="${u.speciID}" style="display:none;"/>
-                    <input type="text" name="nameTypeID" id="nameTypeID" autocomplete="off"
-                           class="layui-input" value="${u.nameTypeID}" style="display:none;"/>
+                           class="layui-input" value="3" style="display:none;"/>
+                    <input type="text" name="auditID" id="auditId" autocomplete="off"
+                           class="layui-input" value="${u.auditId}" style="display:none;"/>
+                    <input type="text" name="id" id="suptId" autocomplete="off"
+                           class="layui-input" value="${u.suptId}" style="display:none;"/>
+                    <input type="text" name="wares_id" id="merId" autocomplete="off"
+                           class="layui-input" value="${u.merId}" style="display:none;"/>
+                    <input type="text" name="speciID" id="speId" autocomplete="off"
+                           class="layui-input" value="${u.speId}" style="display:none;"/>
+                    <input type="text" name="nameTypeID" id="nameTypeId" autocomplete="off"
+                           class="layui-input" value="${u.nameTypeId}" style="display:none;"/>
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="auditName" id="auditName" autocomplete="off"
-                                   class="layui-input" value="${u.auditName}" readonly="readonly">
+                            <input type="text" name="account" id="account" autocomplete="off"
+                                   class="layui-input" value="${u.account}" readonly="readonly">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品类型</label>
                         <div class="layui-input-block">
-                            <input type="text" name="nameType" id="nameType" autocomplete="off"
-                                   class="layui-input" value="${u.nameType}">
+                            <input type="text" name="typeName" id="typeName" autocomplete="off"
+                                   class="layui-input" value="${u.typeName}">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品名称</label>
                         <div class="layui-input-block">
-                            <input type="text" name="name" id="name" autocomplete="off"
-                                   class="layui-input" value="${u.name}">
+                            <input type="text" name="commo" id="commo" autocomplete="off"
+                                   class="layui-input" value="${u.commo}">
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -100,7 +100,7 @@
                         <label class="layui-form-label">保质期</label>
                         <div class="layui-input-block">
                             <select name="interest" id="qGP" lay-filter="month" lay-search>
-                                <option value="${u.qGP}">${u.month}</option>
+                                <option value="${u.month_tableId}">${u.months}</option>
                                 <option value="1">一个月</option>
                                 <option value="2">两个月</option>
                                 <option value="3">三个月</option>
@@ -134,32 +134,34 @@
 <script src="js/jquery-3.2.1.js"></script>
 <script>
     $("#btn").click(function(){
-        var Id = $("#id").val();
-        var Wares_id = $("#wares_id").val();
-        var SpeciID = $("#speciID").val();
-        var NameTypeID = $("#nameTypeID").val();
-        var NameType = $("#nameType").val();
-        var Name = $("#name").val();
-        var Money = $("#money").val();
-        var Number = $("#number").val();
-        var Desc = $("#desc").val();
-        var Origin = $("#origin").val();
-        var NetContent = $("#netContent").val();
-        var PackingMethod = $("#packingMethod").val();
-        var Brand = $("#brand").val();
-        var QGP = $("#qGP").val();
-        var StorageMethod = $("#storageMethod").val();
+        var suptId = $("#suptId").val();
+        var merId = $("#merId").val();
+        var speId = $("#speId").val();
+        var nameTypeId = $("#nameTypeId").val();
+        var typeName = $("#typeName").val();
+        var commo = $("#commo").val();
+        var money = $("#money").val();
+        var mumber = $("#number").val();
+        var desc = $("#desc").val();
+        var origin = $("#origin").val();
+        var netContent = $("#netContent").val();
+        var packingMethod = $("#packingMethod").val();
+        var brand = $("#brand").val();
+        var mt_id = $("#month_tableId").val();
+        var storageMethod = $("#storageMethod").val();
         var i = $("#i").val();
         layui.use(['layer', 'form', 'element'], function(){
             $.ajax({
-                url:"auditSellerServlet",
-                type:"get",
+                url:"auditSupplieServlet",
+                type:"post",
                 cache : false,
                 async : true,
-                data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"nameType":NameType,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
+                data:{"i":i,"suptId":suptId,"merId":merId,"speId":speId,"nameTypeId":nameTypeId,"typeName":typeName,"commo":commo,"money":money,"number":number,"desc":desc,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"mt_id":mt_id,"storageMethod":storageMethod},
                 success:function(result){
-                    layer.msg('修改成功，请点击边侧空白处，再点击相应的名称查看效果!',{icon: 1});
-                    setTimeout("parent.location.href=parent.location.href;","2000");
+                	if("0" == result){
+	                    layer.msg('修改成功',{icon: 1});
+	                    setTimeout('parent.location="auditSupplie/user.jsp";',1000);
+                	}
                 },error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
                     layer.msg('后台发生错误!',{icon: 2});
