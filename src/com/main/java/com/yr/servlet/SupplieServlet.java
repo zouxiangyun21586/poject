@@ -54,15 +54,18 @@ public class SupplieServlet extends HttpServlet {
             String type= req.getParameter("type");
             String select= req.getParameter("select");//搜索功能中输入框的值(账号)
             select = new String(select.getBytes("ISO-8859-1"),"UTF-8"); // 转码
-            String interest= req.getParameter("interest");//搜索功能中下拉框的值(角色)
             String pageNow = req.getParameter("pageNow");//获得页面传过来的当前页
             if (null != type && type.equals("list")) {
                 String sel = req.getParameter("select");
                 if (null == pageNow || "".equals(pageNow)) {
                     pageNow = "1";
                 }
-                List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select);
-                int pageCount=SupplieDao.getPageCount();//获得总页数
+                if (null != select && !"".equals(select)){
+                	pageNow = "1";
+                	
+                }
+                List<Supplie>  list = SupplieDao.selectemp(Integer.valueOf(pageNow),select,sel);
+                int pageCount = SupplieDao.getPageCount(select);//获得总页数
                 String pageCode = new SuppliePage().getPageCode(Integer.parseInt(pageNow), pageCount);
                 Map<String, Object> map = new HashMap<>();
                 map.put("list", list);
@@ -154,7 +157,6 @@ public class SupplieServlet extends HttpServlet {
             try {
             	resp.setContentType("application/json; charset=utf-8");
                 String release_id = req.getParameter("release_id");
-                System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = (String)ConnectTime.getWebsiteDatetime();
                 String so = SupplieDao.xiajia(date,release_id);
             } catch (SQLException e) {

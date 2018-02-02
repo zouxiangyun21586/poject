@@ -283,11 +283,11 @@ public class SupplieDao {
         ps1.setInt(3, merId);
         ps1.executeUpdate();
         ps1.close();
-        /*String str = "update release_supplier set wares_id = ? where id= ? ;";
+        String str = "update release_supplier set wares_id = ? where id= ? ;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
         ps.setInt(1, 0);
         ps.setInt(2, merId);
-        ps.executeUpdate();*/
+        ps.executeUpdate();
     }
     
    /**
@@ -401,22 +401,30 @@ public class SupplieDao {
     /**
      * 查询数据并用list封装起来
      * @param pageNow 当前页
+     * @param account 账号名   (同时判断是不是使用了下拉框)
      * @param sel 判断是否用了查询功能
      * @return 返回所查询的数据
      */
-    public static List<Supplie> selectemp(Integer pageNow, String sel) {
+    public static List<Supplie> selectemp(Integer pageNow,String account, String sel) {
         Connection conn = Conn.conn();
         String sql = "";
+        List<Supplie> list = new ArrayList<>();
         if (pageNow < 1) {
             pageNow = 1;
         }
-        pageNow = (pageNow - 1) * 10;
+        
         try {
             if(null != sel && !"".equals(sel)){ // 搜索
+            pageNow = 0;
             List<Integer> paramIndex = new ArrayList<>();
             List<Object> param = new ArrayList<>();
-            sql = "select su.id,aud.id,acc.id,mer.id,su.commodity,mer.money,mer.number,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mer.upFrameTime,mer.merStatus from supplier su ,merchandise mer ,specification_table spe ,merchandise_type mtype ,month_table mo,auditsupplier aud,account acc where su.mercd_id = mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and aud.release_id = su.mercd_id and mer.id = aud.merchandise_id and mer.account_id = aud.account_id and mer.account_id = acc.id ORDER BY su.id ASC";
+            sql = "select su.id,asp.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus,rel.id from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ";
             
+            if(account != null && !"".equals(account)){
+            	sql = sql + "and acc.account = ? ORDER BY su.id ASC ";
+            	paramIndex.add(0);
+            	param.add(account);
+            }
             sql = sql + " limit ?,?";
             paramIndex.add(1);
             paramIndex.add(1);
@@ -430,7 +438,7 @@ public class SupplieDao {
             for (int i = 0; i < paramIndex.size(); i++) {
                 int mark = paramIndex.get(i);
                 if(mark == 0 ){
-                    prepar.setString( (i+1), "%" + "\\" + (String)param.get(i)  + "%");
+                    prepar.setString( (i+1), (String)param.get(i) );
                 }
                 else if(mark == 1)
                 {
@@ -441,50 +449,58 @@ public class SupplieDao {
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
             while (resu.next()) {
-                Supplie supp = new Supplie();
+            	Supplie supp = new Supplie();
                 supp.setSuptId(resu.getInt(1));
-                supp.setRelease_supplierId(resu.getInt(2));
+                supp.setAuditId(resu.getInt(2));
                 supp.setAccount_id(resu.getInt(3));
                 supp.setMerId(resu.getInt(4));
-                supp.setCommo(resu.getString(5));
-                supp.setMoney(resu.getInt(6));
-                supp.setNumber(resu.getInt(7));
-                supp.setMonth(resu.getString(8));
-                supp.setBrand(resu.getString(9));
-                supp.setOrigin(resu.getString(10));
-                supp.setPackingMethod(resu.getString(11));
-                supp.setStorageMethod(resu.getString(12));
-                supp.setUpFrameTime(resu.getString(13));
-                supp.setAuditStatus(resu.getInt(14));
+                supp.setAccount(resu.getString(5));;
+                supp.setCommo(resu.getString(6));
+                supp.setMoney(resu.getInt(7));
+                supp.setNumber(resu.getInt(8));
+                supp.setNetContent(resu.getString(9));
+                supp.setMonth(resu.getString(10));
+                supp.setBrand(resu.getString(11));
+                supp.setOrigin(resu.getString(12));
+                supp.setPackingMethod(resu.getString(13));
+                supp.setStorageMethod(resu.getString(14));
+                supp.setTypeName(resu.getString(15));
+                supp.setDescribe(resu.getString(16));
+                supp.setUpFrameTime(resu.getString(17));
+                supp.setAuditStatus(resu.getInt(18));
+                supp.setRelease_supplierId(resu.getInt(19));
                 list.add(supp);
             }
             return list;
         }else { // 页面加载时查询 出现
-            sql = "select su.id,asp.id,acc.id,mer.id,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id ORDER BY su.id ASC limit ?,?;";
+        	pageNow = (pageNow - 1) * 10;
+            sql = "select su.id,asp.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus,rel.id from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
             pre.setInt(1, pageNow);
             pre.setInt(2, Paging.getPageNumber());
             pre.executeQuery();
             ResultSet rs = pre.getResultSet();
             while (rs.next()) {
-                Supplie supp = new Supplie();
+            	Supplie supp = new Supplie();
                 supp.setSuptId(rs.getInt(1));
-                supp.setRelease_supplierId(rs.getInt(2));
+                supp.setAuditId(rs.getInt(2));
                 supp.setAccount_id(rs.getInt(3));
                 supp.setMerId(rs.getInt(4));
-                supp.setCommo(rs.getString(5));
-                supp.setMoney(rs.getInt(6));
-                supp.setNumber(rs.getInt(7));
-                supp.setNetContent(rs.getString(8));
-                supp.setMonth(rs.getString(9));
-                supp.setBrand(rs.getString(10));
-                supp.setOrigin(rs.getString(11));
-                supp.setPackingMethod(rs.getString(12));
-                supp.setStorageMethod(rs.getString(13));
-                supp.setTypeName(rs.getString(14));
-                supp.setDescribe(rs.getString(15));
-                supp.setUpFrameTime(rs.getString(16));
-                supp.setAuditStatus(rs.getInt(17));
+                supp.setAccount(rs.getString(5));;
+                supp.setCommo(rs.getString(6));
+                supp.setMoney(rs.getInt(7));
+                supp.setNumber(rs.getInt(8));
+                supp.setNetContent(rs.getString(9));
+                supp.setMonth(rs.getString(10));
+                supp.setBrand(rs.getString(11));
+                supp.setOrigin(rs.getString(12));
+                supp.setPackingMethod(rs.getString(13));
+                supp.setStorageMethod(rs.getString(14));
+                supp.setTypeName(rs.getString(15));
+                supp.setDescribe(rs.getString(16));
+                supp.setUpFrameTime(rs.getString(17));
+                supp.setAuditStatus(rs.getInt(18));
+                supp.setRelease_supplierId(rs.getInt(19));
                 list.add(supp);
             }
             rs.close();
@@ -503,17 +519,28 @@ public class SupplieDao {
      * 
      * @return 返回总页数
      */
-    public static Integer getPageCount() {
+    public static Integer getPageCount(String account) {
         Connection conn = Conn.conn();
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
+        List<Object> param = new ArrayList<>();
         try {
-            String sql = "select count(*) from supplier";
+            String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ";
             PreparedStatement prepar = conn.prepareStatement(sql);
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
             while (resu.next()) {
                 total = resu.getInt(1);
+            }
+            if (account != null && !account.equals("")){
+            	sql = sql + "and acc.account = ? ORDER BY su.id ASC ";
+            	PreparedStatement pre = conn.prepareStatement(sql);
+            	pre.setString(1, account);
+            	pre.executeQuery();
+                ResultSet re = pre.getResultSet();
+                while (re.next()) {
+                    total = re.getInt(1);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
