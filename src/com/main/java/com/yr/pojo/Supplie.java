@@ -33,7 +33,14 @@ public class Supplie {
     private String account; // 账户名
     private String releaseTime; // 发表时间
     private int auditId; // 审核id
+    private String email; // 账户邮箱
     
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
     public String getMonths() {
         return months;
     }

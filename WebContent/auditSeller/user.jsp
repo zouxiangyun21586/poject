@@ -126,26 +126,17 @@ function del(a){
         var auditID = tr.find("td").eq(1).text();
         var seller_id = tr.find("td").eq(2).text();
         var wares_id = tr.find("td").eq(3).text();
-        $.ajax({
-            url:"../auditSellerServlet",
-            type:"get",
-            cache:false,//取消缓存
-            async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"id":id,"auditID":auditID,"seller_id":seller_id,"wares_id":wares_id,"i":2},//传递参数
-            success:function(result){
-                if(result == "0")
-                {
-                    tr.remove();
-                }
-                else
-                {
-                   alert("删除失败");         
-                }
-            },//请求成功,进入该方法
-            error:function(XMLHttpRequest, textStatus, errorThrown)
-            {
-                alert("发生错误!!");
-            }
+        layer.open({
+            title : '禁止提醒',
+            type : 2,
+            anim : 2,
+            maxmin : false,
+            resize : true,
+            scrollbar : true,
+            //页面路径
+            content : '../auditSellerServlet?i=5&&o=1&&id='+id+'&&auditID='+auditID+'&&seller_id='+seller_id+'&&wares_id='+wares_id,
+            area : [ '400px', '505px' ],//宽高
+            shadeClose : true
         });
     }
 }
@@ -156,26 +147,17 @@ function pass(b){
     var auditID = tr.find("td").eq(1).text();
     var seller_id = tr.find("td").eq(2).text();
     var wares_id = tr.find("td").eq(3).text();
-    $.ajax({
-        url:"../auditSellerServlet",
-        type:"get",
-        cache:false,//取消缓存
-        async:true,//是否异步请求,修改false就表示同步,true表示异步
-        data:{"id":id,"auditID":auditID,"seller_id":seller_id,"wares_id":wares_id,"i":1},
-        success:function(result){
-            if(result == "0")
-            {
-                tr.remove();
-            }
-            else
-            {
-               alert("操作失败");
-            }
-        },//请求成功,进入该方法
-        error:function(XMLHttpRequest, textStatus, errorThrown)
-        {
-            alert("发生错误!!");
-        }
+    layer.open({
+        title : '上架提醒',
+        type : 2,
+        anim : 2,
+        maxmin : false,
+        resize : true,
+        scrollbar : true,
+        //页面路径
+        content : '../auditSellerServlet?i=5&&o=2&&id='+id+'&&auditID='+auditID+'&&seller_id='+seller_id+'&&wares_id='+wares_id,
+        area : [ '400px', '505px' ],//宽高
+        shadeClose : true
     });
 }
 

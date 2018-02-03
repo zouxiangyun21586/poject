@@ -1,5 +1,8 @@
 package com.yr.util;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -9,10 +12,47 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.yr.dao.LinkMysql;
+
 public class SendMail {
   //阿里SMTP服务器地址
     private static final String ALIDM_SMTP_HOST = "smtp.aliyun.com";
+    private static final Integer NUB_1 = 1;
     
+    /**
+     * 商品ID获得对应账户邮箱
+     * @param wares_id  商品ID
+     * @return          返回账户邮箱
+     * String
+     * 2018年2月3日下午4:52:13
+     */
+    public static String Email(Integer wares_id){
+        Connection conn = LinkMysql.getCon();
+        try{
+            String sql = "select ac.youxiang from account ac,merchandise m where m.account_id=ac.id and m.id = ?;";
+            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
+            ps.setInt(NUB_1, wares_id);
+            ResultSet rs = ps.executeQuery();
+            String email = null;
+            while(rs.next()){
+                email = rs.getString(NUB_1);
+            }
+            rs.close();
+            ps.close();
+            return email;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 发送邮件
+     * @param mail      邮箱
+     * @param content   邮件内容
+     * void
+     * 2018年2月3日下午4:39:43
+     */
     public static void sendMail(String mail,String content){
         try{
             // 配置发送邮件的环境属性
