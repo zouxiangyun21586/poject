@@ -211,15 +211,7 @@ public class SupplieServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else if ("7".equals(sup)){ // 审核
-            try {
-				List<Supplie> list = SupplieDao.selc();
-				req.setAttribute("list", list);
-				req.getRequestDispatcher("auditSupplie/detail.jsp").forward(req,resp);;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-        }else if("8".equals(sup)){ // 上架审核中
+        }else if("7".equals(sup)){ // 上架审核中
             try {
             	resp.setContentType("application/json; charset=utf-8");
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
