@@ -23,15 +23,18 @@ import com.yr.util.Conn;
 import com.yr.util.JsonUtils;
 
 public class SupplieDao {
-    public static final String webUrl4 = "http://www.ntsc.ac.cn";// 中国科学院国家授时中心
+    public static final String webUrl4 = "http://www.ntsc.ac.cn"; // 中国科学院国家授时中心
     static List<Supplie> list = new ArrayList<>();
 
     /**
      * 修改查询
+     * 
      * @author zxy
+     * @param merId
      * @return
+     * @throws SQLException
      * 2017年12月14日  下午3:11:13
-     * @throws SQLException 
+     *
      */
     public static List<Supplie> queryAll(Integer merId) throws SQLException{
         Connection conn = Conn.conn();
@@ -67,11 +70,13 @@ public class SupplieDao {
     }
     
     /**
-     * 查询所有
+     * 查询所有信息
+     * 
      * @author zxy
      * @return
+     * @throws SQLException
      * 2017年12月14日  下午3:11:13
-     * @throws SQLException 
+     *
      */
     public static List<Supplie> selc() throws SQLException{
     	Connection conn = Conn.conn();
@@ -107,20 +112,22 @@ public class SupplieDao {
     
     /**
      * 添加商品信息
+     * 
      * @author zxy
-     * @param nameType 商品类型
-     * @param name  商品名
-     * @param money 商品价格
-     * @param describe  商品描述
-     * @param specification 商品规格
-     * @param number    商品数量
-     * @param upFrametTime  商品上架时间
+     * @param acc_id 账号id
+     * @param nameTypeID 类型id
+     * @param name 商品名
+     * @param money 价格
+     * @param specificationID 规格id
+     * @param number 数量
+     * @param merStatus 商品状态
      * @param describe 商品描述
-     * @param auditStatus 商品状态
-     * @param supplie_id 供应商商品id
+     * @param upFrametTime 上架时间
+     * @return
      * @throws SQLException
-     * 2017年12月14日  下午5:35:56
-     * @throws ParseException 
+     * @throws ParseException
+     * 2017年12月14日  下午5:35:56 
+     *
      */
     public static Integer merchandiseAdd(Integer acc_id,String nameTypeID,String name,String money,Integer specificationID,String number,Integer merStatus,String describe,String upFrametTime) throws SQLException, ParseException{
         Connection conn = Conn.conn();
@@ -146,6 +153,7 @@ public class SupplieDao {
     
     /**
      * 添加规格表中信息
+     * 
      * @author zxy
      * @param origin
      * @param netContent
@@ -153,8 +161,10 @@ public class SupplieDao {
      * @param brand
      * @param qGp
      * @param storageMethod
+     * @return
      * @throws SQLException
      * 2017年12月28日  下午10:21:47
+     *
      */
     public static Integer speciAdd(String origin,String netContent,String packingMethod,String brand,String qGp,String storageMethod)throws SQLException{
         Connection conn = Conn.conn();
@@ -177,11 +187,14 @@ public class SupplieDao {
     
     /**
      * 添加供应商的商品信息
+     * 
      * @author zxy
-     * @param strName 商品信息
+     * @param name 商品名
+     * @param mercd_id 商品id
      * @return
      * @throws Exception
      * 2017年12月14日  下午3:10:51
+     *
      */
     public static Integer suppAdd(String name,Integer mercd_id) throws Exception{
         Connection conn = Conn.conn();
@@ -200,13 +213,14 @@ public class SupplieDao {
     
     /**
      * 获取指定网站的日期时间 
+     * 
      * @author zxy
      * @param webUrl
      * @return
      * 2017年12月16日  上午11:31:57
+     *
      */
     public static String getWebsiteDatetime(String webUrl){
-        Connection conn = Conn.conn();
         try {
             URL url = new URL(webUrl);// 取得资源对象
             URLConnection uc = url.openConnection();// 生成连接对象
@@ -225,11 +239,13 @@ public class SupplieDao {
     
     /**
      * 撤销审核中的商品
+     * 
      * @author zxy
-     * @param release_supplierId 发布表id
-     * @param account_id 账户id
-     * @param id 商品id
+     * @param account_id  账户id
+     * @param merId 商品id
      * @throws SQLException
+     * 2018年12月4日 下午9:57:52 
+     *
      */
     public static void cencel(Integer account_id,Integer merId) throws SQLException{
         Connection conn = Conn.conn();
@@ -245,14 +261,15 @@ public class SupplieDao {
         ps1.executeUpdate();
     }
     
-   /**
-    * 下架商品
-    * @author zxy
-    * @param date
-    * @param release_id
-    * @return
-    * @throws SQLException
-    */
+    /**
+     * 下架商品
+     * 
+     * @author zxy
+     * @param merId 商品id
+     * @throws SQLException
+     * 2017年12月3日 下午9:57:21 
+     *
+     */
     public static void xiajia(String merId) throws SQLException{
         Connection conn = Conn.conn();
         String str = "update merchandise set merStatus = ? where id = ?";
@@ -268,12 +285,15 @@ public class SupplieDao {
     
     /**
      * 上架
+     * 
      * @author zxy
      * @param sup_id 供应商id
-     * @param reles_id 商品发布id
-     * @param acc_id 账户id
+     * @param mer_id 商品id
+     * @param acc_id 账号id
      * @param upForamTime 上架时间
-     * @throws SQLException 
+     * @throws SQLException
+     * 2017年12月26日 下午9:56:17 
+     *
      */
     public static void shanjia(Integer sup_id,Integer mer_id,Integer acc_id,String upForamTime) throws SQLException{
     	Connection conn = Conn.conn();
@@ -293,16 +313,15 @@ public class SupplieDao {
     
     /**
      * 修改商品
+     * 
      * @author zxy
-     * @param name
      * @param money
      * @param number
-     * @param nameTypeId
-     * @param specificationID
+     * @param describe
      * @param id
-     * @return
      * @throws SQLException
      * 2017年12月14日  下午5:41:00
+     *
      */
     public static void merchandiseUpd(String money,String number,String describe,String id) throws SQLException{
         Connection conn = Conn.conn();
@@ -317,17 +336,15 @@ public class SupplieDao {
     
     /**
      * 修改规格表
+     * 
      * @author zxy
-     * @param origin
      * @param netContent
      * @param packingMethod
-     * @param brand
      * @param qGp
-     * @param storageMethod
      * @param speId
-     * @return
      * @throws SQLException
      * 2017年12月28日  下午10:06:30
+     * 
      */
     public static void speUpd(String netContent,String packingMethod,String qGp,String speId) throws SQLException{
         Connection conn = Conn.conn();
@@ -342,10 +359,14 @@ public class SupplieDao {
     
     /**
      * 查询数据并用list封装起来
+     * 
+     * @author zxy
      * @param pageNow 当前页
      * @param account 账号名   (同时判断是不是使用了下拉框)
      * @param sel 判断是否用了查询功能
      * @return 返回所查询的数据
+     * 2018年2月3日 下午9:53:50 
+     *
      */
     public static List<Supplie> selectemp(Integer pageNow,String account, String sel) {
         Connection conn = Conn.conn();
@@ -428,14 +449,16 @@ public class SupplieDao {
     }
     
     /**
-     * 搜索模糊查询
-     * @author zxy
+     * 搜索模糊查询工具类
      * 
+     * @author zxy
+     * @param accName 账号名
+     * @return
      * 2018年2月3日 上午10:50:22 
      *
      */
-    public static String decodeSpecialCharsWhenLikeUseSlash(String content) {
-        String afterDecode = content.replaceAll("'", "''");
+    public static String decodeSpecialCharsWhenLikeUseSlash(String accName) {
+        String afterDecode = accName.replaceAll("'", "''");
         afterDecode = afterDecode.replaceAll("\\\\", "\\\\\\\\");
         afterDecode = afterDecode.replaceAll("%", "\\\\%");
         afterDecode = afterDecode.replaceAll("_", "\\\\_");
@@ -445,7 +468,11 @@ public class SupplieDao {
     /**
      * 获得总页数
      * 
+     * @author zxy
+     * @param account 账号名
      * @return 返回总页数
+     * 2018年2月3日 下午9:55:38 
+     *
      */
     public static Integer getPageCount(String account) {
         Connection conn = Conn.conn();
