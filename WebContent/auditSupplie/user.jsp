@@ -97,24 +97,18 @@
     	var auditId = tr.find("td").eq(1).text();
     	var account_id = tr.find("td").eq(2).text();
     	var merId = tr.find("td").eq(3).text();
-    	var i = 1;
-    	$.ajax({
-    		url:"../auditSupplieServlet",
-            type:"post",
-            cache:false,//取消缓存
-            async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"i":i,"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId},
-            success:function(result){
-                if(result == "0")
-                {
-                    tr.remove();
-                }
-                else
-                {
-                   alert("操作失败");
-                }
-            }
-    	});
+    	layer.open({
+            title : '上架提醒',
+            type : 2,
+            anim : 2,
+            maxmin : false,
+            resize : true,
+            scrollbar : true,
+            //页面路径
+            content : '../auditSupplieServlet?i=2&&o=1&&auditId='+auditId+'&&suptId='+suptId+'&&account_id='+account_id+'&&merId='+merId,
+            area : [ '400px', '505px' ],//宽高
+            shadeClose : true
+        });
     }
     // 禁止上架
     function del(b){
@@ -124,22 +118,17 @@
             var auditId = tr.find("td").eq(1).text();
             var account_id = tr.find("td").eq(2).text();
             var merId = tr.find("td").eq(3).text();
-            $.ajax({
-                url:"../auditSupplieServlet",
-                type:"post",
-                cache:false,//取消缓存
-                async:true,//是否异步请求,修改false就表示同步,true表示异步
-                data:{"i":2,"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId},
-                success:function(result){
-                    if(result == "0")
-                    {
-                        tr.remove();
-                    }
-                    else
-                    {
-                       alert("操作失败");
-                    }
-                }
+            layer.open({
+                title : '禁止提醒',
+                type : 2,
+                anim : 2,
+                maxmin : false,
+                resize : true,
+                scrollbar : true,
+                //页面路径
+                content : '../auditSupplieServlet?i=2&&o=2&&auditId='+auditId+'&&suptId='+suptId+'&&account_id='+account_id+'&&merId='+merId,
+                area : [ '400px', '505px' ],//宽高
+                shadeClose : true
             });
     	}
     }

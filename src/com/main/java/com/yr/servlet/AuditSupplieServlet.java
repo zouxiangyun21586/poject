@@ -2,6 +2,7 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.yr.dao.AuditSupplieDao;
 import com.yr.pojo.Supplie;
 import com.yr.util.ConnectTime;
 import com.yr.util.PageService;
+import com.yr.util.SendMail;
 
 import net.sf.json.JSONObject;
 
@@ -39,6 +41,8 @@ public class AuditSupplieServlet extends HttpServlet {
 	 *  i=0为         搜索查看与最初查看
      *  i=1 o=1为        修改查看
      *  i=1 0=2为        查看商品详细信息
+     *  i=2 o=1   为       上架成功提醒
+     *  i=2 o=2   为       禁止上架提醒 
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -85,6 +89,25 @@ public class AuditSupplieServlet extends HttpServlet {
             }else if("2".equalsIgnoreCase(o)){// 查看详细信息
                 request.getRequestDispatcher("auditSupplie/detail.jsp").forward(request,response);
             }
+        }else if("2".equalsIgnoreCase(i)){
+            String o = request.getParameter("o");
+            int suptId = Integer.valueOf(request.getParameter("suptId"));
+            int auditId = Integer.valueOf(request.getParameter("auditId"));
+            int account_id = Integer.valueOf(request.getParameter("account_id"));
+            int merId = Integer.valueOf(request.getParameter("merId"));
+            List<Supplie> list = new ArrayList<>();
+            Supplie sup = new Supplie();
+            sup.setSuptId(suptId);
+            sup.setAuditId(auditId);
+            sup.setAccount_id(account_id);
+            sup.setMerId(merId);
+            list.add(sup);
+            request.setAttribute("list",list);
+            if("1".equalsIgnoreCase(o)){
+                request.getRequestDispatcher("auditSupplie/pass.jsp").forward(request,response);
+            }else if("2".equalsIgnoreCase(o)){
+                request.getRequestDispatcher("auditSupplie/prohibit.jsp").forward(request,response);
+            }
         }
 
 	}
@@ -98,7 +121,6 @@ public class AuditSupplieServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("text/json");
         response.setCharacterEncoding("utf-8");
-        System.out.println("1");
         String i = request.getParameter("i");
         if("1".equals(i)){// 允许上架
             int suptId = Integer.valueOf(request.getParameter("suptId"));
@@ -106,15 +128,20 @@ public class AuditSupplieServlet extends HttpServlet {
             int account_id = Integer.valueOf(request.getParameter("account_id"));
             int merId = Integer.valueOf(request.getParameter("merId"));
             String date = ConnectTime.getWebsiteDatetime();
+            String email = SendMail.Email(merId);
+            String remind = request.getParameter("remind");
+            SendMail.sendMail(email, "成功上架."+remind);
             AuditSupplieDao.passAudit(suptId, auditId, account_id, merId, date);
             response.getWriter().write("0");
         }else if("2".equals(i)){// 禁止上架
             int merId = Integer.valueOf(request.getParameter("merId"));
             int auditId = Integer.valueOf(request.getParameter("auditId"));
+            String email = SendMail.Email(merId);
+            String remind = request.getParameter("remind");
+            SendMail.sendMail(email, "禁止上架."+remind);
             AuditSupplieDao.NoneAudit(merId, auditId);
             response.getWriter().write("0");
         }else if("3".equals(i)){// 修改商品信息
-            System.out.println("2");
             int merId = Integer.valueOf(request.getParameter("merId"));
             int speId = Integer.valueOf(request.getParameter("speId"));
             Integer nameTypeId = Integer.valueOf(request.getParameter("nameTypeId"));
