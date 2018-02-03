@@ -36,32 +36,31 @@ public class SupplieDao {
     public static List<Supplie> queryAll(Integer merId) throws SQLException{
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select su.id,asp.id,act.id,mer.id,spe.id,act.`name`,su.commodity,mtype.type,mer.money,mer.number,spe.netContent,spe.origin,spe.packingMethod,spe.brand,mer.`describe`,mo.`month`,spe.storageMethod,mer.upFrameTime from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,account act,auditsupplier asp,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id=asp.account_id and mer.account_id=act.id and mer.id = asp.merchandise_id and rel.id = mer.id and mer.id = ? ORDER BY su.id ASC";
+        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id = sup.mercd_id and m.account_id = act.id and m.nameTypeID = mt.id and m.id = ? ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.setInt(1, merId);
         ps.executeQuery(); // 执行查询
-        ResultSet rs = ps.getResultSet();// 获取查询结果
+        ResultSet resu = ps.getResultSet();// 获取查询结果
         // 循环结果集
-        while (rs.next()) { // 取结果集中的下一个。
-            Supplie supp = new Supplie();
-            supp.setSuptId(rs.getInt(1));
-            supp.setRelease_supplierId(rs.getInt(2));
-            supp.setAccount_id(rs.getInt(3));
-            supp.setMerId(rs.getInt(4));
-            supp.setSpeId(rs.getInt(5));
-            supp.setAccount(rs.getString(6));
-            supp.setCommo(rs.getString(7));
-            supp.setTypeName(rs.getString(8));
-            supp.setMoney(rs.getInt(9));
-            supp.setNumber(rs.getInt(10));
-            supp.setNetContent(rs.getString(11));
-            supp.setOrigin(rs.getString(12));
-            supp.setPackingMethod(rs.getString(13));
-            supp.setBrand(rs.getString(14));
-            supp.setDescribe(rs.getString(15));
-            supp.setMonth(rs.getString(16));
-            supp.setStorageMethod(rs.getString(17));
-            supp.setUpFrameTime(rs.getString(18));
+        while (resu.next()) { // 取结果集中的下一个。
+        	Supplie supp = new Supplie();
+        	supp.setSuptId(resu.getInt(1));
+            supp.setAccount_id(resu.getInt(2));
+            supp.setMerId(resu.getInt(3));
+            supp.setAccount(resu.getString(4));
+            supp.setTypeName(resu.getString(5));
+            supp.setCommo(resu.getString(6));
+            supp.setMoney(resu.getInt(7));
+            supp.setNumber(resu.getInt(8));
+            supp.setNetContent(resu.getString(9));
+            supp.setOrigin(resu.getString(10));
+            supp.setPackingMethod(resu.getString(11));
+            supp.setBrand(resu.getString(12));
+            supp.setMonth(resu.getString(13));
+            supp.setStorageMethod(resu.getString(14));
+            supp.setDescribe(resu.getString(15));
+            supp.setUpFrameTime(resu.getString(16));
+            supp.setAuditStatus(resu.getInt(17));
             list.add(supp);
         }
         return list;
@@ -77,32 +76,30 @@ public class SupplieDao {
     public static List<Supplie> selc() throws SQLException{
     	Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select sup.id ,asp.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus ,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
+        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id=sup.mercd_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.executeQuery(); // 执行查询
-        ResultSet rs = ps.getResultSet();// 获取查询结果
+        ResultSet resu = ps.getResultSet();// 获取查询结果
         // 循环结果集
-        while (rs.next()) { // 取结果集中的下一个。
-            Supplie supp = new Supplie();
-            supp.setSuptId(rs.getInt(1));
-            supp.setRelease_supplierId(rs.getInt(2));
-            supp.setAccount_id(rs.getInt(3));
-            supp.setMerId(rs.getInt(4));
-            supp.setAccount(rs.getString(5));
-            supp.setTypeName(rs.getString(6));
-            supp.setCommo(rs.getString(7));
-            supp.setMoney(rs.getInt(8));
-            supp.setNumber(rs.getInt(9));
-            supp.setNetContent(rs.getString(10));
-            supp.setOrigin(rs.getString(11));
-            supp.setPackingMethod(rs.getString(12));
-            supp.setBrand(rs.getString(13));
-            supp.setMonth(rs.getString(14));
-            supp.setStorageMethod(rs.getString(15));
-            supp.setDescribe(rs.getString(16));
-            supp.setUpFrameTime(rs.getString(17));
-            supp.setAuditStatus(rs.getInt(18));
-            supp.setReleaseTime(rs.getString(19));
+        while (resu.next()) { // 取结果集中的下一个。
+        	Supplie supp = new Supplie();
+        	supp.setSuptId(resu.getInt(1));
+            supp.setAccount_id(resu.getInt(2));
+            supp.setMerId(resu.getInt(3));
+            supp.setAccount(resu.getString(4));
+            supp.setTypeName(resu.getString(5));
+            supp.setCommo(resu.getString(6));
+            supp.setMoney(resu.getInt(7));
+            supp.setNumber(resu.getInt(8));
+            supp.setNetContent(resu.getString(9));
+            supp.setOrigin(resu.getString(10));
+            supp.setPackingMethod(resu.getString(11));
+            supp.setBrand(resu.getString(12));
+            supp.setMonth(resu.getString(13));
+            supp.setStorageMethod(resu.getString(14));
+            supp.setDescribe(resu.getString(15));
+            supp.setUpFrameTime(resu.getString(16));
+            supp.setAuditStatus(resu.getInt(17));
             list.add(supp);
         }
 		return list;
@@ -128,7 +125,7 @@ public class SupplieDao {
     public static Integer merchandiseAdd(Integer acc_id,String nameTypeID,String name,String money,Integer specificationID,String number,Integer merStatus,String describe,String upFrametTime) throws SQLException, ParseException{
         Connection conn = Conn.conn();
         String str = "insert into merchandise(account_id,nameTypeID,`name`,money,specificationID,number,`describe`,merStatus,upFrameTime) values(?,?,?,?,?,?,?,?,?);"; // id自增长
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str,Statement.RETURN_GENERATED_KEYS);// 发送SQL到数据库
         ps.setInt(1, acc_id);
         ps.setString(2, nameTypeID);
         ps.setString(3, name);
@@ -179,28 +176,6 @@ public class SupplieDao {
     }
     
     /**
-     * 添加供应商发布表中信息
-     * @author zxy
-     * @param relea_id
-     * @param acc_id
-     * @param mer_id
-     * @param time
-     * @return
-     * @throws SQLException
-     * 2017年12月28日  下午10:21:47
-     */
-    public static void auditsupplier(Integer relea_id,Integer acc_id,Integer mer_id,String time)throws SQLException{
-        Connection conn = Conn.conn();
-        String str = "INSERT INTO auditsupplier(release_id,account_id,merchandise_id,addTime) VALUES(?,?,?,?);"; // id自增长
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str,Statement.RETURN_GENERATED_KEYS);// 发送SQL到数据库  获取刚插入的自增长id 
-        ps.setInt(1, relea_id);
-        ps.setInt(2, acc_id);
-        ps.setInt(3, mer_id);
-        ps.setString(4, time);
-        ps.executeUpdate();// 执行修改
-    }
-    
-    /**
      * 添加供应商的商品信息
      * @author zxy
      * @param strName 商品信息
@@ -211,7 +186,7 @@ public class SupplieDao {
     public static Integer suppAdd(String name,Integer mercd_id) throws Exception{
         Connection conn = Conn.conn();
         String str = "insert into supplier(commodity,mercd_id) values(?,?);"; // id自增长
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
+        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str,Statement.RETURN_GENERATED_KEYS);// 发送SQL到数据库
         ps.setString(1, name); // 供应商id 
         ps.setInt(2, mercd_id); // 商品id
         ps.executeUpdate();// 执行修改
@@ -249,24 +224,6 @@ public class SupplieDao {
     }
     
     /**
-     * 删除供应商的商品信息
-     * @author zxy
-     * @param strId 供应商商品id
-     * @return
-     * @throws Exception
-     * 2017年12月14日  下午3:10:57
-     */
-    public static void suppDel(String strId) throws Exception{
-        Connection conn = Conn.conn();
-        String str = "delete from supplier where id = ?";
-        strId = new String(strId.getBytes("ISO-8859-1"), "utf-8"); // 解决乱码问题
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);// 发送SQL到数据库
-        ps.setString(1, strId);
-        ps.executeUpdate(); // 执行修改
-        selc();
-    }
-    
-    /**
      * 撤销审核中的商品
      * @author zxy
      * @param release_supplierId 发布表id
@@ -274,20 +231,18 @@ public class SupplieDao {
      * @param id 商品id
      * @throws SQLException
      */
-    public static void cencel(Integer release_supplierId,Integer account_id,Integer merId) throws SQLException{
+    public static void cencel(Integer account_id,Integer merId) throws SQLException{
         Connection conn = Conn.conn();
-        String sql1 = "delete from auditsupplier where release_id=? and account_id=? and merchandise_id=?";
+        String str3 = "update merchandise set merStatus = ? where id = ?";
+        PreparedStatement pre = (PreparedStatement) conn.prepareStatement(str3);
+        pre.setInt(1, 0);
+        pre.setInt(2, merId);
+        String sql1 = "delete from auditsupplier where account_id=? and merchandise_id=?";
         PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
-        ps1.setInt(1, release_supplierId);
-        ps1.setInt(2, account_id);
-        ps1.setInt(3, merId);
+        ps1.setInt(1, account_id);
+        ps1.setInt(2, merId);
+        pre.executeUpdate();
         ps1.executeUpdate();
-        ps1.close();
-        String str = "update release_supplier set wares_id = ? where id= ? ;";
-        PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
-        ps.setInt(1, 0);
-        ps.setInt(2, merId);
-        ps.executeUpdate();
     }
     
    /**
@@ -298,30 +253,17 @@ public class SupplieDao {
     * @return
     * @throws SQLException
     */
-    public static String xiajia(String date,String release_id) throws SQLException{
+    public static void xiajia(String merId) throws SQLException{
         Connection conn = Conn.conn();
-        String str = "update release_supplier set time= ? where id=?;";
+        String str = "update merchandise set merStatus = ? where id = ?";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(str);
-        ps.setString(1, date);
-        ps.setString(2, release_id);
-        String str2 = "update release_supplier set wares_id = ? where id=?;";
-        PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(str2);
-        ps1.setInt(1, 0);
-        ps1.setString(2, release_id);
+        ps.setInt(1, 0);
+        ps.setString(2, merId);
+        String str3 = "delete from release_supplier where wares_id = ?";
+        PreparedStatement pre = (PreparedStatement) conn.prepareStatement(str3);
+        pre.setString(1, merId);
         ps.executeUpdate();
-        ps1.executeUpdate();
-        String sql = "select time from release_supplier where id=?;";
-        PreparedStatement psp = (PreparedStatement) conn.prepareStatement(sql);
-        psp.setString(1, release_id);
-        psp.executeQuery();
-        ResultSet rs = psp.getResultSet();
-        while(rs.next()){
-            Supplie sup = new Supplie();
-            sup.setUpFrameTime(rs.getString(1));
-            list.add(sup);
-        }
-        String sst = JsonUtils.beanListToJson(list);
-        return sst;
+        pre.executeUpdate();
     }
     
     /**
@@ -416,65 +358,38 @@ public class SupplieDao {
         try {
             if(null != sel && !"".equals(sel)){ // 搜索
             pageNow = 0;
-            List<Integer> paramIndex = new ArrayList<>();
-            List<Object> param = new ArrayList<>();
-            sql = "select su.id,asp.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus,rel.id from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ";
-            
-            if(account != null && !"".equals(account)){
-            	sql = sql + "and acc.account = ? ORDER BY su.id ASC ";
-            	paramIndex.add(0);
-            	param.add(account);
-            }
-            sql = sql + " limit ?,?";
-            paramIndex.add(1);
-            paramIndex.add(1);
-            
-            
-            param.add(pageNow);
-            param.add(Paging.getPageNumber());
-            
+            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id and acc.account like ? ORDER BY su.id ASC limit ?,? ;";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
-            
-            for (int i = 0; i < paramIndex.size(); i++) {
-                int mark = paramIndex.get(i);
-                if(mark == 0 ){
-                    prepar.setString( (i+1), (String)param.get(i) );
-                }
-                else if(mark == 1)
-                {
-                    prepar.setInt( (i+1), (Integer)param.get(i) );
-                }
-            }
-            
-            prepar.executeQuery();
-            ResultSet resu = prepar.getResultSet();
+			String accountName = decodeSpecialCharsWhenLikeUseSlash(sel);
+			prepar.setString(1,"%" + accountName + "%");
+			prepar.setInt(2,pageNow);
+			prepar.setInt(3,Paging.getPageNumber());
+            ResultSet resu = prepar.executeQuery();
             while (resu.next()) {
             	Supplie supp = new Supplie();
-                supp.setSuptId(resu.getInt(1));
-                supp.setAuditId(resu.getInt(2));
-                supp.setAccount_id(resu.getInt(3));
-                supp.setMerId(resu.getInt(4));
-                supp.setAccount(resu.getString(5));;
-                supp.setCommo(resu.getString(6));
-                supp.setMoney(resu.getInt(7));
-                supp.setNumber(resu.getInt(8));
-                supp.setNetContent(resu.getString(9));
-                supp.setMonth(resu.getString(10));
-                supp.setBrand(resu.getString(11));
-                supp.setOrigin(resu.getString(12));
-                supp.setPackingMethod(resu.getString(13));
-                supp.setStorageMethod(resu.getString(14));
-                supp.setTypeName(resu.getString(15));
-                supp.setDescribe(resu.getString(16));
-                supp.setUpFrameTime(resu.getString(17));
-                supp.setAuditStatus(resu.getInt(18));
-                supp.setRelease_supplierId(resu.getInt(19));
+            	supp.setSuptId(resu.getInt(1));
+                supp.setAccount_id(resu.getInt(2));
+                supp.setMerId(resu.getInt(3));
+                supp.setAccount(resu.getString(4));
+                supp.setCommo(resu.getString(5));
+                supp.setMoney(resu.getInt(6));
+                supp.setNumber(resu.getInt(7));
+                supp.setNetContent(resu.getString(8));
+                supp.setMonth(resu.getString(9));
+                supp.setBrand(resu.getString(10));
+                supp.setOrigin(resu.getString(11));
+                supp.setPackingMethod(resu.getString(12));
+                supp.setStorageMethod(resu.getString(13));
+                supp.setTypeName(resu.getString(14));
+                supp.setDescribe(resu.getString(15));
+                supp.setUpFrameTime(resu.getString(16));
+                supp.setAuditStatus(resu.getInt(17));
                 list.add(supp);
             }
             return list;
         }else { // 页面加载时查询 出现
         	pageNow = (pageNow - 1) * 10;
-            sql = "select su.id,asp.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus,rel.id from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ORDER BY su.id ASC limit ?,?;";
+            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
             pre.setInt(1, pageNow);
             pre.setInt(2, Paging.getPageNumber());
@@ -483,24 +398,22 @@ public class SupplieDao {
             while (rs.next()) {
             	Supplie supp = new Supplie();
                 supp.setSuptId(rs.getInt(1));
-                supp.setAuditId(rs.getInt(2));
-                supp.setAccount_id(rs.getInt(3));
-                supp.setMerId(rs.getInt(4));
-                supp.setAccount(rs.getString(5));;
-                supp.setCommo(rs.getString(6));
-                supp.setMoney(rs.getInt(7));
-                supp.setNumber(rs.getInt(8));
-                supp.setNetContent(rs.getString(9));
-                supp.setMonth(rs.getString(10));
-                supp.setBrand(rs.getString(11));
-                supp.setOrigin(rs.getString(12));
-                supp.setPackingMethod(rs.getString(13));
-                supp.setStorageMethod(rs.getString(14));
-                supp.setTypeName(rs.getString(15));
-                supp.setDescribe(rs.getString(16));
-                supp.setUpFrameTime(rs.getString(17));
-                supp.setAuditStatus(rs.getInt(18));
-                supp.setRelease_supplierId(rs.getInt(19));
+                supp.setAccount_id(rs.getInt(2));
+                supp.setMerId(rs.getInt(3));
+                supp.setAccount(rs.getString(4));
+                supp.setCommo(rs.getString(5));
+                supp.setMoney(rs.getInt(6));
+                supp.setNumber(rs.getInt(7));
+                supp.setNetContent(rs.getString(8));
+                supp.setMonth(rs.getString(9));
+                supp.setBrand(rs.getString(10));
+                supp.setOrigin(rs.getString(11));
+                supp.setPackingMethod(rs.getString(12));
+                supp.setStorageMethod(rs.getString(13));
+                supp.setTypeName(rs.getString(14));
+                supp.setDescribe(rs.getString(15));
+                supp.setUpFrameTime(rs.getString(16));
+                supp.setAuditStatus(rs.getInt(17));
                 list.add(supp);
             }
             rs.close();
@@ -515,6 +428,21 @@ public class SupplieDao {
     }
     
     /**
+     * 搜索模糊查询
+     * @author zxy
+     * 
+     * 2018年2月3日 上午10:50:22 
+     *
+     */
+    public static String decodeSpecialCharsWhenLikeUseSlash(String content) {
+        String afterDecode = content.replaceAll("'", "''");
+        afterDecode = afterDecode.replaceAll("\\\\", "\\\\\\\\");
+        afterDecode = afterDecode.replaceAll("%", "\\\\%");
+        afterDecode = afterDecode.replaceAll("_", "\\\\_");
+        return afterDecode;
+    }
+    
+    /**
      * 获得总页数
      * 
      * @return 返回总页数
@@ -525,7 +453,7 @@ public class SupplieDao {
         int pageCount = 0;// 总页数
         List<Object> param = new ArrayList<>();
         try {
-            String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo,auditsupplier asp,account acc ,release_supplier rel where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.id = asp.merchandise_id and mer.account_id = asp.account_id and mer.account_id = acc.id and rel.id = asp.release_id and  rel.wares_id = su.mercd_id ";
+            String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ";
             PreparedStatement prepar = conn.prepareStatement(sql);
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
@@ -552,35 +480,4 @@ public class SupplieDao {
         }
         return pageCount;
     }
-    
-    /**
-     * 判断id是否重复
-     * @author zxy
-     * @param id
-     * @return
-     * 2017年12月15日  下午2:36:38
-     */
-    public static int exsisId(String id){
-        Connection conn = Conn.conn();
-        String sId= "select count(*) from supplier where id = ?";
-        try {
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sId);
-            ps.setString(1,id);
-            ps.executeQuery();// 执行查询
-            ResultSet rs = ps.getResultSet();
-            rs.next();
-            int count = rs.getInt(1); // sql语句查出总数为1代表id存在,总数为0代表可以添加此id(无人使用)
-            if (count == 0) {
-                int iid = 0;
-            }else{
-                int iid = 1;
-            }
-            return count;
-        } catch (Exception e) {
-            e.printStackTrace();
-            int iid = 0;
-        }
-        return 1;
-    }
-    
 }

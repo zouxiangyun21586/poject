@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -107,22 +109,46 @@ public class SupplieServlet extends HttpServlet {
                 System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = ConnectTime.getWebsiteDatetime();
                 
-                Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
-                System.out.println("规格表id " + speId);
-                Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,auditStatus,describe,date); // 添加商品信息
-                System.out.println("商品表id " + merId);
-                Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
-                System.out.println("供应商表id " + suppId);
-                SupplieDao.auditsupplier(suppId,account_id,merId,date); // 添加供应商发布信息
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(nameType != null && name != null && money != null && number != null && origin != null && netContent != null && packingMethod != null && brand != null && qGp != null && storageMethod != null && describe != null ){
+                	if(!nameType.equals("") && !name.equals("") && !money.equals("") && !number.equals("") && !origin.equals("") && !netContent.equals("") && !packingMethod.equals("") && !brand.equals("") && !qGp.equals("") && !storageMethod.equals("") && !describe.equals("")){
+                		Pattern pattern = Pattern.compile("[0-9]*");
+                		Matcher moneyIsNum = pattern.matcher(money);
+                		System.out.println("不为空且不为null");
+                		if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                			Pattern pattern2 = Pattern.compile("[0-9]*");
+                    		Matcher numberIsNum = pattern2.matcher(number);
+                    		System.out.println("进入价格");
+                			if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                				Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
+                				System.out.println("规格表id " + speId);
+                				Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,auditStatus,describe,date); // 添加商品信息
+                				System.out.println("商品表id " + merId);
+                				Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
+                				System.out.println("供应商表id " + suppId);
+                				System.out.println("执行完成 --");
+                			}else{
+                				resp.getWriter().write("3");
+                			}
+                		}else{
+                			resp.getWriter().write("0");
+                		}
+                	}else{
+                		resp.getWriter().write("1");
+                	}
+                }else{
+                	resp.getWriter().write("2");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if ("3".equals(sup)) { // 撤销审核中的商品
             try {
-                String release_supplierId = req.getParameter("release_supplierId");
                 String merId = req.getParameter("merId");
                 int account_id = (int)req.getSession().getAttribute("userID"); // 获取
-                SupplieDao.cencel(Integer.valueOf(release_supplierId), Integer.valueOf(account_id), Integer.valueOf(merId));
+                SupplieDao.cencel(Integer.valueOf(account_id), Integer.valueOf(merId));
                 SupplieDao.selc();
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -138,8 +164,32 @@ public class SupplieServlet extends HttpServlet {
                 String qGp = req.getParameter("qGp"); // 保质期
                 String describe = req.getParameter("describe");
                 describe = new String(describe.getBytes("ISO-8859-1"),"UTF-8");
-                SupplieDao.speUpd(netContent,packingMethod,qGp,speId);
-                SupplieDao.merchandiseUpd(money,number,describe,merId); //商品信息的修改
+                
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(speId != null && merId != null && money != null && number != null && netContent != null && packingMethod != null && qGp != null && describe != null ){
+                	if(!speId.equals("") && !merId.equals("") && !money.equals("") && !number.equals("") && !netContent.equals("") && !packingMethod.equals("") && !qGp.equals("") && !describe.equals("")){
+                		Pattern pattern = Pattern.compile("[0-9]*");
+                		Matcher moneyIsNum = pattern.matcher(money);
+                		if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                			Pattern pattern2 = Pattern.compile("[0-9]*");
+                    		Matcher numberIsNum = pattern2.matcher(number);
+                			if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                				SupplieDao.speUpd(netContent,packingMethod,qGp,speId);
+                				SupplieDao.merchandiseUpd(money,number,describe,merId); //商品信息的修改
+                			}else{
+                				resp.getWriter().write("3");
+                			}
+                		}else{
+                			resp.getWriter().write("0");
+                		}
+                	}else{
+                		resp.getWriter().write("1");
+                	}
+                }else{
+                	resp.getWriter().write("2");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -156,9 +206,8 @@ public class SupplieServlet extends HttpServlet {
         } else if ("6".equals(sup)){ // 下架
             try {
             	resp.setContentType("application/json; charset=utf-8");
-                String release_id = req.getParameter("release_id");
-                String date = (String)ConnectTime.getWebsiteDatetime();
-                String so = SupplieDao.xiajia(date,release_id);
+                String merId = req.getParameter("mer_id");
+                SupplieDao.xiajia(merId);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -174,38 +223,17 @@ public class SupplieServlet extends HttpServlet {
             try {
             	resp.setContentType("application/json; charset=utf-8");
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
-            	int reles_id = Integer.valueOf(req.getParameter("reles_id"));
+            	int mer_id = Integer.valueOf(req.getParameter("mer_id"));
             	int account_id = (int)req.getSession().getAttribute("userID");
             	/**
             	 * 获取网络时间
             	 */
             	System.out.println(ConnectTime.getWebsiteDatetime());
             	String upforamTime = ConnectTime.getWebsiteDatetime();
-				SupplieDao.shanjia(sup_id,reles_id,account_id,upforamTime);
+				SupplieDao.shanjia(sup_id,mer_id,account_id,upforamTime);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
         }
     }
-    
-    /**
-     * 锟叫讹拷Id锟角凤拷锟截革拷
-     * 
-     * @author zxy
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     * 2017锟斤拷12锟斤拷13锟斤拷 锟斤拷锟斤拷10:35:08
-     */
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
-        resp.setContentType("text/json");
-        resp.setCharacterEncoding("UTF-8");
-        String strId = req.getParameter("id"); // 锟斤拷取页锟芥传锟斤拷锟斤拷值
-        int id = SupplieDao.exsisId(strId);
-        resp.getWriter().write(id);
-    }
-
 }

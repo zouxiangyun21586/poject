@@ -14,104 +14,112 @@
             <div class="layui-col-md8" style="width: 100%;">
                 <c:forEach var="u" items="${list}">
                     <!-- <lable name="i" style="display: none;">1</lable> -->
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品类型</label>
-                     <div class="layui-input-block">
-                       <input type="text" name="interest" autocomplete="off"
-                             class="layui-input" value="${u.nameType}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品名称</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="name" autocomplete="off"
-                             class="layui-input" value="${u.name}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品价格</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="money" autocomplete="off"
-                             class="layui-input" value="${u.money}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品数量</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="number" autocomplete="off"
-                             class="layui-input" value="${u.number}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品描述</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="desc" autocomplete="off"
-                             class="layui-input" value="${u.describe}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品产地</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="origin" autocomplete="off"
-                             class="layui-input" value="${u.origin}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">净含量</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="netContent" autocomplete="off"
-                             class="layui-input" value="${u.netContent}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">包装方式</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="packingMethod" autocomplete="off"
-                             class="layui-input" value="${u.packingMethod}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">商品品牌</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="brand" autocomplete="off"
-                             class="layui-input" value="${u.brand}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">保质期</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="month" autocomplete="off"
-                             class="layui-input" value="${u.month}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">储藏方法</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="storageMethod" autocomplete="off"
-                             class="layui-input" value="${u.storageMethod}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">添加时间</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="upFrameTime" autocomplete="off"
-                             class="layui-input" value="${u.upFrameTime}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">上架时间</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="time" autocomplete="off"
-                             class="layui-input" value="${u.time}" readonly="readonly">
-                     </div>
-                 </div>
-                 <div class="layui-form-item">
-                     <label class="layui-form-label">下架时间</label>
-                     <div class="layui-input-block">
-                         <input type="text" name="downtime" autocomplete="off"
-                             class="layui-input" value="${u.downtime}" readonly="readonly">
-                     </div>
-                 </div>
+	                <br/>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">账户名称</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="auditName" id="auditName" autocomplete="off"
+	                               class="layui-input" value="${u.auditName}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品类型</label>
+	                    <div class="layui-input-block">
+	                      <input type="text" name="interest" autocomplete="off"
+	                            class="layui-input" value="${u.nameType}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品名称</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="name" autocomplete="off"
+	                            class="layui-input" value="${u.name}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品价格</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="money" autocomplete="off"
+	                            class="layui-input" value="${u.money}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品数量</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="number" autocomplete="off"
+	                            class="layui-input" value="${u.number}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品描述</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="desc" autocomplete="off"
+	                            class="layui-input" value="${u.describe}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品产地</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="origin" autocomplete="off"
+	                            class="layui-input" value="${u.origin}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">净含量</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="netContent" autocomplete="off"
+	                            class="layui-input" value="${u.netContent}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">包装方式</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="packingMethod" autocomplete="off"
+	                            class="layui-input" value="${u.packingMethod}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">商品品牌</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="brand" autocomplete="off"
+	                            class="layui-input" value="${u.brand}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">保质期</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="month" autocomplete="off"
+	                            class="layui-input" value="${u.month}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">储藏方法</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="storageMethod" autocomplete="off"
+	                            class="layui-input" value="${u.storageMethod}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">添加时间</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="upFrameTime" autocomplete="off"
+	                            class="layui-input" value="${u.upFrameTime}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">上架时间</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="time" autocomplete="off"
+	                            class="layui-input" value="${u.time}" readonly="readonly">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label class="layui-form-label">下架时间</label>
+	                    <div class="layui-input-block">
+	                        <input type="text" name="downtime" autocomplete="off"
+	                            class="layui-input" value="${u.downtime}" readonly="readonly">
+	                    </div>
+	                </div>
                 </c:forEach>
             </div>
         </div>

@@ -14,6 +14,7 @@
         <div class="layui-col-md8" style="width: 100%;">
             <div class="layui-form layui-form-pane">
                 <c:forEach var="u" items="${list}">
+                    <br/>
                     <input type="text" name="i" id="i" autocomplete="off"
                            class="layui-input" value="3" style="display:none;"/>
                     <input type="text" name="auditID" id="auditId" autocomplete="off"
@@ -27,7 +28,7 @@
                     <input type="text" name="nameTypeID" id="nameTypeId" autocomplete="off"
                            class="layui-input" value="${u.nameTypeId}" style="display:none;"/>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">用户名称</label>
+                        <label class="layui-form-label">账户名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="account" id="account" autocomplete="off"
                                    class="layui-input" value="${u.account}" readonly="readonly">
@@ -36,8 +37,11 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品类型</label>
                         <div class="layui-input-block">
-                            <input type="text" name="typeName" id="typeName" autocomplete="off"
-                                   class="layui-input" value="${u.typeName}">
+                            <select name="nameTypeId" id="nameTypeId" lay-filter="typeName" lay-search>
+                              <option value="${u.nameTypeId}">${u.typeName}</option>
+                              <option value="1">汇吃美食</option>
+                              <option value="2">手机数码</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -138,7 +142,6 @@
         var merId = $("#merId").val();
         var speId = $("#speId").val();
         var nameTypeId = $("#nameTypeId").val();
-        var typeName = $("#typeName").val();
         var commo = $("#commo").val();
         var money = $("#money").val();
         var mumber = $("#number").val();
@@ -156,7 +159,7 @@
                 type:"post",
                 cache : false,
                 async : true,
-                data:{"i":i,"suptId":suptId,"merId":merId,"speId":speId,"nameTypeId":nameTypeId,"typeName":typeName,"commo":commo,"money":money,"number":number,"desc":desc,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"mt_id":mt_id,"storageMethod":storageMethod},
+                data:{"i":i,"suptId":suptId,"merId":merId,"speId":speId,"nameTypeId":nameTypeId,"commo":commo,"money":money,"number":number,"desc":desc,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"mt_id":mt_id,"storageMethod":storageMethod},
                 success:function(result){
                 	if("0" == result){
 	                    layer.msg('修改成功',{icon: 1});

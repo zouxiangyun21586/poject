@@ -98,6 +98,7 @@ public class AuditSupplieServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("text/json");
         response.setCharacterEncoding("utf-8");
+        System.out.println("1");
         String i = request.getParameter("i");
         if("1".equals(i)){// 允许上架
             int suptId = Integer.valueOf(request.getParameter("suptId"));
@@ -113,10 +114,10 @@ public class AuditSupplieServlet extends HttpServlet {
             AuditSupplieDao.NoneAudit(merId, auditId);
             response.getWriter().write("0");
         }else if("3".equals(i)){// 修改商品信息
+            System.out.println("2");
             int merId = Integer.valueOf(request.getParameter("merId"));
             int speId = Integer.valueOf(request.getParameter("speId"));
-            String typeName = request.getParameter("typeName");
-            typeName = new String(typeName.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            Integer nameTypeId = Integer.valueOf(request.getParameter("nameTypeId"));
             String commo = request.getParameter("commo");
             commo = new String(commo.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             Integer money = Integer.valueOf(request.getParameter("money"));
@@ -134,7 +135,7 @@ public class AuditSupplieServlet extends HttpServlet {
             int mt_id = Integer.valueOf(request.getParameter("mt_id"));
             String storageMethod = request.getParameter("storageMethod");
             storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-            AuditSupplieDao.updateAudit(merId, speId, typeName, commo, money, desc, number, origin, netContent, packingMethod, brand, mt_id, storageMethod);
+            AuditSupplieDao.updateAudit(merId, speId, nameTypeId, commo, money, desc, number, origin, netContent, packingMethod, brand, mt_id, storageMethod);
             response.getWriter().write("0");
         }
 	}

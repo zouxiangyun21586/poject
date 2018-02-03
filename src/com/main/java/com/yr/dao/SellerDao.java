@@ -36,6 +36,7 @@ public class SellerDao {
     private static final int NUB_17 = 17;
     private static final int NUB_18 = 18;
     private static final int NUB_19 = 19;
+    private static final int NUB_20 = 20;
 
     private static Integer number = null;
     
@@ -50,7 +51,7 @@ public class SellerDao {
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try {
-            String sql = "select mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,mth.`month`,spt.qGP,spt.storageMethod,m.money,m.number,m.upFrameTime,rs.time,rs.downtime,rs.id,m.id,spt.id,m.nameTypeID from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and rs.id=?;";
+            String sql = "select mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,mth.`month`,spt.qGP,spt.storageMethod,m.money,m.number,m.upFrameTime,rs.time,rs.downtime,rs.id,m.id,spt.id,m.nameTypeID,ac.account from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,account ac where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ac.id=m.account_id and rs.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1, id);
             ps.executeQuery();
@@ -76,6 +77,7 @@ public class SellerDao {
                 goods.setWares_id(rs.getInt(NUB_17));
                 goods.setSpeciID(rs.getInt(NUB_18));
                 goods.setNameTypeID(rs.getInt(NUB_19));
+                goods.setAuditName(rs.getString(NUB_20));
                 list.add(goods);
             }
             rs.close();
@@ -252,21 +254,9 @@ public class SellerDao {
      * void
      * 2018年1月24日下午8:31:32
      */
-    public static void updateGoods(Integer wares_id,Integer spec_id,String nameType,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
+    public static void updateGoods(Integer wares_id,Integer spec_id,Integer nameTypeID,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
         try {
-         // 获取修改后的 商品类型ID
-            String sql = "select id from merchandise_type where type=?;";
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.setString(NUB_1, nameType);
-            ps.executeQuery();
-            ResultSet rs = ps.getResultSet();
-            int newNTID = 0;
-            while (rs.next()) {
-                newNTID = rs.getInt(NUB_1);
-            }
-            rs.close();
-            ps.close();
             // 根据规格ID修改 规格数据
             String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
@@ -282,7 +272,7 @@ public class SellerDao {
             // 根据商品ID修改 商品数据
             String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-            ps2.setInt(NUB_1, newNTID);
+            ps2.setInt(NUB_1, nameTypeID);
             ps2.setString(NUB_2, name);
             ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);
@@ -399,7 +389,7 @@ public class SellerDao {
             Connection conn = LinkMysql.getCon();
             if (null != sel && !"".equals(sel)) {
                 pageNow=NUB_0;
-                String sql1 = "select count(*) from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and (m.`name` like ? or m.id like ?);";
+                String sql1 = "select count(*) from seller rs,merchandise m,merchandise_type mt,specification_table spt,account ac where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and ac.id=m.account_id and (m.`name` like ? or ac.account like ?);";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 pre1.setString(NUB_2, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
@@ -410,12 +400,12 @@ public class SellerDao {
                 
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
-                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ";
+                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus,ac.account from seller rs,merchandise m,merchandise_type mt,specification_table spt,account ac where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and ac.id=m.account_id ";
                 if (null != abc && !"".equals(abc)) {
                     sql = sql + " and (m.`name` like ?";
                     paramIndex.add(NUB_0);
                     param.add(abc);
-                    sql = sql + " or m.id like ?)";
+                    sql = sql + " or ac.account like ?)";
                     paramIndex.add(NUB_0);
                     param.add(sel);
                 }
@@ -453,6 +443,7 @@ public class SellerDao {
                     goods.setTime(rs.getString(NUB_11));
                     goods.setDowntime(rs.getString(NUB_12));
                     goods.setAuditStatus(rs.getInt(NUB_13));
+                    goods.setAuditName(rs.getString(NUB_14));
                     list.add(goods);
                 }
                 rs.close();
@@ -461,7 +452,7 @@ public class SellerDao {
             } else {// 查询所有数据
                 pageNow = (pageNow - 1) * 10;
                 number = null;
-                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus from seller rs,merchandise m,merchandise_type mt,specification_table spt where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id ORDER BY rs.id asc limit ?,?;";
+                sql = "select rs.id,m.account_id,rs.wares_id,m.specificationID,mt.type,m.`name`,m.money,m.`describe`,m.number,m.upFrameTime,rs.time,rs.downtime,m.merStatus,ac.account from seller rs,merchandise m,merchandise_type mt,specification_table spt,account ac where rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and ac.id=m.account_id ORDER BY rs.id asc limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(NUB_1, pageNow);
                 pre.setInt(NUB_2, Paging.getPageNumber());
@@ -482,6 +473,7 @@ public class SellerDao {
                     goods.setTime(rs.getString(NUB_11));
                     goods.setDowntime(rs.getString(NUB_12));
                     goods.setAuditStatus(rs.getInt(NUB_13));
+                    goods.setAuditName(rs.getString(NUB_14));
                     list.add(goods);
                 }
                 rs.close();

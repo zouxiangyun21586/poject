@@ -9,11 +9,9 @@ package com.yr.pojo;
  */
 public class Supplie {
     private int suptId; // 供应商id
-    private int auditId; // 审核供应商ID
     private int nameTypeId; // 类型id
     private int specificationId; // 规格id
     private int month_tableId; // 保质期id
-    private int release_supplierId; //供应商发布id
     private int speId; // 规格表id
     private int merId; // 商品表id
     private int account_id; //账户id
@@ -34,6 +32,7 @@ public class Supplie {
     private int auditStatus; // 供应商状态
     private String account; // 账户名
     private String releaseTime; // 发表时间
+    private int auditId; // 审核id
     
     public String getMonths() {
         return months;
@@ -42,36 +41,30 @@ public class Supplie {
         this.months = months;
     }
     public String getAccount() {
-		return account;
-	}
-	public String getReleaseTime() {
-		return releaseTime;
-	}
-	public void setReleaseTime(String releaseTime) {
-		this.releaseTime = releaseTime;
-	}
+        return account;
+    }
+    public String getReleaseTime() {
+        return releaseTime;
+    }
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
+    }
     public String getAuditTime() {
         return auditTime;
     }
     public void setAuditTime(String auditTime) {
         this.auditTime = auditTime;
     }
-    public int getAuditId() {
-        return auditId;
+    public void setAccount(String account) {
+        this.account = account;
     }
-    public void setAuditId(int auditId) {
-        this.auditId = auditId;
+    public int getAccount_id() {
+        return account_id;
     }
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public int getAccount_id() {
-		return account_id;
-	}
-	public void setAccount_id(int account_id) {
-		this.account_id = account_id;
-	}
-	public int getSpeId() {
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+    public int getSpeId() {
         return speId;
     }
     public void setSpeId(int speId) {
@@ -106,12 +99,6 @@ public class Supplie {
     }
     public void setMonth_tableId(int month_tableId) {
         this.month_tableId = month_tableId;
-    }
-    public int getRelease_supplierId() {
-        return release_supplierId;
-    }
-    public void setRelease_supplierId(int release_supplierId) {
-        this.release_supplierId = release_supplierId;
     }
     public int getNumber() {
         return number;
@@ -190,6 +177,12 @@ public class Supplie {
     }
     public void setAuditStatus(int auditStatus) {
         this.auditStatus = auditStatus;
-    }  
+    }
+    public int getAuditId() {
+        return auditId;
+    }
+    public void setAuditId(int auditId) {
+        this.auditId = auditId;
+    }
     
 }

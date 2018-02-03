@@ -13,8 +13,9 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md8" style="width: 100%;">
             <c:forEach var="u" items="${list}">
+                <br/>
                 <div class="layui-form-item">
-                    <label class="layui-form-label">用户名称</label>
+                    <label class="layui-form-label">账户名称</label>
                     <div class="layui-input-block">
                         <input type="text" name="auditName" autocomplete="off"
                                class="layui-input" value="${u.account}" readonly="readonly">

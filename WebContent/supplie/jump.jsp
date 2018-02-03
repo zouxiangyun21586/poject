@@ -27,17 +27,27 @@
             var packingMethod = $("#merpack  option:selected").text();  // 下拉框值的value
             var merDes = $("#merDes").val();
             layui.use(['layer', 'form', 'element'], function(){
-                $.ajax({
-                    type: "get",  // 请求方式(post或get)
-                    async:false,  //默认true(异步请求),设置为false(同步请求)
-                    url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
-                    scriptCharset: 'utf-8',
-                    dataType:"text",
-                    data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"describe":merDes,"state":0},   // 传参数
-                    success:function(){
-                    	layer.msg('保存成功',{icoin:1});
-                    	setTimeout("parent.location.href=parent.location.href;","1000");
-                    },
+				$.ajax({
+					type: "get",  // 请求方式(post或get)
+					async:false,  //默认true(异步请求),设置为false(同步请求)
+					url:"<%=request.getContextPath()%>/supSer?sup=2", // 发送请求的地址
+					scriptCharset: 'utf-8',
+					dataType:"text",
+					data:{"commodity":commo,"netContent":netContent,"packingMethod":packingMethod,"merType":merType,"storageMethod":storageMethod,"money":money,"origin":origin,"brand":brand,"qGp":qGp,"number":number,"describe":merDes,"state":0},   // 传参数
+					success:function(resu){
+						if(resu == "0"){
+							alert("请正确输入商品价格");
+						}else if(resu == "1"){
+							alert("商品信息不能为空");
+						}else if(resu == "2"){
+							alert("商品信息不能为null");
+						}else if(resu == "3"){
+							alert("请正确输入商品数量");
+						}else{
+							layer.msg('保存成功',{icoin:1});
+							setTimeout("parent.location.href=parent.location.href;","1000");
+						}
+	                },
                 });
             });
         });
