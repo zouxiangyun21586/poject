@@ -46,7 +46,7 @@
         var wares_id = $("#wares_id").val();
         var auditID = $("#auditID").val();
         var seller_id = $("#seller_id").val();
-        var remind = $("#remind").text();
+        var remind = $("#remind").val();
         var i = $("#i").val();
         layui.use(['layer', 'form', 'element'], function(){
             $.ajax({
