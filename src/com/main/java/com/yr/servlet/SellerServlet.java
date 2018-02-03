@@ -84,8 +84,7 @@ public class SellerServlet extends HttpServlet {
             } else if ("5".equals(i)) { // 修改商品信息
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 int spec_id = Integer.valueOf(request.getParameter("speciID"));
-                String nameType = request.getParameter("nameType");
-                nameType = new String(nameType.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+                Integer nameTypeID = Integer.valueOf(request.getParameter("nameTypeID"));
                 String name = request.getParameter("name");
                 name = new String(name.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 Integer money = Integer.valueOf(request.getParameter("money"));
@@ -103,7 +102,7 @@ public class SellerServlet extends HttpServlet {
                 int qGP = Integer.valueOf(request.getParameter("qGP"));
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                SellerDao.updateGoods(wares_id, spec_id, nameType, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
+                SellerDao.updateGoods(wares_id, spec_id, nameTypeID, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
                 response.getWriter().write("1");
             } else if ("6".equals(i)) { // 添加商品
                 int select = Integer.valueOf(request.getParameter("interest")); // 商品类型

@@ -252,21 +252,9 @@ public class SellerDao {
      * void
      * 2018年1月24日下午8:31:32
      */
-    public static void updateGoods(Integer wares_id,Integer spec_id,String nameType,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
+    public static void updateGoods(Integer wares_id,Integer spec_id,Integer nameTypeID,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
         try {
-         // 获取修改后的 商品类型ID
-            String sql = "select id from merchandise_type where type=?;";
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.setString(NUB_1, nameType);
-            ps.executeQuery();
-            ResultSet rs = ps.getResultSet();
-            int newNTID = 0;
-            while (rs.next()) {
-                newNTID = rs.getInt(NUB_1);
-            }
-            rs.close();
-            ps.close();
             // 根据规格ID修改 规格数据
             String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
@@ -282,7 +270,7 @@ public class SellerDao {
             // 根据商品ID修改 商品数据
             String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-            ps2.setInt(NUB_1, newNTID);
+            ps2.setInt(NUB_1, nameTypeID);
             ps2.setString(NUB_2, name);
             ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);

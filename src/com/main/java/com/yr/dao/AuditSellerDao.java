@@ -37,6 +37,7 @@ public class AuditSellerDao {
     private static final int NUB_17 = 17;
     private static final int NUB_18 = 18;
     private static final int NUB_19 = 19;
+    private static final int NUB_20 = 20;
 
     private static Integer number = null;
 
@@ -58,21 +59,9 @@ public class AuditSellerDao {
      * void
      * 2018年1月24日下午8:10:16
      */
-    public static void updateAudit(Integer wares_id,Integer spec_id,String nameType,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
+    public static void updateAudit(Integer wares_id,Integer spec_id,Integer nameTypeID,String name,Integer money,String desc,Integer number,String origin,String netContent,String packingMethod,String brand,Integer qGP,String storageMethod){
         Connection conn = LinkMysql.getCon();
         try{
-         // 获取修改后的 商品类型ID
-            String sql = "select id from merchandise_type where type=?;";
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.setString(NUB_1, nameType);
-            ps.executeQuery();
-            ResultSet rs = ps.getResultSet();
-            int newNTID = 0;
-            while (rs.next()) {
-                newNTID = rs.getInt(NUB_1);
-            }
-            rs.close();
-            ps.close();
             // 根据规格ID修改 规格数据
             String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
@@ -88,7 +77,7 @@ public class AuditSellerDao {
             // 根据商品ID修改 商品数据
             String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-            ps2.setInt(NUB_1, newNTID);
+            ps2.setInt(NUB_1, nameTypeID);
             ps2.setString(NUB_2, name);
             ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, desc);
@@ -114,7 +103,7 @@ public class AuditSellerDao {
         Connection conn = LinkMysql.getCon();
         List<Seller> list = new ArrayList<>();
         try{
-            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditseller ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.wares_id and ads.account_id=m.account_id and rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ads.id=?;";
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime,mt.id from seller rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditseller ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.wares_id and ads.account_id=m.account_id and rs.wares_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ads.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,auditID);
             ResultSet rs = ps.executeQuery();
@@ -139,6 +128,7 @@ public class AuditSellerDao {
                 goods.setMoney(rs.getInt(NUB_17));
                 goods.setNumber(rs.getInt(NUB_18));
                 goods.setAddTime(rs.getString(NUB_19));
+                goods.setNameTypeID(rs.getInt(NUB_20));
                 list.add(goods);
             }
             rs.close();

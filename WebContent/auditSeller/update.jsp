@@ -24,8 +24,6 @@
                            class="layui-input" value="${u.wares_id}" style="display:none;"/>
                     <input type="text" name="speciID" id="speciID" autocomplete="off"
                            class="layui-input" value="${u.speciID}" style="display:none;"/>
-                    <input type="text" name="nameTypeID" id="nameTypeID" autocomplete="off"
-                           class="layui-input" value="${u.nameTypeID}" style="display:none;"/>
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户名称</label>
                         <div class="layui-input-block">
@@ -36,8 +34,11 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">商品类型</label>
                         <div class="layui-input-block">
-                            <input type="text" name="nameType" id="nameType" autocomplete="off"
-                                   class="layui-input" value="${u.nameType}">
+                            <select name="nameTypeID" id="nameTypeID" lay-filter="nameType" lay-search>
+                              <option value="${u.nameTypeID}">${u.nameType}</option>
+                              <option value="1">汇吃美食</option>
+                              <option value="2">手机数码</option>
+                            </select>
                         </div>
                     </div>
                     <div class="layui-form-item">
@@ -156,7 +157,7 @@
                 type:"get",
                 cache : false,
                 async : true,
-                data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"nameType":NameType,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
+                data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
                 success:function(result){
                     if("0"==result){
 	                    layer.msg('修改成功',{icon: 1});
