@@ -3,9 +3,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<script src="/projectYr/js/jquery-3.2.1.js"></script>
+	<script src="../js/jquery-3.2.1.js"></script><%-- <%=request.getContextPath() %> --%>
 	<script src="../plugins/layui/layui.js"></script>
 	<script src="../js/fenye.js"></script>
+	<link rel="stylesheet" href="../plugins/layui/css/global.css" media="all">
 	<link rel="stylesheet" href="../plugins/layui/css/layui.css" media="all" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>供应商审核</title>
@@ -41,9 +42,9 @@
                          if("1"==list[i].auditStatus){
                              list[i].auditStatus = "等待审核";
                              html += "<tr><td align='center' style='display:none;'>"+list[i].suptId+"</td>"+
-                             "<td align='center' style='display:none;' id='id"+list[i].auditId+"'>"+list[i].auditID+"</td>"+
+                             "<td align='center' style='display:none;' id='id"+list[i].auditId+"'>"+list[i].auditId+"</td>"+
                              "<td align='center' style='display:none;'>"+list[i].account_id+"</td>"+
-                             "<td align='center' style='display:none;'>"+list[i].merId+"</td>"+
+                             "<td align='center'>"+list[i].merId+"</td>"+
                              "<td align='center'>"+list[i].account+"</td>"+
                              "<td align='center'>"+list[i].typeName+"</td>"+
                              "<td align='center'><a href='#' onclick='query("+list[i].auditId+")'>"+list[i].commo+"</a></td>"+
@@ -96,12 +97,13 @@
     	var auditId = tr.find("td").eq(1).text();
     	var account_id = tr.find("td").eq(2).text();
     	var merId = tr.find("td").eq(3).text();
+    	var i = 1;
     	$.ajax({
     		url:"../auditSupplieServlet",
             type:"post",
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId,"i":1},
+            data:{"i":i,"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId},
             success:function(result){
                 if(result == "0")
                 {
@@ -127,7 +129,7 @@
                 type:"post",
                 cache:false,//取消缓存
                 async:true,//是否异步请求,修改false就表示同步,true表示异步
-                data:{"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId,"i":2},
+                data:{"i":2,"suptId":suptId,"auditId":auditId,"account_id":account_id,"merId":merId},
                 success:function(result){
                     if(result == "0")
                     {
@@ -152,16 +154,16 @@
                     style="float: right; margin-left: 0px;" id="sel">
                     <i class="layui-icon">&#xe615;</i> 查询
                 </button>
-                <input type="text" class="layui-input" placeholder="请输入要查询的商品名称"
+                <input type="text" class="layui-input" placeholder="请输入要查询的账户或商品名称"
                     style="float: right; width: 250px; height: 30px;" id="select" name="select"/>
                 <table class="layui-table">
                     <thead>
                         <tr>
-                            <td style="display: none;">保存商品ID</td>
-                            <td style="display: none;">表ID</td>
-                            <td style="display: none;">账户ID</td>
-                            <td style="display: none;">商品ID</td>
-                            <td align="center" style="width:150px;"> 用户名称</td>
+                            <td align="center" style="display: none;">保存商品ID</td>
+                            <td align="center" style="display: none;">表ID</td>
+                            <td align="center" style="display: none;">账户ID</td>
+                            <td align="center" style="width:150px;"> 商品编号</td>
+                            <td align="center" style="width:150px;"> 账户名称</td>
                             <td align="center" style="width:150px;"> 商品类型</td>
                             <td align="center" style="width:150px;"> 商品名称</td>
                             <td align="center" style="width:150px;"> 审核状态</td>

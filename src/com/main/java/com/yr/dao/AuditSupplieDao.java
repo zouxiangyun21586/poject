@@ -174,7 +174,7 @@ public class AuditSupplieDao {
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
         try{
-            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.`name`,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,auditID);
             ResultSet rs = ps.executeQuery();
@@ -226,9 +226,10 @@ public class AuditSupplieDao {
         try {
             if(null != sel && !"".equals(sel)){
                 pageNow=NUB_0;
-                String sql1 = "select count(*) from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id and m.`name` like ?";
+                String sql1 = "select count(*) from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id and (m.`name` like ? or act.account like ?);";
                 PreparedStatement pre1 = (PreparedStatement) conn.prepareStatement(sql1);
                 pre1.setString(NUB_1, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
+                pre1.setString(NUB_2, "%" + ConnectTime.decodeSpecialCharsWhenLikeUseSlash(sel) + "%");
                 ResultSet rs1 = pre1.executeQuery();
                 while(rs1.next()){
                     num = rs1.getInt(NUB_1);
@@ -237,9 +238,12 @@ public class AuditSupplieDao {
                 pre1.close();
                 List<Integer> paramIndex = new ArrayList<>();
                 List<Object> param = new ArrayList<>();
-                sql = "select sup.id,asp.id,act.id,m.id,act.`name`,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
+                sql = "select sup.id,asp.id,act.id,m.id,act.account,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ";
                 if (null != sel && !"".equals(sel)) {
-                    sql = sql + " and m.`name` like ?";
+                    sql = sql + " and (m.`name` like ?";
+                    paramIndex.add(NUB_0);
+                    param.add(sel);
+                    sql = sql + " or act.account like ?)";
                     paramIndex.add(NUB_0);
                     param.add(sel);
                 }
@@ -281,7 +285,7 @@ public class AuditSupplieDao {
             }else{
                 pageNow = (pageNow - 1) * 10;
                 num = null;
-                sql = "select sup.id,asp.id,act.id,m.id,act.`name`,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY asp.id ASC limit ?,?;";
+                sql = "select sup.id,asp.id,act.id,m.id,act.account,mt.type,m.`name`,m.merStatus,asp.addTime from merchandise m,auditsupplier asp,supplier sup,merchandise_type mt,account act where m.id=sup.mercd_id and sup.id=asp.release_id and m.id=asp.merchandise_id and m.account_id=asp.account_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY asp.id ASC limit ?,?;";
                 PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
                 pre.setInt(1, pageNow);
                 pre.setInt(2, Paging.getPageNumber());
@@ -340,6 +344,9 @@ public class AuditSupplieDao {
             pageCount = total / Paging.getPageNumber();
         } else {
             pageCount = total / Paging.getPageNumber() + 1;
+        }
+        if(total < 11){
+            pageCount = 0;
         }
         return pageCount;
     }
