@@ -143,7 +143,6 @@
         var speId = $("#speId").val();
         var nameTypeId = $("#nameTypeId").val();
         var commo = $("#commo").val();
-        alert(commo);
         var money = $("#money").val();
         var number = $("#number").val();
         var desc = $("#desc").val();

@@ -146,24 +146,15 @@ public class AuditSupplieServlet extends HttpServlet {
             int speId = Integer.valueOf(request.getParameter("speId"));
             Integer nameTypeId = Integer.valueOf(request.getParameter("nameTypeId"));
             String commo = request.getParameter("commo");
-            System.out.println(commo);
-            commo = new String(commo.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-            System.out.println(commo);
             Integer money = Integer.valueOf(request.getParameter("money"));
             String desc = request.getParameter("desc");
-            desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             int number = Integer.valueOf(request.getParameter("number"));
             String origin = request.getParameter("origin");
-            origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             String netContent = request.getParameter("netContent");
-            netContent = new String(netContent.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             String packingMethod = request.getParameter("packingMethod");
-            packingMethod = new String(packingMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             String brand = request.getParameter("brand");
-            brand = new String(brand.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             int mt_id = Integer.valueOf(request.getParameter("mt_id"));
             String storageMethod = request.getParameter("storageMethod");
-            storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
             AuditSupplieDao.updateAudit(merId, speId, nameTypeId, commo, money, desc, number, origin, netContent, packingMethod, brand, mt_id, storageMethod);
             response.getWriter().write("0");
         }
