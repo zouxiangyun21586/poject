@@ -27,7 +27,7 @@
                     <input type="text" name="nameTypeID" id="nameTypeId" autocomplete="off"
                            class="layui-input" value="${u.nameTypeId}" style="display:none;"/>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">用户名称</label>
+                        <label class="layui-form-label">账户名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="account" id="account" autocomplete="off"
                                    class="layui-input" value="${u.account}" readonly="readonly">
