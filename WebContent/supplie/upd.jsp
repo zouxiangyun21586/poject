@@ -26,8 +26,6 @@
                                 class="layui-input" value="5" style="display:none;"/>
                         <input type="text" name="suptId" id="suptId" autocomplete="off"
                                 class="layui-input" value="${su.suptId}" style="display:none;"/>
-                        <input type="text" name="release_supplierId" id="release_supplierId" autocomplete="off"
-                                class="layui-input" value="${su.release_supplierId}" style="display:none;"/>
                         <input type="text" name="account_id" id="account_id" autocomplete="off"
                                 class="layui-input" value="${su.account_id}" style="display:none;"/>
                         <input type="text" name="merId" id="merId" autocomplete="off"
@@ -97,6 +95,8 @@
                                     value="${su.describe}" class="layui-input">
                             </div>
                         </div>
+                        <input type="text" name="aduId" id="aduId" autocomplete="off"
+                                class="layui-input" value="${su.auditStatus}" style="display:none;"/>
                     </c:forEach>
                     <button type="submit" class="layui-btn" id="sb">立即修改</button>
                 </div>
