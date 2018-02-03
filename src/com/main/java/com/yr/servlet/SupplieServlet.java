@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -107,13 +109,38 @@ public class SupplieServlet extends HttpServlet {
                 System.out.println(ConnectTime.getWebsiteDatetime());
                 String date = ConnectTime.getWebsiteDatetime();
                 
-                Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
-                System.out.println("规格表id " + speId);
-                Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,auditStatus,describe,date); // 添加商品信息
-                System.out.println("商品表id " + merId);
-                Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
-                System.out.println("供应商表id " + suppId);
-                System.err.println("////");
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(nameType != null && name != null && money != null && number != null && origin != null && netContent != null && packingMethod != null && brand != null && qGp != null && storageMethod != null && describe != null ){
+                	if(!nameType.equals("") && !name.equals("") && !money.equals("") && !number.equals("") && !origin.equals("") && !netContent.equals("") && !packingMethod.equals("") && !brand.equals("") && !qGp.equals("") && !storageMethod.equals("") && !describe.equals("")){
+                		Pattern pattern = Pattern.compile("[0-9]*");
+                		Matcher moneyIsNum = pattern.matcher(money);
+                		System.out.println("不为空且不为null");
+                		if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                			Pattern pattern2 = Pattern.compile("[0-9]*");
+                    		Matcher numberIsNum = pattern2.matcher(number);
+                    		System.out.println("进入价格");
+                			if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                				Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
+                				System.out.println("规格表id " + speId);
+                				Integer merId = SupplieDao.merchandiseAdd(account_id,nameType, name, money, speId, number,auditStatus,describe,date); // 添加商品信息
+                				System.out.println("商品表id " + merId);
+                				Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
+                				System.out.println("供应商表id " + suppId);
+                				System.out.println("执行完成 --");
+                			}else{
+                				resp.getWriter().write("3");
+                			}
+                		}else{
+                			resp.getWriter().write("0");
+                		}
+                	}else{
+                		resp.getWriter().write("1");
+                	}
+                }else{
+                	resp.getWriter().write("2");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -137,8 +164,32 @@ public class SupplieServlet extends HttpServlet {
                 String qGp = req.getParameter("qGp"); // 保质期
                 String describe = req.getParameter("describe");
                 describe = new String(describe.getBytes("ISO-8859-1"),"UTF-8");
-                SupplieDao.speUpd(netContent,packingMethod,qGp,speId);
-                SupplieDao.merchandiseUpd(money,number,describe,merId); //商品信息的修改
+                
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(speId != null && merId != null && money != null && number != null && netContent != null && packingMethod != null && qGp != null && describe != null ){
+                	if(!speId.equals("") && !merId.equals("") && !money.equals("") && !number.equals("") && !netContent.equals("") && !packingMethod.equals("") && !qGp.equals("") && !describe.equals("")){
+                		Pattern pattern = Pattern.compile("[0-9]*");
+                		Matcher moneyIsNum = pattern.matcher(money);
+                		if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                			Pattern pattern2 = Pattern.compile("[0-9]*");
+                    		Matcher numberIsNum = pattern2.matcher(number);
+                			if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                				SupplieDao.speUpd(netContent,packingMethod,qGp,speId);
+                				SupplieDao.merchandiseUpd(money,number,describe,merId); //商品信息的修改
+                			}else{
+                				resp.getWriter().write("3");
+                			}
+                		}else{
+                			resp.getWriter().write("0");
+                		}
+                	}else{
+                		resp.getWriter().write("1");
+                	}
+                }else{
+                	resp.getWriter().write("2");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

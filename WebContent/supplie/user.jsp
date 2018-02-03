@@ -133,7 +133,7 @@
                dataType:"text",
                data:{"merId":mer_id,"account_id":account_id},
                success:function(result){
-                   tr.html("<tr id='zui'><td>"+suptId+
+                  tr.html("<tr id='zui'><td>"+suptId+
                             "</td><td style='display:none;'>"+account_id+
                             "</td><td style='display:none;'>"+mer_id+
                             "</td><td>"+account+
@@ -150,7 +150,8 @@
                             "</td><td style='display:none;'>"+describe+
                             "</td><td>"+upFrameTime+
                             "</td><td style='display:none;'>"+auditStatus+
-		                   "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+mer_id+")'>修改商品</button></td>");
+		                    "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' id='upd' name='xg'  onclick='upd("+mer_id+")'>修改商品</button></td>");
+                  			location.reload();
                },
                error:function(XMLHttpRequest, textStatus, errorThrown)
                {
@@ -194,6 +195,7 @@
                 data:{"mer_id":mer_id},
                 dataType:"text",
                 success:function(result){
+                	alert("下架");
                     $.each(result,function(index,item){
                         var Downtime = item.upFrameTime;
                         tr.html("<tr id='zui'><td>"+suptId+
@@ -213,7 +215,8 @@
                                 "</td><td style='display:none;'>"+describe+
                                 "</td><td>"+upFrameTime+
                                 "</td><td style='display:none;'>"+auditStatus+
-                        "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+mer_id+")'>修改商品</button></td>");
+		                        "<td><button class='layui-btn layui-btn-xs' name='sj' onclick='sjia(this);'>上架商品</button><button class='layui-btn layui-btn-xs' name='xg' id='upd' onclick='upd("+mer_id+")'>修改商品</button></td>");
+		                        location.reload();
                     });
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown)
@@ -229,60 +232,63 @@
     
     //上架
     function sjia(sj){
-    	var tr = $(sj).parent().parent();
-    	var suptId = tr.find("td").eq(0).text();
-        var account_id = tr.find("td").eq(1).text();
-        var mer_id = tr.find("td").eq(2).text();
-        var account = tr.find("td").eq(3).text();
-        var commo = tr.find("td").eq(4).text();
-        var money = tr.find("td").eq(5).text();
-        var number = tr.find("td").eq(6).text();
-        var netContent = tr.find("td").eq(7).text();
-        var Month = tr.find("td").eq(8).text();
-        var brand = tr.find("td").eq(9).text();
-        var origin = tr.find("td").eq(10).text();
-        var merType = tr.find("td").eq(11).text();
-        var storageMethod = tr.find("td").eq(12).text();
-        var packingMethod = tr.find("td").eq(13).text();
-        var describe = tr.find("td").eq(14).text();
-        var upFrameTime = tr.find("td").eq(15).text();
-        var auditStatus = tr.find("td").eq(16).text();
-        
-        $.ajax({
-            url:"<%=request.getContextPath()%>/supSer?sup=8",
-            type:"get",
-            cache:false,//取消缓存
-            async:true,//是否异步请求,修改false就表示同步,true表示异步
-            data:{"acc_id":account_id,"mer_id":mer_id},
-            dataType:"text",
-            success:function(result){
-            	tobody_limt +=  "<tr id='zui'><td>"+suptId+
-				                "</td><td style='display:none;'>"+account_id+
-				                "</td><td style='display:none;'>"+mer_id+
-				                "</td><td>"+account+
-				                "</td><td>"+commo+
-				                "</td><td>"+money+
-				                "</td><td>"+number+
-				                "</td><td>"+netContent+
-				                "</td><td>"+Month+
-				                "</td><td>"+brand+
-				                "</td><td>"+origin+
-				                "</td><td>"+merType+
-				                "</td><td>"+storageMethod+
-				                "</td><td>"+packingMethod+
-				                "</td><td style='display:none;'>"+describe+
-				                "</td><td>"+upFrameTime+
-				                "</td><td style='display:none;'>"+auditStatus+
-				                "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
-            },
-            error:function(XMLHttpRequest, textStatus, errorThrown)
-            {
-                alert("上架失败!!");
-                alert(XMLHttpRequest.status);
- 	            alert(XMLHttpRequest.readyState);
- 	            alert(textStatus);
-            }
-        });
+    	if(confirm("确定上架商品?")){
+	    	var tr = $(sj).parent().parent();
+	    	var suptId = tr.find("td").eq(0).text();
+	        var account_id = tr.find("td").eq(1).text();
+	        var mer_id = tr.find("td").eq(2).text();
+	        var account = tr.find("td").eq(3).text();
+	        var commo = tr.find("td").eq(4).text();
+	        var money = tr.find("td").eq(5).text();
+	        var number = tr.find("td").eq(6).text();
+	        var netContent = tr.find("td").eq(7).text();
+	        var Month = tr.find("td").eq(8).text();
+	        var brand = tr.find("td").eq(9).text();
+	        var origin = tr.find("td").eq(10).text();
+	        var merType = tr.find("td").eq(11).text();
+	        var storageMethod = tr.find("td").eq(12).text();
+	        var packingMethod = tr.find("td").eq(13).text();
+	        var describe = tr.find("td").eq(14).text();
+	        var upFrameTime = tr.find("td").eq(15).text();
+	        var auditStatus = tr.find("td").eq(16).text();
+	        
+	        $.ajax({
+	            url:"<%=request.getContextPath()%>/supSer?sup=8",
+	            type:"get",
+	            cache:false,//取消缓存
+	            async:true,//是否异步请求,修改false就表示同步,true表示异步
+	            data:{"acc_id":account_id,"mer_id":mer_id,"sup_id":suptId},
+	            dataType:"text",
+	            success:function(result){
+	            	tobody_limt +=  "<tr id='zui'><td>"+suptId+
+					                "</td><td style='display:none;'>"+account_id+
+					                "</td><td style='display:none;'>"+mer_id+
+					                "</td><td>"+account+
+					                "</td><td>"+commo+
+					                "</td><td>"+money+
+					                "</td><td>"+number+
+					                "</td><td>"+netContent+
+					                "</td><td>"+Month+
+					                "</td><td>"+brand+
+					                "</td><td>"+origin+
+					                "</td><td>"+merType+
+					                "</td><td>"+storageMethod+
+					                "</td><td>"+packingMethod+
+					                "</td><td style='display:none;'>"+describe+
+					                "</td><td>"+upFrameTime+
+					                "</td><td style='display:none;'>"+auditStatus+
+					                "</td><td><button class='layui-btn layui-btn-xs' name='cx' onclick='cancel(this);'>撤销商品</button></td></tr>";
+					                location.reload();
+	            },
+	            error:function(XMLHttpRequest, textStatus, errorThrown)
+	            {
+	                alert("上架失败!!");
+	                alert(XMLHttpRequest.status);
+	 	            alert(XMLHttpRequest.readyState);
+	 	            alert(textStatus);
+	            }
+	        });
+    	}
     }
     
     layui.use([ 'layer', 'element' ], function() {

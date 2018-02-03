@@ -36,7 +36,7 @@ public class SupplieDao {
     public static List<Supplie> queryAll(Integer merId) throws SQLException{
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id=sup.mercd_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
+        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id = sup.mercd_id and m.account_id = act.id and m.nameTypeID = mt.id and m.id = ? ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.setInt(1, merId);
         ps.executeQuery(); // 执行查询
@@ -358,38 +358,13 @@ public class SupplieDao {
         try {
             if(null != sel && !"".equals(sel)){ // 搜索
             pageNow = 0;
-            List<Integer> paramIndex = new ArrayList<>();
-            List<Object> param = new ArrayList<>();
-            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ORDER BY su.id ASC";
-            
-            if(account != null && !"".equals(account)){
-            	sql = sql + "and acc.account = ? ORDER BY su.id ASC ";
-            	paramIndex.add(0);
-            	param.add(account);
-            }
-            sql = sql + " limit ?,?";
-            paramIndex.add(1);
-            paramIndex.add(1);
-            
-            
-            param.add(pageNow);
-            param.add(Paging.getPageNumber());
-            
+            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id and acc.account like ? ORDER BY su.id ASC limit ?,? ;";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
-            
-            for (int i = 0; i < paramIndex.size(); i++) {
-                int mark = paramIndex.get(i);
-                if(mark == 0 ){
-                    prepar.setString( (i+1), (String)param.get(i) );
-                }
-                else if(mark == 1)
-                {
-                    prepar.setInt( (i+1), (Integer)param.get(i) );
-                }
-            }
-            
-            prepar.executeQuery();
-            ResultSet resu = prepar.getResultSet();
+			String accountName = decodeSpecialCharsWhenLikeUseSlash(sel);
+			prepar.setString(1,"%" + accountName + "%");
+			prepar.setInt(2,pageNow);
+			prepar.setInt(3,Paging.getPageNumber());
+            ResultSet resu = prepar.executeQuery();
             while (resu.next()) {
             	Supplie supp = new Supplie();
             	supp.setSuptId(resu.getInt(1));
@@ -450,6 +425,21 @@ public class SupplieDao {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    /**
+     * 搜索模糊查询
+     * @author zxy
+     * 
+     * 2018年2月3日 上午10:50:22 
+     *
+     */
+    public static String decodeSpecialCharsWhenLikeUseSlash(String content) {
+        String afterDecode = content.replaceAll("'", "''");
+        afterDecode = afterDecode.replaceAll("\\\\", "\\\\\\\\");
+        afterDecode = afterDecode.replaceAll("%", "\\\\%");
+        afterDecode = afterDecode.replaceAll("_", "\\\\_");
+        return afterDecode;
     }
     
     /**

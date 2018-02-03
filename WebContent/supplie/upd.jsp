@@ -123,9 +123,19 @@
                 contentType: "application/text; charset=utf-8",
                 dataType:"text",
                 data:{"netContent":netContent,"speId":speId,"merId":merId,"packingMethod":packingMethod,"money":money,"qGp":qGp,"number":number,"describe":merDes,"state":0},   // 传参数
-                success:function(res){
-                    layer.msg('修改成功!',{icon: 1});
-                    setTimeout("parent.location.href=parent.location.href;","1000");
+                success:function(resu){
+                	if(resu == "0"){
+						alert("请正确输入商品价格");
+					}else if(resu == "1"){
+						alert("商品信息不能为空");
+					}else if(resu == "2"){
+						alert("商品信息不能为null");
+					}else if(resu == "3"){
+						alert("请正确输入商品数量");
+					}else{
+	                    layer.msg('修改成功!',{icon: 1});
+	                    setTimeout("parent.location.href=parent.location.href;","1000");
+					}
                 },
                 error:function(XMLHttpRequest, textStatus, errorThrown){
                     alert("修改失败");
