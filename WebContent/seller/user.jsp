@@ -198,14 +198,15 @@ function shelves(e){
     var Seller_id = tr.find("td").eq(1).text();
     var Wares_id = tr.find("td").eq(2).text();
     var SpeciID = tr.find("td").eq(3).text();
-    var NameType = tr.find("td").eq(4).text();
-    var Name = tr.find("td").eq(5).text();
-    var Describe = tr.find("td").eq(6).text();
-    var Money = tr.find("td").eq(7).text();
-    var Number = tr.find("td").eq(8).text();
-    var UpFrameTime = tr.find("td").eq(9).text();
-    var Time = tr.find("td").eq(10).text();
-    var Downtime = tr.find("td").eq(11).text();
+    var AuditName = tr.find("td").eq(4).text();
+    var NameType = tr.find("td").eq(5).text();
+    var Name = tr.find("td").eq(6).text();
+    var Describe = tr.find("td").eq(7).text();
+    var Money = tr.find("td").eq(8).text();
+    var Number = tr.find("td").eq(9).text();
+    var UpFrameTime = tr.find("td").eq(10).text();
+    var Time = tr.find("td").eq(11).text();
+    var Downtime = tr.find("td").eq(12).text();
     $.ajax({
         url:"../sellerServlet",
         type:"get",
@@ -215,7 +216,7 @@ function shelves(e){
         success:function(result){
             tr.html("");
             if(result=="0"){
-                tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td align='center'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td>");
+                tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td align='center' style='display:none;'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td>");
             }
         },
         error:function(XMLHttpRequest, textStatus, errorThrown)
@@ -228,18 +229,19 @@ function shelves(e){
 function cancel(b){
     if(confirm("是否撤销上架?")){
         var tr = $(b).parent().parent();
-        var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
+        var Id = tr.find("td").eq(0).text();
         var Seller_id = tr.find("td").eq(1).text();
         var Wares_id = tr.find("td").eq(2).text();
         var SpeciID = tr.find("td").eq(3).text();
-        var NameType = tr.find("td").eq(4).text();
-        var Name = tr.find("td").eq(5).text();
-        var Describe = tr.find("td").eq(6).text();
-        var Money = tr.find("td").eq(7).text();
-        var Number = tr.find("td").eq(8).text();
-        var UpFrameTime = tr.find("td").eq(9).text();
-        var Time = tr.find("td").eq(10).text();
-        var Downtime = tr.find("td").eq(11).text();
+        var AuditName = tr.find("td").eq(4).text();
+        var NameType = tr.find("td").eq(5).text();
+        var Name = tr.find("td").eq(6).text();
+        var Describe = tr.find("td").eq(7).text();
+        var Money = tr.find("td").eq(8).text();
+        var Number = tr.find("td").eq(9).text();
+        var UpFrameTime = tr.find("td").eq(10).text();
+        var Time = tr.find("td").eq(11).text();
+        var Downtime = tr.find("td").eq(12).text();
         $.ajax({
             url:"../sellerServlet",
             type:"get",
@@ -249,7 +251,7 @@ function cancel(b){
             success:function(result){
                 if(result == "0")
                 {
-                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td align='center'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
+                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td align='center' style='display:none;'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
                 }
                 else
                 {
@@ -267,17 +269,19 @@ function cancel(b){
 function underCarriage(c){
     if(confirm("是否下架商品?")){
         var tr = $(c).parent().parent();
-        var Id = tr.find("td").eq(0).text();//把ID通过AJAX传入后台进行删除
+        var Id = tr.find("td").eq(0).text();
         var Seller_id = tr.find("td").eq(1).text();
         var Wares_id = tr.find("td").eq(2).text();
         var SpeciID = tr.find("td").eq(3).text();
-        var NameType = tr.find("td").eq(4).text();
-        var Name = tr.find("td").eq(5).text();
-        var Describe = tr.find("td").eq(6).text();
-        var Money = tr.find("td").eq(7).text();
-        var Number = tr.find("td").eq(8).text();
-        var UpFrameTime = tr.find("td").eq(9).text();
-        var Time = tr.find("td").eq(10).text();
+        var AuditName = tr.find("td").eq(4).text();
+        var NameType = tr.find("td").eq(5).text();
+        var Name = tr.find("td").eq(6).text();
+        var Describe = tr.find("td").eq(7).text();
+        var Money = tr.find("td").eq(8).text();
+        var Number = tr.find("td").eq(9).text();
+        var UpFrameTime = tr.find("td").eq(10).text();
+        var Time = tr.find("td").eq(11).text();
+        var Downtime = tr.find("td").eq(12).text();
         $.ajax({
             url:"../sellerServlet",
             type:"get",
@@ -288,7 +292,7 @@ function underCarriage(c){
             success:function(result){
                 $.each(result,function(index,item){
                     var Downtime = item.downtime;
-                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center' style='display:none;'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center'>"+Number+"</td><td>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
+                    tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td style='display:none;'>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
                 });
             },//请求成功,进入该方法
             error:function(XMLHttpRequest, textStatus, errorThrown)

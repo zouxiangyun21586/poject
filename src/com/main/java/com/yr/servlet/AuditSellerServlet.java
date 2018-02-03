@@ -2,6 +2,7 @@ package com.yr.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import com.yr.dao.AuditSellerDao;
 import com.yr.pojo.Seller;
 import com.yr.util.ConnectTime;
 import com.yr.util.SellerPage;
+import com.yr.util.SendMail;
 
 import net.sf.json.JSONObject;
 
@@ -38,8 +40,10 @@ public class AuditSellerServlet extends HttpServlet {
      *  i=1 为        允许上架
      *  i=2 为        禁止上架
      *  i=3 o=1为        修改查看
-     *  i=3 0=2为        查看商品详细信息
+     *  i=3 o=2为        查看商品详细信息
      *  i=4 为        修改数据
+     *  i=5 o=1 为        禁止提醒
+     *  i=5 0=2 为       上架提醒
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
      */
@@ -55,11 +59,17 @@ public class AuditSellerServlet extends HttpServlet {
                 int seller_id = Integer.valueOf(request.getParameter("seller_id"));
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 String date = ConnectTime.getWebsiteDatetime();
+                String remind = request.getParameter("remind");
+                String email = SendMail.Email(wares_id);
+                SendMail.sendMail(email, "成功上架."+remind);
                 AuditSellerDao.passAudit(id, auditID, seller_id, wares_id, date);
                 response.getWriter().write("0");
             }else if("2".equalsIgnoreCase(i)){// 禁止上架
                 int wares_id = Integer.valueOf(request.getParameter("wares_id"));
                 int auditID = Integer.valueOf(request.getParameter("auditID"));
+                String remind = request.getParameter("remind");
+                String email = SendMail.Email(wares_id);
+                SendMail.sendMail(email, "禁止上架."+remind);
                 AuditSellerDao.NoneAudit(wares_id, auditID);
                 response.getWriter().write("0");
             }else if("3".equalsIgnoreCase(i)){// 修改查看 和 查看详细信息
@@ -95,6 +105,26 @@ public class AuditSellerServlet extends HttpServlet {
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 AuditSellerDao.updateAudit(wares_id, spec_id, nameTypeID, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
                 response.getWriter().write("0");
+            }else if("5".equalsIgnoreCase(i)){
+                String o = request.getParameter("o");
+                int id = Integer.valueOf(request.getParameter("id"));
+                int auditID = Integer.valueOf(request.getParameter("auditID"));
+                int seller_id = Integer.valueOf(request.getParameter("seller_id"));
+                int wares_id = Integer.valueOf(request.getParameter("wares_id"));
+                List<Seller> list = new ArrayList<>();
+                Seller seller = new Seller();
+                seller.setId(id);
+                seller.setAuditID(auditID);
+                seller.setSeller_id(seller_id);
+                seller.setWares_id(wares_id);
+                list.add(seller);
+                request.setAttribute("list",list);
+                if("1".equalsIgnoreCase(o)){
+                    request.getRequestDispatcher("auditSeller/prohibit.jsp").forward(request,response);
+                }else if("2".equalsIgnoreCase(o)){
+                    request.getRequestDispatcher("auditSeller/pass.jsp").forward(request,response);
+                }
+                
             }
         }catch(Exception e){
             response.getWriter().write("1");
