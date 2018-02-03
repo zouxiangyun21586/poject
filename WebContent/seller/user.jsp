@@ -34,9 +34,9 @@
                             <td align="center" style="width:150px;">类型</td>
                             <td align="center" style="width:150px;">名称</td>
                             <td align="center" style="display: none;">描述</td>
-                            <td align="center" style="display: none;">价格</td>
-                            <td align="center" style="width:110px;">数量</td>
-                            <td align="center" style="width:80px;">添加</td>
+                            <td align="center" style="width:110px;">价格</td>
+                            <td align="center" style="display: none;">数量</td>
+                            <td align="center" style="display: none;">添加</td>
                             <td align="center" style="width:80px;">上架</td>
                             <td align="center" style="width:80px;">下架</td>
                             <td align="center" style="width:280px;">操作</td>
@@ -86,7 +86,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].number+"</td>"+
-                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center' style='display: none;'>"+list[i].upFrameTime+"</td>"+
                          "<td align='center'>"+list[i].time+"</td>"+
                          "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update' onclick='update("+list[i].id+")'>修改</a></td></tr>";
@@ -100,7 +100,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].number+"</td>"+
-                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center' style='display: none;'>"+list[i].upFrameTime+"</td>"+
                          "<td align='center'>"+list[i].time+"</td>"+
                          "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td></tr>";
@@ -114,7 +114,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
                          "<td align='center'>"+list[i].money+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].number+"</td>"+
-                         "<td align='center'>"+list[i].upFrameTime+"</td>"+
+                         "<td align='center' style='display: none;'>"+list[i].upFrameTime+"</td>"+
                          "<td align='center'>"+list[i].time+"</td>"+
                          "<td align='center'>"+list[i].downtime+"</td>"+
                          "<td align='center'><a href='#' onclick='underCarriage(this)'>下架</a></td></tr>";
