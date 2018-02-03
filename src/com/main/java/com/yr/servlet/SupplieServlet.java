@@ -217,7 +217,7 @@ public class SupplieServlet extends HttpServlet {
             	resp.setContentType("application/json; charset=utf-8");
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
             	int mer_id = Integer.valueOf(req.getParameter("mer_id"));
-            	int account_id = (int)req.getSession().getAttribute("userID");
+            	int account_id = Integer.valueOf(req.getParameter("acc_id"));
             	
             	/**
             	 * 获取网络时间
