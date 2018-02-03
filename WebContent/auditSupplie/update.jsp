@@ -143,6 +143,7 @@
         var speId = $("#speId").val();
         var nameTypeId = $("#nameTypeId").val();
         var commo = $("#commo").val();
+        alert(commo);
         var money = $("#money").val();
         var number = $("#number").val();
         var desc = $("#desc").val();
@@ -163,7 +164,7 @@
                 success:function(result){
                     if("0"==result){
                         layer.msg('修改成功',{icon: 1});
-                        setTimeout('parent.location="auditSeller/user.jsp";',1000);
+                        setTimeout('parent.location="auditSupplie/user.jsp";',1000);
                     }
                 },error:function(XMLHttpRequest, textStatus, errorThrown)
                 {

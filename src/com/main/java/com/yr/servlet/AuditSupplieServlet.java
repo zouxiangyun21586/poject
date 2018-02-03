@@ -146,7 +146,9 @@ public class AuditSupplieServlet extends HttpServlet {
             int speId = Integer.valueOf(request.getParameter("speId"));
             Integer nameTypeId = Integer.valueOf(request.getParameter("nameTypeId"));
             String commo = request.getParameter("commo");
+            System.out.println(commo);
             commo = new String(commo.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
+            System.out.println(commo);
             Integer money = Integer.valueOf(request.getParameter("money"));
             String desc = request.getParameter("desc");
             desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
