@@ -39,7 +39,7 @@ public class SupplieDao {
     public static List<Supplie> queryAll(Integer merId) throws SQLException{
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id = sup.mercd_id and m.account_id = act.id and m.nameTypeID = mt.id and m.id = ? ORDER BY sup.id ASC;";
+        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and spe.qGP = mo.id and m.id = sup.mercd_id and m.account_id = act.id and m.nameTypeID = mt.id and m.id = ? ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.setInt(1, merId);
         ps.executeQuery(); // 执行查询
@@ -81,7 +81,7 @@ public class SupplieDao {
     public static List<Supplie> selc() throws SQLException{
     	Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
-        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and m.`name` = sup.commodity and spe.qGP = mo.id and m.id=sup.mercd_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
+        String sql = "select sup.id ,act.id ,m.id ,act.`name` ,mt.type ,m.`name` ,m.money ,m.number ,spe.netContent ,spe.origin ,spe.packingMethod ,spe.brand ,mo.`month` ,spe.storageMethod ,m.`describe` ,m.upFrameTime ,m.merStatus from merchandise m,supplier sup,merchandise_type mt,account act ,specification_table spe ,month_table mo where m.specificationID = spe.id and spe.qGP = mo.id and m.id=sup.mercd_id and m.account_id=act.id and m.nameTypeID=mt.id ORDER BY sup.id ASC;";
         PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);// 发送SQL到数据库
         ps.executeQuery(); // 执行查询
         ResultSet resu = ps.getResultSet();// 获取查询结果
@@ -379,7 +379,7 @@ public class SupplieDao {
         try {
             if(null != sel && !"".equals(sel)){ // 搜索
             pageNow = 0;
-            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id and acc.account like ? ORDER BY su.id ASC limit ?,? ;";
+            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id and acc.account like ? ORDER BY su.id ASC limit ?,? ;";
             PreparedStatement prepar = (PreparedStatement) conn.prepareStatement(sql);
 			String accountName = decodeSpecialCharsWhenLikeUseSlash(sel);
 			prepar.setString(1,"%" + accountName + "%");
@@ -410,7 +410,7 @@ public class SupplieDao {
             return list;
         }else { // 页面加载时查询 出现
         	pageNow = (pageNow - 1) * 10;
-            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ORDER BY su.id ASC limit ?,?;";
+            sql = "select su.id,acc.id,mer.id,acc.account,su.commodity,mer.money,mer.number,spe.netContent,mo.`month`,spe.brand,spe.origin,spe.packingMethod,spe.storageMethod,mtype.type,mer.`describe`,mer.upFrameTime,mer.merStatus from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ORDER BY su.id ASC limit ?,?;";
             PreparedStatement pre = (PreparedStatement) conn.prepareStatement(sql);
             pre.setInt(1, pageNow);
             pre.setInt(2, Paging.getPageNumber());
@@ -479,7 +479,7 @@ public class SupplieDao {
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
         try {
-            String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ";
+            String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ";
             PreparedStatement prepar = conn.prepareStatement(sql);
             prepar.executeQuery();
             ResultSet resu = prepar.getResultSet();
