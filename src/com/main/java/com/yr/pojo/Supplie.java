@@ -32,6 +32,7 @@ public class Supplie {
     private int auditStatus; // 供应商状态
     private String account; // 账户名
     private String releaseTime; // 发表时间
+    private int auditId; // 审核id
     
     public String getMonths() {
         return months;
@@ -176,6 +177,12 @@ public class Supplie {
     }
     public void setAuditStatus(int auditStatus) {
         this.auditStatus = auditStatus;
-    }  
+    }
+	public int getAuditId() {
+		return auditId;
+	}
+	public void setAuditId(int auditId) {
+		this.auditId = auditId;
+	}
     
 }
