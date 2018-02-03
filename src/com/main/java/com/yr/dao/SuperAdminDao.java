@@ -10,6 +10,7 @@ import com.yr.pojo.Account_Role;
 import com.yr.pojo.Paging;
 import com.yr.pojo.Role;
 import com.yr.util.Conn;
+import com.yr.util.ConnectTime;
 import com.yr.util.Encrypt;
 import com.yr.util.JsonUtils;
 
@@ -137,6 +138,36 @@ public class SuperAdminDao {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	/**
+	 * 查询所有角色
+	 * @return 返回角色信息json
+	 */
+	public static String upDatequroleName(){
+		try{
+			String sql = "select * from role where roleName !=?;";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, "超级管理员");
+			List<Role> list = new ArrayList<>();
+			ResultSet rs = pre.executeQuery();
+			while (rs.next()) {
+				Role us = new Role();
+				us.setId(rs.getInt(1));
+				us.setName(rs.getString(2));
+				list.add(us);
+			}
+			rs.close();
+			pre.close();
+//			conn.close();
+			//将java对象List集合转换成json字符串
+			String jsonStr = JsonUtils.beanListToJson(list);
+			return jsonStr;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
 		
 	}
 	
@@ -188,7 +219,6 @@ public class SuperAdminDao {
 				
 				pre.setString(1, nameStr);
 				ResultSet rs=pre.executeQuery();
-				Integer j = null;
 				while(rs.next()){
 					///j = rs.getInt(1);
 					id = id+rs.getInt(1)+",";
@@ -375,23 +405,52 @@ public class SuperAdminDao {
 		}
 	}
 	/**
-	 * 查询
+	 * 修改 邮箱 调用的数据回显
+	 * @param idStr 账户id
+	 * @return 邮箱
 	 */
-	/*public static List<Account_Role> query(){
-		try {
-			String sql = "select ar.id,a.account,r.roleName,a.state from account a INNER JOIN role r INNER JOIN account_role ar on a.id=ar.account_id and r.id=ar.role_id;";
+	public static String queryYouxiang(String idStr){
+		try{
+			Integer id = Integer.valueOf(idStr);
+			String sql = "select youxiang from account where id=?";
 			Connection conn = Conn.conn();
 			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
+			ResultSet rs = pre.executeQuery();
+			String zhi ="";
+			while(rs.next()){
+				zhi = rs.getString(1);
+			}
+			pre.close();
+			rs.close();
+			return zhi;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 取消修改 邮箱 
+	 * @param idStr 账户id
+	 * @return 邮箱
+	 */
+	public static String NooUpdateYouxiang(String idStr){
+		try{
+			Integer id = Integer.valueOf(idStr);
+			String sql = "select * from account where id=?";
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setInt(1, id);
 			ResultSet rs = pre.executeQuery();
 			List<Account_Role> list = new ArrayList<>();
-			Map<String, Object> map = new HashMap<>();
-			map.put("list", list);
-			while (rs.next()) {
+			while(rs.next()){
 				Account_Role us = new Account_Role();
 				us.setId(rs.getInt(1));
-				us.setRoleName(rs.getString(2));
-				us.setUserName(rs.getString(3));
-				us.setState(rs.getInt(4));
+				us.setYouxiang(rs.getNString(4));
+				us.setRoleName(rs.getString(5));
+				us.setState(rs.getInt(3));
+				us.setUserName(rs.getString(2));
 				if (us.getState() == 0) {
 					us.setStateStr("使用中");
 				} else {
@@ -399,17 +458,49 @@ public class SuperAdminDao {
 				}
 				list.add(us);
 			}
-			rs.close();
 			pre.close();
-//			conn.close();
-//			String jsonObjectStr = JSONObject.fromObject(map).toString();
-//			jsonObjectStr = new String(jsonObjectStr.getBytes("utf-8"),"utf-8");
-			return list;
+			rs.close();
+			String json = JsonUtils.beanListToJson(list);
+			return json;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		return null;
-	}*/
+	}
+	
+	/**
+	 * 修改 邮箱 
+	 * @param idStr 账户id
+	 * @param youxiang 新的邮箱值
+	 * @return Good 成功  ,1 不能修改一样的 4 输入为空,3 非法字符
+	 */
+	public static String updateYouxiang(String idStr,String youxiang){
+		try{
+			if(youxiang.indexOf(" ") != -1){//判断他是不是输入 空格 或者带空格的东西
+				return "3";
+			}
+			if(youxiang == null || "".equals(youxiang)){
+				return "4";
+			}
+			Integer id = Integer.valueOf(idStr);
+			String sql = "update account set youxiang=? where id=? and youxiang=?;";
+			String oldYouxiang=queryYouxiang(idStr);
+			if(oldYouxiang.equals(youxiang)){
+				return "1";
+			}
+			Connection conn = Conn.conn();
+			PreparedStatement pre = conn.prepareStatement(sql);
+			pre.setString(1, youxiang);
+			pre.setInt(2, id);
+			pre.setString(3, oldYouxiang);
+			pre.executeUpdate();
+			pre.close();
+			return "Good";
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return null;
+	}
 	/**
 	 * 查询数据并用list封装起来
 	 * @param acc 账号
@@ -433,15 +524,15 @@ public class SuperAdminDao {
 				List<Object> param = new ArrayList<>();
 				pageCountSql = "SELECT count(DISTINCT a.id) FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id ";
 				sql = "SELECT DISTINCT a.id,a.account,a.state,a.youxiang,(select GROUP_CONCAT(r.roleName separator  \",\") as rolename from role r inner join account_role ar on ar.role_id = r.id where ar.account_id = a.id) as rolename FROM account a,account_role ar,role r where a.id=ar.account_id and r.id=ar.role_id  ";
-				if(acc != null && !"".equals(acc))
-				{
-					sql = sql + " and a.account=?";
+				if(acc != null && !"".equals(acc)){//判断他有没有用输入框
+					sql = sql + " and a.account like ?";
 					paramIndex.add(0);
-					param.add(acc);
-					pageCountSql = pageCountSql + " and a.account=?";
+					String zhenAcc = ConnectTime.decodeSpecialCharsWhenLikeUseSlash(acc);
+					zhenAcc = "%"+zhenAcc+"%";
+					param.add(zhenAcc);
+					pageCountSql = pageCountSql + " and a.account like ?";
 				}
-				if(!"quan".equals(rolename))
-				{
+				if(!"quan".equals(rolename)){//判断他有没有用下拉框
 					sql = sql + " and r.roleName=?";
 					paramIndex.add(0);
 					rolename=quRoleNameId(rolename);//根据角色id查出对应的角色名字

@@ -81,6 +81,22 @@ public class SuperAdminServlet extends HttpServlet{
 			request.setAttribute("acc",acc);
 			request.setAttribute("roleId",roleId);
 			request.getRequestDispatcher("user/update.jsp").forward(request, response);
+		}else if("5".equals(i)){
+			//修改邮箱数据回显     
+			String yid = request.getParameter("id");
+			String you = SuperAdminDao.queryYouxiang(yid);
+			response.getWriter().write(you);
+		}else if("6".equals(i)){
+			//保存修改
+			String yid = request.getParameter("id");
+			String yname = request.getParameter("name");
+			String you = SuperAdminDao.updateYouxiang(yid,yname);
+			response.getWriter().write(you);
+		}else if("7".equals(i)){
+			//取消修改
+			String yid = request.getParameter("id");
+			String json = SuperAdminDao.NooUpdateYouxiang(yid);
+			response.getWriter().write(json);
 		}
 	}
 	@Override
@@ -115,6 +131,13 @@ public class SuperAdminServlet extends HttpServlet{
 			String acc = request.getParameter("acc");//修改的账号
 			PrintWriter out = response.getWriter();
 			String strJson = SuperAdminDao.update(oldrole, upRoleId, id, acc);
+			out.write(strJson);
+			out.flush();
+			out.close();
+		}else if("5".equals(i)){
+			//获取角色 除了超管
+			PrintWriter out = response.getWriter();
+			String strJson = SuperAdminDao.upDatequroleName();
 			out.write(strJson);
 			out.flush();
 			out.close();

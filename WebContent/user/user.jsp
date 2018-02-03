@@ -134,11 +134,11 @@
       	        	 		"<td><div class='wrap' style='width:200px;' title='"+list[i].roleName+"'>"+list[i].roleName+"</div></td>"+
       	        	 		"<td>"+list[i].youxiang+"</td>"+
       	        	 		"<td>"+list[i].stateStr+"</td>";
-      	        	 		if(list[i].roleName.indexOf("超级管理员") != -1){
-      	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;"+state;
-      	        	 		}else{
-      	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;"+state;
-      	        	 		}
+   	        	 		if(list[i].roleName.indexOf("超级管理员") != -1){
+   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+   	        	 		}else{
+   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+   	        	 		}
       	       		}
       	          	$("#tbodyId").html(tbodyContent);
       	     	} 
@@ -277,6 +277,131 @@
 		           alert(textStatus);//parsererror
 		   		}
 			});
+		});
+	}
+	
+	//修改邮箱数据回显
+	function xiu(xi){
+		var duan = $(xi).parent().parent();
+		//var a =duan.find("td").eq(1).text();
+		var b =duan.find("td").eq(0).text();
+		$.ajax({
+            //要用post方式      
+            type: "GET",//请求方式,默认GET
+            cache: false,  //是否缓存，false代表拒绝缓存
+            //方法所在页面和方法名      
+            url: "<%=request.getContextPath()%>/superAdminServlet?i=5",     
+            contentType: "application/json; charset=utf-8",  
+            data:{"id":b},  //传参 
+            dataType: "text",     
+            success: function(zh) {
+            	var state="";
+            	var tbodyContent="";
+            	$(duan).find("td").eq(3).html("<input type=\"text\" id=\"youx\" value='"+zh+"' name=\"youx\">");
+    			
+    			$(duan).find("td").eq(5).html("<input type='button' class='layui-btn layui-btn-danger layui-btn-xs' id='xiuqd' name='xiuqd' onclick='xiuque(this)' value='确定'>&nbsp;<input type='button' class='layui-btn layui-btn-danger layui-btn-xs' id='qu' name='qu' value='取消' onclick=\"quxiao(this)\">");
+            },     
+            error: function(XMLHttpRequest, textStatus, errorThrown) {     
+            	alert("失败");
+                alert(XMLHttpRequest.status);//200客户端请求已成功
+                alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+                alert(textStatus);//parsererror
+            }
+		});
+	}
+	//保存修改
+	function xiuque(xi){
+		var duan = $(xi).parent().parent();
+		var id =duan.find("td").eq(0).text();
+		var name=$("#youx").val();
+		var sta =duan.find("td").eq(4).text();
+		var role =duan.find("td").eq(2).text();
+		$.ajax({
+            //要用post方式      
+            type: "GET",//请求方式,默认GET
+            cache: false,  //是否缓存，false代表拒绝缓存
+            //方法所在页面和方法名      
+            url: "<%=request.getContextPath()%>/superAdminServlet?i=6",     
+            contentType: "application/text; charset=utf-8",  
+            data:{"id":id,"name":name},  //传参 
+            dataType: "text",     
+            success: function(zh) {
+            	var state="";
+            	var tbodyContent="";
+            	if(1==zh){
+            		alert("不能修改一样的");
+            	}else if(4==zh){
+            		alert("请输入内容在保存");
+            	}else if(3==zh){
+            		alert("含有非法字符");
+            	}else{
+            		if(role.indexOf("超级管理员") != -1){
+  	          			state="<a href='#'  class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe640;</i> 无法停用</a></td></tr>";
+  	          		}else if("使用中"==sta){
+  	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+  	          		}else if("已停用"==sta){
+  	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+  	          		}
+            		$(duan).find("td").eq(3).html(name);
+        	 		if(role.indexOf("超级管理员") != -1){
+        	 			tbodyContent +="<a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+        	 		}else{
+        	 			tbodyContent +="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+        	 		}
+	    			$(duan).find("td").eq(5).html(tbodyContent);
+            	}
+            },     
+            error: function(XMLHttpRequest, textStatus, errorThrown) {     
+            	alert("失败");
+                alert(XMLHttpRequest.status);//200客户端请求已成功
+                alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+                alert(textStatus);//parsererror
+            }
+		});
+	}
+	//取消修改
+	function quxiao(xi){
+		var duan = $(xi).parent().parent();
+		var id =duan.find("td").eq(0).text();
+		var sta =duan.find("td").eq(4).text();
+		var role =duan.find("td").eq(2).text();
+		$.ajax({
+            //要用post方式      
+            type: "GET",//请求方式,默认GET
+            cache: false,  //是否缓存，false代表拒绝缓存
+            //方法所在页面和方法名      
+            url: "<%=request.getContextPath()%>/superAdminServlet?i=5",     
+            contentType: "application/json; charset=utf-8",  
+            data:{"id":id},  //传参 
+            dataType: "text",
+            success: function(zh) {
+            	var state="";
+            	var tbodyContent="";
+            		
+				$(duan).find("td").eq(3).html(zh);
+    			
+				if(role.indexOf("超级管理员") != -1){
+          			state="<a href='#'  class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe640;</i> 无法停用</a></td></tr>";
+          		}else if("使用中"==sta){
+          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+          		}else if("已停用"==sta){
+          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+          		}
+ 	        		
+       	 		if(role.indexOf("超级管理员") != -1){
+       	 			tbodyContent +="<a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+       	 		}else{
+       	 			tbodyContent +="<a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+       	 		}
+    			$(duan).find("td").eq(5).html(tbodyContent);
+            		
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {     
+            	alert("失败");
+                alert(XMLHttpRequest.status);//200客户端请求已成功
+                alert(XMLHttpRequest.readyState);//4 响应内容解析完成，可以在客户端调用了
+                alert(textStatus);//parsererror
+            }
 		});
 	}
 	</script>
