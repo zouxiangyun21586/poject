@@ -14,6 +14,7 @@
         <div class="layui-col-md8" style="width: 100%;">
             <div class="layui-form layui-form-pane">
                 <c:forEach var="u" items="${list}">
+                    <br/>
                     <input type="text" name="i" id="i" autocomplete="off"
                            class="layui-input" value="4" style="display:none;"/>
                     <input type="text" name="auditID" id="auditID" autocomplete="off"

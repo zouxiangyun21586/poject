@@ -31,6 +31,7 @@
                             <td align="center" style="display: none;">卖家ID</td>
                             <td align="center" style="width:80px;">编号</td>
                             <td align="center" style="display: none;">规格ID</td>
+                            <td align="center" style="width:80px;">账户</td>
                             <td align="center" style="width:150px;">类型</td>
                             <td align="center" style="width:150px;">名称</td>
                             <td align="center" style="display: none;">描述</td>
@@ -81,6 +82,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].auditName+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
@@ -95,6 +97,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].auditName+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
@@ -109,6 +112,7 @@ function Data(){
                          "<td align='center' style='display:none;'>"+list[i].seller_id+"</td>"+
                          "<td align='center'>"+list[i].wares_id+"</td>"+
                          "<td align='center' style='display:none;'>"+list[i].speciID+"</td>"+
+                         "<td align='center'>"+list[i].auditName+"</td>"+
                          "<td align='center'>"+list[i].nameType+"</td>"+
                          "<td align='center'><a href='#' onclick='query("+list[i].id+")'>"+list[i].name+"</a></td>"+
                          "<td align='center' style='display:none;'>"+list[i].describe+"</td>"+
