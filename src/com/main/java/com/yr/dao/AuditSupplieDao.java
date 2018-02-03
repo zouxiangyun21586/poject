@@ -37,6 +37,7 @@ public class AuditSupplieDao {
     private static final int NUB_17 = 17;
     private static final int NUB_18 = 18;
     private static final int NUB_19 = 19;
+    private static final int NUB_20 = 20;
 
     private static Integer num = null;
     
@@ -119,21 +120,9 @@ public class AuditSupplieDao {
      * void
      * 2018年1月26日下午7:27:04
      */
-    public static void updateAudit(Integer merId,Integer speId,String typeName,String commo,Integer money,String describe,Integer number,String origin,String netContent,String packingMethod,String brand,Integer month_tableId,String storageMethod){
+    public static void updateAudit(Integer merId,Integer speId,Integer nameTypeId,String commo,Integer money,String describe,Integer number,String origin,String netContent,String packingMethod,String brand,Integer month_tableId,String storageMethod){
         Connection conn = Conn.conn();
         try{
-         // 获取修改后的 商品类型ID
-            String sql = "select id from merchandise_type where type=?;";
-            PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
-            ps.setString(NUB_1, typeName);
-            ps.executeQuery();
-            ResultSet rs = ps.getResultSet();
-            int newNTID = 0;
-            while (rs.next()) {
-                newNTID = rs.getInt(NUB_1);
-            }
-            rs.close();
-            ps.close();
             // 根据规格ID修改 规格数据
             String sql1 = "update specification_table set origin=?,netContent=?,packingMethod=?,brand=?,qGP=?,storageMethod=? where id=?;";
             PreparedStatement ps1 = (PreparedStatement) conn.prepareStatement(sql1);
@@ -149,7 +138,7 @@ public class AuditSupplieDao {
             // 根据商品ID修改 商品数据
             String sql2 = "update merchandise set nameTypeID=?,`name`=?,money=?,`describe`=?,specificationID=?,number=? where id=?;";
             PreparedStatement ps2 = (PreparedStatement) conn.prepareStatement(sql2);
-            ps2.setInt(NUB_1, newNTID);
+            ps2.setInt(NUB_1, nameTypeId);
             ps2.setString(NUB_2, commo);
             ps2.setInt(NUB_3, money);
             ps2.setString(NUB_4, describe);
@@ -174,7 +163,7 @@ public class AuditSupplieDao {
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
         try{
-            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime,mt.id from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,auditID);
             ResultSet rs = ps.executeQuery();
@@ -199,6 +188,7 @@ public class AuditSupplieDao {
                 goods.setMoney(Integer.valueOf(rs.getString(NUB_17)));
                 goods.setNumber(rs.getInt(NUB_18));
                 goods.setReleaseTime(rs.getString(NUB_19));
+                goods.setNameTypeId(rs.getInt(NUB_20));
                 list.add(goods);
             }
             rs.close();
