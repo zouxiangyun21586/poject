@@ -23,7 +23,7 @@
 			        type: "POST",//请求方式,默认GET
 			        cache: false,  //是否缓存，false代表拒绝缓存
 			        //方法所在页面和方法名      
-			        url: "<%=request.getContextPath() %>/superAdminServlet?i=3",     
+			        url: "<%=request.getContextPath() %>/superAdminServlet?i=5",     
 			        contentType: "application/text; charset=utf-8",  
 			        dataType: "json",
 			        success: function(zh) {
