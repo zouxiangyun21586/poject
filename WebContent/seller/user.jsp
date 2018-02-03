@@ -22,7 +22,7 @@
                     style="float: right; margin-left: 0px;" id="sel">
                     <i class="layui-icon">&#xe615;</i> 搜索
                 </button>
-                <input type="text" class="layui-input" placeholder="请输入要查询的编号或名称"
+                <input type="text" class="layui-input" placeholder="请输入要查询的账户或名称"
                     style="float: right; width: 250px; height: 30px;" id="select" name="select"/>
                 <table class="layui-table">
                     <thead>
