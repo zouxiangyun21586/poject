@@ -451,7 +451,6 @@ public class SupplieDao {
         Connection conn = Conn.conn();
         int total = 0;// 总共多少条记录
         int pageCount = 0;// 总页数
-        List<Object> param = new ArrayList<>();
         try {
             String sql = "select count(*) from supplier su,merchandise mer,specification_table spe,merchandise_type mtype,month_table mo, account acc where su.mercd_id=mer.id and su.commodity = mer.`name` and mer.specificationID = spe.id and mer.nameTypeID = mtype.id and spe.qGP = mo.id and mer.account_id = acc.id ";
             PreparedStatement prepar = conn.prepareStatement(sql);
