@@ -53,7 +53,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">邮箱</label>
 							<div class="layui-input-block">
-								<input type="text" id="youxiang" name="youxiang" autocomplete="off"
+								<input type="email" id="youxiang" name="youxiang" autocomplete="off"
 									placeholder="请输入邮箱" class="layui-input">
 							</div>
 						</div>
