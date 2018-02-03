@@ -41,30 +41,30 @@ public class Supplie {
         this.months = months;
     }
     public String getAccount() {
-		return account;
-	}
-	public String getReleaseTime() {
-		return releaseTime;
-	}
-	public void setReleaseTime(String releaseTime) {
-		this.releaseTime = releaseTime;
-	}
+        return account;
+    }
+    public String getReleaseTime() {
+        return releaseTime;
+    }
+    public void setReleaseTime(String releaseTime) {
+        this.releaseTime = releaseTime;
+    }
     public String getAuditTime() {
         return auditTime;
     }
     public void setAuditTime(String auditTime) {
         this.auditTime = auditTime;
     }
-	public void setAccount(String account) {
-		this.account = account;
-	}
-	public int getAccount_id() {
-		return account_id;
-	}
-	public void setAccount_id(int account_id) {
-		this.account_id = account_id;
-	}
-	public int getSpeId() {
+    public void setAccount(String account) {
+        this.account = account;
+    }
+    public int getAccount_id() {
+        return account_id;
+    }
+    public void setAccount_id(int account_id) {
+        this.account_id = account_id;
+    }
+    public int getSpeId() {
         return speId;
     }
     public void setSpeId(int speId) {
@@ -178,11 +178,11 @@ public class Supplie {
     public void setAuditStatus(int auditStatus) {
         this.auditStatus = auditStatus;
     }
-	public int getAuditId() {
-		return auditId;
-	}
-	public void setAuditId(int auditId) {
-		this.auditId = auditId;
-	}
+    public int getAuditId() {
+        return auditId;
+    }
+    public void setAuditId(int auditId) {
+        this.auditId = auditId;
+    }
     
 }

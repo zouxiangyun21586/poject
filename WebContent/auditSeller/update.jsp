@@ -14,6 +14,7 @@
         <div class="layui-col-md8" style="width: 100%;">
             <div class="layui-form layui-form-pane">
                 <c:forEach var="u" items="${list}">
+                    <br/>
                     <input type="text" name="i" id="i" autocomplete="off"
                            class="layui-input" value="4" style="display:none;"/>
                     <input type="text" name="auditID" id="auditID" autocomplete="off"
@@ -25,7 +26,7 @@
                     <input type="text" name="speciID" id="speciID" autocomplete="off"
                            class="layui-input" value="${u.speciID}" style="display:none;"/>
                     <div class="layui-form-item">
-                        <label class="layui-form-label">用户名称</label>
+                        <label class="layui-form-label">账户名称</label>
                         <div class="layui-input-block">
                             <input type="text" name="auditName" id="auditName" autocomplete="off"
                                    class="layui-input" value="${u.auditName}" readonly="readonly">
