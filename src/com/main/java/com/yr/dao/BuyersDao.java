@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.yr.pojo.Buyers;
+import com.yr.pojo.Order;
 import com.yr.pojo.Paging;
 import com.yr.pojo.Seller;
 import com.yr.util.ConnectTime;
@@ -190,6 +191,28 @@ public class BuyersDao {
             e.printStackTrace();
         }
         return null;
+    }
+    
+    public static String add(Order bu){
+    	try{
+	    	Connection conn = LinkMysql.getCon();
+	    	String sql = "insert into order_table(wares_id,orderNo,orderTime,orderNumber,buyersAddr,buyersTell,buyersName,specificationId,orderMessage,orderlapse) values(?,?,?,?,?,?,?,?,?,?);";
+	    	PreparedStatement pre = conn.prepareStatement(sql);
+	    	pre.setInt(1, bu.getWares_id());
+	    	pre.setString(2, bu.getOrderNo());
+	    	pre.setString(3, bu.getOrderTime());
+	    	pre.setInt(4, bu.getOrderNumber());
+	    	pre.setString(5, bu.getBuyersAddr());
+	    	pre.setString(6, bu.getBuyersTell());
+	    	pre.setString(7, bu.getBuyersName());
+	    	pre.setInt(8, bu.getSpecificationId());
+	    	pre.setString(9, bu.getOrderMessage());
+	    	pre.setString(10, bu.getOrderlapse());
+	    	pre.executeUpdate();
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	return null;
     }
     
     /**

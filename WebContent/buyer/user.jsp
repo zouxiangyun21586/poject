@@ -32,10 +32,6 @@
     <div class="layui-container" width="100%" height="100%" align="center">
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md8" style="width: 100%;">
-                <button class="layui-btn layui-btn-sm" style="float: left;"
-                    id="addgoods">
-                    <i class="layui-icon">&#xe654;</i> 添加商品
-                </button>
                 <button class="layui-btn layui-btn-sm layui-btn-normal"
                     style="float: right; margin-left: 0px;" id="sel">
                     <i class="layui-icon">&#xe615;</i> 搜索
@@ -74,13 +70,14 @@ $(document).ready(function(){
     	Data();
     });
 });
+//页面显示值
 function Data(){
     layui.use([ 'layer', 'form' ], function() {
         var form = layui.form;
         form.render('select');
         $.ajax({
             type:"post", //请求方式     对应form的  method请求
-            url:"../buyersServlet", //请求路径  对应 form的action路径
+            url:"../buyersServlet?i=1", //请求路径  对应 form的action路径
             cache: false,  //是否缓存，false代表拒绝缓存
             data:{"pageNow":getPar("pageNow"),"type":"list","select":$('#select').val()},  //传参
             dataType: "json",   //返回值类型 
@@ -113,14 +110,13 @@ function gou(a){
 	var id=$(a).parent().parent().find("td").eq(0).text();//自己的发布表id
 	var accountId=$(a).parent().parent().find("td").eq(1).text();//账号id
 	var wares_id=$(a).parent().parent().find("td").eq(2).text();//商品id
-	var speciID=$(a).parent().parent().find("td").eq(3).text();
+	var speciId=$(a).parent().parent().find("td").eq(3).text();//规格id
 	var nameType=$(a).parent().parent().find("td").eq(4).text();//类型
 	var name=$(a).parent().parent().find("td").eq(5).text();//名称
 	var describe=$(a).parent().parent().find("td").eq(6).text();//描述
 	var money=$(a).parent().parent().find("td").eq(7).text();//价格
 	var number=$(a).parent().parent().find("td").eq(8).text();//数量
-	var upFrameTime=$(a).parent().parent().find("td").eq(9).text();//上架时间
-	alert(id+" "+seller_id+" "+wares_id+" "+speciID+" "+nameType+" "+describe+" "+money+" "+number+" "+upFrameTime);
+	//alert(id+" "+accountId+" "+wares_id+" "+speciId+" "+nameType+" "+describe+" "+money+" "+number);
 	layui.use([ 'layer', 'form' ], function() {
 		var form = layui.form;
 		layer.open({
@@ -131,7 +127,7 @@ function gou(a){
 	        resize : false,
 	        scrollbar : true,
 	        //页面路径
-	        content : 'add.jsp?id='+id+'&acccountId='+acccountId+'&wares='+wares_id,
+	        content : 'add.jsp?id='+id+'&accountId='+accountId+'&wares='+wares_id+'&speciId='+speciId+'&nameType='+'&name='+name+'&describe='+describe+'&money='+money+'&number='+number,
 	        area : [ '400px', '505px' ],//宽高
 	        shadeClose : true
 	    });

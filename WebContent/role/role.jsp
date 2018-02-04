@@ -35,7 +35,6 @@
                 </table>
                 <div id="page" class="page"></div>
             </div>
-             <div class="layui-form" style="display:none;" id="layui-xtree-demo1" style="float:left;width:250px; border:0px solid #009688;"></div>
         </div>
     </div>
 </body>
@@ -162,7 +161,17 @@ function cancel(updc,id,rome){
 
 /* 赋权 */
  function empowerment(a){
-    $("#layui-xtree-demo1").toggle();
+	 var tr = $(this);
+		layer.open({
+			anim: 2,
+			title : '角色赋权',
+			type: 2, //窗口类型
+			resize:false,//禁止拉伸
+			maxmin:false,//最大化,最小化
+			shade: [0.3,'#000'],
+			area: ['500px', '600px'],//窗口宽高
+			content: 'fq.jsp?id='+tr.parents('td').find('input').val()
+		});
 }
  
 
@@ -210,6 +219,7 @@ layui.use([ 'layer', 'laypage', 'element' ], function() {
             content : [ 'add.jsp', 'no' ]
         });
     });
+
 });
 </script>
 </html>
