@@ -12,9 +12,8 @@ import com.yr.util.Conn;
 import com.yr.util.ConnectTime;
 
 /**
- * 
- * @author zxy
- *
+ * @作者 林水桥
+ * 2018年2月3日下午10:44:01
  */
 public class AuditSupplieDao {
     private static final int NUB_0 = 0;
@@ -163,7 +162,7 @@ public class AuditSupplieDao {
         Connection conn = Conn.conn();
         List<Supplie> list = new ArrayList<>();
         try{
-            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime,mt.id from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and m.`name`=rs.commodity and ads.id=?;";
+            String sql = "select ads.id,ads.release_id,ads.merchandise_id,ads.account_id,spt.id,a.account,mt.type,m.`name`,m.`describe`,spt.origin,spt.netContent,spt.packingMethod,spt.brand,spt.qGP,mth.`month`,spt.storageMethod,m.money,m.number,ads.addTime,mt.id from supplier rs,merchandise m,merchandise_type mt,specification_table spt,month_table mth,auditsupplier ads,account a where a.id=ads.account_id and ads.release_id=rs.id and ads.merchandise_id=rs.mercd_id and ads.account_id=m.account_id and rs.mercd_id=m.id and m.nameTypeID=mt.id and m.specificationID=spt.id and mth.id=spt.qGP and ads.id=?;";
             PreparedStatement ps = (PreparedStatement) conn.prepareStatement(sql);
             ps.setInt(NUB_1,auditID);
             ResultSet rs = ps.executeQuery();

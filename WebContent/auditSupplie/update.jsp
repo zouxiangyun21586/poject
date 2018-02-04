@@ -103,7 +103,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">保质期</label>
                         <div class="layui-input-block">
-                            <select name="interest" id="qGP" lay-filter="month" lay-search>
+                            <select name="interest" id="month_tableId" lay-filter="month" lay-search>
                                 <option value="${u.month_tableId}">${u.months}</option>
                                 <option value="1">一个月</option>
                                 <option value="2">两个月</option>
@@ -144,7 +144,7 @@
         var nameTypeId = $("#nameTypeId").val();
         var commo = $("#commo").val();
         var money = $("#money").val();
-        var mumber = $("#number").val();
+        var number = $("#number").val();
         var desc = $("#desc").val();
         var origin = $("#origin").val();
         var netContent = $("#netContent").val();
@@ -161,10 +161,10 @@
                 async : true,
                 data:{"i":i,"suptId":suptId,"merId":merId,"speId":speId,"nameTypeId":nameTypeId,"commo":commo,"money":money,"number":number,"desc":desc,"origin":origin,"netContent":netContent,"packingMethod":packingMethod,"brand":brand,"mt_id":mt_id,"storageMethod":storageMethod},
                 success:function(result){
-                	if("0" == result){
-	                    layer.msg('修改成功',{icon: 1});
-	                    setTimeout('parent.location="auditSupplie/user.jsp";',1000);
-                	}
+                    if("0"==result){
+                        layer.msg('修改成功',{icon: 1});
+                        setTimeout('parent.location="auditSupplie/user.jsp";',1000);
+                    }
                 },error:function(XMLHttpRequest, textStatus, errorThrown)
                 {
                     layer.msg('后台发生错误!',{icon: 2});

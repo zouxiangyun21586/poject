@@ -253,7 +253,7 @@
 	        var auditStatus = tr.find("td").eq(16).text();
 	        
 	        $.ajax({
-	            url:"<%=request.getContextPath()%>/supSer?sup=8",
+	            url:"<%=request.getContextPath()%>/supSer?sup=7",
 	            type:"get",
 	            cache:false,//取消缓存
 	            async:true,//是否异步请求,修改false就表示同步,true表示异步

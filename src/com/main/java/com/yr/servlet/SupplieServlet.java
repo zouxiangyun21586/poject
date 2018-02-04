@@ -23,35 +23,39 @@ import net.sf.json.JSONObject;
 
 /**
  * 
- * 2017
  * @author zxy
- * Administrator
- * 2017锟斤拷12锟斤拷28锟斤拷 锟斤拷锟斤拷8:34:54
+ * 2017年12月28日 下午8:34:54 
+ *
  */
 public class SupplieServlet extends HttpServlet {
-    /**
-     * 锟斤拷取锟斤拷锟斤拷时锟斤拷.
-     */
-   
     
-    /**
-     * 锟斤拷应锟斤拷 锟斤拷删锟侥诧拷.
-     *
-     * @author zxy
-     * @param req
-     * @param resp
-     * @throws ServletException
-     * @throws IOException
-     * 2017锟斤拷12锟斤拷13锟斤拷 锟斤拷锟斤拷9:02:08
-     */
+	/**
+	 * @author zxy
+	 * 
+	 * 2018年2月3日 下午10:10:33 
+	 * 
+	 * serialVersionUID    long
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 默认进入get方法执行
+	 * 
+	 * @author zxy
+	 * @param req
+	 * @param resp
+	 * @throws ServletException
+	 * @throws IOException
+	 * 2017年12月13日 下午9:02:08 
+	 *
+	 */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/json");
         resp.setCharacterEncoding("UTF-8");
-        String sup = req.getParameter("sup"); // 页锟芥传锟斤拷锟斤拷锟斤拷值(锟斤拷锟斤拷锟叫讹拷执锟斤拷锟斤拷一锟斤拷)
-        if("1".equals(sup)){
-            //查询
+        String sup = req.getParameter("sup"); // 获取页面传过来的值,判断执行哪个操作
+        if("1".equals(sup)){ // 查询
             PrintWriter out = resp.getWriter();
             String type= req.getParameter("type");
             String select= req.getParameter("select");//搜索功能中输入框的值(账号)
@@ -116,11 +120,9 @@ public class SupplieServlet extends HttpServlet {
                 	if(!nameType.equals("") && !name.equals("") && !money.equals("") && !number.equals("") && !origin.equals("") && !netContent.equals("") && !packingMethod.equals("") && !brand.equals("") && !qGp.equals("") && !storageMethod.equals("") && !describe.equals("")){
                 		Pattern pattern = Pattern.compile("[0-9]*");
                 		Matcher moneyIsNum = pattern.matcher(money);
-                		System.out.println("不为空且不为null");
                 		if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
                 			Pattern pattern2 = Pattern.compile("[0-9]*");
                     		Matcher numberIsNum = pattern2.matcher(number);
-                    		System.out.println("进入价格");
                 			if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
                 				Integer speId  = SupplieDao.speciAdd(origin,netContent,packingMethod,brand,qGp,storageMethod); // 给规格字段添信息(可以获取到刚插入的规格字段id)
                 				System.out.println("规格表id " + speId);
@@ -128,7 +130,6 @@ public class SupplieServlet extends HttpServlet {
                 				System.out.println("商品表id " + merId);
                 				Integer suppId = SupplieDao.suppAdd(name,merId); // 添加供应商商品信息(商品id)
                 				System.out.println("供应商表id " + suppId);
-                				System.out.println("执行完成 --");
                 			}else{
                 				resp.getWriter().write("3");
                 			}
@@ -197,7 +198,7 @@ public class SupplieServlet extends HttpServlet {
             req.setCharacterEncoding("utf-8");
             try {
                 int id = Integer.valueOf(req.getParameter("merId"));
-                List<Supplie> list = SupplieDao.queryAll(id); // 锟斤拷询
+                List<Supplie> list = SupplieDao.queryAll(id); // 查询所有
                 req.setAttribute("list", list);
                 req.getRequestDispatcher("supplie/upd.jsp").forward(req, resp);
             } catch (Exception e) {
@@ -211,20 +212,13 @@ public class SupplieServlet extends HttpServlet {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }else if ("7".equals(sup)){ // 审核
-            try {
-				List<Supplie> list = SupplieDao.selc();
-				req.setAttribute("list", list);
-				req.getRequestDispatcher("auditSupplie/detail.jsp").forward(req,resp);;
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-        }else if("8".equals(sup)){ // 上架审核中
+        }else if("7".equals(sup)){ // 上架审核中
             try {
             	resp.setContentType("application/json; charset=utf-8");
             	int sup_id = Integer.valueOf(req.getParameter("sup_id"));
             	int mer_id = Integer.valueOf(req.getParameter("mer_id"));
-            	int account_id = (int)req.getSession().getAttribute("userID");
+            	int account_id = Integer.valueOf(req.getParameter("acc_id"));
+            	
             	/**
             	 * 获取网络时间
             	 */
