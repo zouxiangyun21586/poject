@@ -157,8 +157,12 @@ $("#btn").click(function(){
         async : true,
         data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
         success:function(result){
-        	layer.msg('修改成功',{icon: 1});
-        	setTimeout('parent.location="seller/user.jsp";',1000);
+        	if("0" == result){
+	        	layer.msg('修改成功',{icon: 1});
+	        	setTimeout('parent.location="seller/user.jsp";',1000);
+        	}else{
+        		alert("请规范输入！！！");
+        	}
         }
         });
     });

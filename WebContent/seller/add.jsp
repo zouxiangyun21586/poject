@@ -136,8 +136,12 @@ $("#btn").click(function(){
         async : true,
         data:{"i":i,"interest":NameType,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
         success:function(result){
-            layer.msg('保存成功!',{icon: 1});
-            setTimeout("parent.location.href=parent.location.href;","1000");
+            if("0" == result){
+	        	layer.msg('保存成功!',{icon: 1});
+	            setTimeout("parent.location.href=parent.location.href;","1000");
+            }else{
+            	alert("请规范输入！！！");
+            }
         }
         });
     });
