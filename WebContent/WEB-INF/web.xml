@@ -68,6 +68,14 @@
     <servlet-name>roleServlet</servlet-name>
     <url-pattern>/roleServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <servlet-name>jurisdiction</servlet-name>
+    <servlet-class>com.yr.servlet.RoleJurisdictionServletLayer</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>jurisdiction</servlet-name>
+    <url-pattern>/jurisdiction</url-pattern>
+  </servlet-mapping>
   <filter>
     <filter-name>Filter</filter-name>
     <filter-class>com.yr.dao.SimpleFilter</filter-class>
