@@ -195,7 +195,6 @@
                 data:{"mer_id":mer_id},
                 dataType:"text",
                 success:function(result){
-                	alert("下架");
                     $.each(result,function(index,item){
                         var Downtime = item.upFrameTime;
                         tr.html("<tr id='zui'><td>"+suptId+
