@@ -5,6 +5,8 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yr.dao.SellerDao;
+import com.yr.dao.SupplieDao;
 import com.yr.pojo.Seller;
 import com.yr.util.ConnectTime;
 import com.yr.util.JsonUtils;
@@ -90,7 +93,7 @@ public class SellerServlet extends HttpServlet {
                 Integer money = Integer.valueOf(request.getParameter("money"));
                 String desc = request.getParameter("desc");
                 desc = new String(desc.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                int number = Integer.valueOf(request.getParameter("number"));
+                Integer number = Integer.valueOf(request.getParameter("number"));
                 String origin = request.getParameter("origin");
                 origin = new String(origin.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
                 String netContent = request.getParameter("netContent");
@@ -102,8 +105,32 @@ public class SellerServlet extends HttpServlet {
                 int qGP = Integer.valueOf(request.getParameter("qGP"));
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                SellerDao.updateGoods(wares_id, spec_id, nameTypeID, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
-                response.getWriter().write("1");
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(money != null && number != null && netContent != null && packingMethod != null && qGP != 0 && desc != null && name != null && brand != null && storageMethod != null && origin != null){
+                    if(!money.equals("") && !number.equals("") && !netContent.equals("") && !packingMethod.equals("") && !desc.equals("") && !brand.equals("") && !brand.equals("") && !storageMethod.equals("") && !name.equals("") && !origin.equals("")){
+                        Pattern pattern = Pattern.compile("[0-9]*");
+                        Matcher moneyIsNum = pattern.matcher(String.valueOf(money));
+                        if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                            Pattern pattern2 = Pattern.compile("[0-9]*");
+                            Matcher numberIsNum = pattern2.matcher(String.valueOf(number));
+                            if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                                SellerDao.updateGoods(wares_id, spec_id, nameTypeID, name, money, desc, number, origin, netContent, packingMethod, brand, qGP, storageMethod);
+                            }else{
+                                response.getWriter().write("1");
+                            }
+                        }else{
+                            response.getWriter().write("1");
+                        }
+                    }else{
+                        response.getWriter().write("1");
+                    }
+                }else{
+                    response.getWriter().write("1");
+                }
+                
+                response.getWriter().write("0");
             } else if ("6".equals(i)) { // 添加商品
                 int select = Integer.valueOf(request.getParameter("interest")); // 商品类型
                 String name = request.getParameter("name");// 商品名称
@@ -122,10 +149,33 @@ public class SellerServlet extends HttpServlet {
                 int qGP = Integer.valueOf(request.getParameter("qGP"));// 保质期
                 String storageMethod = request.getParameter("storageMethod");
                 storageMethod = new String(storageMethod.getBytes("ISO-8859-1"),"UTF-8"); // 转为utf-8格式 防止中文乱码
-                int number = Integer.valueOf(request.getParameter("number"));
-                // 获取网络时间
+                Integer number = Integer.valueOf(request.getParameter("number"));
                 String date = ConnectTime.getWebsiteDatetime();
-                SellerDao.addGoods(select, name, money, desc, origin, netContent, packingMethod, brand, qGP, storageMethod, number, date, seller_id);
+                /**
+                 * 判断是否为空或null,同时判断数量和价格是否正规输入
+                 */
+                if(money != null && number != null && netContent != null && packingMethod != null && qGP != 0 && desc != null && name != null && brand != null && storageMethod != null && origin != null){
+                    if(!money.equals("") && !number.equals("") && !netContent.equals("") && !packingMethod.equals("") && !desc.equals("") && !brand.equals("") && !brand.equals("") && !storageMethod.equals("") && !name.equals("") && !origin.equals("")){
+                        Pattern pattern = Pattern.compile("[0-9]*");
+                        Matcher moneyIsNum = pattern.matcher(String.valueOf(money));
+                        if(moneyIsNum.matches()){ // 如果价格是数字就进入,否则弹出错误
+                            Pattern pattern2 = Pattern.compile("[0-9]*");
+                            Matcher numberIsNum = pattern2.matcher(String.valueOf(number));
+                            if(numberIsNum.matches()){ // 如果number是数字就进入,否则弹出错误
+                                SellerDao.addGoods(select, name, money, desc, origin, netContent, packingMethod, brand, qGP, storageMethod, number, date, seller_id);
+                            }else{
+                                response.getWriter().write("1");
+                            }
+                        }else{
+                            response.getWriter().write("1");
+                        }
+                    }else{
+                        response.getWriter().write("1");
+                    }
+                }else{
+                    response.getWriter().write("1");
+                }
+                // 获取网络时间
                 response.sendRedirect("seller/user.jsp");
             } else if ("7".equals(i)) {//卖家上架,正在审核
                 int id = Integer.valueOf(request.getParameter("id"));// 卖家发布ID
