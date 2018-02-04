@@ -18,7 +18,7 @@ public class Order {
 	 */
 	private String orderTime;
 	/**
-	 * 订单数量
+	 * 购买数量
 	 */
 	private Integer orderNumber;
 	/**
