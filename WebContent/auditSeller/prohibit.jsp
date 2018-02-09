@@ -41,6 +41,10 @@
 <script src="plugins/layui/layui.js"></script>
 <script src="js/jquery-3.2.1.js"></script>
 <script>
+//遮盖属性
+function ityzl_SHOW_LOAD_LAYER(){  
+    return layer.msg('努力中...', {icon: 16,shade: [0.8, '#f5f5f5'],scrollbar: false,offset: '0px', time:100000}) ;  
+}
     $("#btn").click(function(){
         var id = $("#id").val();
         var wares_id = $("#wares_id").val();
@@ -48,6 +52,7 @@
         var seller_id = $("#seller_id").val();
         var remind = $("#remind").val();
         var i = $("#i").val();
+        var t;
         layui.use(['layer', 'form', 'element'], function(){
             $.ajax({
                 url:"auditSellerServlet",
@@ -55,9 +60,12 @@
                 cache : false,
                 async : true,
                 data:{"i":i,"id":id,"wares_id":wares_id,"seller_id":seller_id,"auditID":auditID,"remind":remind},
+                beforeSend : function(){
+                    t = ityzl_SHOW_LOAD_LAYER();  
+                },
                 success:function(result){
                     if("0"==result){
-                        layer.msg('发送成功',{icon: 1});
+                        layer.msg('发送成功',{icon: 1,shade: [0.3, '#f5f5f5']});
                         setTimeout('parent.location="auditSeller/user.jsp";',1000);
                     }
                 },error:function(XMLHttpRequest, textStatus, errorThrown)

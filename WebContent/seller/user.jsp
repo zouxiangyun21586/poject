@@ -129,6 +129,10 @@ function Data(){
           });
     });
 }
+//遮盖属性
+function ityzl_SHOW_LOAD_LAYER(){  
+    return layer.msg('努力中...', {icon: 16,shade: [0.8, '#f5f5f5'],scrollbar: false,offset: '0px', time:100000}) ;  
+}
 //修改商品保存信息
 function update(d){
     layer.open({
@@ -168,15 +172,20 @@ function del(a){
         var wares_id = tr.find("td").eq(2).text();
         var time = tr.find("td").eq(10).text();
         var downtime = tr.find("td").eq(11).text();
+        var t;
         $.ajax({
             url:"../sellerServlet",
             type:"get",
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"id":id,"seller_id":seller_id,"wares_id":wares_id,"time":time,"downtime":downtime,"i":2},//传递参数
+            beforeSend : function(){
+                t = ityzl_SHOW_LOAD_LAYER();  
+            },
             success:function(result){
                 if(result == "0")
                 {
+                	layer.msg('删除成功',{icon: 1,shade: [0.3, '#f5f5f5']});
                     tr.remove();
                 }
                 else
@@ -207,15 +216,20 @@ function shelves(e){
     var UpFrameTime = tr.find("td").eq(10).text();
     var Time = tr.find("td").eq(11).text();
     var Downtime = tr.find("td").eq(12).text();
+    var t;
     $.ajax({
         url:"../sellerServlet",
         type:"get",
         cache:false,//取消缓存
         async:true,//是否异步请求,修改false就表示同步,true表示异步
         data:{"id":Id,"seller_id":Seller_id,"wares_id":Wares_id,"i":7},
+        beforeSend : function(){
+            t = ityzl_SHOW_LOAD_LAYER();  
+        },
         success:function(result){
             tr.html("");
             if(result=="0"){
+            	layer.msg('等待审核中',{icon: 1,shade: [0.3, '#f5f5f5']});
                 tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td align='center' style='display:none;'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='cancel(this)'>撤销</a></td>");
             }
         },
@@ -242,15 +256,20 @@ function cancel(b){
         var UpFrameTime = tr.find("td").eq(10).text();
         var Time = tr.find("td").eq(11).text();
         var Downtime = tr.find("td").eq(12).text();
+        var t;
         $.ajax({
             url:"../sellerServlet",
             type:"get",
             cache:false,//取消缓存
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"id":Id,"i":3,"seller_id":Seller_id,"wares_id":Wares_id},
+            beforeSend : function(){
+                t = ityzl_SHOW_LOAD_LAYER();  
+            },
             success:function(result){
                 if(result == "0")
                 {
+                	layer.msg('已撤销审核',{icon: 1,shade: [0.3, '#f5f5f5']});
                     tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td align='center' style='display:none;'>"+UpFrameTime+"</td><td align='center'>"+Time+"</td><td align='center'>"+Downtime+"</td><td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
                 }
                 else
@@ -282,6 +301,7 @@ function underCarriage(c){
         var UpFrameTime = tr.find("td").eq(10).text();
         var Time = tr.find("td").eq(11).text();
         var Downtime = tr.find("td").eq(12).text();
+        var t;
         $.ajax({
             url:"../sellerServlet",
             type:"get",
@@ -289,8 +309,12 @@ function underCarriage(c){
             async:true,//是否异步请求,修改false就表示同步,true表示异步
             data:{"id":Id,"i":4,"wares_id":Wares_id},
             dataType:"json",
+            beforeSend : function(){
+                t = ityzl_SHOW_LOAD_LAYER();  
+            },
             success:function(result){
                 $.each(result,function(index,item){
+                	layer.msg('成功下架',{icon: 1,shade: [0.3, '#f5f5f5']});
                     var Downtime = item.downtime;
                     tr.html("<td align='center' style='display:none;'>"+Id+"</td><td align='center' style='display:none;'>"+Seller_id+"</td><td align='center'>"+Wares_id+"</td><td align='center' style='display:none;'>"+SpeciID+"</td><td align='center'>"+AuditName+"</td><td align='center'>"+NameType+"</td><td align='center'><a href='#' onclick='query("+Id+")'>"+Name+"</a></td><td align='center' style='display:none;'>"+Describe+"</td><td align='center'>"+Money+"</td><td align='center' style='display:none;'>"+Number+"</td><td style='display:none;'>"+UpFrameTime+"</td><td>"+Time+"</td><td>"+Downtime+"<td align='center'><a href='#' onclick='shelves(this)'>上架</a>| <a href='#' onclick='del(this)'>删除</a>| <a href='#' id='update onclick='update("+Id+")'>修改</a></td>");
                 });
