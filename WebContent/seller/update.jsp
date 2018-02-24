@@ -133,6 +133,10 @@
 <script src="plugins/layui/layui.js"></script>
 <script src="js/jquery-3.2.1.js"></script>
 <script>
+//遮盖属性
+function ityzl_SHOW_LOAD_LAYER(){  
+    return layer.msg('努力中...', {icon: 16,shade: [0.8, '#f5f5f5'],scrollbar: false,offset: '0px', time:100000}) ;  
+}
 $("#btn").click(function(){
     var Id = $("#id").val();
     var Wares_id = $("#wares_id").val();
@@ -149,21 +153,25 @@ $("#btn").click(function(){
     var QGP = $("#qGP").val();
     var StorageMethod = $("#storageMethod").val();
     var i = $("#i").val();
+    var c ;
     layui.use(['layer', 'form', 'element'], function(){
-    $.ajax({
-        url:"sellerServlet",
-        type:"get",
-        cache : false,
-        async : true,
-        data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
-        success:function(result){
-        	if("0" == result){
-	        	layer.msg('修改成功',{icon: 1});
-	        	setTimeout('parent.location="seller/user.jsp";',1000);
-        	}else{
-        		alert("请规范输入！！！");
-        	}
-        }
+    	$.ajax({
+	        url:"sellerServlet",
+	        type:"get",
+	        cache : false,
+	        async : true,
+	        data:{"i":i,"id":Id,"wares_id":Wares_id,"speciID":SpeciID,"nameTypeID":NameTypeID,"name":Name,"money":Money,"number":Number,"desc":Desc,"origin":Origin,"netContent":NetContent,"packingMethod":PackingMethod,"brand":Brand,"qGP":QGP,"storageMethod":StorageMethod},
+	        beforeSend : function(){
+	        	c = ityzl_SHOW_LOAD_LAYER();  
+	        },
+	        success:function(result){
+	        	if("0" == result){
+		        	layer.msg('修改成功',{icon: 1,shade: [0.3, '#f5f5f5']});
+		        	setTimeout('parent.location="seller/user.jsp";',1000);
+	        	}else{
+	        		alert("请规范输入！！！");
+	        	}
+	        }
         });
     });
 });
