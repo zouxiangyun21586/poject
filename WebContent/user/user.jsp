@@ -120,26 +120,30 @@
       	       success:function(data){
       	    		var pageContent = page(data.pageCount,data.pageNow,data.pageCode);
       	    	 	var list =  data.list;
-      	    	 	var tbodyContent = ""; 	
-      	          	for(var i in list){
-      	          		if(list[i].roleName.indexOf("超级管理员") != -1){
-      	          			state="<a href='#'  class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe640;</i> 无法停用</a></td></tr>";
-      	          		}else if("使用中"==list[i].stateStr){
-      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
-      	          		}else if("已停用"==list[i].stateStr){
-      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
-      	          		}
-      	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
-      	        	 		"<td>"+list[i].userName+"</td>"+
-      	        	 		"<td><div class='wrap' style='width:200px;' title='"+list[i].roleName+"'>"+list[i].roleName+"</div></td>"+
-      	        	 		"<td>"+list[i].youxiang+"</td>"+
-      	        	 		"<td>"+list[i].stateStr+"</td>";
-   	        	 		if(list[i].roleName.indexOf("超级管理员") != -1){
-   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
-   	        	 		}else{
-   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
-   	        	 		}
-      	       		}
+      	    	 	var tbodyContent = ""; 
+      	    	 	if(list !=null && list !=""){
+	      	          	for(var i in list){
+	      	          		if(list[i].roleName.indexOf("超级管理员") != -1){
+	      	          			state="<a href='#'  class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe640;</i> 无法停用</a></td></tr>";
+	      	          		}else if("使用中"==list[i].stateStr){
+	      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='del("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 停用</a></td></tr>";
+	      	          		}else if("已停用"==list[i].stateStr){
+	      	          			state="<a href='#'  class='layui-btn layui-btn-danger layui-btn-xs' onclick='qi("+list[i].id+")'><i class='layui-icon'>&#xe640;</i> 启用</a></td></tr>";
+	      	          		}
+	      	        		tbodyContent += "<tr><td>"+list[i].id+"</td>"+
+	      	        	 		"<td>"+list[i].userName+"</td>"+
+	      	        	 		"<td><div class='wrap' style='width:200px;' title='"+list[i].roleName+"'>"+list[i].roleName+"</div></td>"+
+	      	        	 		"<td>"+list[i].youxiang+"</td>"+
+	      	        	 		"<td>"+list[i].stateStr+"</td>";
+	   	        	 		if(list[i].roleName.indexOf("超级管理员") != -1){
+	   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs layui-btn-disabled'><i class='layui-icon'>&#xe642;</i> 无法修改</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+	   	        	 		}else{
+	   	        	 			tbodyContent +="<td style='width:220px;' align='center'><a href='#' class='layui-btn layui-btn-xs' onclick='updecho(this);'><i class='layui-icon'>&#xe642;</i> 修改职位</a>&nbsp;<a href='#' class='layui-btn layui-btn-xs' onclick='xiu(this);'><i class='layui-icon'>&#xe642;</i> 修改邮箱</a>&nbsp;"+state;
+	   	        	 		}
+	      	       		}
+      	    	 	}else{
+      	    	 		tbodyContent="<tr><td colspan='6'><div align='center'>暂无数据</div></td></tr>";
+      	    	 	}
       	          	$("#tbodyId").html(tbodyContent);
       	     	} 
       	     });

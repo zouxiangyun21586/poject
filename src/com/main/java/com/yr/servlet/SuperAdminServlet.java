@@ -34,6 +34,7 @@ public class SuperAdminServlet extends HttpServlet{
 			PrintWriter out = response.getWriter();
 			String type= request.getParameter("type");
 			String select= request.getParameter("select");//搜索功能中输入框的值(账号)
+			select = select.trim();//输入框去前后空格
 			String interest= request.getParameter("interest");//搜索功能中下拉框的值(角色)
 			String pageNow = request.getParameter("pageNow");//获得页面传过来的当前页
 			if (null != type && type.equals("list")) {
@@ -49,6 +50,9 @@ public class SuperAdminServlet extends HttpServlet{
 				int pageCount=SuperAdminDao.getPageCount();//获得总页数
 				String pageCode = new PageService().getPageCode(Integer.parseInt(pageNow), pageCount);
 				Map<String, Object> map = new HashMap<>();
+				if(null == list){
+					
+				}
 				map.put("list", list);
 				map.put("pageCount", pageCount + "");
 				map.put("pageNow", pageNow);
